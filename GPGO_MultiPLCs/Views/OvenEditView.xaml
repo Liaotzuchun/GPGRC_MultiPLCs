@@ -187,7 +187,8 @@
                                Grid.Column="1"
                                LastChildFill="True">
                         <Button Width="30"
-                                DockPanel.Dock="Right">
+                                DockPanel.Dock="Right"
+                                IsTabStop="False">
                             <Path HorizontalAlignment="Center"
                                   VerticalAlignment="Center"
                                   Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Mode=OneWay}"
@@ -235,7 +236,8 @@
                                Grid.Column="1"
                                LastChildFill="True">
                         <Button Width="30"
-                                DockPanel.Dock="Right">
+                                DockPanel.Dock="Right"
+                                IsTabStop="False">
                             <Path HorizontalAlignment="Center"
                                   VerticalAlignment="Center"
                                   Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Mode=OneWay}"
@@ -262,8 +264,7 @@
                                  BorderThickness="1,0,1,1"
                                  GotKeyboardFocus="TextBox_GotKeyboardFocus"
                                  KeyDown="PartTextBox_KeyDown"
-                                 Text="{Binding InputPartID, Mode=TwoWay}">
-                        </TextBox>
+                                 Text="{Binding InputPartID, Mode=TwoWay}" />
                     </DockPanel>
                     <Border Grid.Row="1"
                             Grid.Column="1"
@@ -289,7 +290,8 @@
                                Grid.Column="1"
                                LastChildFill="True">
                         <Button Width="30"
-                                DockPanel.Dock="Right">
+                                DockPanel.Dock="Right"
+                                IsTabStop="False">
                             <Path HorizontalAlignment="Center"
                                   VerticalAlignment="Center"
                                   Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Mode=OneWay}"
@@ -350,7 +352,8 @@
                                IsEnabled="{Binding SecsIsRemoteOnline, Mode=OneWay, Converter={StaticResource BoolNot}}"
                                LastChildFill="True">
                         <Button Width="30"
-                                DockPanel.Dock="Right">
+                                DockPanel.Dock="Right"
+                                IsTabStop="False">
                             <Path HorizontalAlignment="Center"
                                   VerticalAlignment="Center"
                                   Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Mode=OneWay}"
@@ -410,7 +413,8 @@
                                Grid.Column="1"
                                LastChildFill="True">
                         <Button Width="30"
-                                DockPanel.Dock="Right">
+                                DockPanel.Dock="Right"
+                                IsTabStop="False">
                             <Path HorizontalAlignment="Center"
                                   VerticalAlignment="Center"
                                   Stroke="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType=Button}, Mode=OneWay}"
@@ -630,8 +634,16 @@
                                       Content="{DynamicResource 登記}"
                                       FontSize="20"
                                       FontWeight="Bold"
-                                      Tag="{x:Null}"
-                                      Visibility="{Binding SecsIsOnline, Mode=OneWay, Converter={StaticResource BoolVis}}">
+                                      Tag="{x:Null}">
+                            <ToggleButton.Visibility>
+                                <MultiBinding Converter="{StaticResource MultiAnyTrueToVisibility}">
+                                    <Binding Mode="OneWay"
+                                             Path="IsChecked"
+                                             RelativeSource="{RelativeSource Mode=Self}" />
+                                    <Binding Mode="OneWay"
+                                             Path="SecsIsOnline" />
+                                </MultiBinding>
+                            </ToggleButton.Visibility>
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Checked">
                                     <i:ChangePropertyAction PropertyName="Content"
@@ -655,7 +667,7 @@
                         <Button Content="{DynamicResource 啟動}"
                                 FontSize="20"
                                 FontWeight="Bold"
-                                Visibility="{Binding SecsIsOnline, Mode=OneWay, Converter={StaticResource BoolNotVis}}">
+                                Visibility="{Binding Visibility, ElementName=CheckInTB, Mode=OneWay, Converter={StaticResource InverseVis}}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Click">
                                     <i:InvokeCommandAction Command="{Binding StartCommand, Mode=OneTime}" />
