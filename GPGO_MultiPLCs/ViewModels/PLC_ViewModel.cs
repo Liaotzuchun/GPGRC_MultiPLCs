@@ -1026,7 +1026,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                          };
 
             OvenInfo.RecordTemperatures.Add(record);
-            OvenInfo.ChartModel.AddDate(record);
+            OvenInfo.ChartModel.AddData(record);
         }
 
         OvenInfo.StartTime = DateTime.Now;

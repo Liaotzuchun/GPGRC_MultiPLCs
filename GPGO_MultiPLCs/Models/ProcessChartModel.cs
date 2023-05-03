@@ -460,7 +460,7 @@ public class ProcessChartModel
         RefreshView(true);
     }
 
-    public void AddDate(RecordTemperatures tp)
+    public void AddData(RecordTemperatures tp)
     {
         var t = DateTimeAxis.ToDouble(tp.AddedTime);
         LineSeries0.Points.Add(new DataPoint(t, tp.PV_ThermostatTemperature));
