@@ -504,7 +504,7 @@ public class ProcessChartModel
                 //LineSeries8.Points.Add(new DataPoint(t, tp.OvenTemperatures_8));
             }
 
-            ChartView.InvalidatePlot(true);
+            RefreshView(true);
         }
         else
         {
