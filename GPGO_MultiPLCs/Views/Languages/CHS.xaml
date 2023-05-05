@@ -234,4 +234,5 @@
     <sys:String x:Key="非">非</sys:String>
     <sys:String x:Key="停用">停用</sys:String>
     <sys:String x:Key="目前段數">目前段数</sys:String>
+    <sys:String x:Key="重啟">重启</sys:String>
 </ResourceDictionary>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -36,6 +37,8 @@ public sealed class TotalView_ViewModel : ObservableObject
 
     /// <summary>保持PLC Gate連線</summary>
     private readonly Timer Checker;
+    private AsyncOperation? asyncOperation;
+    private int             threadid;
 
     public Language Language = Language.TW;
 
@@ -48,6 +51,8 @@ public sealed class TotalView_ViewModel : ObservableObject
     public RelayCommand BackCommand { get; }
 
     public AsyncCommand SendTerminalMessageCommand { get; }
+
+    public RelayCommand SecsReStartCommand { get; }
 
     /// <summary>所有PLC</summary>
     public IList<PLC_ViewModel> PLC_All { get; }
@@ -165,15 +170,16 @@ public sealed class TotalView_ViewModel : ObservableObject
 
     public TotalView_ViewModel(int count, IGate gate, IPAddress plcaddress, IDialogService dialog)
     {
-        Gate      = gate;
-        Dialog    = dialog;
-        OvenCount = count;
-        PLC_All   = new PLC_ViewModel[count];
-        PLCIndex  = -1;
+        asyncOperation = AsyncOperationManager.CreateOperation(null);
+        Gate           = gate;
+        Dialog         = dialog;
+        OvenCount      = count;
+        PLC_All        = new PLC_ViewModel[count];
+        PLCIndex       = -1;
         var v = Assembly.GetExecutingAssembly().GetName().Version;
-        SecsGemEquipment = new GOL_SecsGem("0", "GPGO", $"{v.Major}.{v.Minor}.{v.Build}");
-
-        SecsGemEquipment.HSMSParameters.PropertyChanged += (_, _) => SecsGemEquipment.SaveHSMSParameters();
+        threadid                                         =  Thread.CurrentThread.ManagedThreadId;
+        SecsGemEquipment                                 =  new GOL_SecsGem("0", "GPGO", $"{v.Major}.{v.Minor}.{v.Build}");
+        SecsGemEquipment.HSMSParameters!.PropertyChanged += (_, _) => SecsGemEquipment.SaveHSMSParameters();
 
         BackCommand = new RelayCommand(index => Index = int.TryParse(index.ToString(), out var i) ? i : 0);
 
@@ -200,15 +206,30 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                       },
                                                       null);
 
+        SecsReStartCommand = new RelayCommand(_ =>
+                                          {
+                                              asyncOperation.Post(_ =>
+                                                                  {
+                                                                      var tid = Thread.CurrentThread.ManagedThreadId;
+                                                                      if (threadid == tid)
+                                                                      {
+                                                                          SecsGemEquipment.ReStartSecsgem();
+                                                                          SecsGemEquipment.Enable(true);
+                                                                          SecsGemEquipment.Online(true);
+                                                                      }
+                                                                  },
+                                                                  null);
+                                          });
+
         PropertyChanged += (s, e) =>
                            {
                                if (e.PropertyName is nameof(SECS_ENABLE) or nameof(SECS_Communicating) or nameof(SECS_ONLINE) or nameof(SECS_REMOTE))
                                {
-                                   var val = SECS_ENABLE && SECS_Communicating && SECS_ONLINE;
-                                   var val2 = val && SECS_REMOTE;
+                                   var val  = SECS_ENABLE && SECS_Communicating && SECS_ONLINE;
+                                   var val2 = val         && SECS_REMOTE;
                                    foreach (var plc in PLC_All)
                                    {
-                                       plc.SecsIsOnline = val;
+                                       plc.SecsIsOnline       = val;
                                        plc.SecsIsRemoteOnline = val2;
                                    }
                                }

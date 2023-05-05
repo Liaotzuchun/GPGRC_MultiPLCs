@@ -233,4 +233,5 @@
     <sys:String x:Key="模式">Mode</sys:String>
     <sys:String x:Key="停用">Disable</sys:String>
     <sys:String x:Key="目前段數">Current Segment</sys:String>
+    <sys:String x:Key="重啟">Restart</sys:String>
 </ResourceDictionary>
