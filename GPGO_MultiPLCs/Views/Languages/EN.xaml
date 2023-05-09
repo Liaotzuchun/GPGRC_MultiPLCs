@@ -234,4 +234,5 @@
     <sys:String x:Key="停用">Disable</sys:String>
     <sys:String x:Key="目前段數">Current Segment</sys:String>
     <sys:String x:Key="重啟">Restart</sys:String>
+    <sys:String x:Key="靜音">Silent</sys:String>
 </ResourceDictionary>

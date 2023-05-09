@@ -43,7 +43,7 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="50" />
                             </Grid.RowDefinitions>
-                            <Grid IsHitTestVisible="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}">
+                            <Grid IsHitTestVisible="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay, FallbackValue=False}">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="50" />
                                     <RowDefinition Height="30" />
@@ -591,6 +591,7 @@
                                             <MultiBinding Converter="{StaticResource MultiAllTrue}">
                                                 <Binding Converter="{StaticResource IsMoreThanValue}"
                                                          ConverterParameter="1"
+                                                         FallbackValue="False"
                                                          Mode="OneWay"
                                                          Path="User.Level"
                                                          Source="{StaticResource Mediator}" />

@@ -52,12 +52,14 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public int InputLayerMin    => 1;
     public int InputLayerMax    => 8;
     //public event Action<PLC_Recipe> RecipeChangedbyPLC;
-    public int RecordDelay { get; set; } = 1;
-    public int ClearInputDelay { get; set; } = 60;
+    public int          RecordDelay       { get; set; } = 1;
+    public int          ClearInputDelay   { get; set; } = 60;
     public RelayCommand LoadedCommand     { get; }
     public RelayCommand InputFocusCommand { get; }
     public AsyncCommand StartCommand      { get; }
     public AsyncCommand StopCommand       { get; }
+
+    public RelayCommand SilinceCommand { get; }
     /// <summary>取消投產</summary>
     public RelayCommand CancelCheckInCommand { get; }
     /// <summary>投產</summary>
@@ -410,13 +412,10 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
         CancelCheckInCommand = new RelayCommand(e =>
                                                 {
-                                                    isCheckin = false;
-
                                                     if (e != null)
                                                     {
                                                         CheckOut?.Invoke(OvenInfo.RackID);
                                                         ClearInput();
-
                                                         BeepSilince = true;
                                                     }
                                                     else
@@ -426,7 +425,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                         LotRemoved?.Invoke(string.Join(",", OvenInfo.TempProducts.Select(x => x.LotID)));
                                                     }
 
-                                                    DoorLock = false;
+                                                    isCheckin = false;
+                                                    DoorLock  = false;
                                                 });
 
         CheckIsExecutingCommand = new RelayCommand(e =>
@@ -454,6 +454,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                            }
                                                        }
                                                    });
+
+        SilinceCommand = new RelayCommand(_ => BeepSilince = true);
 
         StartCommand = new AsyncCommand(async _ =>
                                         {
