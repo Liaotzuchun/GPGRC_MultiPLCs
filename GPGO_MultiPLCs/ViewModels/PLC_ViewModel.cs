@@ -418,8 +418,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                         ClearInput();
                                                         BeepSilince = true;
 
-                                                        AutoMode    = false;
-                                                        ManualMode  = true; //! 結批後切回手動模式
+                                                        AutoMode   = false;
+                                                        ManualMode = true; //! 結批後切回手動模式
                                                     }
                                                     else
                                                     {
@@ -835,7 +835,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
     private bool RecipeCompare(PLC_Recipe recipe) => NitrogenMode                          == recipe.NitrogenMode                          &&
                                                      OxygenContentSet.ToString("0.0")      == recipe.OxygenContentSet.ToString("0.0")      &&
-                                                     RecipeName                            == recipe.RecipeName                            &&
+                                                     RecipeName.Substring(0, 16)           == recipe.RecipeName.Substring(0, 16)           &&
                                                      DwellTime_1.ToString("0.0")           == recipe.DwellTime_1.ToString("0.0")           &&
                                                      DwellTime_2.ToString("0.0")           == recipe.DwellTime_2.ToString("0.0")           &&
                                                      DwellTime_3.ToString("0.0")           == recipe.DwellTime_3.ToString("0.0")           &&
