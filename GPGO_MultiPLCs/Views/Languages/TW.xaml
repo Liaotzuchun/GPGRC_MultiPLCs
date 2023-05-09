@@ -26,6 +26,7 @@
     <sys:String x:Key="批號">批號</sys:String>
     <sys:String x:Key="狀態">狀態</sys:String>
     <sys:String x:Key="離線">離線</sys:String>
+    <sys:String x:Key="上線">上線</sys:String>
     <sys:String x:Key="待命">待命</sys:String>
     <sys:String x:Key="維修">維修</sys:String>
     <sys:String x:Key="停止">停止</sys:String>
@@ -233,7 +234,10 @@
     <sys:String x:Key="結帳">結帳</sys:String>
     <sys:String x:Key="模式">模式</sys:String>
     <sys:String x:Key="停用">停用</sys:String>
+    <sys:String x:Key="啟用">啟用</sys:String>
     <sys:String x:Key="目前段數">目前段數</sys:String>
     <sys:String x:Key="重啟">重啟</sys:String>
     <sys:String x:Key="靜音">靜音</sys:String>
+    <sys:String x:Key="本地">本地</sys:String>
+    <sys:String x:Key="遠端">遠端</sys:String>
 </ResourceDictionary>

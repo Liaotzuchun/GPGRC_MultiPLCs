@@ -641,7 +641,7 @@
                                              Path="IsChecked"
                                              RelativeSource="{RelativeSource Mode=Self}" />
                                     <Binding Mode="OneWay"
-                                             Path="SecsIsOnline" />
+                                             Path="SecsIsRemoteOnline" />
                                 </MultiBinding>
                             </ToggleButton.Visibility>
                             <i:Interaction.Triggers>

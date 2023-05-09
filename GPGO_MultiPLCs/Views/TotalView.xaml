@@ -43,21 +43,42 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="50" />
                             </Grid.RowDefinitions>
-                            <Grid IsHitTestVisible="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay, FallbackValue=False}">
+                            <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="50" />
-                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="8" />
                                     <RowDefinition Height="50" />
                                     <RowDefinition Height="50" />
                                 </Grid.RowDefinitions>
                                 <ToggleButton x:Name="SECS_ENABLE"
                                               Grid.Row="0"
                                               Grid.Column="0"
-                                              Content="ENABLE"
                                               FontSize="16"
                                               FontWeight="Bold"
                                               IsChecked="{Binding SECS_ENABLE, Mode=TwoWay}"
-                                              Style="{StaticResource ToggleSwitch}" />
+                                              IsHitTestVisible="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay, FallbackValue=False}"
+                                              Style="{StaticResource ToggleSwitch}">
+                                    <ToggleButton.Content>
+                                        <Binding Mode="OneWay"
+                                                 Path="IsChecked"
+                                                 RelativeSource="{RelativeSource Mode=Self}">
+                                            <Binding.Converter>
+                                                <views:ObjectToObjectConverter DefaultTarget="{DynamicResource 停用}">
+                                                    <views:MapItem Target="{DynamicResource 啟用}">
+                                                        <views:MapItem.Source>
+                                                            <system:Boolean>True</system:Boolean>
+                                                        </views:MapItem.Source>
+                                                    </views:MapItem>
+                                                    <views:MapItem Target="{DynamicResource 停用}">
+                                                        <views:MapItem.Source>
+                                                            <system:Boolean>False</system:Boolean>
+                                                        </views:MapItem.Source>
+                                                    </views:MapItem>
+                                                </views:ObjectToObjectConverter>
+                                            </Binding.Converter>
+                                        </Binding>
+                                    </ToggleButton.Content>
+                                </ToggleButton>
                                 <Border Grid.Row="1"
                                         Grid.Column="0"
                                         Background="{StaticResource ErrorBrush}">
@@ -65,7 +86,7 @@
                                         <i:DataTrigger Binding="{Binding SECS_Communicating, Mode=OneWay}"
                                                        Value="True">
                                             <i:ChangePropertyAction PropertyName="Background"
-                                                                    Value="{StaticResource OKBorderBrush}" />
+                                                                    Value="{StaticResource OKBrush}" />
                                         </i:DataTrigger>
                                         <i:DataTrigger Binding="{Binding SECS_Communicating, Mode=OneWay}"
                                                        Value="False">
@@ -73,39 +94,91 @@
                                                                     Value="{StaticResource ErrorBrush}" />
                                         </i:DataTrigger>
                                     </i:Interaction.Triggers>
-                                    <StackPanel HorizontalAlignment="Center"
-                                                Orientation="Horizontal"
-                                                TextElement.Foreground="{StaticResource GlyphBrush}">
-                                        <TextBlock Margin="4,0,0,0"
-                                                   VerticalAlignment="Center"
-                                                   FontSize="14"
-                                                   FontWeight="Bold"
-                                                   Text="Not"
-                                                   Visibility="{Binding SECS_Communicating, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
-                                        <TextBlock Margin="4,0,0,0"
-                                                   VerticalAlignment="Center"
-                                                   FontSize="14"
-                                                   FontWeight="Bold"
-                                                   Text="Communicating" />
-                                    </StackPanel>
                                 </Border>
                                 <ToggleButton x:Name="SECS_ONLINE"
                                               Grid.Row="2"
                                               Grid.Column="0"
-                                              Content="ON-LINE"
                                               FontSize="16"
                                               FontWeight="Bold"
                                               IsChecked="{Binding SECS_ONLINE, Mode=TwoWay}"
                                               IsEnabled="{Binding SECS_Communicating, Mode=OneWay}"
-                                              Style="{StaticResource ToggleSwitch}" />
+                                              IsHitTestVisible="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay, FallbackValue=False}"
+                                              Style="{StaticResource ToggleSwitch}">
+                                    <ToggleButton.Content>
+                                        <Binding Mode="OneWay"
+                                                 Path="IsChecked"
+                                                 RelativeSource="{RelativeSource Mode=Self}">
+                                            <Binding.Converter>
+                                                <views:ObjectToObjectConverter DefaultTarget="{DynamicResource 離線}">
+                                                    <views:MapItem Target="{DynamicResource 上線}">
+                                                        <views:MapItem.Source>
+                                                            <system:Boolean>True</system:Boolean>
+                                                        </views:MapItem.Source>
+                                                    </views:MapItem>
+                                                    <views:MapItem Target="{DynamicResource 離線}">
+                                                        <views:MapItem.Source>
+                                                            <system:Boolean>False</system:Boolean>
+                                                        </views:MapItem.Source>
+                                                    </views:MapItem>
+                                                </views:ObjectToObjectConverter>
+                                            </Binding.Converter>
+                                        </Binding>
+                                    </ToggleButton.Content>
+                                </ToggleButton>
                                 <ToggleButton x:Name="SECS_REMOTE"
                                               Grid.Row="3"
                                               Grid.Column="0"
-                                              Content="REMOTE"
                                               FontSize="16"
                                               FontWeight="Bold"
                                               IsChecked="{Binding SECS_REMOTE, Mode=TwoWay}"
                                               Style="{StaticResource ToggleSwitch}">
+                                    <ToggleButton.Tag>
+                                        <MultiBinding Converter="{StaticResource MultiAnyTrue}">
+                                            <Binding Converter="{StaticResource IsMoreThanValue}"
+                                                     ConverterParameter="2"
+                                                     FallbackValue="False"
+                                                     Mode="OneWay"
+                                                     Path="User.Level"
+                                                     Source="{StaticResource Mediator}" />
+                                            <Binding Converter="{StaticResource BoolNot}"
+                                                     Mode="OneWay"
+                                                     Path="IsChecked"
+                                                     RelativeSource="{RelativeSource Mode=Self}" />
+                                        </MultiBinding>
+                                    </ToggleButton.Tag>
+                                    <ToggleButton.IsHitTestVisible>
+                                        <MultiBinding Converter="{StaticResource MultiAllTrue}">
+                                            <Binding Converter="{StaticResource IsMoreThanValue}"
+                                                     ConverterParameter="1"
+                                                     FallbackValue="False"
+                                                     Mode="OneWay"
+                                                     Path="User.Level"
+                                                     Source="{StaticResource Mediator}" />
+                                            <Binding Mode="OneWay"
+                                                     Path="Tag"
+                                                     RelativeSource="{RelativeSource Mode=Self}" />
+                                        </MultiBinding>
+                                    </ToggleButton.IsHitTestVisible>
+                                    <ToggleButton.Content>
+                                        <Binding Mode="OneWay"
+                                                 Path="IsChecked"
+                                                 RelativeSource="{RelativeSource Mode=Self}">
+                                            <Binding.Converter>
+                                                <views:ObjectToObjectConverter DefaultTarget="{DynamicResource 本地}">
+                                                    <views:MapItem Target="{DynamicResource 遠端}">
+                                                        <views:MapItem.Source>
+                                                            <system:Boolean>True</system:Boolean>
+                                                        </views:MapItem.Source>
+                                                    </views:MapItem>
+                                                    <views:MapItem Target="{DynamicResource 本地}">
+                                                        <views:MapItem.Source>
+                                                            <system:Boolean>False</system:Boolean>
+                                                        </views:MapItem.Source>
+                                                    </views:MapItem>
+                                                </views:ObjectToObjectConverter>
+                                            </Binding.Converter>
+                                        </Binding>
+                                    </ToggleButton.Content>
                                     <ToggleButton.IsEnabled>
                                         <MultiBinding Converter="{StaticResource MultiAllTrue}">
                                             <Binding ElementName="SECS_ONLINE"

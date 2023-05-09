@@ -417,6 +417,9 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                         CheckOut?.Invoke(OvenInfo.RackID);
                                                         ClearInput();
                                                         BeepSilince = true;
+
+                                                        AutoMode    = false;
+                                                        ManualMode  = true; //! 結批後切回手動模式
                                                     }
                                                     else
                                                     {

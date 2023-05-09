@@ -25,6 +25,7 @@
     <sys:String x:Key="批號">LotID</sys:String>
     <sys:String x:Key="狀態">Status</sys:String>
     <sys:String x:Key="離線">Off line</sys:String>
+    <sys:String x:Key="上線">On line</sys:String>
     <sys:String x:Key="待命">Stand by</sys:String>
     <sys:String x:Key="維修">Maintained</sys:String>
     <sys:String x:Key="停止">Stopped</sys:String>
@@ -232,7 +233,10 @@
     <sys:String x:Key="結帳">Check Out</sys:String>
     <sys:String x:Key="模式">Mode</sys:String>
     <sys:String x:Key="停用">Disable</sys:String>
+    <sys:String x:Key="啟用">Enable</sys:String>
     <sys:String x:Key="目前段數">Current Segment</sys:String>
     <sys:String x:Key="重啟">Restart</sys:String>
     <sys:String x:Key="靜音">Silent</sys:String>
+    <sys:String x:Key="本地">Local</sys:String>
+    <sys:String x:Key="遠端">Remote</sys:String>
 </ResourceDictionary>
