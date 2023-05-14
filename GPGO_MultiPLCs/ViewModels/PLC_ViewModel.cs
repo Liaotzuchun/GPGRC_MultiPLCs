@@ -1017,6 +1017,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         {
             var record = new RecordTemperatures
                          {
+                             KeyPoint                 = keypoint,
                              AddedTime                = addtime,
                              PV_ThermostatTemperature = t0,
                              OvenTemperatures_1       = t1,
