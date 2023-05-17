@@ -380,7 +380,7 @@ public sealed class Mediator : ObservableObject
                                          }
                                      };
 
-        TotalVM.CheckUser += op => AuthenticatorVM.UserList.List.Exists(x => x.Name == op);
+        TotalVM.CheckUser += op => AuthenticatorVM.UserList.List.Exists(x => x.Name.ToUpper() == op);
 
         //! 當某站烤箱要求配方時，自資料庫讀取配方並發送
         TotalVM.GetRecipe += recipename => string.IsNullOrEmpty(recipename) ? null : RecipeVM.GetRecipe(recipename);

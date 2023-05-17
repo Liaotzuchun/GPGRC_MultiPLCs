@@ -318,6 +318,25 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                         if (text is string name && name != string.Empty)
                                                         {
                                                             name = name.Trim();
+
+                                                            if (OvenInfo.TempProducts.Count > 0 && name != RecipeName)
+                                                            {
+                                                                ClearInput2();
+
+                                                                await Task.Delay(150);
+                                                                Keyboard.ClearFocus();
+
+                                                                dialog.Show(new Dictionary<Language, string>
+                                                                            {
+                                                                                { Language.TW, "配方比對異常！" },
+                                                                                { Language.CHS, "配方比对异常！" },
+                                                                                { Language.EN, "Recipe is abnormal!" }
+                                                                            },
+                                                                            DialogMsgType.Alarm);
+
+                                                                return;
+                                                            }
+
                                                             using var matches = new PooledList<string>();
 
                                                             foreach (var r in Recipe_Names)
@@ -382,6 +401,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
                                                  OvenInfo.TempProducts.Add(info);
                                              }
+
+                                             ClearInput2();
 
                                              LotAdded?.Invoke(string.Join(",", OvenInfo.TempProducts.Select(x => x.LotID)));
                                          });
@@ -1270,9 +1291,14 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
     public void ClearInput()
     {
-        inputFocusTB = null;
         OvenInfo.TempProducts.Clear();
-        Set(string.Empty,     nameof(InputOperatorID));
+        Set(string.Empty, nameof(InputOperatorID));
+        ClearInput2();
+    }
+
+    public void ClearInput2()
+    {
+        inputFocusTB = null;
         Set(string.Empty,     nameof(InputPartID));
         Set(string.Empty,     nameof(InputLotID));
         Set(string.Empty,     nameof(InputRecipeName));
