@@ -321,6 +321,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
                                                             if (OvenInfo.TempProducts.Count > 0 && name != RecipeName)
                                                             {
+                                                                //! 欣興要求比對配方不同跳出異常
+
                                                                 ClearInput2();
 
                                                                 await Task.Delay(150);
