@@ -70,13 +70,6 @@
         </Style>
     </UserControl.Resources>
 
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadedCommand, Mode=OneTime}"
-                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}, Mode=OneWay}" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />

@@ -54,7 +54,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     //public event Action<PLC_Recipe> RecipeChangedbyPLC;
     public int          RecordDelay       { get; set; } = 1;
     public int          ClearInputDelay   { get; set; } = 60;
-    public RelayCommand LoadedCommand     { get; }
     public RelayCommand InputFocusCommand { get; }
     public AsyncCommand StartCommand      { get; }
     public AsyncCommand StopCommand       { get; }
@@ -302,14 +301,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                             }
                                         }
                                     };
-
-        LoadedCommand = new RelayCommand(e =>
-                                         {
-                                             if (e is FrameworkElement el)
-                                             {
-                                                 OvenInfo.ChartModel.SetFrameworkElement(el);
-                                             }
-                                         });
 
         InputFocusCommand = new RelayCommand(e => inputFocusTB = e as TextBox);
 

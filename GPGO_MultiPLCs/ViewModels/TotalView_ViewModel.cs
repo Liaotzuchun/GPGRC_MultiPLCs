@@ -7,6 +7,7 @@ using System.Net;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using GPGO_MultiPLCs.Models;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
@@ -49,6 +50,8 @@ public sealed class TotalView_ViewModel : ObservableObject
 
     /// <summary>回到總覽頁</summary>
     public RelayCommand BackCommand { get; }
+
+    public RelayCommand LoadedCommand { get; }
 
     public AsyncCommand SendTerminalMessageCommand { get; }
 
@@ -183,6 +186,17 @@ public sealed class TotalView_ViewModel : ObservableObject
 
         BackCommand = new RelayCommand(index => Index = int.TryParse(index.ToString(), out var i) ? i : 0);
 
+        LoadedCommand = new RelayCommand(e =>
+                                         {
+                                             if (e is FrameworkElement el)
+                                             {
+                                                 foreach (var plc in PLC_All)
+                                                 {
+                                                     plc.OvenInfo.ChartModel.SetFrameworkElement(el);
+                                                 }
+                                             }
+                                         });
+
         SendTerminalMessageCommand = new AsyncCommand(async _ =>
                                                       {
                                                           var (result1, input1) = await dialog.ShowWithInput(new Dictionary<Language, string>
@@ -207,19 +221,19 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                       null);
 
         SecsReStartCommand = new RelayCommand(_ =>
-                                          {
-                                              asyncOperation.Post(_ =>
-                                                                  {
-                                                                      var tid = Thread.CurrentThread.ManagedThreadId;
-                                                                      if (threadid == tid)
+                                              {
+                                                  asyncOperation.Post(_ =>
                                                                       {
-                                                                          SecsGemEquipment.ReStartSecsgem();
-                                                                          SecsGemEquipment.Enable(true);
-                                                                          SecsGemEquipment.Online(true);
-                                                                      }
-                                                                  },
-                                                                  null);
-                                          });
+                                                                          var tid = Thread.CurrentThread.ManagedThreadId;
+                                                                          if (threadid == tid)
+                                                                          {
+                                                                              SecsGemEquipment.ReStartSecsgem();
+                                                                              SecsGemEquipment.Enable(true);
+                                                                              SecsGemEquipment.Online(true);
+                                                                          }
+                                                                      },
+                                                                      null);
+                                              });
 
         PropertyChanged += (s, e) =>
                            {
