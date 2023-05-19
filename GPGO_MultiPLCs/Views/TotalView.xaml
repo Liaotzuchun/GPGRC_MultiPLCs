@@ -463,7 +463,23 @@
                 <local:OvenDetailView Grid.ColumnSpan="2"
                                       DataContext="{Binding PLC_In_Focused, Mode=OneWay}" />
                 <Grid Grid.Row="1"
+                      Grid.Column="0"
                       Grid.ColumnSpan="2">
+                    <Grid.Resources>
+                        <views:ObjectToObjectConverter x:Key="ObjectToObjectConverter">
+                            <views:ObjectToObjectConverter.DefaultTarget>
+                                <system:Double>40</system:Double>
+                            </views:ObjectToObjectConverter.DefaultTarget>
+                            <views:MapItem>
+                                <views:MapItem.Source>
+                                    <system:Int32>1</system:Int32>
+                                </views:MapItem.Source>
+                                <views:MapItem.Target>
+                                    <system:Double>0</system:Double>
+                                </views:MapItem.Target>
+                            </views:MapItem>
+                        </views:ObjectToObjectConverter>
+                    </Grid.Resources>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="120" />
                         <ColumnDefinition />
@@ -530,10 +546,10 @@
                                                     </LinearGradientBrush>
                                                 </Grid.Background>
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="40" />
+                                                    <ColumnDefinition Width="Auto" />
                                                     <ColumnDefinition />
                                                 </Grid.ColumnDefinitions>
-                                                <Border>
+                                                <Border Width="{Binding DataContext.PLC_All_View.Count, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneWay, Converter={StaticResource ObjectToObjectConverter}}">
                                                     <Border.Background>
                                                         <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                                                             <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
