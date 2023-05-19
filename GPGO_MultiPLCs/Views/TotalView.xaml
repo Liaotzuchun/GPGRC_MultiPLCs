@@ -465,21 +465,6 @@
                 <Grid Grid.Row="1"
                       Grid.Column="0"
                       Grid.ColumnSpan="2">
-                    <Grid.Resources>
-                        <views:ObjectToObjectConverter x:Key="ObjectToObjectConverter">
-                            <views:ObjectToObjectConverter.DefaultTarget>
-                                <system:Double>40</system:Double>
-                            </views:ObjectToObjectConverter.DefaultTarget>
-                            <views:MapItem>
-                                <views:MapItem.Source>
-                                    <system:Int32>1</system:Int32>
-                                </views:MapItem.Source>
-                                <views:MapItem.Target>
-                                    <system:Double>0</system:Double>
-                                </views:MapItem.Target>
-                            </views:MapItem>
-                        </views:ObjectToObjectConverter>
-                    </Grid.Resources>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="120" />
                         <ColumnDefinition />
@@ -539,6 +524,9 @@
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBoxItem">
                                             <Grid>
+                                                <Grid.Resources>
+                                                    <system:Int32 x:Key="two">2</system:Int32>
+                                                </Grid.Resources>
                                                 <Grid.Background>
                                                     <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                                                         <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush6}}" />
@@ -549,7 +537,7 @@
                                                     <ColumnDefinition Width="Auto" />
                                                     <ColumnDefinition />
                                                 </Grid.ColumnDefinitions>
-                                                <Border Width="{Binding DataContext.PLC_All_View.Count, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneWay, Converter={StaticResource ObjectToObjectConverter}}">
+                                                <Border Visibility="{Binding DataContext.PLC_All_View.Count, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneWay, Converter={StaticResource IsMoreThanValueVis}, ConverterParameter={StaticResource two}}">
                                                     <Border.Background>
                                                         <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                                                             <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
@@ -561,6 +549,7 @@
                                                                 Background="Cyan"
                                                                 Opacity="0" />
                                                         <TextBlock x:Name="TextBlock"
+                                                                   Margin="4,0"
                                                                    HorizontalAlignment="Center"
                                                                    VerticalAlignment="Center"
                                                                    Foreground="{StaticResource BaseForeground}"
