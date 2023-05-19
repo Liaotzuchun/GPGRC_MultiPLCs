@@ -63,7 +63,7 @@ public sealed class TotalView_ViewModel : ObservableObject
     public IList<PLC_ViewModel> PLC_All_View => OvenCount > PLC_All.Count ? PLC_All : PLC_All.Take(OvenCount).ToList();
 
     /// <summary>檢視詳細資訊的PLC</summary>
-    public PLC_ViewModel PLC_In_Focused => PLCIndex > -1 ? PLC_All[PLCIndex] : null;
+    public PLC_ViewModel PLC_In_Focused => PLCIndex > -1 ? PLC_All[PLCIndex] : PLC_All[0];
 
     public int OvenCount
     {
@@ -86,15 +86,7 @@ public sealed class TotalView_ViewModel : ObservableObject
     public int Index
     {
         get => Get<int>();
-        set
-        {
-            Set(value);
-
-            if (value == 0)
-            {
-                PLCIndex = -1;
-            }
-        }
+        set => Set(value);
     }
 
     /// <summary>選擇PLC，並切換至該PLC詳細資訊檢視</summary>
@@ -104,12 +96,7 @@ public sealed class TotalView_ViewModel : ObservableObject
         set
         {
             Set(value);
-
-            if (value > -1)
-            {
-                NotifyPropertyChanged(nameof(PLC_In_Focused));
-                Index = 1;
-            }
+            NotifyPropertyChanged(nameof(PLC_In_Focused));
         }
     }
 
@@ -178,13 +165,13 @@ public sealed class TotalView_ViewModel : ObservableObject
         Dialog         = dialog;
         OvenCount      = count;
         PLC_All        = new PLC_ViewModel[count];
-        PLCIndex       = -1;
+        PLCIndex       = 0;
         var v = Assembly.GetExecutingAssembly().GetName().Version;
         threadid                                         =  Thread.CurrentThread.ManagedThreadId;
         SecsGemEquipment                                 =  new GOL_SecsGem("0", "GPGO", $"{v.Major}.{v.Minor}.{v.Build}");
         SecsGemEquipment.HSMSParameters!.PropertyChanged += (_, _) => SecsGemEquipment.SaveHSMSParameters();
 
-        BackCommand = new RelayCommand(index => Index = int.TryParse(index.ToString(), out var i) ? i : 0);
+        BackCommand = new RelayCommand(index => Index = index != null && int.TryParse(index.ToString(), out var i) ? i : 0);
 
         LoadedCommand = new RelayCommand(e =>
                                          {
@@ -529,7 +516,11 @@ public sealed class TotalView_ViewModel : ObservableObject
             PLC_All[i] = plc;
             var index = i;
 
-            plc.WantDetail += () => PLCIndex = index;
+            plc.WantDetail += () =>
+                              {
+                                  PLCIndex = index;
+                                  Index    = 1;
+                              };
 
             plc.CheckUser += op => CheckUser != null && CheckUser.Invoke(op);
 

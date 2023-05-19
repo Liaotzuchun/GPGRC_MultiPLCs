@@ -25,7 +25,7 @@
                     <ColumnDefinition Width="224" />
                 </Grid.ColumnDefinitions>
                 <local:OvenEditView Margin="0,4,4,0"
-                                    DataContext="{Binding PLC_All_View[0], Mode=OneWay}" />
+                                    DataContext="{Binding PLC_In_Focused, Mode=OneWay}" />
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="4" />
@@ -530,7 +530,7 @@
                                                     </LinearGradientBrush>
                                                 </Grid.Background>
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="0" />
+                                                    <ColumnDefinition Width="40" />
                                                     <ColumnDefinition />
                                                 </Grid.ColumnDefinitions>
                                                 <Border>
