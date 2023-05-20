@@ -51,6 +51,8 @@ public sealed class TotalView_ViewModel : ObservableObject
     /// <summary>回到總覽頁</summary>
     public RelayCommand BackCommand { get; }
 
+    public RelayCommand GoDetailCommand { get; }
+
     public RelayCommand LoadedCommand { get; }
 
     public AsyncCommand SendTerminalMessageCommand { get; }
@@ -172,6 +174,8 @@ public sealed class TotalView_ViewModel : ObservableObject
         SecsGemEquipment.HSMSParameters!.PropertyChanged += (_, _) => SecsGemEquipment.SaveHSMSParameters();
 
         BackCommand = new RelayCommand(index => Index = index != null && int.TryParse(index.ToString(), out var i) ? i : 0);
+
+        GoDetailCommand = new RelayCommand(_ => Index = 1);
 
         LoadedCommand = new RelayCommand(e =>
                                          {
@@ -737,9 +741,14 @@ public sealed class TotalView_ViewModel : ObservableObject
 
                 if (vals != null)
                 {
-                    for (var i = 0; i < Math.Min(vals.Length, PLC_All.Count); i++)
+                    for (var i = 0; i < vals.Length; i++)
                     {
                         PLC_All[i].OvenInfo.MachineCode = vals[i];
+                    }
+
+                    for (var i = vals.Length; i < PLC_All.Count; i++)
+                    {
+                        PLC_All[i].OvenInfo.MachineCode = $"Oven{i + 1}";
                     }
                 }
             }
@@ -749,10 +758,10 @@ public sealed class TotalView_ViewModel : ObservableObject
             }
         }
 
-        //for (var i = 0; i < PLC_All.Count; i++)
-        //{
-        //    PLC_All[i].OvenInfo.MachineCode = $"Machine{i + 1:00}";
-        //}
+        for (var i = 0; i < PLC_All.Count; i++)
+        {
+            PLC_All[i].OvenInfo.MachineCode = $"Oven{i + 1}";
+        }
     }
 
     /// <summary>儲存財產編號</summary>

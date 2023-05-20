@@ -86,6 +86,7 @@
                     <TextBlock FontSize="16"
                                FontWeight="Bold"
                                Foreground="{StaticResource GlyphBrush}">
+                        <Run Text="{Binding OvenInfo.OvenCode, Mode=OneWay}" />
                         <Run Text="{DynamicResource 配方}" />
                         <Run Text=":" />
                         <Run Text="{Binding SV_RecipeName, Mode=OneWay}" />
