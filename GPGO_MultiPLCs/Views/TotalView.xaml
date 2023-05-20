@@ -203,8 +203,7 @@
                                                        Text="{Binding PV_ThermostatTemperature, Mode=OneWay, StringFormat=\{0:F1\}°C}" />
                                         </Viewbox>
                                     </Border>
-                                    <Border Grid.Row="0"
-                                            Grid.RowSpan="2"
+                                    <Border Grid.Row="1"
                                             Background="{StaticResource DisabledBackgroundBrush}"
                                             Visibility="{Binding RemoteMode, Mode=OneWay, Converter={StaticResource BoolNotVis}}">
                                         <Viewbox Margin="6"
@@ -897,8 +896,7 @@
                                             <Run Text="{DynamicResource 分}" />
                                         </TextBlock>
                                     </Grid>
-                                    <Border Grid.Column="0"
-                                            Grid.ColumnSpan="2"
+                                    <Border Grid.Column="1"
                                             Visibility="{Binding ConnectionStatus.CurrentValue, Mode=OneWay, Converter={StaticResource BoolNotVis}}">
                                         <Border.Background>
                                             <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">

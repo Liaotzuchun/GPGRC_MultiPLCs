@@ -21,7 +21,7 @@
                 <MultiBinding Converter="{StaticResource MultiAnyTrueToInt}"
                               Mode="OneWay">
                     <Binding Mode="OneWay"
-                             Path="CheckInCommand.Result" />
+                             Path="CheckInDialogCommand.Result" />
                     <Binding Mode="OneWay"
                              Path="IsExecuting" />
                 </MultiBinding>
@@ -98,7 +98,6 @@
                               IsTextSearchEnabled="False"
                               ItemsSource="{Binding Recipe_Names, Mode=OneWay}"
                               LostKeyboardFocus="CB_LostKeyboardFocus"
-                              SelectedItem="{Binding Selected_Name, Mode=TwoWay}"
                               Text="{Binding InputRecipeName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <i:Interaction.Triggers>
                             <!--  因為在combobox的選單出現時，enter會優先處裡選單，keydown事件會無法偵測enter，因此必須在keyup的時候才檢查enter  -->

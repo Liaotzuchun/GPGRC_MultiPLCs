@@ -56,22 +56,22 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public RelayCommand InputFocusCommand { get; }
     public AsyncCommand StartCommand      { get; }
     public AsyncCommand StopCommand       { get; }
-
-    public RelayCommand SilinceCommand { get; }
+    public RelayCommand SilinceCommand    { get; }
     /// <summary>取消投產</summary>
     public RelayCommand CancelCheckInCommand { get; }
     /// <summary>投產</summary>
     public RelayCommand CheckInCommand { get; }
-    public RelayCommand CheckRecipeCommand_KeyIn    { get; }
-    public RelayCommand CheckRecipeCommand_KeyLeave { get; }
-    public RelayCommand AddLotCommand               { get; }
-    public RelayCommand DeleteLotCommand            { get; }
-    public RelayCommand GoDetailCommand             { get; }
-    public RelayCommand ClearOPTextCommand          { get; }
-    public RelayCommand ClearPartTextCommand        { get; }
-    public RelayCommand ClearLotTextCommand         { get; }
-    public RelayCommand ClearRecipeTextCommand      { get; }
-    public RelayCommand ClearQuantityCommand        { get; }
+    public CommandWithResult<bool> CheckInDialogCommand        { get; }
+    public RelayCommand        CheckRecipeCommand_KeyIn    { get; }
+    public RelayCommand        CheckRecipeCommand_KeyLeave { get; }
+    public RelayCommand        AddLotCommand               { get; }
+    public RelayCommand        DeleteLotCommand            { get; }
+    public RelayCommand        GoDetailCommand             { get; }
+    public RelayCommand        ClearOPTextCommand          { get; }
+    public RelayCommand        ClearPartTextCommand        { get; }
+    public RelayCommand        ClearLotTextCommand         { get; }
+    public RelayCommand        ClearRecipeTextCommand      { get; }
+    public RelayCommand        ClearQuantityCommand        { get; }
 
     public RelayCommand CheckIsExecutingCommand { get; }
 
@@ -412,6 +412,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                     list.ForEach(x => OvenInfo.TempProducts.Add(x));
                                                 }
                                             });
+
+        CheckInDialogCommand = new CommandWithResult<bool>(_ => false);
 
         CheckInCommand = new RelayCommand(_ =>
                                           {
