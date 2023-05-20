@@ -81,8 +81,8 @@
                                                                    Text="{Binding OvenInfo.OvenCode, Mode=OneWay}" />
                                                     </Viewbox>
                                                     <Border x:Name="Border4"
-                                                            Width="0"
-                                                            HorizontalAlignment="Right"
+                                                            Height="0"
+                                                            VerticalAlignment="Top"
                                                             Background="{StaticResource WorkingBrush}" />
                                                 </Grid>
                                                 <ContentPresenter Grid.Row="1" />
@@ -126,7 +126,7 @@
                                                                                           Value="1" />
                                                                 </DoubleAnimationUsingKeyFrames>
                                                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Border4"
-                                                                                               Storyboard.TargetProperty="Width">
+                                                                                               Storyboard.TargetProperty="Height">
                                                                     <EasingDoubleKeyFrame KeyTime="0:0:0.12"
                                                                                           Value="4" />
                                                                 </DoubleAnimationUsingKeyFrames>
