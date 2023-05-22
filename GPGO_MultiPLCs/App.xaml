@@ -215,6 +215,7 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
+            <system:Int32 x:Key="two">2</system:Int32>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

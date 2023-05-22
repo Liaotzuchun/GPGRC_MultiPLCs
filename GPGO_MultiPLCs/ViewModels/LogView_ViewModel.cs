@@ -229,27 +229,30 @@ public class LogView_ViewModel : DataCollectionByDate<LogEvent>
     {
         Standby = false;
 
-        var _on = ViewResults_On[index];
-
-        await Task.Factory.StartNew(() =>
-                                    {
-                                        for (var i = 0; i < ViewResults_Off.Count; i++)
-                                        {
-                                            var off = ViewResults_Off[i];
-                                            if (off.AddedTime > _on.AddedTime && off.StationNumber == _on.StationNumber && off.Type == _on.Type && off.Description == _on.Description)
-                                            {
-                                                Set(off.Value == _on.Value ? -1 : i, nameof(SelectedIndex2));
-
-                                                return;
-                                            }
-                                        }
-
-                                        Set(-1, nameof(SelectedIndex2));
-                                    });
-
-        if (WantInfo != null)
+        if (ViewResults_On != null && ViewResults_On.Count > index && ViewResults_Off != null)
         {
-            SelectedProcessInfo = await WantInfo((_on.StationNumber, _on.AddedTime));
+            var _on = ViewResults_On[index];
+
+            await Task.Factory.StartNew(() =>
+                                        {
+                                            for (var i = 0; i < ViewResults_Off.Count; i++)
+                                            {
+                                                var off = ViewResults_Off[i];
+                                                if (off.AddedTime > _on.AddedTime && off.StationNumber == _on.StationNumber && off.Type == _on.Type && off.Description == _on.Description)
+                                                {
+                                                    Set(off.Value == _on.Value ? -1 : i, nameof(SelectedIndex2));
+
+                                                    return;
+                                                }
+                                            }
+
+                                            Set(-1, nameof(SelectedIndex2));
+                                        });
+
+            if (WantInfo != null)
+            {
+                SelectedProcessInfo = await WantInfo((_on.StationNumber, _on.AddedTime));
+            }
         }
 
         Standby = true;
@@ -259,27 +262,30 @@ public class LogView_ViewModel : DataCollectionByDate<LogEvent>
     {
         Standby = false;
 
-        var _off = ViewResults_Off[index];
-
-        await Task.Factory.StartNew(() =>
-                                    {
-                                        for (var i = 0; i < ViewResults_On.Count; i++)
-                                        {
-                                            var on = ViewResults_On[i];
-                                            if (on.Value is true && on.AddedTime < _off.AddedTime && on.StationNumber == _off.StationNumber && on.Type == _off.Type && on.Description == _off.Description)
-                                            {
-                                                Set(on.Value == _off.Value ? -1 : i, nameof(SelectedIndex1));
-
-                                                return;
-                                            }
-                                        }
-
-                                        Set(-1, nameof(SelectedIndex1));
-                                    });
-
-        if (WantInfo != null)
+        if (ViewResults_Off != null && ViewResults_Off.Count > index && ViewResults_On != null)
         {
-            SelectedProcessInfo = await WantInfo((_off.StationNumber, _off.AddedTime));
+            var _off = ViewResults_Off[index];
+
+            await Task.Factory.StartNew(() =>
+                                        {
+                                            for (var i = 0; i < ViewResults_On.Count; i++)
+                                            {
+                                                var on = ViewResults_On[i];
+                                                if (on.Value is true && on.AddedTime < _off.AddedTime && on.StationNumber == _off.StationNumber && on.Type == _off.Type && on.Description == _off.Description)
+                                                {
+                                                    Set(on.Value == _off.Value ? -1 : i, nameof(SelectedIndex1));
+
+                                                    return;
+                                                }
+                                            }
+
+                                            Set(-1, nameof(SelectedIndex1));
+                                        });
+
+            if (WantInfo != null)
+            {
+                SelectedProcessInfo = await WantInfo((_off.StationNumber, _off.AddedTime));
+            }
         }
 
         Standby = true;
@@ -303,23 +309,31 @@ public class LogView_ViewModel : DataCollectionByDate<LogEvent>
             }
         }
 
-        var csv = ViewResults.ToCSV(Language,
-                                    typeof(LogEvent).GetProperty(nameof(LogEvent.AddedTime)),
-                                    typeof(LogEvent).GetProperty(nameof(LogEvent.StationNumber)),
-                                    typeof(LogEvent).GetProperty(nameof(LogEvent.Type)),
-                                    typeof(LogEvent).GetProperty(nameof(LogEvent.Description2)),
-                                    typeof(LogEvent).GetProperty(nameof(LogEvent.Value)));
-
-        try
+        if (ViewResults != null && 
+            typeof(LogEvent).GetProperty(nameof(LogEvent.AddedTime)) is { } addedTime && 
+            typeof(LogEvent).GetProperty(nameof(LogEvent.StationNumber)) is { } stationNumber && 
+            typeof(LogEvent).GetProperty(nameof(LogEvent.Type)) is { } type && 
+            typeof(LogEvent).GetProperty(nameof(LogEvent.Description2)) is { } description2 && 
+            typeof(LogEvent).GetProperty(nameof(LogEvent.Value)) is { } value)
         {
-            using var outputFile = new StreamWriter($"{path}\\{DateTime.Now:yyyy-MM-dd-HH-mm-ss-fff}.csv", false, Encoding.UTF8);
-            await outputFile.WriteAsync(csv);
-        }
-        catch (Exception ex)
-        {
-            Log.Error(ex, "輸出CSV失敗");
+            var csv = ViewResults.ToCSV(Language,
+                                        addedTime,
+                                        stationNumber,
+                                        type,
+                                        description2,
+                                        value);
 
-            return false;
+            try
+            {
+                using var outputFile = new StreamWriter($"{path}\\{DateTime.Now:yyyy-MM-dd-HH-mm-ss-fff}.csv", false, Encoding.UTF8);
+                await outputFile.WriteAsync(csv);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "輸出CSV失敗");
+
+                return false;
+            }
         }
 
         Standby = true;

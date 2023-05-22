@@ -54,9 +54,6 @@
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBoxItem">
                                             <Grid>
-                                                <Grid.Resources>
-                                                    <system:Int32 x:Key="two">2</system:Int32>
-                                                </Grid.Resources>
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="Auto" />
                                                     <RowDefinition />

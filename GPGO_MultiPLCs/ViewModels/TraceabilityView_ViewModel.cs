@@ -64,16 +64,16 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
         Color.Magenta,
         Color.Brown
     };
-    private FrameworkElement elementView;
-    private OxyColor         bgcolor     = OxyColor.FromRgb(215, 230, 207);
-    private OxyColor         bordercolor = OxyColor.FromRgb(174, 187, 168);
-    private OxyColor         chartbg     = OxyColor.FromRgb(231, 246, 226);
-    private OxyColor         fontcolor   = OxyColor.FromRgb(50,  70,  60);
+    private FrameworkElement? elementView;
+    private OxyColor          bgcolor     = OxyColor.FromRgb(215, 230, 207);
+    private OxyColor          bordercolor = OxyColor.FromRgb(174, 187, 168);
+    private OxyColor          chartbg     = OxyColor.FromRgb(231, 246, 226);
+    private OxyColor          fontcolor   = OxyColor.FromRgb(50,  70,  60);
 
-    public Language    Language = Language.TW;
-    public LogEvent    SearchEvent;
-    public ProcessInfo SearchResult;
-    public ProductInfo SearchProduct;
+    public Language     Language = Language.TW;
+    public LogEvent?    SearchEvent;
+    public ProcessInfo? SearchResult;
+    public ProductInfo? SearchProduct;
 
     /// <summary>依據工單或料號搜尋</summary>
     public RelayCommand FindCommand { get; }
@@ -106,7 +106,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
 
     public PlotModel ResultView { get; }
 
-    public ProcessInfo SelectedProcessInfo
+    public ProcessInfo? SelectedProcessInfo
     {
         get => Get<ProcessInfo>();
         set
@@ -174,7 +174,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
     }
 
     /// <summary>顯示的資料列表</summary>
-    public List<ProcessInfo> ViewResults
+    public List<ProcessInfo>? ViewResults
     {
         get => Get<List<ProcessInfo>>();
         set => Set(value);
@@ -414,8 +414,6 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                               LayerFilter.Filter    = e?.SelectMany(x => x.Products.Select(y => y.Layer)).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList()  ?? new List<EqualFilter>();
                               FinishedFilter.Filter = e?.Select(x => x.IsFinished).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList()                         ?? new List<EqualFilter>();
 
-                              UpdateAct();
-
                               await Task.Delay(150);
 
                               if (SearchResult != null)
@@ -484,19 +482,12 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                               {
                                   EventIndex = -1;
                               }
+
+                              UpdateAct();
                           };
 
-        BeginIndexChanged += _ =>
-                             {
-                                 UpdateViewResult();
-                                 UpdateChart(Date1, Date2);
-                             };
-
-        EndIndexChanged += _ =>
-                           {
-                               UpdateViewResult();
-                               UpdateChart(Date1, Date2);
-                           };
+        BeginIndexChanged += _ => UpdateAct();
+        EndIndexChanged   += _ => UpdateAct();
     }
 
     private void CellLink(ExcelRangeBase cells)
@@ -1130,8 +1121,6 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
         categoryAxis1.Labels.Clear();
         categoryAxis2.Labels.Clear();
 
-        ResultView.InvalidatePlot(true);
-
         if (ViewResults?.Count > 0)
         {
             using var finishedResults = ViewResults.SelectMany(x => x.GetFlatInfos()).ToPooledList();
@@ -1221,27 +1210,14 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
 
                     for (var j = 0; j < categories.Count; j++)
                     {
-                        var val = info.Where(x =>
-                                             {
-                                                 switch (Mode)
-                                                 {
-                                                     case ChartMode.ByPLC:
-                                                         return x.StationNumber.ToString() == categories[j];
-                                                     case ChartMode.ByPart:
-                                                         return x.Product.PartID == categories[j];
-                                                     case ChartMode.ByLot:
-                                                         return x.Product.LotID == categories[j];
-                                                     case ChartMode.ByLayer:
-                                                         return x.Product.Layer.ToString() == categories[j];
-                                                 }
-
-                                                 if (ByDate)
-                                                 {
-                                                     return x.AddedTime.Date.ToString("MM/dd") == categories[j];
-                                                 }
-
-                                                 return $"{x.AddedTime.Hour:00}:00" == categories[j];
-                                             })
+                        var val = info.Where(x => Mode switch
+                                                  {
+                                                      ChartMode.ByPLC   => x.StationNumber.ToString() == categories[j],
+                                                      ChartMode.ByPart  => x.Product.PartID           == categories[j],
+                                                      ChartMode.ByLot   => x.Product.LotID            == categories[j],
+                                                      ChartMode.ByLayer => x.Product.Layer.ToString() == categories[j],
+                                                      _                 => ByDate ? x.AddedTime.Date.ToString("MM/dd") == categories[j] : $"{x.AddedTime.Hour:00}:00" == categories[j]
+                                                  })
                                       .Sum(x => x.Product.Quantity);
                         if (val > 0)
                         {
@@ -1254,7 +1230,10 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
             }
         }
 
-        ResultView.InvalidatePlot(true);
+        lock (ResultView.SyncRoot)
+        {
+            ResultView.InvalidatePlot(true);
+        }
     }
 
     private void UpdateViewResult()
@@ -1269,11 +1248,11 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
             var max = Math.Min(Results.Count - 1, EndIndex);
 
             ViewResults = Results.GetRange(min, max - min + 1)
-                                 .Where(x => OvenFilter.Check(x.StationNumber)                 &&
-                                             RecipeFilter.Check(x.Recipe.RecipeName)           &&
-                                             OpFilter.Check(x.OperatorID)                      &&
-                                             FinishedFilter.Check(x.IsFinished)                &&
-                                             x.Products.Any(y => PartIDFilter.Check(y.PartID)) &&
+                                 .Where(x => OvenFilter.Check(x.StationNumber)                        &&
+                                             RecipeFilter.Check(x.Recipe?.RecipeName ?? string.Empty) &&
+                                             OpFilter.Check(x.OperatorID)                             &&
+                                             FinishedFilter.Check(x.IsFinished)                       &&
+                                             x.Products.Any(y => PartIDFilter.Check(y.PartID))        &&
                                              x.Products.Any(y => LayerFilter.Check(y.Layer)))
                                  .OrderByDescending(x => x.AddedTime)
                                  .ToList();

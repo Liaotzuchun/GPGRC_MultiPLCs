@@ -44,6 +44,8 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <views:FilterGroupProxy x:Key="OvenFilterData"
+                                Data="{Binding OvenFilter, Mode=OneWay}" />
         <views:FilterGroupProxy x:Key="RecipeFilterData"
                                 Data="{Binding RecipeFilter, Mode=OneWay}" />
         <views:FilterGroupProxy x:Key="OpFilterData"
@@ -467,8 +469,9 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <!--<DataGridTemplateColumn Width="Auto"
-                                            HeaderStyle="{StaticResource ColumnFilterStyle}">
+                    <DataGridTemplateColumn Width="Auto"
+                                            HeaderStyle="{StaticResource ColumnFilterStyle}"
+                                            Visibility="{Binding OvenCount, Source={StaticResource Mediator}, Mode=OneWay, Converter={StaticResource IsMoreThanValueVis}, ConverterParameter={StaticResource two}}">
                         <DataGridTemplateColumn.Header>
                             <ContentControl Content="{StaticResource OvenFilterData}"
                                             Style="{StaticResource FilterStyle}"
@@ -479,7 +482,7 @@
                                 <TextBlock Text="{Binding StationNumber, Mode=OneWay}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>-->
+                    </DataGridTemplateColumn>
                     <DataGridTemplateColumn Width="*"
                                             HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
