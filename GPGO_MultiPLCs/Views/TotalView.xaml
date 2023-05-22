@@ -123,7 +123,7 @@
                                                                 </DoubleAnimationUsingKeyFrames>
                                                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Border4"
                                                                                                Storyboard.TargetProperty="Height">
-                                                                    <EasingDoubleKeyFrame KeyTime="0:0:0.12"
+                                                                    <EasingDoubleKeyFrame KeyTime="0"
                                                                                           Value="4" />
                                                                 </DoubleAnimationUsingKeyFrames>
                                                                 <ColorAnimationUsingKeyFrames Storyboard.TargetName="TextBlock"
@@ -841,7 +841,7 @@
                                                                 </DoubleAnimationUsingKeyFrames>
                                                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Border4"
                                                                                                Storyboard.TargetProperty="Height">
-                                                                    <EasingDoubleKeyFrame KeyTime="0:0:0.12"
+                                                                    <EasingDoubleKeyFrame KeyTime="0"
                                                                                           Value="4" />
                                                                 </DoubleAnimationUsingKeyFrames>
                                                                 <ColorAnimationUsingKeyFrames Storyboard.TargetName="TextBlock"
