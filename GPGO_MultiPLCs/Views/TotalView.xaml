@@ -30,8 +30,7 @@
                         <RowDefinition />
                         <RowDefinition Height="200" />
                     </Grid.RowDefinitions>
-                    <ListBox Margin="0,0,0,4"
-                             HorizontalContentAlignment="Center"
+                    <ListBox HorizontalContentAlignment="Center"
                              VerticalContentAlignment="Center"
                              AlternationCount="2147483647"
                              ItemsSource="{Binding PLC_All_View, Mode=OneWay}"
@@ -53,7 +52,7 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBoxItem">
-                                            <Grid>
+                                            <Grid Margin="0,0,0,4">
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="Auto" />
                                                     <RowDefinition />
@@ -172,19 +171,17 @@
                                         </Border>
                                     </views:UniformStackPanel>
                                     <Border x:Name="StatusBorder"
-                                            Grid.Row="1">
-                                        <Border.Background>
-                                            <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                                                <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush6}}" />
-                                                <GradientStop Offset="1" Color="{Binding Color, Source={StaticResource WindowBackgroundBrush2}}" />
-                                            </LinearGradientBrush>
-                                        </Border.Background>
+                                            Grid.Row="1"
+                                            Background="{StaticResource WindowBackgroundBrush2}"
+                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                            BorderThickness="1">
                                         <Viewbox Margin="6"
                                                  VerticalAlignment="Center"
                                                  StretchDirection="DownOnly">
-                                            <TextBlock FontSize="24"
+                                            <TextBlock x:Name="TemperatureText"
+                                                       FontSize="24"
                                                        FontWeight="Bold"
-                                                       Foreground="{StaticResource BaseForeground}"
+                                                       Foreground="{StaticResource DisabledForegroundBrush}"
                                                        Text="{Binding PV_ThermostatTemperature, Mode=OneWay, StringFormat=\{0:F1\}°C}" />
                                         </Viewbox>
                                     </Border>
@@ -235,6 +232,12 @@
                                         </Viewbox>
                                     </Border>
                                 </Grid>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"
+                                                 Value="True">
+                                        <Setter TargetName="TemperatureText" Property="Foreground" Value="{StaticResource BaseForeground}" />
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
@@ -647,6 +650,16 @@
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Width="Auto">
+                                    <DataGridTemplateColumn.Header>
+                                        <TextBlock Text="{DynamicResource 烤箱}" />
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="models:LogEvent">
+                                            <TextBlock Text="{Binding StationNumber, Mode=OneWay}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                                 <DataGridTemplateColumn Width="*">
                                     <DataGridTemplateColumn.Header>
                                         <TextBlock Text="{DynamicResource 類型}" />
@@ -710,7 +723,6 @@
                         </i:Interaction.Triggers>
                     </Button>
                     <ListBox Grid.Column="1"
-                             Margin="4,0,0,0"
                              HorizontalContentAlignment="Center"
                              VerticalContentAlignment="Center"
                              AlternationCount="2147483647"
@@ -754,7 +766,7 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBoxItem">
-                                            <Grid>
+                                            <Grid Margin="4,0,0,0">
                                                 <Grid.Resources>
                                                     <system:Int32 x:Key="two">2</system:Int32>
                                                 </Grid.Resources>
@@ -883,10 +895,12 @@
                                                      Maximum="1"
                                                      Style="{StaticResource ProgressBarNoText}"
                                                      Value="{Binding Progress, Mode=OneWay}" />
-                                        <TextBlock HorizontalAlignment="Center"
+                                        <TextBlock x:Name="RemainTimeText"
+                                                   HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    FontSize="20"
-                                                   FontWeight="Bold">
+                                                   FontWeight="Bold"
+                                                   Foreground="{StaticResource DisabledForegroundBrush}">
                                             <Run Text="{DynamicResource 剩餘時間}" />
                                             <Run Text=":" />
                                             <Run Text="{Binding RemainTime, Mode=OneWay, StringFormat=\{0:F1\}}" />
@@ -943,6 +957,10 @@
                                     <DataTrigger Binding="{Binding IsCooling, Mode=OneWay}"
                                                  Value="True">
                                         <Setter TargetName="Progress" Property="Background" Value="{StaticResource PressedBrush}" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"
+                                                 Value="True">
+                                        <Setter TargetName="RemainTimeText" Property="Foreground" Value="{StaticResource BaseForeground}" />
                                     </DataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>

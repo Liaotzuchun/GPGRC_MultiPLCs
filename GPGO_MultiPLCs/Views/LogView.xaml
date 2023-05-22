@@ -6,6 +6,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
              xmlns:models1="clr-namespace:GPMVVM.Models;assembly=GPMVVM"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:views="clr-namespace:GPMVVM.Views;assembly=GPMVVM"
              xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
              d:DataContext="{d:DesignInstance vm:LogView_ViewModel}"
@@ -358,7 +359,7 @@
                         BorderThickness="0">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               Text="{Binding ViewResults.Count, Mode=OneWay}" />
+                               Text="{Binding ViewResults.Count, Mode=OneWay, FallbackValue=0}" />
                 </Border>
             </Grid>
             <Button Grid.RowSpan="2"
@@ -538,7 +539,7 @@
                         BorderThickness="0,0,1,1">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               Text="{Binding SelectedProcessInfo.Recipe.RecipeName, Mode=OneWay}" />
+                               Text="{Binding SelectedProcessInfo.Recipe.RecipeName, Mode=OneWay, FallbackValue={x:Static system:String.Empty}}" />
                 </Border>
                 <Border Grid.Row="1"
                         Grid.Column="2"
@@ -547,7 +548,7 @@
                         BorderThickness="0,0,1,1">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               Text="{Binding SelectedProcessInfo.OperatorID, Mode=OneWay}" />
+                               Text="{Binding SelectedProcessInfo.OperatorID, Mode=OneWay, FallbackValue={x:Static system:String.Empty}}" />
                 </Border>
                 <Border Grid.Row="1"
                         Grid.Column="3"
@@ -556,7 +557,7 @@
                         BorderThickness="0,0,1,1">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               Text="{Binding SelectedProcessInfo.Quantity, Mode=OneWay}" />
+                               Text="{Binding SelectedProcessInfo.Quantity, Mode=OneWay, FallbackValue=0}" />
                 </Border>
                 <Button Grid.Row="0"
                         Grid.RowSpan="2"

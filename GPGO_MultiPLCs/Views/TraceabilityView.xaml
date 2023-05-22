@@ -383,7 +383,7 @@
                         BorderThickness="0">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               Text="{Binding ViewResults.Count, Mode=OneWay}" />
+                               Text="{Binding ViewResults.Count, Mode=OneWay, FallbackValue=0}" />
                 </Border>
             </Grid>
             <Button Grid.Row="0"
@@ -1294,7 +1294,7 @@
                                   BorderThickness="0,1,1,0"
                                   FontSize="12"
                                   HorizontalScrollBarVisibility="Disabled"
-                                  ItemsSource="{Binding SelectedProcessInfo.EventList, Mode=OneWay, IsAsync=True}"
+                                  ItemsSource="{Binding SelectedProcessInfo.EventList, Mode=OneWay, IsAsync=True, FallbackValue={x:Null}}"
                                   SelectedCellsChanged="SelectedCellsChanged2"
                                   SelectedIndex="{Binding EventIndex, Mode=TwoWay}"
                                   SelectedItem="{Binding SelectedLogEvent, Mode=OneWayToSource}">
@@ -1431,7 +1431,7 @@
                                   BorderThickness="0,1,1,0"
                                   FontSize="12"
                                   HorizontalScrollBarVisibility="Disabled"
-                                  ItemsSource="{Binding SelectedProcessInfo.Products, Mode=OneWay}"
+                                  ItemsSource="{Binding SelectedProcessInfo.Products, Mode=OneWay, FallbackValue={x:Null}}"
                                   Loaded="DataGrid_Loaded"
                                   SelectedIndex="{Binding ProductIndex, Mode=TwoWay}"
                                   VerticalScrollBarVisibility="Auto">
