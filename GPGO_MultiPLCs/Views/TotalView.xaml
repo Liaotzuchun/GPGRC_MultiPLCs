@@ -710,7 +710,7 @@
                       Grid.Column="0"
                       Grid.ColumnSpan="2">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="120" />
+                        <ColumnDefinition Width="160" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <Button Content="{DynamicResource 投產頁面}"
@@ -738,7 +738,7 @@
                             <ItemsPanelTemplate>
                                 <views:UniformGridWithOrientation Orientation="Vertical">
                                     <views:UniformGridWithOrientation.Rows>
-                                        <MultiBinding Converter="{StaticResource IfElse}">
+                                        <MultiBinding Converter="{StaticResource IfElse}" Mode="OneWay">
                                             <MultiBinding.FallbackValue>
                                                 <system:Int32>1</system:Int32>
                                             </MultiBinding.FallbackValue>
