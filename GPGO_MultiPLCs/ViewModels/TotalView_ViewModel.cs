@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using GPGO_MultiPLCs.Models;
+using GPMVVM.Core.Models.SECS;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
 using GPMVVM.Models.SECS;
