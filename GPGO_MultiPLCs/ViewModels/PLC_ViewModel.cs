@@ -197,7 +197,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             }
             else
             {
-                Set(value);
+                //! 欣興要求批號只取14個字
+                Set(value.Length > 14 ? value.Substring(0, 14) : value);
                 DelayClean();
             }
         }
