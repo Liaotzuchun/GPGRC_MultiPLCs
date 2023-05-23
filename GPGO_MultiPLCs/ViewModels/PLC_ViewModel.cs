@@ -13,6 +13,7 @@ using GPMVVM.Helpers;
 using GPMVVM.Models;
 using GPMVVM.PooledCollections;
 using PLCService;
+#pragma warning disable VSTHRD110
 
 namespace GPGO_MultiPLCs.ViewModels;
 
@@ -116,7 +117,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         set => Set(value);
     }
 
-    public ICollection<string> Recipe_Names
+    public ICollection<string>? Recipe_Names
     {
         get => Get<ICollection<string>>();
         set => Set(value);
@@ -330,31 +331,32 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                                 return;
                                                             }
 
-                                                            using var matches = new PooledList<string>();
-
-                                                            foreach (var r in Recipe_Names)
+                                                            if (Recipe_Names != null)
                                                             {
-                                                                if (r == name) //! 100%符合的優先
+                                                                using var matches = new PooledList<string>();
+                                                                foreach (var r in Recipe_Names)
                                                                 {
-                                                                    _ = await SetRecipeDialogAsync(name);
+                                                                    if (r == name) //! 100%符合的優先
+                                                                    {
+                                                                        _ = await SetRecipeDialogAsync(name);
+                                                                        return;
+                                                                    }
+
+                                                                    if (r.Equals(name, StringComparison.InvariantCultureIgnoreCase))
+                                                                    {
+                                                                        matches.Add(r);
+                                                                    }
+                                                                }
+
+                                                                if (matches.Count > 0)
+                                                                {
+                                                                    _ = await SetRecipeDialogAsync(matches[0]);
                                                                     return;
                                                                 }
-
-                                                                if (r.Equals(name, StringComparison.InvariantCultureIgnoreCase))
-                                                                {
-                                                                    matches.Add(r);
-                                                                }
                                                             }
 
-                                                            if (matches.Count > 0)
-                                                            {
-                                                                _ = await SetRecipeDialogAsync(matches[0]);
-                                                            }
-                                                            else
-                                                            {
-                                                                InputRecipeName = string.Empty;
-                                                                RecipeKeyInError?.Invoke();
-                                                            }
+                                                            InputRecipeName = string.Empty;
+                                                            RecipeKeyInError?.Invoke();
                                                         }
                                                     });
 

@@ -18,6 +18,7 @@ using GPMVVM.SECSGEM;
 using MongoDB.Driver;
 using Serilog;
 using Extensions = GPGO_MultiPLCs.Helpers.Extensions;
+#pragma warning disable VSTHRD101
 
 namespace GPGO_MultiPLCs;
 
@@ -275,7 +276,7 @@ public sealed class Mediator : ObservableObject
                                          {
                                              TotalVM.SetRecipeNames(list.Select(x => x.RecipeName).ToList());
 
-                                             const string path = "C:\\ITRIinit\\0\\ProcessJob";
+                                             var path = $"{TotalVM.SecsGemEquipment.BasePath}\\ProcessJob";
 
                                              if (!Directory.Exists(path))
                                              {
@@ -289,39 +290,41 @@ public sealed class Mediator : ObservableObject
                                                  }
                                              }
 
-                                             var ccode = TotalVM.SecsGemEquipment.CCodeDocument.CCodeItems[0];
-                                             foreach (var recipe in list)
+                                             if (TotalVM.SecsGemEquipment.CCodeDocument?.CCodeItems.TryGetValue("1", out var ccode) == true)
                                              {
-                                                 var _recipe = recipe.ToDictionary();
-                                                 var fpath   = $"{path}\\{recipe.RecipeName}.pjb";
-                                                 var ini     = new IniParser(fpath);
-
-                                                 foreach (var param in ccode.ParameterItems)
+                                                 foreach (var recipe in list)
                                                  {
-                                                     if (_recipe.TryGetValue(param.PParameterName, out var val))
+                                                     var _recipe = recipe.ToDictionary();
+                                                     var fpath   = $"{path}\\{recipe.RecipeName}.pjb";
+                                                     var ini     = new IniParser(fpath);
+
+                                                     foreach (var param in ccode.ParameterItems)
                                                      {
-                                                         if (val is double d)
+                                                         if (_recipe.TryGetValue(param.PParameterName, out var val))
                                                          {
-                                                             ini[ccode.CCodeName][param.PParameterName] = d.ToString("0.0").ToUpper();
-                                                         }
-                                                         else if (val is float f)
-                                                         {
-                                                             ini[ccode.CCodeName][param.PParameterName] = f.ToString("0.0").ToUpper();
-                                                         }
-                                                         else
-                                                         {
-                                                             ini[ccode.CCodeName][param.PParameterName] = val.ToString().ToUpper();
+                                                             if (val is double d)
+                                                             {
+                                                                 ini[ccode.CCodeName][param.PParameterName] = d.ToString("0.0").ToUpper();
+                                                             }
+                                                             else if (val is float f)
+                                                             {
+                                                                 ini[ccode.CCodeName][param.PParameterName] = f.ToString("0.0").ToUpper();
+                                                             }
+                                                             else
+                                                             {
+                                                                 ini[ccode.CCodeName][param.PParameterName] = val.ToString().ToUpper();
+                                                             }
                                                          }
                                                      }
-                                                 }
 
-                                                 try
-                                                 {
-                                                     await ini.SaveAsync();
-                                                 }
-                                                 catch (Exception ex)
-                                                 {
-                                                     Log.Error(ex, "pjb寫入失敗");
+                                                     try
+                                                     {
+                                                         await ini.SaveAsync();
+                                                     }
+                                                     catch (Exception ex)
+                                                     {
+                                                         Log.Error(ex, "pjb寫入失敗");
+                                                     }
                                                  }
                                              }
 

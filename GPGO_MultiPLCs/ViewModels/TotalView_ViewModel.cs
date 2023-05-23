@@ -16,6 +16,7 @@ using GPMVVM.PooledCollections;
 using GPMVVM.SECSGEM;
 using Newtonsoft.Json;
 using PLCService;
+#pragma warning disable VSTHRD101
 
 namespace GPGO_MultiPLCs.ViewModels;
 
@@ -38,8 +39,8 @@ public sealed class TotalView_ViewModel : ObservableObject
 
     /// <summary>保持PLC Gate連線</summary>
     private readonly Timer Checker;
-    private AsyncOperation? asyncOperation;
-    private int             threadid;
+    private readonly AsyncOperation? asyncOperation;
+    private readonly int             threadid;
 
     public Language Language = Language.TW;
 
@@ -226,7 +227,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                                       null);
                                               });
 
-        PropertyChanged += (s, e) =>
+        PropertyChanged += (_, e) =>
                            {
                                if (e.PropertyName is nameof(SECS_ENABLE) or nameof(SECS_Communicating) or nameof(SECS_ONLINE) or nameof(SECS_REMOTE))
                                {
@@ -289,7 +290,7 @@ public sealed class TotalView_ViewModel : ObservableObject
 
         SecsGemEquipment.UpsertFormattedPP += e =>
                                               {
-                                                  var (ppid, ccode, recipedic) = e;
+                                                  var (ppid, _, recipedic) = e;
                                                   var recipe   = new PLC_Recipe(ppid, "SECSGEM-HOST", UserLevel.Manager);
                                                   var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(SECSGEM.UpsertFormattedPP), "", recipe.RecipeName);
                                                   EventHappened?.Invoke(eventval);
@@ -373,7 +374,6 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                  var result = PLC_All[index].SetRecipeAsync(recipe).Result;
 
                                                  return result == SetRecipeResult.成功 ? HCACKValule.Acknowledge : HCACKValule.CantPerform;
-                                                 ;
                                              };
 
         SecsGemEquipment.ADDLOT_Command += (index, lot) =>
@@ -543,10 +543,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                      SecsGemEquipment.InvokeEvent($"Oven{index + 1}_CancelCheckIn");
                                  };
 
-            plc.CheckOut += _ =>
-                            {
-                                SecsGemEquipment.InvokeEvent($"Oven{index + 1}_RackOutput");
-                            };
+            plc.CheckOut += _ => SecsGemEquipment.InvokeEvent($"Oven{index + 1}_RackOutput");
 
             plc.LotAdded += lotid =>
                             {
@@ -614,10 +611,10 @@ public sealed class TotalView_ViewModel : ObservableObject
                                      };
 
             //! 由OP變更設備代碼時
-            plc.MachineCodeChanged += code => SaveMachineCodes(MachineCodesPath);
+            plc.MachineCodeChanged += _ => SaveMachineCodes(MachineCodesPath);
 
             //! 由OP變更財產編號時
-            plc.AssetNumberChanged += code => SaveAssetNumbers(AssetNumbersPath);
+            plc.AssetNumberChanged += _ => SaveAssetNumbers(AssetNumbersPath);
 
             //! PLC配方輸入錯誤時
             plc.RecipeKeyInError += () =>
@@ -713,9 +710,12 @@ public sealed class TotalView_ViewModel : ObservableObject
             {
                 var vals = AssetNumbersPath.ReadFromJsonFile<string[]>();
 
-                for (var i = 0; i < Math.Min(vals?.Length ?? 0, PLC_All.Count); i++)
+                if (vals != null)
                 {
-                    PLC_All[i].OvenInfo.AssetNumber = vals[i];
+                    for (var i = 0; i < Math.Min(vals.Length, PLC_All.Count); i++)
+                    {
+                        PLC_All[i].OvenInfo.AssetNumber = vals[i];
+                    }
                 }
             }
             catch
