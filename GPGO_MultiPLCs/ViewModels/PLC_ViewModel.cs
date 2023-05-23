@@ -62,16 +62,16 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     /// <summary>投產</summary>
     public RelayCommand CheckInCommand { get; }
     public CommandWithResult<bool> CheckInDialogCommand        { get; }
-    public RelayCommand        CheckRecipeCommand_KeyIn    { get; }
-    public RelayCommand        CheckRecipeCommand_KeyLeave { get; }
-    public RelayCommand        AddLotCommand               { get; }
-    public RelayCommand        DeleteLotCommand            { get; }
-    public RelayCommand        GoDetailCommand             { get; }
-    public RelayCommand        ClearOPTextCommand          { get; }
-    public RelayCommand        ClearPartTextCommand        { get; }
-    public RelayCommand        ClearLotTextCommand         { get; }
-    public RelayCommand        ClearRecipeTextCommand      { get; }
-    public RelayCommand        ClearQuantityCommand        { get; }
+    public RelayCommand            CheckRecipeCommand_KeyIn    { get; }
+    public RelayCommand            CheckRecipeCommand_KeyLeave { get; }
+    public RelayCommand            AddLotCommand               { get; }
+    public RelayCommand            DeleteLotCommand            { get; }
+    public RelayCommand            GoDetailCommand             { get; }
+    public RelayCommand            ClearOPTextCommand          { get; }
+    public RelayCommand            ClearPartTextCommand        { get; }
+    public RelayCommand            ClearLotTextCommand         { get; }
+    public RelayCommand            ClearRecipeTextCommand      { get; }
+    public RelayCommand            ClearQuantityCommand        { get; }
 
     public RelayCommand CheckIsExecutingCommand { get; }
 
@@ -849,43 +849,43 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         return result;
     }
 
-    private bool RecipeCompare(PLC_Recipe recipe) => NitrogenMode                                             == recipe.NitrogenMode                                                    &&
-                                                     OxygenContentSet.ToString("0.0")                         == recipe.OxygenContentSet.ToString("0.0")                                &&
-                                                     RecipeName.Substring(0, Math.Min(RecipeName.Length, 16)) == recipe.RecipeName.Substring(0, Math.Min(recipe.RecipeName.Length, 16)) && //! 只最多比對16個字(PLC的配方名長度)
-                                                     DwellTime_1.ToString("0.0")                              == recipe.DwellTime_1.ToString("0.0")                                     &&
-                                                     DwellTime_2.ToString("0.0")                              == recipe.DwellTime_2.ToString("0.0")                                     &&
-                                                     DwellTime_3.ToString("0.0")                              == recipe.DwellTime_3.ToString("0.0")                                     &&
-                                                     DwellTime_4.ToString("0.0")                              == recipe.DwellTime_4.ToString("0.0")                                     &&
-                                                     DwellTime_5.ToString("0.0")                              == recipe.DwellTime_5.ToString("0.0")                                     &&
-                                                     DwellTime_6.ToString("0.0")                              == recipe.DwellTime_6.ToString("0.0")                                     &&
-                                                     DwellAlarm_1.ToString("0.0")                             == recipe.DwellAlarm_1.ToString("0.0")                                    &&
-                                                     DwellAlarm_2.ToString("0.0")                             == recipe.DwellAlarm_2.ToString("0.0")                                    &&
-                                                     DwellAlarm_3.ToString("0.0")                             == recipe.DwellAlarm_3.ToString("0.0")                                    &&
-                                                     DwellAlarm_4.ToString("0.0")                             == recipe.DwellAlarm_4.ToString("0.0")                                    &&
-                                                     DwellAlarm_5.ToString("0.0")                             == recipe.DwellAlarm_5.ToString("0.0")                                    &&
-                                                     DwellAlarm_6.ToString("0.0")                             == recipe.DwellAlarm_6.ToString("0.0")                                    &&
-                                                     CoolingTime.ToString("0.0")                              == recipe.CoolingTime.ToString("0.0")                                     &&
-                                                     CoolingTemperature.ToString("0.0")                       == recipe.CoolingTemperature.ToString("0.0")                              &&
-                                                     RampTime_1.ToString("0.0")                               == recipe.RampTime_1.ToString("0.0")                                      &&
-                                                     RampTime_2.ToString("0.0")                               == recipe.RampTime_2.ToString("0.0")                                      &&
-                                                     RampTime_3.ToString("0.0")                               == recipe.RampTime_3.ToString("0.0")                                      &&
-                                                     RampTime_4.ToString("0.0")                               == recipe.RampTime_4.ToString("0.0")                                      &&
-                                                     RampTime_5.ToString("0.0")                               == recipe.RampTime_5.ToString("0.0")                                      &&
-                                                     RampTime_6.ToString("0.0")                               == recipe.RampTime_6.ToString("0.0")                                      &&
-                                                     RampAlarm_1.ToString("0.0")                              == recipe.RampAlarm_1.ToString("0.0")                                     &&
-                                                     RampAlarm_2.ToString("0.0")                              == recipe.RampAlarm_2.ToString("0.0")                                     &&
-                                                     RampAlarm_3.ToString("0.0")                              == recipe.RampAlarm_3.ToString("0.0")                                     &&
-                                                     RampAlarm_4.ToString("0.0")                              == recipe.RampAlarm_4.ToString("0.0")                                     &&
-                                                     RampAlarm_5.ToString("0.0")                              == recipe.RampAlarm_5.ToString("0.0")                                     &&
-                                                     RampAlarm_6.ToString("0.0")                              == recipe.RampAlarm_6.ToString("0.0")                                     &&
-                                                     InflatingTime.ToString("0")                              == recipe.InflatingTime.ToString("0")                                     &&
-                                                     TemperatureSetpoint_1.ToString("0.0")                    == recipe.TemperatureSetpoint_1.ToString("0.0")                           &&
-                                                     TemperatureSetpoint_2.ToString("0.0")                    == recipe.TemperatureSetpoint_2.ToString("0.0")                           &&
-                                                     TemperatureSetpoint_3.ToString("0.0")                    == recipe.TemperatureSetpoint_3.ToString("0.0")                           &&
-                                                     TemperatureSetpoint_4.ToString("0.0")                    == recipe.TemperatureSetpoint_4.ToString("0.0")                           &&
-                                                     TemperatureSetpoint_5.ToString("0.0")                    == recipe.TemperatureSetpoint_5.ToString("0.0")                           &&
-                                                     TemperatureSetpoint_6.ToString("0.0")                    == recipe.TemperatureSetpoint_6.ToString("0.0")                           &&
-                                                     SegmentCounts                                            == recipe.SegmentCounts;
+    private bool RecipeCompare(PLC_Recipe recipe) => NitrogenMode                                                        == recipe.NitrogenMode                                                                      &&
+                                                     OxygenContentSet.ToString("0.0")                                    == recipe.OxygenContentSet.ToString("0.0")                                                  &&
+                                                     (RecipeName.Length > 16 ? RecipeName.Substring(0, 16) : RecipeName) == (recipe.RecipeName.Length > 16 ? recipe.RecipeName.Substring(0, 16) : recipe.RecipeName) && //! 只最多比對16個字(PLC的配方名長度)
+                                                     DwellTime_1.ToString("0.0")                                         == recipe.DwellTime_1.ToString("0.0")                                                       &&
+                                                     DwellTime_2.ToString("0.0")                                         == recipe.DwellTime_2.ToString("0.0")                                                       &&
+                                                     DwellTime_3.ToString("0.0")                                         == recipe.DwellTime_3.ToString("0.0")                                                       &&
+                                                     DwellTime_4.ToString("0.0")                                         == recipe.DwellTime_4.ToString("0.0")                                                       &&
+                                                     DwellTime_5.ToString("0.0")                                         == recipe.DwellTime_5.ToString("0.0")                                                       &&
+                                                     DwellTime_6.ToString("0.0")                                         == recipe.DwellTime_6.ToString("0.0")                                                       &&
+                                                     DwellAlarm_1.ToString("0.0")                                        == recipe.DwellAlarm_1.ToString("0.0")                                                      &&
+                                                     DwellAlarm_2.ToString("0.0")                                        == recipe.DwellAlarm_2.ToString("0.0")                                                      &&
+                                                     DwellAlarm_3.ToString("0.0")                                        == recipe.DwellAlarm_3.ToString("0.0")                                                      &&
+                                                     DwellAlarm_4.ToString("0.0")                                        == recipe.DwellAlarm_4.ToString("0.0")                                                      &&
+                                                     DwellAlarm_5.ToString("0.0")                                        == recipe.DwellAlarm_5.ToString("0.0")                                                      &&
+                                                     DwellAlarm_6.ToString("0.0")                                        == recipe.DwellAlarm_6.ToString("0.0")                                                      &&
+                                                     CoolingTime.ToString("0.0")                                         == recipe.CoolingTime.ToString("0.0")                                                       &&
+                                                     CoolingTemperature.ToString("0.0")                                  == recipe.CoolingTemperature.ToString("0.0")                                                &&
+                                                     RampTime_1.ToString("0.0")                                          == recipe.RampTime_1.ToString("0.0")                                                        &&
+                                                     RampTime_2.ToString("0.0")                                          == recipe.RampTime_2.ToString("0.0")                                                        &&
+                                                     RampTime_3.ToString("0.0")                                          == recipe.RampTime_3.ToString("0.0")                                                        &&
+                                                     RampTime_4.ToString("0.0")                                          == recipe.RampTime_4.ToString("0.0")                                                        &&
+                                                     RampTime_5.ToString("0.0")                                          == recipe.RampTime_5.ToString("0.0")                                                        &&
+                                                     RampTime_6.ToString("0.0")                                          == recipe.RampTime_6.ToString("0.0")                                                        &&
+                                                     RampAlarm_1.ToString("0.0")                                         == recipe.RampAlarm_1.ToString("0.0")                                                       &&
+                                                     RampAlarm_2.ToString("0.0")                                         == recipe.RampAlarm_2.ToString("0.0")                                                       &&
+                                                     RampAlarm_3.ToString("0.0")                                         == recipe.RampAlarm_3.ToString("0.0")                                                       &&
+                                                     RampAlarm_4.ToString("0.0")                                         == recipe.RampAlarm_4.ToString("0.0")                                                       &&
+                                                     RampAlarm_5.ToString("0.0")                                         == recipe.RampAlarm_5.ToString("0.0")                                                       &&
+                                                     RampAlarm_6.ToString("0.0")                                         == recipe.RampAlarm_6.ToString("0.0")                                                       &&
+                                                     InflatingTime.ToString("0")                                         == recipe.InflatingTime.ToString("0")                                                       &&
+                                                     TemperatureSetpoint_1.ToString("0.0")                               == recipe.TemperatureSetpoint_1.ToString("0.0")                                             &&
+                                                     TemperatureSetpoint_2.ToString("0.0")                               == recipe.TemperatureSetpoint_2.ToString("0.0")                                             &&
+                                                     TemperatureSetpoint_3.ToString("0.0")                               == recipe.TemperatureSetpoint_3.ToString("0.0")                                             &&
+                                                     TemperatureSetpoint_4.ToString("0.0")                               == recipe.TemperatureSetpoint_4.ToString("0.0")                                             &&
+                                                     TemperatureSetpoint_5.ToString("0.0")                               == recipe.TemperatureSetpoint_5.ToString("0.0")                                             &&
+                                                     TemperatureSetpoint_6.ToString("0.0")                               == recipe.TemperatureSetpoint_6.ToString("0.0")                                             &&
+                                                     SegmentCounts                                                       == recipe.SegmentCounts;
 
     private void AddProcessEvent((EventType type, DateTime addtime, string note, string tag, object value) eventdata)
     {
