@@ -43,10 +43,10 @@
 
 	<ItemGroup>
 		<PackageReference Include="EPPlus" Version="6.2.4" />
-		<PackageReference Include="GPMVVM" Version="23.5.22.11" />
-		<PackageReference Include="GPMVVM.Core" Version="23.5.23.19" />
+		<PackageReference Include="GPMVVM" Version="23.5.25.17" />
+		<PackageReference Include="GPMVVM.Core" Version="23.5.25.17" />
 		<PackageReference Include="GPMVVM.MongoDB" Version="23.4.28.8" />
-		<PackageReference Include="GPMVVM.SECSGEM" Version="23.5.23.19" />
+		<PackageReference Include="GPMVVM.SECSGEM" Version="23.5.25.17" />
 		<PackageReference Include="OxyPlot.SkiaSharp.Wpf" Version="2.1.2" />
 		<PackageReference Include="RawInput.Sharp" Version="0.1.1" />
 	</ItemGroup>
