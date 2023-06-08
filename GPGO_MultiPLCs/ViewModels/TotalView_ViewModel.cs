@@ -249,7 +249,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                            return;
                                                        }
 
-                                                       var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(SECSGEM.TerminalMessageRecived), "", message);
+                                                       var eventval = (-1, EventType.SECSCommand, DateTime.Now, nameof(SECSGEM.TerminalMessageRecived), "", message);
                                                        EventHappened?.Invoke(eventval);
 
                                                        if (await dialog.Show(new Dictionary<Language, string>
@@ -293,7 +293,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                               {
                                                   var (ppid, _, recipedic) = e;
                                                   var recipe   = new PLC_Recipe(ppid, "SECSGEM-HOST", UserLevel.Manager);
-                                                  var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(SECSGEM.UpsertFormattedPP), "", recipe.RecipeName);
+                                                  var eventval = (-1, EventType.SECSCommand, DateTime.Now, nameof(SECSGEM.UpsertFormattedPP), "", recipe.RecipeName);
                                                   EventHappened?.Invoke(eventval);
 
                                                   return recipe.SetByDictionary(recipedic) && UpsertRecipe != null && UpsertRecipe.Invoke(recipe);
@@ -301,7 +301,7 @@ public sealed class TotalView_ViewModel : ObservableObject
 
         SecsGemEquipment.DeletePP += recipeName =>
                                      {
-                                         var eventval = (-1, EventType.SECSCommnd, DateTime.Now, nameof(SECSGEM.DeletePP), "", recipeName);
+                                         var eventval = (-1, EventType.SECSCommand, DateTime.Now, nameof(SECSGEM.DeletePP), "", recipeName);
                                          EventHappened?.Invoke(eventval);
 
                                          return DeleteRecipe != null && DeleteRecipe.Invoke(recipeName);
@@ -324,7 +324,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                   return HCACKValule.CantPerform;
                                               }
 
-                                              var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOL_SecsGem.START_Command), "", index);
+                                              var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GOL_SecsGem.START_Command), "", index);
                                               EventHappened?.Invoke(eventval);
                                               PLC_All[index].AutoMode_Stop  = false;
                                               PLC_All[index].AutoMode_Start = true;
@@ -344,7 +344,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                  return HCACKValule.CantPerform;
                                              }
 
-                                             var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOL_SecsGem.STOP_Command), "", index);
+                                             var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GOL_SecsGem.STOP_Command), "", index);
                                              EventHappened?.Invoke(eventval);
                                              PLC_All[index].AutoMode_Start = false;
                                              PLC_All[index].AutoMode_Stop  = true;
@@ -364,7 +364,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                      return HCACKValule.CantPerform;
                                                  }
 
-                                                 var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOL_SecsGem.PPSELECT_Command), "", $"{index}-{name}");
+                                                 var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GOL_SecsGem.PPSELECT_Command), "", $"{index}-{name}");
                                                  EventHappened?.Invoke(eventval);
 
                                                  if (GetRecipe?.Invoke(name) is not { } recipe)
@@ -393,7 +393,7 @@ public sealed class TotalView_ViewModel : ObservableObject
 
                                                PLC_All[index].AddLOT(lotID, partID, layer, quantity);
                                                var unit     = quantity > 1 ? "pcs" : "pc";
-                                               var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOL_SecsGem.ADDLOT_Command), "", $"{index}-{lotID}-{partID}-{layer}-{quantity}{unit}");
+                                               var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GOL_SecsGem.ADDLOT_Command), "", $"{index}-{lotID}-{partID}-{layer}-{quantity}{unit}");
                                                EventHappened?.Invoke(eventval);
 
                                                SecsGemEquipment.InvokeEvent($"Oven{index + 1}_LotAdded");
@@ -412,7 +412,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                    return HCACKValule.CantPerform;
                                                }
 
-                                               var eventval = (index, EventType.SECSCommnd, DateTime.Now, nameof(GOL_SecsGem.CANCEL_Command), "", index);
+                                               var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GOL_SecsGem.CANCEL_Command), "", index);
                                                EventHappened?.Invoke(eventval);
 
                                                PLC_All[index].ClearInput();

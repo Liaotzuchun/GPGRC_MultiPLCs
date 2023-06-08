@@ -160,7 +160,7 @@
     <sys:String x:Key="Operator">操作</sys:String>
     <sys:String x:Key="Alarm">警报</sys:String>
     <sys:String x:Key="Alert">警戒</sys:String>
-    <sys:String x:Key="SECSCommnd">SECS指令</sys:String>
+    <sys:String x:Key="SECSCommand">SECS指令</sys:String>
     <sys:String x:Key="RecipeChanged">配方变更</sys:String>
     <sys:String x:Key="歷時">历时</sys:String>
     <sys:String x:Key="詳情">详情</sys:String>

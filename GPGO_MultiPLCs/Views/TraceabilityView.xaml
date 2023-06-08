@@ -1373,11 +1373,11 @@
                                             <Setter TargetName="Border" Property="Background" Value="Red" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
-                                                     Value="SECSCommnd">
+                                                     Value="SECSCommand">
                                             <Setter TargetName="Border" Property="Background" Value="Magenta" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
-                                                     Value="SECSCommnd">
+                                                     Value="SECSCommand">
                                             <Setter TargetName="Border" Property="Background" Value="Gold" />
                                         </DataTrigger>
                                     </DataTemplate.Triggers>

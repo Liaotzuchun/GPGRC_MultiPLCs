@@ -128,7 +128,7 @@ public enum EventType
     Operator,      //OP操作事件
     Alert,         //警告
     Alarm,         //警報事件
-    SECSCommnd,
+    SECSCommand,
     RecipeChanged
 }
 
