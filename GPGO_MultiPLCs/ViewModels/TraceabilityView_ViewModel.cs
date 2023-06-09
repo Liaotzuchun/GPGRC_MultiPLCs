@@ -955,7 +955,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
 
                                                              xlwb.Dispose();
                                                          });
-                                        });
+                                        }, TaskCreationOptions.LongRunning);
         }
 
         Standby = true;
@@ -1051,7 +1051,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                             {
                                                 Log.Error(ex, "CSV儲存失敗");
                                             }
-                                        });
+                                        }, TaskCreationOptions.LongRunning);
         }
 
         Standby = true;

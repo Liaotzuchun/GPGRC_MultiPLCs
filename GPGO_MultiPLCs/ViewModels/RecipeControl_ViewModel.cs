@@ -32,7 +32,7 @@ public class RecipeControl_ViewModel : RecipeModel<PLC_Recipe>
 
                                              if (SavetoJson(path))
                                              {
-                                                 dialog?.Show(new Dictionary<Language, string>
+                                                 dialog.Show(new Dictionary<Language, string>
                                                               {
                                                                   { Language.TW, $"檔案已輸出至\n{path}" },
                                                                   { Language.CHS, $"档案已输出至\n{path}" },
@@ -108,7 +108,7 @@ public class RecipeControl_ViewModel : RecipeModel<PLC_Recipe>
                                              await RefreshList(false);
                                              Standby = true;
 
-                                             dialog?.Show(new Dictionary<Language, string>
+                                             dialog.Show(new Dictionary<Language, string>
                                                           {
                                                               { Language.TW, $"{adds}個配方已新增\n{updates}個配方已更新" },
                                                               { Language.CHS, $"{adds}个配方已新增\n{updates}个配方已更新" },
@@ -118,7 +118,7 @@ public class RecipeControl_ViewModel : RecipeModel<PLC_Recipe>
                                          });
     }
 
-    public async Task<bool> Upsert(PLC_Recipe recipe)
+    public async Task<bool> Upsert(PLC_Recipe? recipe)
     {
         Standby = false;
 
