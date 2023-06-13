@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Interop;
 using GPGO_MultiPLCs.Helpers;
 using Linearstar.Windows.RawInput;
+using Serilog;
 
 namespace GPGO_MultiPLCs.Views;
 
@@ -46,22 +47,29 @@ public partial class MainWindow
 //#if DEBUG
 //            Extensions.IsReaderInput = true;
 //#else
-            var data = RawInputData.FromHandle(lparam);
+            try
+            {
+                var data = RawInputData.FromHandle(lparam);
 
-            if (Extensions.IsGodMode)
-            {
-                Extensions.IsReaderInput = true;
+                if (Extensions.IsGodMode)
+                {
+                    Extensions.IsReaderInput = true;
+                }
+                else if (data.Device == null || string.IsNullOrEmpty(data.Device.ProductName))
+                {
+                    Extensions.IsReaderInput = false;
+                }
+                else
+                {
+                    var device = data.Device.ProductName?.ToLower();
+                    Debug.WriteLine(device);
+                    Extensions.IsReaderInput = device != null && !device.Contains("keyboard");
+                    Debug.WriteLine(Extensions.IsReaderInput);
+                }
             }
-            else if (data.Device == null || string.IsNullOrEmpty(data.Device.ProductName))
+            catch (Exception ex)
             {
-                Extensions.IsReaderInput = false;
-            }
-            else
-            {
-                var device = data.Device.ProductName.ToLower();
-                Debug.WriteLine(device);
-                Extensions.IsReaderInput = !device.Contains("keyboard");
-                Debug.WriteLine(Extensions.IsReaderInput);
+                Log.Error(ex, "");
             }
 //#endif
         }
