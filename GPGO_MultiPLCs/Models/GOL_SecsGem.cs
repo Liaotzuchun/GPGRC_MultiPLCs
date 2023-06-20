@@ -52,12 +52,16 @@ public class GOL_SecsGem : SecsGemEquipment
                              }
                              if (r.CommandName == "PP_SELECT")
                              {
-                                 return new RemoteCommandResponse(r.RemoteCommandParameters.TryGetValue("OvenIndex", out var o1) &&
-                                                                  o1 is uint index                                               &&
-                                                                  r.RemoteCommandParameters.TryGetValue("PPID", out var o2)      &&
-                                                                  o2 is string ppid ?
-                                                                      PPSELECT_Command?.Invoke((int)index, ppid) ?? HCACKValule.ParameterInvalid :
-                                                                      HCACKValule.CantPerform);
+                                 if (r.RemoteCommandParameters.TryGetValue("OvenIndex", out var o1) &&
+                                     o1 is uint index                                               &&
+                                     r.RemoteCommandParameters.TryGetValue("PPID", out var o2)      &&
+                                     o2 is string ppid)
+                                 {
+                                     var result = PPSELECT_Command?.Invoke((int)index, ppid);
+                                     return new RemoteCommandResponse(result ?? HCACKValule.ParameterInvalid);
+                                 }
+
+                                 return new RemoteCommandResponse(HCACKValule.CantPerform);
                              }
                              if (r.CommandName == "START")
                              {

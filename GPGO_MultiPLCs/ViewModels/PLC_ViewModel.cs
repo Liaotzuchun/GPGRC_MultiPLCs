@@ -839,7 +839,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             return SetRecipeResult.無需變更;
         }
 
-        var errs = await ManualSetByPropertiesWithCheck(recipe.ToDictionary());
+        var errs = await ManualSetByPropertiesWithCheck(recipe.ToDictionary()).ConfigureAwait(false);
 
         InvokeSECSEvent?.Invoke("RecipeChanged");
 
