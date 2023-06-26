@@ -77,7 +77,7 @@ public partial class App
                                   StartInfo = new ProcessStartInfo
                                               {
                                                   FileName    = path,
-                                                  Arguments   = "--config \"C:\\Program Files\\MongoDB\\Server\\4.4\\bin\\mongod.cfg\"",
+                                                  Arguments   = "--config \"C:\\Program Files\\MongoDB\\Server\\6.0\\bin\\mongod.cfg\"",
                                                   WindowStyle = ProcessWindowStyle.Hidden
                                               }
                               };
