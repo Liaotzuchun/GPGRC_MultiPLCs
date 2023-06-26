@@ -69,15 +69,16 @@ public partial class App
         if (Process.GetProcessesByName("mongod").Length == 0)
         {
             var path = GetServiceInstallPath("MongoDB");
-
             if (!string.IsNullOrEmpty(path) && File.Exists(path))
             {
+                var cfgpath = @$"{Path.GetDirectoryName(path)}\mongod.cfg";
+                var arg     = $"--config \"{cfgpath}\"";
                 var process = new Process
                               {
                                   StartInfo = new ProcessStartInfo
                                               {
                                                   FileName    = path,
-                                                  Arguments   = "--config \"C:\\Program Files\\MongoDB\\Server\\6.0\\bin\\mongod.cfg\"",
+                                                  Arguments   = arg,
                                                   WindowStyle = ProcessWindowStyle.Hidden
                                               }
                               };
