@@ -432,8 +432,10 @@ public class ProcessChartModel
                                        EventType.StatusChanged => OxyColors.DodgerBlue,
                                        EventType.Trigger       => OxyColors.Blue,
                                        EventType.Operator      => OxyColors.DarkOrange,
-                                       EventType.Alert         => OxyColors.Magenta,
+                                       EventType.Alert         => OxyColors.OrangeRed,
                                        EventType.Alarm         => OxyColors.Red,
+                                       EventType.SECSCommand   => OxyColors.Magenta,
+                                       EventType.RecipeChanged => OxyColors.Gold,
                                        _                       => OxyColors.Gray
                                    };
 
