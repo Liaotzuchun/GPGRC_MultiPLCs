@@ -1053,7 +1053,7 @@ public class GOL_DataModel : PLCDataProvider
     }
 
     /// <summary>溫控器電流異常</summary>
-    [PLCBit(BitType.M, 707, LogType.Alert)]
+    [PLCBit(BitType.M, 717, LogType.Alert)]
     public bool ThermostatCurrentError
     {
         get => Get<bool>();
@@ -1204,7 +1204,6 @@ public class GOL_DataModel : PLCDataProvider
     }
 
     /// <summary>門未關定位異常</summary>
-    [PLCBit(BitType.M, 721, LogType.Alert)]
     public bool DoorNotClosedPositionException
     {
         get => Get<bool>();
