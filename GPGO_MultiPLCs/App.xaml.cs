@@ -28,7 +28,8 @@ public partial class App
                          }
                      });
 
-        Log.Logger = new LoggerConfiguration().WriteTo.File("C:\\GP\\Logs\\log.txt",
+        Log.Logger = new LoggerConfiguration().MinimumLevel.Debug()
+                                              .WriteTo.File("C:\\GP\\Logs\\log.txt",
                                                             rollingInterval: RollingInterval.Day,
                                                             shared: true,
                                                             encoding: Encoding.UTF8,
