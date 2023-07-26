@@ -20,6 +20,7 @@ using GPMVVM.PooledCollections;
 using MongoDB.Driver;
 using Serilog;
 using Extensions = GPGO_MultiPLCs.Helpers.Extensions;
+using SCC_Reference;
 #pragma warning disable VSTHRD101
 
 namespace GPGO_MultiPLCs;
@@ -500,6 +501,10 @@ public sealed class Mediator : ObservableObject
         //              TimeSpan.FromMinutes(5));
         //#endregion
         GPServiceHostFunc();
+        MacIntfWSClient macIntfWS = new MacIntfWSClient();
+        macIntfWS.Open();
+
+
     }
     public void GPServiceHostFunc() 
     {
