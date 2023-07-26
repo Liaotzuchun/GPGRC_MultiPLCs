@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.ServiceModel.Description;
+using System.ServiceModel;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,6 +29,13 @@ public sealed class Mediator : ObservableObject
     private readonly AsyncLock     lockobj    = new();
     private readonly DataoutputCSV CsvCreator = new();
 
+    private ServiceHost _webServiceHost;
+
+    public ServiceHost webServiceHost
+    {
+        get { return _webServiceHost; }
+        set { _webServiceHost = value; }
+    }
     public Language Language
     {
         get => Get<Language>();
@@ -490,8 +499,19 @@ public sealed class Mediator : ObservableObject
         //                                    }),
         //              TimeSpan.FromMinutes(5));
         //#endregion
+        GPServiceHostFunc();
     }
-
+    public void GPServiceHostFunc() 
+    {
+        webServiceHost = new ServiceHost(typeof(GPServiceHost), new Uri("http://127.0.0.1:5000/GP"));
+        var smb = new ServiceMetadataBehavior
+        {
+            HttpGetEnabled   = true,
+            MetadataExporter = { PolicyVersion = PolicyVersion.Policy15 }
+        };
+        webServiceHost.Description.Behaviors.Add(smb);
+        webServiceHost.Open();
+    }
     /// <summary>產生測試資料至資料庫</summary>
     /// <param name="PLC_Count"></param>
     public void MakeTestData(int PLC_Count)
