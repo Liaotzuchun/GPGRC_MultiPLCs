@@ -1,9 +1,0 @@
-Name,ID,Type,Length,Unit,Definition,
-_GEM_PP_CHANGE_NAME_,9,ASCII,256,,GemPPChangeName,(Set by AP)
-_GEM_PP_CHANGE_STATUS_,10,UINT_1,,,GemPPChangeStatus,"1:Create, 2:Changed, 3:Deleted (Set by AP)"
-_FORMATTED_PP_CHANGE_CONTENT_,16,LIST,,,Formatted PPChange Content,The content of SVID:9(_GEM_PP_CHANGE_NAME_)
-_EVENT_NAME,17,ASCII,100,,Last event name,
-_GEM_ALARM_ID_,38,UINT_4,,,GemAlarmID,
-_GEM_ECID_CHANGED_,46,UINT_4,,,GemECIDChanged,
-_GEM_EC_VALUE_CHANGED_,47,ASCII,100,,ECValueChanged,
-_GEM_PREVIOUS_EC_VALUE_,48,ASCII,100,,PreviousECValue,

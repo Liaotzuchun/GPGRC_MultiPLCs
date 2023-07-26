@@ -276,7 +276,8 @@ public sealed class Mediator : ObservableObject
                                          {
                                              TotalVM.SetRecipeNames(list.Select(x => x.RecipeName).ToList());
 
-                                             var path = $"{TotalVM.SecsGemEquipment.BasePath}\\ProcessJob";
+                                             //var path = $"{TotalVM.SecsGemEquipment.BasePath}\\ProcessJob";
+                                             var path = $"\\ProcessJob";
 
                                              if (!Directory.Exists(path))
                                              {
@@ -290,43 +291,43 @@ public sealed class Mediator : ObservableObject
                                                  }
                                              }
 
-                                             if (TotalVM.SecsGemEquipment.CCodeDocument?.CCodeItems.TryGetValue("1", out var ccode) == true)
-                                             {
-                                                 foreach (var recipe in list)
-                                                 {
-                                                     var _recipe = recipe.ToDictionary();
-                                                     var fpath   = $"{path}\\{recipe.RecipeName}.pjb";
-                                                     var ini     = new IniParser(fpath);
+                                             //if (TotalVM.SecsGemEquipment.CCodeDocument?.CCodeItems.TryGetValue("1", out var ccode) == true)
+                                             //{
+                                             //    foreach (var recipe in list)
+                                             //    {
+                                             //        var _recipe = recipe.ToDictionary();
+                                             //        var fpath   = $"{path}\\{recipe.RecipeName}.pjb";
+                                             //        var ini     = new IniParser(fpath);
 
-                                                     foreach (var param in ccode.ParameterItems)
-                                                     {
-                                                         if (_recipe.TryGetValue(param.PParameterName, out var val))
-                                                         {
-                                                             if (val is double d)
-                                                             {
-                                                                 ini[ccode.CCodeName][param.PParameterName] = d.ToString("0.0").ToUpper();
-                                                             }
-                                                             else if (val is float f)
-                                                             {
-                                                                 ini[ccode.CCodeName][param.PParameterName] = f.ToString("0.0").ToUpper();
-                                                             }
-                                                             else
-                                                             {
-                                                                 ini[ccode.CCodeName][param.PParameterName] = val.ToString().ToUpper();
-                                                             }
-                                                         }
-                                                     }
+                                             //        foreach (var param in ccode.ParameterItems)
+                                             //        {
+                                             //            if (_recipe.TryGetValue(param.PParameterName, out var val))
+                                             //            {
+                                             //                if (val is double d)
+                                             //                {
+                                             //                    ini[ccode.CCodeName][param.PParameterName] = d.ToString("0.0").ToUpper();
+                                             //                }
+                                             //                else if (val is float f)
+                                             //                {
+                                             //                    ini[ccode.CCodeName][param.PParameterName] = f.ToString("0.0").ToUpper();
+                                             //                }
+                                             //                else
+                                             //                {
+                                             //                    ini[ccode.CCodeName][param.PParameterName] = val.ToString().ToUpper();
+                                             //                }
+                                             //            }
+                                             //        }
 
-                                                     try
-                                                     {
-                                                         await ini.SaveAsync();
-                                                     }
-                                                     catch (Exception ex)
-                                                     {
-                                                         Log.Error(ex, "pjb寫入失敗");
-                                                     }
-                                                 }
-                                             }
+                                             //        try
+                                             //        {
+                                             //            await ini.SaveAsync();
+                                             //        }
+                                             //        catch (Exception ex)
+                                             //        {
+                                             //            Log.Error(ex, "pjb寫入失敗");
+                                             //        }
+                                             //    }
+                                             //}
 
                                              //! 輸出欣興Recipe CSV
                                              await CsvCreator.ExportRecipe(list, AuthenticatorVM.Settings.DataOutputPath);
@@ -362,7 +363,7 @@ public sealed class Mediator : ObservableObject
                                          {
                                              foreach (var add in added)
                                              {
-                                                 TotalVM.InvokeRecipe(add.RecipeName, PPStatus.Create);
+                                           //      TotalVM.InvokeRecipe(add.RecipeName, PPStatus.Create);
                                              }
                                          }
 
@@ -370,7 +371,7 @@ public sealed class Mediator : ObservableObject
                                          {
                                              foreach (var remove in removed)
                                              {
-                                                 TotalVM.InvokeRecipe(remove.RecipeName, PPStatus.Delete);
+                                             //    TotalVM.InvokeRecipe(remove.RecipeName, PPStatus.Delete);
                                              }
                                          }
 
@@ -378,7 +379,7 @@ public sealed class Mediator : ObservableObject
                                          {
                                              foreach (var update in updated)
                                              {
-                                                 TotalVM.InvokeRecipe(update.RecipeName, PPStatus.Change);
+                                             //    TotalVM.InvokeRecipe(update.RecipeName, PPStatus.Change);
                                              }
                                          }
                                      };

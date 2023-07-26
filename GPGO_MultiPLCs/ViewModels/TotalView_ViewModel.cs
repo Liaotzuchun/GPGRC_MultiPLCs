@@ -9,12 +9,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using GPGO_MultiPLCs.Models;
-using GPMVVM.Core.Models.SECS;
+//using GPMVVM.Core.Models.SECS;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
 using GPMVVM.Models.SECS;
 using GPMVVM.PooledCollections;
-using GPMVVM.SECSGEM;
 using Newtonsoft.Json;
 using PLCService;
 #pragma warning disable VSTHRD101
@@ -44,9 +43,6 @@ public sealed class TotalView_ViewModel : ObservableObject
     private readonly int             threadid;
 
     public Language Language = Language.TW;
-
-    public GOL_SecsGem                         SecsGemEquipment { get; }
-    public HSMSParameters                      HSMSParameters   { get; }
     public IGate                               Gate             { get; }
     public ObservableConcurrentQueue<LogEvent> QueueMessages    { get; } = new();
 
@@ -107,25 +103,7 @@ public sealed class TotalView_ViewModel : ObservableObject
     public bool SECS_ENABLE
     {
         get => Get<bool>();
-        set
-        {
-            if (!SecsGemEquipment.Enable(value))
-            {
-                Dialog?.Show(value ?
-                                 new Dictionary<Language, string>
-                                 {
-                                     { Language.TW, "無法啟用連線" },
-                                     { Language.CHS, "无法启用联机" },
-                                     { Language.EN, "Unable to enable connection" }
-                                 } :
-                                 new Dictionary<Language, string>
-                                 {
-                                     { Language.TW, "無法中止連線" },
-                                     { Language.CHS, "无法中止联机" },
-                                     { Language.EN, "Unable to disable connection" }
-                                 });
-            }
-        }
+        set => Set(value);
     }
 
     public bool SECS_Communicating
@@ -134,33 +112,7 @@ public sealed class TotalView_ViewModel : ObservableObject
         set => Set(value);
     }
 
-    public bool SECS_ONLINE
-    {
-        get => Get<bool>();
-        set
-        {
-            if (!SECS_ENABLE)
-            {
-                return;
-            }
 
-            SecsGemEquipment.Online(value);
-        }
-    }
-
-    public bool SECS_REMOTE
-    {
-        get => Get<bool>();
-        set
-        {
-            if (!SECS_ENABLE || !SECS_ONLINE)
-            {
-                return;
-            }
-
-            SecsGemEquipment.Remote(value);
-        }
-    }
 
     public TotalView_ViewModel(int count, IGate gate, IPAddress plcaddress, IDialogService dialog)
     {
@@ -172,9 +124,6 @@ public sealed class TotalView_ViewModel : ObservableObject
         PLCIndex       = 0;
         var v = Assembly.GetExecutingAssembly().GetName().Version;
         threadid                                         =  Thread.CurrentThread.ManagedThreadId;
-        SecsGemEquipment                                 =  new GOL_SecsGem("0", "GPGO", $"{v.Major}.{v.Minor}.{v.Build}");
-        SecsGemEquipment.HSMSParameters!.PropertyChanged += (_, _) => SecsGemEquipment.SaveHSMSParameters();
-
         BackCommand = new RelayCommand(index => Index = index != null && int.TryParse(index.ToString(), out var i) ? i : 0);
 
         GoDetailCommand = new RelayCommand(_ => Index = 1);
@@ -208,7 +157,7 @@ public sealed class TotalView_ViewModel : ObservableObject
 
                                                           if (result1 && input1 is string msg)
                                                           {
-                                                              SecsGemEquipment.SendTerminalMessage(msg);
+                                                              //SecsGemEquipment.SendTerminalMessage(msg);
                                                           }
                                                       },
                                                       null);
@@ -220,9 +169,9 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                                           var tid = Thread.CurrentThread.ManagedThreadId;
                                                                           if (threadid == tid)
                                                                           {
-                                                                              SecsGemEquipment.ReStartSecsgem();
-                                                                              SecsGemEquipment.Enable(true);
-                                                                              SecsGemEquipment.Online(true);
+                                                                              //SecsGemEquipment.ReStartSecsgem();
+                                                                              //SecsGemEquipment.Enable(true);
+                                                                              //SecsGemEquipment.Online(true);
                                                                           }
                                                                       },
                                                                       null);
@@ -230,268 +179,17 @@ public sealed class TotalView_ViewModel : ObservableObject
 
         PropertyChanged += (_, e) =>
                            {
-                               if (e.PropertyName is nameof(SECS_ENABLE) or nameof(SECS_Communicating) or nameof(SECS_ONLINE) or nameof(SECS_REMOTE))
-                               {
-                                   var val  = SECS_ENABLE && SECS_Communicating && SECS_ONLINE;
-                                   var val2 = val         && SECS_REMOTE;
-                                   foreach (var plc in PLC_All)
-                                   {
-                                       plc.SecsIsOnline       = val;
-                                       plc.SecsIsRemoteOnline = val2;
-                                   }
-                               }
+                               //if (e.PropertyName is nameof(SECS_ENABLE) or nameof(SECS_Communicating) or nameof(SECS_ONLINE) or nameof(SECS_REMOTE))
+                               //{
+                               //    //var val  = SECS_ENABLE && SECS_Communicating && SECS_ONLINE;
+                               //    //var val2 = val         && SECS_REMOTE;
+                               //    foreach (var plc in PLC_All)
+                               //    {
+                               //        plc.SecsIsOnline       = val;
+                               //        plc.SecsIsRemoteOnline = val2;
+                               //    }
+                               //}
                            };
-
-        SecsGemEquipment.TerminalMessageRecived += async message =>
-                                                   {
-                                                       if (Dialog == null)
-                                                       {
-                                                           return;
-                                                       }
-
-                                                       var eventval = (-1, EventType.SECSCommand, DateTime.Now, nameof(SECSGEM.TerminalMessageRecived), "", message);
-                                                       EventHappened?.Invoke(eventval);
-
-                                                       if (await dialog.Show(new Dictionary<Language, string>
-                                                                             {
-                                                                                 { Language.TW, $"{DateTime.Now:M/d HH:mm:ss} 終端訊息：\n{message}" },
-                                                                                 { Language.CHS, $"{DateTime.Now:M/d HH:mm:ss} 终端讯息：\n{message}" },
-                                                                                 { Language.EN, $"{DateTime.Now:M/d HH:mm:ss} TerminalMessage：\n{message}" }
-                                                                             },
-                                                                             false,
-                                                                             TimeSpan.FromDays(1),
-                                                                             DialogMsgType.Alert))
-                                                       {
-                                                           SecsGemEquipment.TerminalMessageConfirm();
-
-                                                           var (result1, input1) = await dialog.ShowWithInput(new Dictionary<Language, string>
-                                                                                                              {
-                                                                                                                  { Language.TW, "欲回覆之訊息：" },
-                                                                                                                  { Language.CHS, "欲回复之讯息：" },
-                                                                                                                  { Language.EN, "Please enter the message you want to reply：" }
-                                                                                                              },
-                                                                                                              new Dictionary<Language, string>
-                                                                                                              {
-                                                                                                                  { Language.TW, "終端訊息" },
-                                                                                                                  { Language.CHS, "终端讯息" },
-                                                                                                                  { Language.EN, "Terminal Message" }
-                                                                                                              },
-                                                                                                              true);
-
-                                                           if (result1 && input1 is string msg)
-                                                           {
-                                                               SecsGemEquipment.SendTerminalMessage(msg);
-                                                           }
-                                                       }
-                                                   };
-
-        SecsGemEquipment.ECChange += _ =>
-                                     {
-                                     };
-
-        SecsGemEquipment.UpsertFormattedPP += e =>
-                                              {
-                                                  var (ppid, _, recipedic) = e;
-                                                  var recipe   = new PLC_Recipe(ppid, "SECSGEM-HOST", UserLevel.Manager);
-                                                  var eventval = (-1, EventType.SECSCommand, DateTime.Now, nameof(SECSGEM.UpsertFormattedPP), "", recipe.RecipeName);
-                                                  EventHappened?.Invoke(eventval);
-
-                                                  return recipe.SetByDictionary(recipedic) && UpsertRecipe != null && UpsertRecipe.Invoke(recipe);
-                                              };
-
-        SecsGemEquipment.DeletePP += recipeName =>
-                                     {
-                                         var eventval = (-1, EventType.SECSCommand, DateTime.Now, nameof(SECSGEM.DeletePP), "", recipeName);
-                                         EventHappened?.Invoke(eventval);
-
-                                         return DeleteRecipe != null && DeleteRecipe.Invoke(recipeName);
-                                     };
-
-        SecsGemEquipment.START_Command += index =>
-                                          {
-                                              if (index >= PLC_All.Count)
-                                              {
-                                                  return HCACKValule.ParameterInvalid;
-                                              }
-
-                                              if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue || !PLC_All[index].AutoMode || PLC_All[index].IsExecuting)
-                                              {
-                                                  return HCACKValule.CantPerform;
-                                              }
-
-                                              if (!PLC_All[index].RecipeCompareSV()) //! 執行前檢查執行配方是否與設定配方相同
-                                              {
-                                                  return HCACKValule.CantPerform;
-                                              }
-
-                                              var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GOL_SecsGem.START_Command), "", index);
-                                              EventHappened?.Invoke(eventval);
-                                              PLC_All[index].AutoMode_Stop  = false;
-                                              PLC_All[index].AutoMode_Start = true;
-
-                                              return HCACKValule.Acknowledge;
-                                          };
-
-        SecsGemEquipment.STOP_Command += index =>
-                                         {
-                                             if (index >= PLC_All.Count)
-                                             {
-                                                 return HCACKValule.ParameterInvalid;
-                                             }
-
-                                             if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue || !PLC_All[index].ProcessComplete)
-                                             {
-                                                 return HCACKValule.CantPerform;
-                                             }
-
-                                             var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GOL_SecsGem.STOP_Command), "", index);
-                                             EventHappened?.Invoke(eventval);
-                                             PLC_All[index].AutoMode_Start = false;
-                                             PLC_All[index].AutoMode_Stop  = true;
-
-                                             return HCACKValule.Acknowledge;
-                                         };
-
-        SecsGemEquipment.PPSELECT_Command += (index, name) =>
-                                             {
-                                                 if (index >= PLC_All.Count)
-                                                 {
-                                                     return HCACKValule.ParameterInvalid;
-                                                 }
-
-                                                 if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue)
-                                                 {
-                                                     return HCACKValule.CantPerform;
-                                                 }
-
-                                                 var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GOL_SecsGem.PPSELECT_Command), "", $"{index}-{name}");
-                                                 EventHappened?.Invoke(eventval);
-
-                                                 if (GetRecipe?.Invoke(name) is not { } recipe)
-                                                 {
-                                                     return HCACKValule.NoObjectExists;
-                                                 }
-
-                                                 var result = PLC_All[index].SetRecipeAsync(recipe).Result;
-
-                                                 return result == SetRecipeResult.成功 ? HCACKValule.Acknowledge : HCACKValule.CantPerform;
-                                             };
-
-        SecsGemEquipment.ADDLOT_Command += (index, lot) =>
-                                           {
-                                               if (index >= PLC_All.Count || lot is { layer: <= 0 or > 8 } or { quantity: <= 0 })
-                                               {
-                                                   return HCACKValule.ParameterInvalid;
-                                               }
-
-                                               if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue || PLC_All[index].IsExecuting)
-                                               {
-                                                   return HCACKValule.CantPerform;
-                                               }
-
-                                               var (lotID, partID, layer, quantity) = lot;
-
-                                               PLC_All[index].AddLOT(lotID, partID, layer, quantity);
-                                               var unit     = quantity > 1 ? "pcs" : "pc";
-                                               var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GOL_SecsGem.ADDLOT_Command), "", $"{index}-{lotID}-{partID}-{layer}-{quantity}{unit}");
-                                               EventHappened?.Invoke(eventval);
-
-                                               SecsGemEquipment.InvokeEvent($"Oven{index + 1}_LotAdded");
-                                               return HCACKValule.Acknowledge;
-                                           };
-
-        SecsGemEquipment.CANCEL_Command += index =>
-                                           {
-                                               if (index >= PLC_All.Count)
-                                               {
-                                                   return HCACKValule.ParameterInvalid;
-                                               }
-
-                                               if (PLC_All[index].IsExecuting)
-                                               {
-                                                   return HCACKValule.CantPerform;
-                                               }
-
-                                               var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GOL_SecsGem.CANCEL_Command), "", index);
-                                               EventHappened?.Invoke(eventval);
-
-                                               PLC_All[index].ClearInput();
-                                               SecsGemEquipment.InvokeEvent($"Oven{index + 1}_LotRemoved");
-                                               SecsGemEquipment.InvokeEvent($"Oven{index + 1}_CancelCheckIn");
-                                               return HCACKValule.Acknowledge;
-                                           };
-
-        SecsGemEquipment.CommEnable_Changed += boolval =>
-                                               {
-                                                   if (SECS_ENABLE == boolval)
-                                                   {
-                                                       return; //! 確定值變
-                                                   }
-                                                   Set(boolval, nameof(SECS_ENABLE)); //! 避免直接設定值觸發動作（直接設定值是給OP操作界面用的）
-
-                                                   var eventval = (-1, EventType.StatusChanged, DateTime.Now, nameof(SECS_ENABLE), "", boolval);
-                                                   EventHappened?.Invoke(eventval);
-                                               };
-
-        SecsGemEquipment.Communicating_Changed += boolval =>
-                                                  {
-                                                      if (SECS_Communicating == boolval)
-                                                      {
-                                                          return; //! 確定值變
-                                                      }
-                                                      Set(boolval, nameof(SECS_Communicating)); //! 避免直接設定值觸發動作（直接設定值是給OP操作界面用的）
-
-                                                      var eventval = (-1, EventType.StatusChanged, DateTime.Now, nameof(SECS_Communicating), "", boolval);
-                                                      EventHappened?.Invoke(eventval);
-                                                  };
-
-        SecsGemEquipment.ONLINE_Changed += online =>
-                                           {
-                                               if (SECS_ONLINE == online)
-                                               {
-                                                   return; //! 確定值變
-                                               }
-                                               Set(online, nameof(SECS_ONLINE)); //! 避免直接設定值觸發動作（直接設定值是給OP操作界面用的）
-
-                                               var eventval = (-1, EventType.StatusChanged, DateTime.Now, nameof(SECS_ONLINE), "", online);
-                                               EventHappened?.Invoke(eventval);
-                                           };
-
-        SecsGemEquipment.GO_Local += () =>
-                                     {
-                                         if (!SECS_REMOTE)
-                                         {
-                                             return; //! 確定值變
-                                         }
-                                         Set(false, nameof(SECS_REMOTE)); //! 避免直接設定值觸發動作（直接設定值是給OP操作界面用的）
-                                         //foreach (var plc in PLC_All)
-                                         //{
-                                         //    plc.RemoteMode = false;
-                                         //}
-
-                                         var eventval = (-1, EventType.StatusChanged, DateTime.Now, "SECS_LOCAL", "", true);
-                                         EventHappened?.Invoke(eventval);
-                                     };
-
-        SecsGemEquipment.GO_Remote += () =>
-                                      {
-                                          if (SECS_REMOTE)
-                                          {
-                                              return; //! 確定值變
-                                          }
-                                          Set(true, nameof(SECS_REMOTE)); //! 避免直接設定值觸發動作（直接設定值是給OP操作界面用的）
-                                          foreach (var plc in PLC_All)
-                                          {
-                                              plc.RemoteMode = true;
-                                          }
-
-                                          var eventval = (-1, EventType.StatusChanged, DateTime.Now, nameof(SECS_REMOTE), "", true);
-                                          EventHappened?.Invoke(eventval);
-                                      };
-
-        SecsGemEquipment.Enable(true);
-        SecsGemEquipment.Online(true);
-
         //var address = plcaddress.GetAddressBytes();
 
         //! 註冊PLC事件需引發的動作
@@ -532,30 +230,25 @@ public sealed class TotalView_ViewModel : ObservableObject
             plc.CheckIn += e =>
                            {
                                var (opid, rackid) = e;
-                               SecsGemEquipment.UpdateSV($"Oven{index    + 1}_OperatorID", opid);
-                               SecsGemEquipment.UpdateSV($"Oven{index    + 1}_RackID",     rackid);
-                               SecsGemEquipment.InvokeEvent($"Oven{index + 1}_RackInput");
                            };
 
             //! 取消投產
             plc.CancelCheckIn += _ =>
                                  {
-                                     SecsGemEquipment.UpdateSV($"Oven{index    + 1}_RackID", string.Empty);
-                                     SecsGemEquipment.InvokeEvent($"Oven{index + 1}_CancelCheckIn");
                                  };
 
-            plc.CheckOut += _ => SecsGemEquipment.InvokeEvent($"Oven{index + 1}_RackOutput");
+            plc.CheckOut += _ =>
+            {
+
+            };
 
             plc.LotAdded += lotid =>
                             {
-                                SecsGemEquipment.UpdateSV($"Oven{index    + 1}_LotIDs", lotid);
-                                SecsGemEquipment.InvokeEvent($"Oven{index + 1}_LotAdded");
+                               
                             };
 
             plc.LotRemoved += lotid =>
                               {
-                                  SecsGemEquipment.UpdateSV($"Oven{index    + 1}_LotIDs", lotid);
-                                  SecsGemEquipment.InvokeEvent($"Oven{index + 1}_LotRemoved");
                               };
 
             //! PLC讀取配方內容時
@@ -575,7 +268,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                          //! 更新ProcessData以供上報
                                          try
                                          {
-                                             SecsGemEquipment.UpdateDV($"Oven{index + 1}_ProcessData", JsonConvert.SerializeObject(baseInfo));
+                                            // SecsGemEquipment.UpdateDV($"Oven{index + 1}_ProcessData", JsonConvert.SerializeObject(baseInfo));
                                          }
                                          catch
                                          {
@@ -633,26 +326,26 @@ public sealed class TotalView_ViewModel : ObservableObject
             //! PLC事件紀錄
             plc.EventHappened += e => EventHappened?.Invoke((index, e.type, e.time, e.note, e.tag, e.value));
 
-            plc.InvokeSECSEvent += EventName => SecsGemEquipment.InvokeEvent($"Oven{index + 1}_{EventName}");
+            //plc.InvokeSECSEvent += EventName => SecsGemEquipment.InvokeEvent($"Oven{index + 1}_{EventName}");
 
-            plc.InvokeSECSAlarm += (AlarmName, val) => SecsGemEquipment.InvokeAlarm($"Oven{index + 1}_{AlarmName}", val);
+            //plc.InvokeSECSAlarm += (AlarmName, val) => SecsGemEquipment.InvokeAlarm($"Oven{index + 1}_{AlarmName}", val);
 
             plc.SV_Changed += (name, value) =>
                               {
                                   if (name == nameof(PLC_ViewModel.EquipmentState))
                                   {
-                                      SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PROCESS_STATE, value);
+                                 //     SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PROCESS_STATE, value);
                                   }
                                   else if (name == $"Previous{nameof(PLC_ViewModel.EquipmentState)}")
                                   {
-                                      SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PREVIOUS_PROCESS_STATE, value);
+                                   //   SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PREVIOUS_PROCESS_STATE, value);
                                   }
                                   else if (name == nameof(PLC_ViewModel.SV_RecipeName))
                                   {
-                                      SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PP_EXEC_NAME, value);
+                                     // SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PP_EXEC_NAME, value);
                                   }
 
-                                  SecsGemEquipment.UpdateSV($"Oven{index + 1}_{name}", value);
+                                  //SecsGemEquipment.UpdateSV($"Oven{index + 1}_{name}", value);
                               };
 
             //plc.RecipeChangedbyPLC += recipe =>
@@ -806,12 +499,7 @@ public sealed class TotalView_ViewModel : ObservableObject
         }
     }
 
-    public void InvokeRecipe(string name, PPStatus status)
-    {
-        SecsGemEquipment.UpdateDV("GemPPChangeName",   name);
-        SecsGemEquipment.UpdateDV("GemPPChangeStatus", (int)status);
-        SecsGemEquipment.InvokeEvent("GemProcessProgramChange");
-    }
+ 
 
     public void InsertMessage(params LogEvent[] evs)
     {
