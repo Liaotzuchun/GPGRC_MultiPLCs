@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SCC_Reference
+namespace SCC_ServerSideRef
 {
     using System.Runtime.Serialization;
     
@@ -65,25 +65,67 @@ namespace SCC_Reference
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
-    [System.ServiceModel.ServiceContractAttribute(Namespace="http://scc.com.cn", ConfigurationName="SCC_Reference.IMacIntfWS")]
+    [System.ServiceModel.ServiceContractAttribute(Namespace="http://scc.com.cn", ConfigurationName="SCC_ServerSideRef.IMacIntfWS")]
     public interface IMacIntfWS
     {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://scc.com.cn/IMacIntfWS/macIntf", ReplyAction="http://scc.com.cn/IMacIntfWS/macIntfResponse")]
-        SCC_Reference.WebServiceResponse macIntf(string methodInvoke, string input);
+        SCC_ServerSideRef.macIntfResponse macIntf(SCC_ServerSideRef.macIntfRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://scc.com.cn/IMacIntfWS/macIntf", ReplyAction="http://scc.com.cn/IMacIntfWS/macIntfResponse")]
-        System.Threading.Tasks.Task<SCC_Reference.WebServiceResponse> macIntfAsync(string methodInvoke, string input);
+        System.Threading.Tasks.Task<SCC_ServerSideRef.macIntfResponse> macIntfAsync(SCC_ServerSideRef.macIntfRequest request);
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="macIntf", WrapperNamespace="http://scc.com.cn", IsWrapped=true)]
+    public partial class macIntfRequest
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://scc.com.cn", Order=0)]
+        public string methodInvoke;
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://scc.com.cn", Order=1)]
+        public string input;
+        
+        public macIntfRequest()
+        {
+        }
+        
+        public macIntfRequest(string methodInvoke, string input)
+        {
+            this.methodInvoke = methodInvoke;
+            this.input = input;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ServiceModel.MessageContractAttribute(WrapperName="macIntfResponse", WrapperNamespace="http://scc.com.cn", IsWrapped=true)]
+    public partial class macIntfResponse
+    {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://scc.com.cn", Order=0)]
+        public SCC_ServerSideRef.WebServiceResponse macIntfResult;
+        
+        public macIntfResponse()
+        {
+        }
+        
+        public macIntfResponse(SCC_ServerSideRef.WebServiceResponse macIntfResult)
+        {
+            this.macIntfResult = macIntfResult;
+        }
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
-    public interface IMacIntfWSChannel : SCC_Reference.IMacIntfWS, System.ServiceModel.IClientChannel
+    public interface IMacIntfWSChannel : SCC_ServerSideRef.IMacIntfWS, System.ServiceModel.IClientChannel
     {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
-    public partial class MacIntfWSClient : System.ServiceModel.ClientBase<SCC_Reference.IMacIntfWS>, SCC_Reference.IMacIntfWS
+    public partial class MacIntfWSClient : System.ServiceModel.ClientBase<SCC_ServerSideRef.IMacIntfWS>, SCC_ServerSideRef.IMacIntfWS
     {
         
         /// <summary>
@@ -126,14 +168,14 @@ namespace SCC_Reference
         {
         }
         
-        public SCC_Reference.WebServiceResponse macIntf(string methodInvoke, string input)
+        public SCC_ServerSideRef.macIntfResponse macIntf(SCC_ServerSideRef.macIntfRequest request)
         {
-            return base.Channel.macIntf(methodInvoke, input);
+            return base.Channel.macIntf(request);
         }
         
-        public System.Threading.Tasks.Task<SCC_Reference.WebServiceResponse> macIntfAsync(string methodInvoke, string input)
+        public System.Threading.Tasks.Task<SCC_ServerSideRef.macIntfResponse> macIntfAsync(SCC_ServerSideRef.macIntfRequest request)
         {
-            return base.Channel.macIntfAsync(methodInvoke, input);
+            return base.Channel.macIntfAsync(request);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()
@@ -164,7 +206,7 @@ namespace SCC_Reference
         {
             if ((endpointConfiguration == EndpointConfiguration.BasicHttpBinding_IMacIntfWS))
             {
-                return new System.ServiceModel.EndpointAddress("http://test.scc.com.cn/wsservice/macWS");
+                return new System.ServiceModel.EndpointAddress("http://127.0.0.1:9090/wsservice/macWS");
             }
             throw new System.InvalidOperationException(string.Format("找不到名為 \'{0}\' 的端點。", endpointConfiguration));
         }

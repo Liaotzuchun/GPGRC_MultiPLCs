@@ -15,5 +15,12 @@ public class GPServiceHost : IGPOvenServerService
         Debug.WriteLine($"method:{methodInvoke}\ninput:{input}");
         return new WebServiceResponse();
     }
+    public Task<WebServiceResponse> macIntfAsync(string methodInvoke, string input)
+    {
+        return Task.Factory.StartNew(_ =>
+        {
+            return new WebServiceResponse();
+        }, TaskCreationOptions.LongRunning);
+    }
 }
 

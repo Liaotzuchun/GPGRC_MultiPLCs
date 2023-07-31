@@ -20,7 +20,6 @@ using GPMVVM.PooledCollections;
 using MongoDB.Driver;
 using Serilog;
 using Extensions = GPGO_MultiPLCs.Helpers.Extensions;
-using SCC_Reference;
 #pragma warning disable VSTHRD101
 
 namespace GPGO_MultiPLCs;
@@ -501,6 +500,9 @@ public sealed class Mediator : ObservableObject
         //              TimeSpan.FromMinutes(5));
         //#endregion
         GPServiceHostFunc();
+        ////SCC_ServerSideRef.MacIntfWSClient nn = new SCC_ServerSideRef.MacIntfWSClient();
+        ////nn.Open();
+        ////nn.macIntf(new SCC_ServerSideRef.macIntfRequest() {  input = "dd", methodInvoke = "dsdfsd"});
         //MacIntfWSClient macIntfWS = new MacIntfWSClient();
         //macIntfWS.Open();
 
@@ -508,14 +510,21 @@ public sealed class Mediator : ObservableObject
     }
     public void GPServiceHostFunc() 
     {
-        webServiceHost = new ServiceHost(typeof(SCC_Service), new Uri("http://127.0.0.1:5000/GP"));
-        var smb = new ServiceMetadataBehavior
+        try
         {
-            HttpGetEnabled   = true,
-            MetadataExporter = { PolicyVersion = PolicyVersion.Policy15 }
-        };
-        webServiceHost.Description.Behaviors.Add(smb);
-        webServiceHost.Open();
+            webServiceHost = new ServiceHost(typeof(SCC_Service), new Uri("http://127.0.0.1:5000/GP"));
+            var smb = new ServiceMetadataBehavior
+            {
+                HttpGetEnabled   = true,
+                MetadataExporter = { PolicyVersion = PolicyVersion.Policy15 }
+            };
+            webServiceHost.Description.Behaviors.Add(smb);
+            webServiceHost.Open();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"{e.Message}");
+        }
     }
     /// <summary>產生測試資料至資料庫</summary>
     /// <param name="PLC_Count"></param>

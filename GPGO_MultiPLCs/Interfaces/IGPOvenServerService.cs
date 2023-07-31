@@ -12,4 +12,6 @@ public interface IGPOvenServerService
 {
     [OperationContract]
     WebServiceResponse macIntf(string methodInvoke, string input);
+    [OperationContract]
+    Task<WebServiceResponse> macIntfAsync(string methodInvoke, string input);
 }
