@@ -501,14 +501,14 @@ public sealed class Mediator : ObservableObject
         //              TimeSpan.FromMinutes(5));
         //#endregion
         GPServiceHostFunc();
-        MacIntfWSClient macIntfWS = new MacIntfWSClient();
-        macIntfWS.Open();
+        //MacIntfWSClient macIntfWS = new MacIntfWSClient();
+        //macIntfWS.Open();
 
 
     }
     public void GPServiceHostFunc() 
     {
-        webServiceHost = new ServiceHost(typeof(GPServiceHost), new Uri("http://127.0.0.1:5000/GP"));
+        webServiceHost = new ServiceHost(typeof(SCC_Service), new Uri("http://127.0.0.1:5000/GP"));
         var smb = new ServiceMetadataBehavior
         {
             HttpGetEnabled   = true,
