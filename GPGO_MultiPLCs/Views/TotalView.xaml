@@ -738,7 +738,8 @@
                             <ItemsPanelTemplate>
                                 <views:UniformGridWithOrientation Orientation="Vertical">
                                     <views:UniformGridWithOrientation.Rows>
-                                        <MultiBinding Converter="{StaticResource IfElse}" Mode="OneWay">
+                                        <MultiBinding Converter="{StaticResource IfElse}"
+                                                      Mode="OneWay">
                                             <MultiBinding.FallbackValue>
                                                 <system:Int32>1</system:Int32>
                                             </MultiBinding.FallbackValue>

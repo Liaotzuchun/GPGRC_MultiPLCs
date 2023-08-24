@@ -1,0 +1,18 @@
+{
+  "ExtendedData": {
+    "inputs": [
+      "http://test.scc.com.cn/wsservice/macWS"
+    ],
+    "collectionTypes": [
+      "System.Array",
+      "System.Collections.Generic.Dictionary`2"
+    ],
+    "messageContract": true,
+    "namespaceMappings": [
+      "*, SCC_Reference2"
+    ],
+    "sync": true,
+    "targetFramework": "net48",
+    "typeReuseMode": "None"
+  }
+}

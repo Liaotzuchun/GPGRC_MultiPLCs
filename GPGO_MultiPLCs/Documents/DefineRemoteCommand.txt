@@ -1,6 +1,0 @@
-// Define Formated Process Program
-// CCODE: [command code name], command Code(CCODE), process parameter number , Comment
-//  PParmName, Type, Min.Value, Max.Value, Comment
-
-
-
