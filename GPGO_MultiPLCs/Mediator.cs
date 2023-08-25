@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.ServiceModel.Description;
 using System.ServiceModel;
+using System.ServiceModel.Description;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,7 +12,6 @@ using System.Windows;
 using System.Windows.Threading;
 using GPGO_MultiPLCs.Models;
 using GPGO_MultiPLCs.ViewModels;
-using GPMVVM.Core.Models.SECS;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
 using GPMVVM.MongoDB.Helpers;
@@ -44,8 +43,8 @@ public sealed class Mediator : ObservableObject
             Set(value);
 
             DialogVM.Language = value;
-            TraceVM.Language  = value;
-            LogVM.Language    = value;
+            TraceVM.Language = value;
+            LogVM.Language = value;
         }
     }
 
@@ -66,14 +65,14 @@ public sealed class Mediator : ObservableObject
         private set
         {
             value ??= new User
-                      {
-                          Name     = "Guest",
-                          Password = "",
-                          Level    = UserLevel.Guest
-                      };
+            {
+                Name = "Guest",
+                Password = "",
+                Level = UserLevel.Guest
+            };
 
             Set(value);
-            RecipeVM.UserName  = value.Name;
+            RecipeVM.UserName = value.Name;
             RecipeVM.UserLevel = value.Level;
         }
     }
@@ -106,40 +105,40 @@ public sealed class Mediator : ObservableObject
         }
     }
 
-    public Authenticator_ViewModel    AuthenticatorVM { get; }
-    public GlobalDialog_ViewModel     DialogVM        { get; }
-    public LogView_ViewModel          LogVM           { get; }
-    public MainWindow_ViewModel       MainVM          { get; }
-    public RecipeControl_ViewModel    RecipeVM        { get; }
-    public TotalView_ViewModel        TotalVM         { get; }
-    public TraceabilityView_ViewModel TraceVM         { get; }
-    public IGate                      PlcGate         { get; }
+    public Authenticator_ViewModel AuthenticatorVM { get; }
+    public GlobalDialog_ViewModel DialogVM { get; }
+    public LogView_ViewModel LogVM { get; }
+    public MainWindow_ViewModel MainVM { get; }
+    public RecipeControl_ViewModel RecipeVM { get; }
+    public TotalView_ViewModel TotalVM { get; }
+    public TraceabilityView_ViewModel TraceVM { get; }
+    public IGate PlcGate { get; }
 
     public Mediator()
     {
         var db = new MongoClient("mongodb://localhost:27017").GetDatabase("GP");
 
         DialogVM = new GlobalDialog_ViewModel();
-        MainVM   = new MainWindow_ViewModel();
+        MainVM = new MainWindow_ViewModel();
         RecipeVM = new RecipeControl_ViewModel(new MongoBase<PLC_Recipe>(db.GetCollection<PLC_Recipe>("PLC_Recipes")),
                                                new MongoBase<PLC_Recipe>(db.GetCollection<PLC_Recipe>("Old_PLC_Recipes")),
                                                DialogVM);
 
         TraceVM = new TraceabilityView_ViewModel(new MongoBase<ProcessInfo>(db.GetCollection<ProcessInfo>("ProductInfos")), DialogVM);
-        LogVM   = new LogView_ViewModel(new MongoBase<LogEvent>(db.GetCollection<LogEvent>("EventLogs")), DialogVM);
+        LogVM = new LogView_ViewModel(new MongoBase<LogEvent>(db.GetCollection<LogEvent>("EventLogs")), DialogVM);
 
         PlcGate = new JsonRPCPLCGate();
 
         AuthenticatorVM = new Authenticator_ViewModel();
-        TotalVM         = new TotalView_ViewModel(AuthenticatorVM.Settings.OvenCount, PlcGate, IPAddress.Parse(AuthenticatorVM.IPString), DialogVM);
-        Language        = AuthenticatorVM.Settings.Lng;
-        OvenCount       = AuthenticatorVM.Settings.OvenCount;
+        TotalVM = new TotalView_ViewModel(AuthenticatorVM.Settings.OvenCount, PlcGate, IPAddress.Parse(AuthenticatorVM.IPString), DialogVM);
+        Language = AuthenticatorVM.Settings.Lng;
+        OvenCount = AuthenticatorVM.Settings.OvenCount;
         AuthenticatorVM.NowUser = new User
-                                  {
-                                      Name     = "Guest",
-                                      Password = "",
-                                      Level    = UserLevel.Guest
-                                  };
+        {
+            Name = "Guest",
+            Password = "",
+            Level = UserLevel.Guest
+        };
         User = AuthenticatorVM.NowUser;
         //Helpers.Extensions.ReaderName = AuthenticatorVM.Settings.CodeReaderName;
 
@@ -177,7 +176,7 @@ public sealed class Mediator : ObservableObject
                                            {
                                                if (e.PropertyName == nameof(Authenticator_ViewModel.NowUser))
                                                {
-                                                   User                 = ((Authenticator_ViewModel)s).NowUser;
+                                                   User = ((Authenticator_ViewModel)s).NowUser;
                                                    Extensions.IsGodMode = User?.Level >= UserLevel.Administrator;
                                                }
                                            };
@@ -191,7 +190,7 @@ public sealed class Mediator : ObservableObject
                                         }
 
                                         TraceVM.SelectedIndex = -1;
-                                        TraceVM.ShowProducts  = false;
+                                        TraceVM.ShowProducts = false;
                                     };
 
         //! 當主視窗讀取完成時，再讀取配方和生產履歷資料庫
@@ -256,13 +255,13 @@ public sealed class Mediator : ObservableObject
                                            sb.Append(user.Level.ToString());
                                            sb.Append(", App ShutDown.");
                                            await LogVM.AddToDBAsync(new LogEvent
-                                                                    {
-                                                                        AddedTime     = DateTime.Now,
-                                                                        StationNumber = 0,
-                                                                        Type          = EventType.Operator,
-                                                                        Description   = sb.ToString(),
-                                                                        Value         = true
-                                                                    });
+                                           {
+                                               AddedTime = DateTime.Now,
+                                               StationNumber = 0,
+                                               Type = EventType.Operator,
+                                               Description = sb.ToString(),
+                                               Value = true
+                                           });
                                            Application.Current.Shutdown(23555277);
                                        }
                                    }
@@ -359,20 +358,20 @@ public sealed class Mediator : ObservableObject
                                          if (sb.Length > 0)
                                          {
                                              await LogVM.AddToDBAsync(new LogEvent
-                                                                      {
-                                                                          AddedTime     = DateTime.Now,
-                                                                          StationNumber = 0,
-                                                                          Type          = EventType.RecipeChanged,
-                                                                          Description   = sb.ToString().TrimEnd('\r', '\n'),
-                                                                          Value         = true
-                                                                      });
+                                             {
+                                                 AddedTime = DateTime.Now,
+                                                 StationNumber = 0,
+                                                 Type = EventType.RecipeChanged,
+                                                 Description = sb.ToString().TrimEnd('\r', '\n'),
+                                                 Value = true
+                                             });
                                          }
 
                                          if (added != null)
                                          {
                                              foreach (var add in added)
                                              {
-                                           //      TotalVM.InvokeRecipe(add.RecipeName, PPStatus.Create);
+                                                 //      TotalVM.InvokeRecipe(add.RecipeName, PPStatus.Create);
                                              }
                                          }
 
@@ -380,7 +379,7 @@ public sealed class Mediator : ObservableObject
                                          {
                                              foreach (var remove in removed)
                                              {
-                                             //    TotalVM.InvokeRecipe(remove.RecipeName, PPStatus.Delete);
+                                                 //    TotalVM.InvokeRecipe(remove.RecipeName, PPStatus.Delete);
                                              }
                                          }
 
@@ -388,7 +387,7 @@ public sealed class Mediator : ObservableObject
                                          {
                                              foreach (var update in updated)
                                              {
-                                             //    TotalVM.InvokeRecipe(update.RecipeName, PPStatus.Change);
+                                                 //    TotalVM.InvokeRecipe(update.RecipeName, PPStatus.Change);
                                              }
                                          }
                                      };
@@ -427,14 +426,14 @@ public sealed class Mediator : ObservableObject
                                  {
                                      var (stationIndex, type, time, note, tag, value) = e;
                                      var logevent = new LogEvent
-                                                    {
-                                                        StationNumber = stationIndex + 1,
-                                                        AddedTime     = time,
-                                                        Type          = type,
-                                                        Description   = note,
-                                                        TagCode       = tag,
-                                                        Value         = value
-                                                    };
+                                     {
+                                         StationNumber = stationIndex + 1,
+                                         AddedTime     = time,
+                                         Type          = type,
+                                         Description   = note,
+                                         TagCode       = tag,
+                                         Value         = value
+                                     };
                                      _ = LogVM.AddToDBAsync(logevent);
 
                                      //! 輸出欣興CSV紀錄
@@ -449,8 +448,8 @@ public sealed class Mediator : ObservableObject
 
         LogVM.GoDetailView += async e =>
                               {
-                                  TraceVM.Standby      = false; //! 強制讓TraceVM處於須等待狀態，因此時畫面仍在變化仍未loaded，但TraceVM.Standby為true，將導致以下的迴圈等待沒效果
-                                  MainVM.ViewIndex     = 2;
+                                  TraceVM.Standby = false; //! 強制讓TraceVM處於須等待狀態，因此時畫面仍在變化仍未loaded，但TraceVM.Standby為true，將導致以下的迴圈等待沒效果
+                                  MainVM.ViewIndex = 2;
                                   var (info, logEvent) = e;
 
                                   if (await Task.Factory.StartNew(() => SpinWait.SpinUntil(() => TraceVM.Standby, 3000),
@@ -461,8 +460,8 @@ public sealed class Mediator : ObservableObject
                                       await Task.Delay(150);
 
                                       TraceVM.SearchResult = info;
-                                      TraceVM.SearchEvent  = logEvent;
-                                      TraceVM.Date1        = info.AddedTime.Date;
+                                      TraceVM.SearchEvent = logEvent;
+                                      TraceVM.Date1 = info.AddedTime.Date;
                                   }
                               };
 
@@ -500,15 +499,27 @@ public sealed class Mediator : ObservableObject
         //              TimeSpan.FromMinutes(5));
         //#endregion
         GPServiceHostFunc();
-        ////SCC_ServerSideRef.MacIntfWSClient nn = new SCC_ServerSideRef.MacIntfWSClient();
-        ////nn.Open();
-        ////nn.macIntf(new SCC_ServerSideRef.macIntfRequest() {  input = "dd", methodInvoke = "dsdfsd"});
+        SCC_ServerSideRef.MacIntfWSClient Web = new SCC_ServerSideRef.MacIntfWSClient();
+        Web.Open();
+        Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+        {
+            methodInvoke = "CallAgv",
+            input = $@"<?xml version=""1.0"" encoding=""UTF-8""?>
+                        <CallAgv>
+                        xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance""
+                        xmIns:xsd=""http://www.w3.org/2001/XMLSchema""
+                        macCode=""MAC001""
+                        berthCode=""In_D0001""
+                        wipEntity="""">
+                        </CallAgv>"
+        }
+        );
         //MacIntfWSClient macIntfWS = new MacIntfWSClient();
         //macIntfWS.Open();
 
 
     }
-    public void GPServiceHostFunc() 
+    public void GPServiceHostFunc()
     {
         try
         {
@@ -569,12 +580,12 @@ public sealed class Mediator : ObservableObject
                 for (var k = 0; k < 10; k++) //! 每天每烤箱8筆
                 {
                     var info = new ProcessInfo
-                               {
-                                   StartTime  = st,
-                                   RackID     = rn.Next(1, 10000).ToString("00000"),
-                                   OperatorID = rn.Next(1, 10).ToString("000"),
-                                   Recipe     = RecipeVM.Recipes == null || RecipeVM.Recipes.Count == 0 ? new PLC_Recipe { RecipeName = "NoName" } : RecipeVM.Recipes[new Random().Next(0, RecipeVM.Recipes.Count)]
-                               };
+                    {
+                        StartTime  = st,
+                        RackID     = rn.Next(1, 10000).ToString("00000"),
+                        OperatorID = rn.Next(1, 10).ToString("000"),
+                        Recipe     = RecipeVM.Recipes == null || RecipeVM.Recipes.Count == 0 ? new PLC_Recipe { RecipeName = "NoName" } : RecipeVM.Recipes[new Random().Next(0, RecipeVM.Recipes.Count)]
+                    };
 
                     var ttime = new TimeSpan(0, 0, 1);
                     var cc    = 0;
@@ -584,14 +595,14 @@ public sealed class Mediator : ObservableObject
                         if (m % 10 == 0) //! 每10分鐘產生一筆事件
                         {
                             var ev1 = new LogEvent
-                                      {
-                                          StationNumber = i  + 1,
-                                          AddedTime     = st + ttime,
-                                          Description   = $"{i}{j}{m}",
-                                          TagCode       = $"ooxx{m}",
-                                          Type          = (EventType)new Random(DateTime.Now.Millisecond + m).Next(0, 6),
-                                          Value         = new Random(DateTime.Now.Millisecond            + m + 1).Next(2) > 0
-                                      };
+                            {
+                                StationNumber = i  + 1,
+                                AddedTime     = st + ttime,
+                                Description   = $"{i}{j}{m}",
+                                TagCode       = $"ooxx{m}",
+                                Type          = (EventType)new Random(DateTime.Now.Millisecond + m).Next(0, 6),
+                                Value         = new Random(DateTime.Now.Millisecond            + m + 1).Next(2) > 0
+                            };
 
                             LogVM.DataCollection.Add(ev1);
                             info.EventList.Add(ev1);
@@ -599,19 +610,19 @@ public sealed class Mediator : ObservableObject
 
                         var tempt = 30 * (1 + 5 / (1 + Math.Exp(-0.12 * cc + 3)));
                         var vals = new RecordTemperatures
-                                   {
-                                       AddedTime                = st + ttime,
-                                       PV_ThermostatTemperature = Math.Round(tempt,                                          1),
-                                       OvenTemperatures_1       = Math.Round(tempt + rn.Next(-5, 5),                         1),
-                                       OvenTemperatures_2       = Math.Round(tempt + rn.Next(-5, 5),                         1),
-                                       OvenTemperatures_3       = Math.Round(tempt + rn.Next(-5, 5),                         1),
-                                       OvenTemperatures_4       = Math.Round(tempt + rn.Next(-5, 5),                         1),
-                                       OvenTemperatures_5       = Math.Round(tempt + rn.Next(-5, 5),                         1),
-                                       OvenTemperatures_6       = Math.Round(tempt + rn.Next(-5, 5),                         1),
-                                       OvenTemperatures_7       = Math.Round(tempt + rn.Next(-5, 5),                         1),
-                                       OvenTemperatures_8       = Math.Round(tempt + rn.Next(-5, 5),                         1),
-                                       OxygenContent            = Math.Round(new Random(i + j + k + m).NextDouble() * 100.0, 1)
-                                   };
+                        {
+                            AddedTime                = st + ttime,
+                            PV_ThermostatTemperature = Math.Round(tempt,                                          1),
+                            OvenTemperatures_1       = Math.Round(tempt + rn.Next(-5, 5),                         1),
+                            OvenTemperatures_2       = Math.Round(tempt + rn.Next(-5, 5),                         1),
+                            OvenTemperatures_3       = Math.Round(tempt + rn.Next(-5, 5),                         1),
+                            OvenTemperatures_4       = Math.Round(tempt + rn.Next(-5, 5),                         1),
+                            OvenTemperatures_5       = Math.Round(tempt + rn.Next(-5, 5),                         1),
+                            OvenTemperatures_6       = Math.Round(tempt + rn.Next(-5, 5),                         1),
+                            OvenTemperatures_7       = Math.Round(tempt + rn.Next(-5, 5),                         1),
+                            OvenTemperatures_8       = Math.Round(tempt + rn.Next(-5, 5),                         1),
+                            OxygenContent            = Math.Round(new Random(i + j + k + m).NextDouble() * 100.0, 1)
+                        };
 
                         cc += 1;
                         info.RecordTemperatures.Add(vals);
@@ -619,8 +630,8 @@ public sealed class Mediator : ObservableObject
                         ttime = ttime.Add(TimeSpan.FromMinutes(1)); //! 間隔1分鐘
                     }
 
-                    info.EndTime       = info.StartTime + ttime;
-                    info.IsFinished    = new Random().NextDouble() > 0.5;
+                    info.EndTime = info.StartTime + ttime;
+                    info.IsFinished = new Random().NextDouble() > 0.5;
                     info.TotalRampTime = (info.EndTime - info.StartTime).Minutes;
 
                     st = info.EndTime + TimeSpan.FromHours(2);
@@ -629,18 +640,18 @@ public sealed class Mediator : ObservableObject
                     for (var p = 1; p <= n; p++)
                     {
                         var product = new ProductInfo
-                                      {
-                                          PartID   = partnum[rn.Next(0, partnum.Length)],
-                                          LotID    = lotid[rn.Next(0,   lotid.Length)],
-                                          Layer    = p,
-                                          Quantity = rn.Next(10, 20)
-                                      };
+                        {
+                            PartID   = partnum[rn.Next(0, partnum.Length)],
+                            LotID    = lotid[rn.Next(0,   lotid.Length)],
+                            Layer    = p,
+                            Quantity = rn.Next(10, 20)
+                        };
 
                         info.Products.Add(product);
                     }
 
                     info.StationNumber = i + 1;
-                    info.AddedTime     = info.EndTime.AddSeconds(10);
+                    info.AddedTime = info.EndTime.AddSeconds(10);
 
                     TraceVM.DataCollection.Add(info);
                 }
@@ -674,12 +685,12 @@ public sealed class Mediator : ObservableObject
 
         var rn = new Random((int)st.Ticks);
         var info = new ProcessInfo
-                   {
-                       StartTime  = st,
-                       RackID     = rn.Next(1, 10000).ToString("00000"),
-                       OperatorID = rn.Next(1, 10).ToString("000"),
-                       Recipe     = RecipeVM.Recipes == null || RecipeVM.Recipes.Count == 0 ? new PLC_Recipe { RecipeName = "NoName" } : RecipeVM.Recipes[new Random().Next(0, RecipeVM.Recipes.Count)]
-                   };
+        {
+            StartTime  = st,
+            RackID     = rn.Next(1, 10000).ToString("00000"),
+            OperatorID = rn.Next(1, 10).ToString("000"),
+            Recipe     = RecipeVM.Recipes == null || RecipeVM.Recipes.Count == 0 ? new PLC_Recipe { RecipeName = "NoName" } : RecipeVM.Recipes[new Random().Next(0, RecipeVM.Recipes.Count)]
+        };
 
         var ttime = new TimeSpan(0, 0, 1);
         var cc    = 0;
@@ -689,14 +700,14 @@ public sealed class Mediator : ObservableObject
             if (m % 10 == 0) //! 每10分鐘產生一筆事件
             {
                 var ev1 = new LogEvent
-                          {
-                              StationNumber = stationNumber,
-                              AddedTime     = st + ttime,
-                              Description   = $"{stationNumber}-{m}",
-                              TagCode       = $"ooxx{m}",
-                              Type          = (EventType)new Random(DateTime.Now.Millisecond + m).Next(0, 6),
-                              Value         = new Random(DateTime.Now.Millisecond            + m + 1).Next(2) > 0
-                          };
+                {
+                    StationNumber = stationNumber,
+                    AddedTime     = st + ttime,
+                    Description   = $"{stationNumber}-{m}",
+                    TagCode       = $"ooxx{m}",
+                    Type          = (EventType)new Random(DateTime.Now.Millisecond + m).Next(0, 6),
+                    Value         = new Random(DateTime.Now.Millisecond            + m + 1).Next(2) > 0
+                };
 
                 LogVM.DataCollection.Add(ev1);
                 info.EventList.Add(ev1);
@@ -704,19 +715,19 @@ public sealed class Mediator : ObservableObject
 
             var tempt = 30 * (1 + 5 / (1 + Math.Exp(-0.12 * cc + 3)));
             var vals = new RecordTemperatures
-                       {
-                           AddedTime                = st + ttime,
-                           PV_ThermostatTemperature = Math.Round(tempt,                   1),
-                           OvenTemperatures_1       = Math.Round(tempt + rn.Next(-5, 5),  1),
-                           OvenTemperatures_2       = Math.Round(tempt + rn.Next(-5, 5),  1),
-                           OvenTemperatures_3       = Math.Round(tempt + rn.Next(-5, 5),  1),
-                           OvenTemperatures_4       = Math.Round(tempt + rn.Next(-5, 5),  1),
-                           OvenTemperatures_5       = Math.Round(tempt + rn.Next(-5, 5),  1),
-                           OvenTemperatures_6       = Math.Round(tempt + rn.Next(-5, 5),  1),
-                           OvenTemperatures_7       = Math.Round(tempt + rn.Next(-5, 5),  1),
-                           OvenTemperatures_8       = Math.Round(tempt + rn.Next(-5, 5),  1),
-                           OxygenContent            = Math.Round(rn.NextDouble() * 100.0, 1)
-                       };
+            {
+                AddedTime                = st + ttime,
+                PV_ThermostatTemperature = Math.Round(tempt,                   1),
+                OvenTemperatures_1       = Math.Round(tempt + rn.Next(-5, 5),  1),
+                OvenTemperatures_2       = Math.Round(tempt + rn.Next(-5, 5),  1),
+                OvenTemperatures_3       = Math.Round(tempt + rn.Next(-5, 5),  1),
+                OvenTemperatures_4       = Math.Round(tempt + rn.Next(-5, 5),  1),
+                OvenTemperatures_5       = Math.Round(tempt + rn.Next(-5, 5),  1),
+                OvenTemperatures_6       = Math.Round(tempt + rn.Next(-5, 5),  1),
+                OvenTemperatures_7       = Math.Round(tempt + rn.Next(-5, 5),  1),
+                OvenTemperatures_8       = Math.Round(tempt + rn.Next(-5, 5),  1),
+                OxygenContent            = Math.Round(rn.NextDouble() * 100.0, 1)
+            };
 
             cc += 1;
             info.RecordTemperatures.Add(vals);
@@ -724,26 +735,26 @@ public sealed class Mediator : ObservableObject
             ttime = ttime.Add(TimeSpan.FromSeconds(1)); //! 間隔1秒
         }
 
-        info.EndTime       = info.StartTime + ttime;
-        info.IsFinished    = new Random().NextDouble() > 0.5;
+        info.EndTime = info.StartTime + ttime;
+        info.IsFinished = new Random().NextDouble() > 0.5;
         info.TotalRampTime = (info.EndTime - info.StartTime).Minutes;
 
         var n = rn.Next(0, 8) + 1; //! 階層
         for (var p = 1; p <= n; p++)
         {
             var product = new ProductInfo
-                          {
-                              PartID   = partnum[rn.Next(0, partnum.Length)],
-                              LotID    = lotid[rn.Next(0,   lotid.Length)],
-                              Layer    = p,
-                              Quantity = rn.Next(10, 20)
-                          };
+            {
+                PartID   = partnum[rn.Next(0, partnum.Length)],
+                LotID    = lotid[rn.Next(0,   lotid.Length)],
+                Layer    = p,
+                Quantity = rn.Next(10, 20)
+            };
 
             info.Products.Add(product);
         }
 
         info.StationNumber = stationNumber;
-        info.AddedTime     = info.EndTime.AddSeconds(10);
+        info.AddedTime = info.EndTime.AddSeconds(10);
 
         return info;
     }
