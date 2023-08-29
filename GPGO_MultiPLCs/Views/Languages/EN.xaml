@@ -3,6 +3,7 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <sys:String x:Key="GEMConfig">GEM Config</sys:String>
+    <sys:String x:Key="iMesConfig">iMes Config</sys:String>
     <sys:String x:Key="GEMData">GEM Data</sys:String>
     <sys:String x:Key="群翊工業">Group Up Industrial Co.</sys:String>
     <sys:String x:Key="生產頁面">Main</sys:String>

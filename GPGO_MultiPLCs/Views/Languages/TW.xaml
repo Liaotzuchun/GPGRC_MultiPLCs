@@ -4,6 +4,7 @@
 
     <!--  若要使字串換行，需加上xml:space="preserve"屬性，並配合&#x0a;  -->
     <sys:String x:Key="GEMConfig">GEM連線設定</sys:String>
+    <sys:String x:Key="iMesConfig">iMes設置</sys:String>
     <sys:String x:Key="GEMData">GEM Data</sys:String>
     <sys:String x:Key="群翊工業">群翊工業</sys:String>
     <sys:String x:Key="生產頁面">生產頁面</sys:String>
@@ -240,4 +241,22 @@
     <sys:String x:Key="靜音">靜音</sys:String>
     <sys:String x:Key="本地">本地</sys:String>
     <sys:String x:Key="遠端">遠端</sys:String>
+    <sys:String x:Key="Manager">工程師</sys:String>
+
+    <sys:String x:Key="Equipment ID">設備ID</sys:String>
+    <sys:String x:Key="iMES URL">iMES URL</sys:String>
+    <sys:String x:Key="Carrier A">A載具編號</sys:String>
+    <sys:String x:Key="Carrier B">B載具編號</sys:String>
+    <sys:String x:Key="AVG Timeliness">AVG按鈕時效</sys:String>
+    <sys:String x:Key="TimeOut">通訊超時</sys:String>
+    <sys:String x:Key="MESHeartConfig">MES心跳</sys:String>
+    <sys:String x:Key="Use MES Heart">啟用心跳</sys:String>
+    <sys:String x:Key="HeartContent">心跳內容</sys:String>
+    <sys:String x:Key="HeartService">心跳服務</sys:String>
+    <sys:String x:Key="HeartPort">心跳端口</sys:String>
+    <sys:String x:Key="HeartTime">心跳頻率</sys:String>
+    <sys:String x:Key="MES">MES</sys:String>
+    <sys:String x:Key="ChangeMode">切換模式</sys:String>
+    <sys:String x:Key="在線">在線</sys:String>
+    <sys:String x:Key="半自動">半自動</sys:String>
 </ResourceDictionary>

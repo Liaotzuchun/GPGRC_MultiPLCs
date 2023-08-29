@@ -29,7 +29,7 @@
             </TextBlock>
             <StackPanel HorizontalAlignment="Right"
                         Orientation="Horizontal">
-                <DockPanel MinWidth="120"
+                <DockPanel MinWidth="400"
                            LastChildFill="True">
                     <Border DockPanel.Dock="Left">
                         <Border.Style>
@@ -64,7 +64,7 @@
                                    FontWeight="Bold"
                                    Text="{Binding User.Level, Source={StaticResource Mediator}, Mode=OneWay, Converter={StaticResource SubHeadString}, ConverterParameter=2}" />
                     </Border>
-                    <ToggleButton Padding="8,0"
+                    <ToggleButton Padding="120,0"
                                   Content="{Binding User.Name, Source={StaticResource Mediator}, Mode=OneWay}"
                                   DockPanel.Dock="Left"
                                   FontWeight="Bold"
@@ -76,6 +76,19 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </ToggleButton>
+                    
+                    <Border x:Name="SSEMP"
+                            DockPanel.Dock="Left"
+                            Visibility="{Binding UseHeart , Mode=TwoWay}"
+                            Background="#FF00BE00">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="20"
+                                   FontWeight="Bold"
+                                   Foreground="black"
+                                   Text="{Binding AuthenticatorVM.Settings.HeartContent, Source={StaticResource Mediator} ,Mode=OneWay}" />
+                    </Border>
+
                 </DockPanel>
                 <ToggleButton Margin="4,0,0,0"
                               FontSize="12"

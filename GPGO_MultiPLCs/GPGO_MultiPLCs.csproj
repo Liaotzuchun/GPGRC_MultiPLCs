@@ -46,6 +46,7 @@
 		<PackageReference Include="GPMVVM" Version="23.8.15.10" />
 		<PackageReference Include="GPMVVM.Core" Version="23.8.15.10" />
 		<PackageReference Include="GPMVVM.MongoDB" Version="23.8.16.16" />
+		<PackageReference Include="MongodbConnect" Version="1.0.22" />
 		<PackageReference Include="OxyPlot.SkiaSharp.Wpf" Version="2.1.2" />
 		<PackageReference Include="RawInput.Sharp" Version="0.1.1" />
 	</ItemGroup>

@@ -42,3 +42,11 @@ public enum SetRecipeResult
     比對不相符,
     無需變更
 }
+
+//Mes切換模式
+public enum ChangeMode
+{
+    在線 = 3,    //CallAGV,TaskControl,Ingredients,DataUpload
+    半自動 = 2,  //TaskControl,Ingredients,DataUpload
+    離線 = 1
+}

@@ -28,5 +28,6 @@ public class Authenticator_ViewModel : AuthenticatorModel
         Settings = new GlobalSettings();
         Settings.Load(false);
         Settings.RegisterChanged();
+        Settings.UseHeart = false;
     }
 }

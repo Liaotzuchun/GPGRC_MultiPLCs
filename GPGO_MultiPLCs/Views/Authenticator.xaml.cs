@@ -32,11 +32,11 @@ public partial class Authenticator
                                                   }))
                 {
                     var subitem = new TreeViewItem
-                                  {
-                                      Header     = s.Substring(s.LastIndexOf("\\", StringComparison.Ordinal) + 1),
-                                      Tag        = s,
-                                      FontWeight = FontWeights.Normal
-                                  };
+                    {
+                        Header     = s.Substring(s.LastIndexOf("\\", StringComparison.Ordinal) + 1),
+                        Tag        = s,
+                        FontWeight = FontWeights.Normal
+                    };
 
                     subitem.Items.Add(null);
                     subitem.Expanded += Folder_Expanded;
@@ -54,11 +54,11 @@ public partial class Authenticator
     {
         var index = ((ListBox)sender).SelectedIndex;
         Application.Current.Resources.MergedDictionaries.Last().Source = index switch
-                                                                         {
-                                                                             2 => new Uri("pack://application:,,,/Views/Languages/EN.xaml"),
-                                                                             1 => new Uri("pack://application:,,,/Views/Languages/CHS.xaml"),
-                                                                             _ => new Uri("pack://application:,,,/Views/Languages/TW.xaml")
-                                                                         };
+        {
+            2 => new Uri("pack://application:,,,/Views/Languages/EN.xaml"),
+            1 => new Uri("pack://application:,,,/Views/Languages/CHS.xaml"),
+            _ => new Uri("pack://application:,,,/Views/Languages/TW.xaml")
+        };
     }
 
     private void NameBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) => NameBox.Clear();

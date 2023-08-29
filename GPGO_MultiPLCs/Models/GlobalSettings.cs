@@ -29,6 +29,51 @@ public class GlobalSettings : RecipeFileBase<GlobalSettings>
         get => Get<string>() ?? string.Empty;
         set => Set(value);
     }
+    public string HeartContent
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string HeartService
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string HeartPort
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string EquipmentID
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string iMESURL
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string CarrierAID
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string CarrierBID
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+
+    public bool UseHeart
+    {
+        get => Get<bool>();
+        set
+        {
+            Set(value);
+            NotifyPropertyChanged();
+        }
+    }
 
     /// <summary>介面語言</summary>
     public Language Lng
@@ -49,11 +94,11 @@ public class GlobalSettings : RecipeFileBase<GlobalSettings>
         set
         {
             value = value switch
-                    {
-                        < 1  => 1,
-                        > 60 => 60,
-                        _    => value
-                    };
+            {
+                < 1 => 1,
+                > 60 => 60,
+                _ => value
+            };
 
             Set(value);
         }
@@ -75,6 +120,53 @@ public class GlobalSettings : RecipeFileBase<GlobalSettings>
         }
     }
 
+    public int TimeOut
+    {
+        get => Get<int>();
+        set
+        {
+            value = value switch
+            {
+                < 30 => 30,
+                > 600 => 600,
+                _ => value
+            };
+
+            Set(value);
+        }
+    }
+    public int AVGTime
+    {
+        get => Get<int>();
+        set
+        {
+            value = value switch
+            {
+                < 1 => 1,
+                > 600 => 600,
+                _ => value
+            };
+
+            Set(value);
+        }
+    }
+    public int HeartTime
+    {
+        get => Get<int>();
+        set
+        {
+            value = value switch
+            {
+                < 1 => 1,
+                > 600 => 600,
+                _ => value
+            };
+
+            Set(value);
+        }
+    }
+
+
     public GlobalSettings() : base("Settings")
     {
         //CodeReaderName   = "Symbol Bar Code Scanner";
@@ -85,11 +177,21 @@ public class GlobalSettings : RecipeFileBase<GlobalSettings>
                                   3,
                                   39
                               }).ToString();
-        DataOutputPath   = "C:\\GPOutput";
+        DataOutputPath = "C:\\GPOutput";
         RecipeImportPath = "C:\\GPOutput\\Recipe.csv";
-        Lng              = Language.TW;
-        OvenCount        = 1;
-        RecordDelay      = 1;
-        ClearInputDelay  = 60;
+        Lng = Language.TW;
+        OvenCount = 1;
+        RecordDelay = 1;
+        ClearInputDelay = 60;
+        TimeOut = 60;
+        AVGTime = 1;
+        HeartTime = 1;
+        HeartContent = "SSEMP";
+        HeartPort = "5001";
+        HeartService = "www.google.com";
+        EquipmentID = "GPGO";
+        iMESURL = "www.yahoo.com";
+        CarrierAID = "CarrierA";
+        CarrierBID = "CarrierB";
     }
 }

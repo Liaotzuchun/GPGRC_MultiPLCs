@@ -12,9 +12,7 @@ using GPGO_MultiPLCs.Models;
 //using GPMVVM.Core.Models.SECS;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
-using GPMVVM.Models.SECS;
 using GPMVVM.PooledCollections;
-using Newtonsoft.Json;
 using PLCService;
 #pragma warning disable VSTHRD101
 
@@ -43,8 +41,8 @@ public sealed class TotalView_ViewModel : ObservableObject
     private readonly int             threadid;
 
     public Language Language = Language.TW;
-    public IGate                               Gate             { get; }
-    public ObservableConcurrentQueue<LogEvent> QueueMessages    { get; } = new();
+    public IGate Gate { get; }
+    public ObservableConcurrentQueue<LogEvent> QueueMessages { get; } = new();
 
     /// <summary>回到總覽頁</summary>
     public RelayCommand BackCommand { get; }
@@ -56,6 +54,14 @@ public sealed class TotalView_ViewModel : ObservableObject
     public AsyncCommand SendTerminalMessageCommand { get; }
 
     public RelayCommand SecsReStartCommand { get; }
+
+    public RelayCommand AddA { get; }
+    public RelayCommand AddB { get; }
+    public RelayCommand OutAGV { get; }
+    public RelayCommand RetAGV { get; }
+    public RelayCommand TaskControl { get; }
+    public RelayCommand DataUpload { get; }
+    public RelayCommand Ingredients { get; }
 
     /// <summary>所有PLC</summary>
     public IList<PLC_ViewModel> PLC_All { get; }
@@ -100,30 +106,23 @@ public sealed class TotalView_ViewModel : ObservableObject
         }
     }
 
-    public bool SECS_ENABLE
+    public int Mode
     {
-        get => Get<bool>();
+        get => Get<int>();
         set => Set(value);
     }
-
-    public bool SECS_Communicating
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-
-
 
     public TotalView_ViewModel(int count, IGate gate, IPAddress plcaddress, IDialogService dialog)
     {
         asyncOperation = AsyncOperationManager.CreateOperation(null);
-        Gate           = gate;
-        Dialog         = dialog;
-        OvenCount      = count;
-        PLC_All        = new PLC_ViewModel[count];
-        PLCIndex       = 0;
+        Gate = gate;
+        Dialog = dialog;
+        OvenCount = count;
+        PLC_All = new PLC_ViewModel[count];
+        PLCIndex = 0;
+        Mode = 0;
         var v = Assembly.GetExecutingAssembly().GetName().Version;
-        threadid                                         =  Thread.CurrentThread.ManagedThreadId;
+        threadid = Thread.CurrentThread.ManagedThreadId;
         BackCommand = new RelayCommand(index => Index = index != null && int.TryParse(index.ToString(), out var i) ? i : 0);
 
         GoDetailCommand = new RelayCommand(_ => Index = 1);
@@ -177,19 +176,58 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                                       null);
                                               });
 
+        AddA = new RelayCommand(_ =>
+        {
+            MessageBox.Show("AddA");
+
+        });
+
+        AddB = new RelayCommand(_ =>
+        {
+            MessageBox.Show("AddB");
+
+        });
+
+        OutAGV = new RelayCommand(_ =>
+        {
+            MessageBox.Show("OutAGV");
+
+        });
+
+        RetAGV = new RelayCommand(_ =>
+        {
+            MessageBox.Show("RetAGV");
+
+        });
+
+        TaskControl = new RelayCommand(_ =>
+        {
+            MessageBox.Show("TaskControl");
+        });
+
+        DataUpload = new RelayCommand(_ =>
+        {
+            MessageBox.Show("DataUpload");
+        });
+
+        Ingredients = new RelayCommand(_ =>
+        {
+            MessageBox.Show("Ingredients");
+        });
+
         PropertyChanged += (_, e) =>
-                           {
-                               //if (e.PropertyName is nameof(SECS_ENABLE) or nameof(SECS_Communicating) or nameof(SECS_ONLINE) or nameof(SECS_REMOTE))
-                               //{
-                               //    //var val  = SECS_ENABLE && SECS_Communicating && SECS_ONLINE;
-                               //    //var val2 = val         && SECS_REMOTE;
-                               //    foreach (var plc in PLC_All)
-                               //    {
-                               //        plc.SecsIsOnline       = val;
-                               //        plc.SecsIsRemoteOnline = val2;
-                               //    }
-                               //}
-                           };
+               {
+                   //if (e.PropertyName is nameof(SECS_ENABLE) or nameof(SECS_Communicating) or nameof(SECS_ONLINE) or nameof(SECS_REMOTE))
+                   //{
+                   //    //var val  = SECS_ENABLE && SECS_Communicating && SECS_ONLINE;
+                   //    //var val2 = val         && SECS_REMOTE;
+                   //    foreach (var plc in PLC_All)
+                   //    {
+                   //        plc.SecsIsOnline       = val;
+                   //        plc.SecsIsRemoteOnline = val2;
+                   //    }
+                   //}
+               };
         //var address = plcaddress.GetAddressBytes();
 
         //! 註冊PLC事件需引發的動作
@@ -222,7 +260,7 @@ public sealed class TotalView_ViewModel : ObservableObject
             plc.WantDetail += () =>
                               {
                                   PLCIndex = index;
-                                  Index    = 1;
+                                  Index = 1;
                               };
 
             plc.CheckUser += op => CheckUser != null && CheckUser.Invoke(op);
@@ -244,7 +282,7 @@ public sealed class TotalView_ViewModel : ObservableObject
 
             plc.LotAdded += lotid =>
                             {
-                               
+
                             };
 
             plc.LotRemoved += lotid =>
@@ -257,7 +295,7 @@ public sealed class TotalView_ViewModel : ObservableObject
             plc.ExecutingStarted += () =>
                                     {
                                         PLCIndex = index;
-                                        Index    = 1;
+                                        Index = 1;
                                     };
 
             //! 烘烤流程結束時
@@ -268,7 +306,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                          //! 更新ProcessData以供上報
                                          try
                                          {
-                                            // SecsGemEquipment.UpdateDV($"Oven{index + 1}_ProcessData", JsonConvert.SerializeObject(baseInfo));
+                                             // SecsGemEquipment.UpdateDV($"Oven{index + 1}_ProcessData", JsonConvert.SerializeObject(baseInfo));
                                          }
                                          catch
                                          {
@@ -334,15 +372,15 @@ public sealed class TotalView_ViewModel : ObservableObject
                               {
                                   if (name == nameof(PLC_ViewModel.EquipmentState))
                                   {
-                                 //     SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PROCESS_STATE, value);
+                                      //     SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PROCESS_STATE, value);
                                   }
                                   else if (name == $"Previous{nameof(PLC_ViewModel.EquipmentState)}")
                                   {
-                                   //   SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PREVIOUS_PROCESS_STATE, value);
+                                      //   SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PREVIOUS_PROCESS_STATE, value);
                                   }
                                   else if (name == nameof(PLC_ViewModel.SV_RecipeName))
                                   {
-                                     // SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PP_EXEC_NAME, value);
+                                      // SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PP_EXEC_NAME, value);
                                   }
 
                                   //SecsGemEquipment.UpdateSV($"Oven{index + 1}_{name}", value);
@@ -499,7 +537,7 @@ public sealed class TotalView_ViewModel : ObservableObject
         }
     }
 
- 
+
 
     public void InsertMessage(params LogEvent[] evs)
     {

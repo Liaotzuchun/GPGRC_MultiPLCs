@@ -268,172 +268,137 @@
                         <RowDefinition Height="40" />
                     </Grid.RowDefinitions>
                     <GroupBox Grid.Row="1"
+                              Grid.RowSpan="2"
                               FontSize="16"
                               FontWeight="Bold"
-                              Header="SECS">
-                        <Grid>
+                              Header="MES模式切換">
+                        <Grid Margin="0,0,0,4"
+                              IsEnabled="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
                                 <RowDefinition Height="50" />
+                                <RowDefinition Height="5" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <Grid>
+                            
+                            <ListBox Grid.Row="0"
+                                     ItemContainerStyle="{StaticResource ListBoxItem_Top}"
+                                     SelectedIndex="{Binding Mode, Mode=TwoWay}">
+                                <ListBox.Template>
+                                    <ControlTemplate>
+                                        <ItemsPresenter />
+                                    </ControlTemplate>
+                                </ListBox.Template>
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Rows="1" />
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>                                
+                                <TextBlock Text="{DynamicResource 離線}"   />
+                                <TextBlock Text="{DynamicResource 半自動}" />
+                                <TextBlock Text="{DynamicResource 在線}"   />
+                            </ListBox>                           
+                            <GroupBox Grid.Row="2"
+                                      Header="MES">
+                                <Grid >
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="50" />
-                                    <RowDefinition Height="8" />
-                                    <RowDefinition Height="50" />
-                                    <RowDefinition Height="50" />
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="50"/>
                                 </Grid.RowDefinitions>
-                                <ToggleButton x:Name="SECS_ENABLE"
-                                              Grid.Row="0"
-                                              Grid.Column="0"
-                                              FontSize="16"
-                                              FontWeight="Bold"
-                                              IsChecked="{Binding SECS_ENABLE, Mode=TwoWay}"
-                                              IsHitTestVisible="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay, FallbackValue=False}"
-                                              Style="{StaticResource ToggleSwitch}">
-                                    <ToggleButton.Content>
-                                        <Binding Mode="OneWay"
-                                                 Path="IsChecked"
-                                                 RelativeSource="{RelativeSource Mode=Self}">
-                                            <Binding.Converter>
-                                                <views:ObjectToObjectConverter DefaultTarget="{DynamicResource 停用}">
-                                                    <views:MapItem Target="{DynamicResource 啟用}">
-                                                        <views:MapItem.Source>
-                                                            <system:Boolean>True</system:Boolean>
-                                                        </views:MapItem.Source>
-                                                    </views:MapItem>
-                                                    <views:MapItem Target="{DynamicResource 停用}">
-                                                        <views:MapItem.Source>
-                                                            <system:Boolean>False</system:Boolean>
-                                                        </views:MapItem.Source>
-                                                    </views:MapItem>
-                                                </views:ObjectToObjectConverter>
-                                            </Binding.Converter>
-                                        </Binding>
-                                    </ToggleButton.Content>
-                                </ToggleButton>
-                                <Border Grid.Row="1"
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Row="0"
+                                            Grid.Column="0"
+                                                IsEnabled="{Binding Mode, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}">
+                                        <TextBlock>A叫料</TextBlock>
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding AddA, Mode=OneTime}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
+                                    <Button Grid.Row="0"
+                                            Grid.Column="1"
+                                                IsEnabled="{Binding Mode, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}">
+                                        <TextBlock>B叫料</TextBlock>
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding AddB, Mode=OneTime}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
+                                </Grid>
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Row="0"
+                                            Grid.Column="0"
+                                            IsEnabled="{Binding Mode, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}">
+                                        <TextBlock>出料
+                                        </TextBlock>
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding OutAGV, Mode=OneTime}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
+                                    <Button Grid.Row="0"
+                                            Grid.Column="1"
+                                            IsEnabled="{Binding Mode, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}">
+                                        <TextBlock>退料</TextBlock>
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding RetAGV, Mode=OneTime}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
+                                </Grid>
+                                <Grid Grid.Row="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Row="0"
+                                            Grid.Column="0"
+                                            IsEnabled="{Binding Mode, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}">
+                                        <TextBlock>作業管控</TextBlock>
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding TaskControl, Mode=OneTime}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
+                                    <Button Grid.Row="0"
+                                            Grid.Column="1"
+                                            IsEnabled="{Binding Mode, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}">
+                                        <TextBlock>加工紀錄</TextBlock>
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding DataUpload, Mode=OneTime}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
+                                </Grid>
+                                
+                                <Button Grid.Row="3"
                                         Grid.Column="0"
-                                        Background="{StaticResource ErrorBrush}">
+                                        IsEnabled="{Binding Mode, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}">
+                                    <TextBlock>請求下發配方</TextBlock>
                                     <i:Interaction.Triggers>
-                                        <i:DataTrigger Binding="{Binding SECS_Communicating, Mode=OneWay}"
-                                                       Value="True">
-                                            <i:ChangePropertyAction PropertyName="Background"
-                                                                    Value="{StaticResource OKBrush}" />
-                                        </i:DataTrigger>
-                                        <i:DataTrigger Binding="{Binding SECS_Communicating, Mode=OneWay}"
-                                                       Value="False">
-                                            <i:ChangePropertyAction PropertyName="Background"
-                                                                    Value="{StaticResource ErrorBrush}" />
-                                        </i:DataTrigger>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding Ingredients, Mode=OneTime}" />
+                                        </i:EventTrigger>
                                     </i:Interaction.Triggers>
-                                </Border>
-                                <ToggleButton x:Name="SECS_ONLINE"
-                                              Grid.Row="2"
-                                              Grid.Column="0"
-                                              FontSize="16"
-                                              FontWeight="Bold"
-                                              IsChecked="{Binding SECS_ONLINE, Mode=TwoWay}"
-                                              IsEnabled="{Binding SECS_Communicating, Mode=OneWay}"
-                                              IsHitTestVisible="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay, FallbackValue=False}"
-                                              Style="{StaticResource ToggleSwitch}">
-                                    <ToggleButton.Content>
-                                        <Binding Mode="OneWay"
-                                                 Path="IsChecked"
-                                                 RelativeSource="{RelativeSource Mode=Self}">
-                                            <Binding.Converter>
-                                                <views:ObjectToObjectConverter DefaultTarget="{DynamicResource 離線}">
-                                                    <views:MapItem Target="{DynamicResource 上線}">
-                                                        <views:MapItem.Source>
-                                                            <system:Boolean>True</system:Boolean>
-                                                        </views:MapItem.Source>
-                                                    </views:MapItem>
-                                                    <views:MapItem Target="{DynamicResource 離線}">
-                                                        <views:MapItem.Source>
-                                                            <system:Boolean>False</system:Boolean>
-                                                        </views:MapItem.Source>
-                                                    </views:MapItem>
-                                                </views:ObjectToObjectConverter>
-                                            </Binding.Converter>
-                                        </Binding>
-                                    </ToggleButton.Content>
-                                </ToggleButton>
-                                <ToggleButton x:Name="SECS_REMOTE"
-                                              Grid.Row="3"
-                                              Grid.Column="0"
-                                              FontSize="16"
-                                              FontWeight="Bold"
-                                              IsChecked="{Binding SECS_REMOTE, Mode=TwoWay}"
-                                              Style="{StaticResource ToggleSwitch}">
-                                    <ToggleButton.Tag>
-                                        <MultiBinding Converter="{StaticResource MultiAnyTrue}">
-                                            <Binding Converter="{StaticResource IsMoreThanValue}"
-                                                     ConverterParameter="2"
-                                                     FallbackValue="False"
-                                                     Mode="OneWay"
-                                                     Path="User.Level"
-                                                     Source="{StaticResource Mediator}" />
-                                            <Binding Converter="{StaticResource BoolNot}"
-                                                     Mode="OneWay"
-                                                     Path="IsChecked"
-                                                     RelativeSource="{RelativeSource Mode=Self}" />
-                                        </MultiBinding>
-                                    </ToggleButton.Tag>
-                                    <ToggleButton.IsHitTestVisible>
-                                        <MultiBinding Converter="{StaticResource MultiAllTrue}">
-                                            <Binding Converter="{StaticResource IsMoreThanValue}"
-                                                     ConverterParameter="1"
-                                                     FallbackValue="False"
-                                                     Mode="OneWay"
-                                                     Path="User.Level"
-                                                     Source="{StaticResource Mediator}" />
-                                            <Binding Mode="OneWay"
-                                                     Path="Tag"
-                                                     RelativeSource="{RelativeSource Mode=Self}" />
-                                        </MultiBinding>
-                                    </ToggleButton.IsHitTestVisible>
-                                    <ToggleButton.Content>
-                                        <Binding Mode="OneWay"
-                                                 Path="IsChecked"
-                                                 RelativeSource="{RelativeSource Mode=Self}">
-                                            <Binding.Converter>
-                                                <views:ObjectToObjectConverter DefaultTarget="{DynamicResource 本地}">
-                                                    <views:MapItem Target="{DynamicResource 遠端}">
-                                                        <views:MapItem.Source>
-                                                            <system:Boolean>True</system:Boolean>
-                                                        </views:MapItem.Source>
-                                                    </views:MapItem>
-                                                    <views:MapItem Target="{DynamicResource 本地}">
-                                                        <views:MapItem.Source>
-                                                            <system:Boolean>False</system:Boolean>
-                                                        </views:MapItem.Source>
-                                                    </views:MapItem>
-                                                </views:ObjectToObjectConverter>
-                                            </Binding.Converter>
-                                        </Binding>
-                                    </ToggleButton.Content>
-                                    <ToggleButton.IsEnabled>
-                                        <MultiBinding Converter="{StaticResource MultiAllTrue}">
-                                            <Binding ElementName="SECS_ONLINE"
-                                                     Mode="OneWay"
-                                                     Path="IsChecked" />
-                                            <Binding Mode="OneWay"
-                                                     Path="SECS_Communicating" />
-                                        </MultiBinding>
-                                    </ToggleButton.IsEnabled>
-                                </ToggleButton>
+                                </Button>                              
+                                
                             </Grid>
-                            <Button Grid.Row="1"
-                                    IsEnabled="{Binding SECS_Communicating, Mode=OneWay}">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction Command="{Binding SendTerminalMessageCommand, Mode=OneTime}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                                <TextBlock>
-                                    <Run Text="{DynamicResource 發送}" /><Run Text="{DynamicResource 訊息}" />
-                                </TextBlock>
-                            </Button>
+                            </GroupBox>
                         </Grid>
                     </GroupBox>
                     <GroupBox Grid.Row="3">
@@ -449,7 +414,7 @@
                                 </TextBlock>
                             </Border>
                         </GroupBox.Header>
-                        <DataGrid x:Name="MessageDataGrid"
+                    <DataGrid x:Name="MessageDataGrid"
                                   AutoGenerateColumns="False"
                                   BorderThickness="1,0,1,0"
                                   FontSize="12"
