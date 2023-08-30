@@ -462,39 +462,11 @@
                                 <TextBlock Text="開啟變更狀態" />
                                 <TextBlock Text="關閉變更狀態" />
                             </ListBox>
-                            
-                            <!--<ListBox Grid.Column="0"
-                                    Grid.Row="2"
-                                    IsEnabled="{Binding EqpState, Converter={StaticResource IsLessThanValue}, ConverterParameter=0, Mode=OneWay}"
-                                    Grid.ColumnSpan="2"
-                                    Margin="0,0,74,0">
-                                <TextBlock>停機</TextBlock>
-                            </ListBox>
-                            
-                            <ListBox Grid.Column="1"
-                                    Grid.Row="2"
-                                    SelectedValue="0"
-                                    IsEnabled="{Binding EqpState, Converter={StaticResource IsLessThanValue}, ConverterParameter=0, Mode=OneWay}">
-                                <TextBlock>故障</TextBlock>
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction Command="{Binding FailureCommand, Mode=OneTime}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </ListBox>
-                            
-                            <ListBox Grid.Column="1"
-                                    Grid.Row="2"
-                                    IsEnabled="{Binding EqpState, Converter={StaticResource IsLessThanValue}, ConverterParameter=0, Mode=OneWay}"
-                                    Grid.ColumnSpan="2"
-                                    Margin="74,0,0,0">
-                                <TextBlock>保養</TextBlock>
-                            </ListBox>-->
                             <Grid Grid.Row="2"
                                   Grid.ColumnSpan="3"
                                   IsEnabled="{Binding EqpState, Converter={StaticResource IsLessThanValue}, ConverterParameter=0, Mode=OneWay}">
                                 <ListBox FontWeight="Bold"
-                                         SelectedIndex="-1"
+                                         SelectedIndex="{Binding Status, Mode=TwoWay}"
                                          Style="{StaticResource ListBoxHorizontal2}">
                                     <ListBox.Template>
                                         <ControlTemplate>
@@ -510,7 +482,7 @@
                                   Grid.Row="3"
                                   IsEnabled="{Binding EqpState, Converter={StaticResource IsLessThanValue}, ConverterParameter=0, Mode=OneWay}">
                                 <Button Margin="0,3,0,0"
-                                        IsEnabled="{Binding Status ,Converter={StaticResource IsEqualValue}, ConverterParameter=0 ,Mode=TwoWay}">
+                                        IsEnabled="{Binding Status ,Converter={StaticResource IsEqualValue}, ConverterParameter=1 ,Mode=TwoWay}">
                                     <TextBlock>異常停止</TextBlock>
                                 </Button>
                             </Grid>
