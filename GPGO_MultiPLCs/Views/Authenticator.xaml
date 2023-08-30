@@ -41,7 +41,7 @@
         </Style>
     </UserControl.Style>
 
-    <Border Width="540"
+    <Border Width="600"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Background="{StaticResource WindowBackgroundBrush2}"
@@ -239,7 +239,8 @@
                                Text="{Binding NowUser.Level, Mode=OneWay, Converter={StaticResource SubHeadString}, ConverterParameter=2, FallbackValue=GU}" />
                 </Border>
             </Grid>
-            <TabControl Grid.Row="6"
+            <TabControl Grid.Row="3"
+                        Grid.RowSpan="4"
                         Margin="8,0,8,8"
                         views:TabControl.EnableSliding="True"
                         IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay, FallbackValue=False}"
@@ -247,7 +248,7 @@
                 <TabItem Height="40"
                          FontSize="16"
                          Header="{DynamicResource 人員管理}">
-                    <Grid Height="240">
+                    <Grid >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition />
@@ -419,207 +420,59 @@
                             BorderThickness="0,0,0,0">
                         <Grid>
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="100"/>
                                 <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition />
+                                <RowDefinition  Height="80"/>
                                 <RowDefinition />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition  Width="100"/>
                                 <ColumnDefinition  />
                             </Grid.ColumnDefinitions>                            
-                            <Border Background="{StaticResource WindowBackgroundBrush2}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1,1,0,1">
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Text="{DynamicResource Equipment ID}" />
-                            </Border>
-                            <TextBox x:Name="EquipmentTextBox"
-                                     Grid.Row="0"
-                                     Grid.Column="1"
-                                     BorderThickness="1,0,1,1"
-                                     FontSize="16"
-                                     KeyDown="TextBox_KeyDown"
-                                     Text="{Binding Settings.EquipmentID, Mode=TwoWay}" />
-                            <Border Grid.Row="1"
-                                    Background="{StaticResource WindowBackgroundBrush2}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1,1,0,1">
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Text="{DynamicResource iMES URL}" />
-                            </Border>
-                            <TextBox x:Name="iMESURLTextBox"
-                                     Grid.Row="1"
-                                     Grid.Column="1"
-                                     BorderThickness="1,0,1,1"
-                                     FontSize="16"
-                                     KeyDown="TextBox_KeyDown"
-                                     Text="{Binding Settings.iMESURL, Mode=TwoWay}" />
-                            
-                            <Border Grid.Row="2"
-                                    Background="{StaticResource WindowBackgroundBrush2}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1,1,0,1">
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Text="{DynamicResource Carrier A}" />
-                            </Border>                            
-                            <TextBox x:Name="CarrierAIDTextBox"
-                                     Grid.Row="2"
-                                     Grid.Column="1"
-                                     BorderThickness="1,0,1,1"
-                                     FontSize="16"
-                                     KeyDown="TextBox_KeyDown"
-                                     Text="{Binding Settings.CarrierAID, Mode=TwoWay}" />
-
-                            <Border Grid.Row="3"
-                                    Background="{StaticResource WindowBackgroundBrush2}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1,1,0,1">
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Text="{DynamicResource Carrier B}" />
-                            </Border>
-                            <TextBox x:Name="CarrierBIDTextBox"
-                                     Grid.Row="3"
-                                     Grid.Column="1"
-                                     BorderThickness="1,0,1,1"
-                                     FontSize="16"
-                                     KeyDown="TextBox_KeyDown"
-                                     Text="{Binding Settings.CarrierBID, Mode=TwoWay}" />
-
-                            <Border Grid.Row="4"
-                                    Background="{StaticResource WindowBackgroundBrush2}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1,1,0,1">
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Text="{DynamicResource AVG Timeliness}" />
-                            </Border>
-                           
-                            <Border Grid.Row="4"
-                                    Grid.Column="1"
-                                    Background="{StaticResource LightBrush}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1,0,1,1">
-                                <views:SpinControl Margin="8,0"
-                                                   VerticalAlignment="Center"
-                                                   Maximum="60"
-                                                   Minimum="1"
-                                                   Value="{Binding Settings.AVGTime, Mode=TwoWay}">
-                                    <views:SpinControl.SmallChange>
-                                        <system:Double>1</system:Double>
-                                    </views:SpinControl.SmallChange>
-                                    <views:NumericTextBox Background="Transparent"
-                                                          BorderThickness="0"
-                                                          IntOnly="True"
-                                                          Max="60"
-                                                          Min="1"
-                                                          Text="{Binding Settings.AVGTime, Mode=TwoWay}"
-                                                          Unit="s" />
-                                </views:SpinControl>
-                            </Border>
-                            
-                            <Border Grid.Row="5"
-                                    Background="{StaticResource WindowBackgroundBrush2}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1,1,0,1">
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Text="{DynamicResource TimeOut}" />
-                            </Border>
-                            <Border Grid.Row="5"
-                                    Grid.Column="1"
-                                    Background="{StaticResource LightBrush}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1,0,1,1">
-                                <views:SpinControl Margin="8,0"
-                                                   VerticalAlignment="Center"
-                                                   Maximum="60"
-                                                   Minimum="1"
-                                                   Value="{Binding Settings.TimeOut, Mode=TwoWay}">
-                                    <views:SpinControl.SmallChange>
-                                        <system:Double>1</system:Double>
-                                    </views:SpinControl.SmallChange>
-                                    <views:NumericTextBox Background="Transparent"
-                                                          BorderThickness="0"
-                                                          IntOnly="True"
-                                                          Max="60"
-                                                          Min="1"
-                                                          Text="{Binding Settings.TimeOut, Mode=TwoWay}"
-                                                          Unit="s" />
-                                </views:SpinControl>
-                            </Border>
-                    
-                        </Grid>
-                    </Border>
-                </TabItem>
-                <TabItem Height="40"
-                         FontSize="16"
-                         Header="{DynamicResource MESHeartConfig}"
-                         IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3, Mode=OneWay, FallbackValue=False}"
-                         Visibility="{Binding IsEnabled, Converter={StaticResource BoolVis}, Mode=OneWay, RelativeSource={RelativeSource Self}}">
-                    <Border BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                            BorderThickness="0,0,0,0">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="30"/>
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                          
-                            <!--<CheckBox x:Name="HeartCheck"
-                                      Grid.Row="0"
-                                      FontSize="16"
-                                      IsChecked="True"
-                                      IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3, Mode=OneWay, FallbackValue=False}">
-                                <TextBlock Text="{DynamicResource Use MES Heart}"></TextBlock>
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction Command="{Binding HeartBeatUseButton, Mode=OneWay}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </CheckBox>-->
-                            <CheckBox Grid.Row="0"
-                                      IsChecked="{Binding Settings.UseHeart, Mode=TwoWay }"
-                                      IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3, Mode=OneWay, FallbackValue=False}"
-                                      Style="{StaticResource ToggleSwitch}">
-                                <TextBlock VerticalAlignment="Center"
-                                           Text="{DynamicResource Use MES Heart}" />
-                            </CheckBox>
-                            
-                            <Grid x:Name="HeartConfig"
-                                  Grid.Row="1">
+                            <Grid Grid.Row="0"
+                                  Grid.ColumnSpan="2">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                    <RowDefinition />
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="100"/>
-                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="100"></ColumnDefinition>
+                                    <ColumnDefinition ></ColumnDefinition>
+                                    <ColumnDefinition Width="100"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <Border Grid.Row="0"
                                         Grid.Column="0"
-                                        Background="{StaticResource WindowBackgroundBrush2}"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                        BorderThickness="1,1,0,1"
-                                        IsEnabled="{Binding OnHeart}">
+                                        BorderThickness="1,1,0,1">
                                     <TextBlock HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
-                                               Text="{DynamicResource HeartContent}" />
+                                               Text="{DynamicResource Equipment ID}" />
                                 </Border>
-                                <TextBox x:Name="HeartContentTextBox"
+                                <TextBox x:Name="EquipmentTextBox"
                                          Grid.Row="0"
                                          Grid.Column="1"
                                          BorderThickness="1,0,1,1"
                                          FontSize="16"
-                                         KeyDown="TextBox_KeyDown"
-                                         Text="{Binding Settings.HeartContent, Mode=TwoWay }" />
+                                         Text="{Binding Settings.EquipmentID, Mode=TwoWay}" />
+                                <Border Grid.Row="0"
+                                        Grid.Column="2"
+                                        Background="{StaticResource WindowBackgroundBrush2}"
+                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                        BorderThickness="1,1,0,1">
+                                    <TextBlock HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Text="{DynamicResource iMES URL}" />
+                                </Border>
+                                <TextBox x:Name="iMESURLTextBox"
+                                         Grid.Row="0"
+                                         Grid.Column="3"
+                                         BorderThickness="1,0,1,1"
+                                         FontSize="16"
+                                         Text="{Binding Settings.iMESURL, Mode=TwoWay}" />
+                                
                                 
                                 <Border Grid.Row="1"
                                         Grid.Column="0"
@@ -628,16 +481,30 @@
                                         BorderThickness="1,1,0,1">
                                     <TextBlock HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
-                                               Text="{DynamicResource HeartService}" />
+                                               Text="{DynamicResource Carrier A}" />
                                 </Border>
-                                <TextBox x:Name="HeartServiceTextBox"
+                                <TextBox x:Name="CarrierAIDTextBox"
                                          Grid.Row="1"
                                          Grid.Column="1"
                                          BorderThickness="1,0,1,1"
                                          FontSize="16"
-                                         KeyDown="TextBox_KeyDown"
-                                         Text="{Binding Settings.HeartService, Mode=TwoWay}" />
-                                
+                                         Text="{Binding Settings.CarrierAID, Mode=TwoWay}" />
+
+                                <Border Grid.Row="1"
+                                        Grid.Column="2"
+                                        Background="{StaticResource WindowBackgroundBrush2}"
+                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                        BorderThickness="1,1,0,1">
+                                    <TextBlock HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Text="{DynamicResource Carrier B}" />
+                                </Border>
+                                <TextBox x:Name="CarrierBIDTextBox"
+                                         Grid.Row="1"
+                                         Grid.Column="3"
+                                         BorderThickness="1,0,1,1"
+                                         FontSize="16"
+                                         Text="{Binding Settings.CarrierBID, Mode=TwoWay}" />
                                 <Border Grid.Row="2"
                                         Grid.Column="0"
                                         Background="{StaticResource WindowBackgroundBrush2}"
@@ -645,25 +512,9 @@
                                         BorderThickness="1,1,0,1">
                                     <TextBlock HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
-                                               Text="{DynamicResource HeartPort}" />
+                                               Text="{DynamicResource AVG Timeliness}" />
                                 </Border>
-                                <TextBox x:Name="HeartPortTextBox"
-                                         Grid.Row="2"
-                                         Grid.Column="1"
-                                         BorderThickness="1,0,1,1"
-                                         FontSize="16"
-                                         KeyDown="TextBox_KeyDown"
-                                         Text="{Binding Settings.HeartPort, Mode=TwoWay}" /> 
-                                <Border Grid.Row="3"
-                                        Grid.Column="0"
-                                        Background="{StaticResource WindowBackgroundBrush2}"
-                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                        BorderThickness="1,1,0,1">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="{DynamicResource HeartTime}" />
-                                </Border>
-                                <Border Grid.Row="3"
+                                <Border Grid.Row="2"
                                         Grid.Column="1"
                                         Background="{StaticResource LightBrush}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -672,7 +523,7 @@
                                                        VerticalAlignment="Center"
                                                        Maximum="60"
                                                        Minimum="1"
-                                                       Value="{Binding Settings.HeartTime, Mode=TwoWay}">
+                                                       Value="{Binding Settings.AVGTime, Mode=TwoWay}">
                                         <views:SpinControl.SmallChange>
                                             <system:Double>1</system:Double>
                                         </views:SpinControl.SmallChange>
@@ -681,16 +532,175 @@
                                                               IntOnly="True"
                                                               Max="60"
                                                               Min="1"
-                                                              Text="{Binding Settings.HeartTime, Mode=TwoWay}"
+                                                              Text="{Binding Settings.AVGTime, Mode=TwoWay}"
                                                               Unit="s" />
                                     </views:SpinControl>
                                 </Border>
-                            </Grid>                                     
+
+                                <Border Grid.Row="2"
+                                        Grid.Column="2"
+                                        Background="{StaticResource WindowBackgroundBrush2}"
+                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                        BorderThickness="1,1,0,1">
+                                    <TextBlock HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Text="{DynamicResource TimeOut}" />
+                                </Border>
+                                <Border Grid.Row="2"
+                                        Grid.Column="3"
+                                        Background="{StaticResource LightBrush}"
+                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                        BorderThickness="1,0,1,1">
+                                    <views:SpinControl Margin="8,0"
+                                                       VerticalAlignment="Center"
+                                                       Maximum="60"
+                                                       Minimum="1"
+                                                       Value="{Binding Settings.TimeOut, Mode=TwoWay}">
+                                        <views:SpinControl.SmallChange>
+                                            <system:Double>1</system:Double>
+                                        </views:SpinControl.SmallChange>
+                                        <views:NumericTextBox Background="Transparent"
+                                                              BorderThickness="0"
+                                                              IntOnly="True"
+                                                              Max="60"
+                                                              Min="1"
+                                                              Text="{Binding Settings.TimeOut, Mode=TwoWay}"
+                                                              Unit="s" />
+                                    </views:SpinControl>
+                                </Border>
+                            </Grid>
+                           
+                            <CheckBox Grid.Row="1"
+                                      Grid.ColumnSpan="2"
+                                      IsChecked="{Binding Settings.UseHeart, Mode=TwoWay }"
+                                      IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3, Mode=OneWay, FallbackValue=False}"
+                                      Style="{StaticResource ToggleSwitch}">
+                                <TextBlock VerticalAlignment="Center"
+                                           Text="{DynamicResource Use MES Heart}" />
+                            </CheckBox>
+                            <Border BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                    BorderThickness="0,0,0,0"
+                                    Grid.Row="2"
+                                    Grid.ColumnSpan="2">
+                                <Grid>
+                                    <Grid x:Name="HeartConfig"
+                                          Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid Grid.Row="0"
+                                              Grid.ColumnSpan="2">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="100" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width="100" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <Border Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="1,1,0,1">
+                                                <TextBlock HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Text="{DynamicResource HeartContent}" />
+                                            </Border>
+                                            <TextBox x:Name="HeartContentTextBox"
+                                                     Grid.Row="0"
+                                                     Grid.Column="1"
+                                                     BorderThickness="1,1,0,1"
+                                                     FontSize="16"
+                                                     Text="{Binding Settings.HeartContent, Mode=TwoWay }" />
+                                            <Border Grid.Row="0"
+                                                    Grid.Column="2"
+                                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="1,1,0,1">
+                                                <TextBlock HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Text="{DynamicResource HeartService}" />
+                                            </Border>
+                                            <TextBox x:Name="HeartServiceTextBox"
+                                                     Grid.Row="0"
+                                                     Grid.Column="3"
+                                                     BorderThickness="1,0,1,1"
+                                                     FontSize="16"
+                                                     Text="{Binding Settings.HeartService, Mode=TwoWay}" />
+                                            <Border Grid.Row="1"
+                                                    Grid.Column="0"
+                                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="1,1,0,1">
+                                                <TextBlock HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Text="{DynamicResource HeartPort}" />
+                                            </Border>
+                                            <TextBox x:Name="HeartPortTextBox"
+                                                     Grid.Row="1"
+                                                     Grid.Column="1"
+                                                     BorderThickness="1,0,1,1"
+                                                     FontSize="16"
+                                                     Text="{Binding Settings.HeartPort, Mode=TwoWay}" />
+                                            <Border Grid.Row="1"
+                                                    Grid.Column="2"
+                                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="1,1,0,1">
+                                                <TextBlock HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Text="{DynamicResource HeartTime}" />
+                                            </Border>
+                                            <Border Grid.Row="1"
+                                                    Grid.Column="3"
+                                                    Background="{StaticResource LightBrush}"
+                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="1,0,1,1">
+                                                <views:SpinControl Margin="8,0"
+                                                                   VerticalAlignment="Center"
+                                                                   Maximum="60"
+                                                                   Minimum="1"
+                                                                   Value="{Binding Settings.HeartTime, Mode=TwoWay}">
+                                                    <views:SpinControl.SmallChange>
+                                                        <system:Double>1</system:Double>
+                                                    </views:SpinControl.SmallChange>
+                                                    <views:NumericTextBox Background="Transparent"
+                                                                          BorderThickness="0"
+                                                                          IntOnly="True"
+                                                                          Max="60"
+                                                                          Min="1"
+                                                                          Text="{Binding Settings.HeartTime, Mode=TwoWay}"
+                                                                          Unit="s" />
+                                                </views:SpinControl>
+                                            </Border>
+                                        </Grid>
+                                       
+                                        
+                                       
+                                      
+                                    </Grid>
+                                </Grid>
+                            </Border>
+
+                            <Button Grid.Row="3"
+                                    Grid.ColumnSpan="2">
+                                <Viewbox StretchDirection="DownOnly">
+                                    <TextBlock Text="存檔" />
+                                </Viewbox>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding BtnSaveCommand, Mode=OneWay}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                            
                         </Grid>
                     </Border>
-                 </TabItem>
-                
-                
+                </TabItem>
                  <TabItem Height="40"
                          FontSize="16"
                          Header="{DynamicResource 系統設定}"

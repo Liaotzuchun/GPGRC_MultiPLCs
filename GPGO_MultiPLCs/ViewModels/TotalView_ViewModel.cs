@@ -55,13 +55,21 @@ public sealed class TotalView_ViewModel : ObservableObject
 
     public RelayCommand SecsReStartCommand { get; }
 
-    public RelayCommand AddA { get; }
-    public RelayCommand AddB { get; }
+    public RelayCommand AddAGV { get; }
     public RelayCommand OutAGV { get; }
+    public RelayCommand NGOutAGV { get; }
     public RelayCommand RetAGV { get; }
     public RelayCommand TaskControl { get; }
     public RelayCommand DataUpload { get; }
     public RelayCommand Ingredients { get; }
+
+    public event Action<int> AddAGVevent;
+    public event Action<int> OutAGVevent;
+    public event Action<int> NGOutAGVevent;
+    public event Action<int> RetAGVevent;
+    public event Func<Task> TaskControlevent;
+    public event Func<Task> DataUploadevent;
+    public event Func<Task> Ingredientsevent;
 
     /// <summary>所有PLC</summary>
     public IList<PLC_ViewModel> PLC_All { get; }
@@ -112,6 +120,43 @@ public sealed class TotalView_ViewModel : ObservableObject
         set => Set(value);
     }
 
+    public int CarrierIndex
+    {
+        get => Get<int>();
+        set => Set(value);
+    }
+    public int EqpState
+    {
+        get => Get<int>();
+        set => Set(value);
+    }
+    public bool AddEnabled
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+    public bool RetEnabled
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+    public bool OutEnabled
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+    public bool NGOutEnabled
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+    public int Status
+    {
+        get => Get<int>();
+        set => Set(value);
+    }
+
+
     public TotalView_ViewModel(int count, IGate gate, IPAddress plcaddress, IDialogService dialog)
     {
         asyncOperation = AsyncOperationManager.CreateOperation(null);
@@ -121,6 +166,14 @@ public sealed class TotalView_ViewModel : ObservableObject
         PLC_All = new PLC_ViewModel[count];
         PLCIndex = 0;
         Mode = 0;
+        CarrierIndex = 0;
+        EqpState = 1;
+        AddEnabled = true;
+        RetEnabled = false;
+        OutEnabled = false;
+        NGOutEnabled = false;
+        Status = -1;
+
         var v = Assembly.GetExecutingAssembly().GetName().Version;
         threadid = Thread.CurrentThread.ManagedThreadId;
         BackCommand = new RelayCommand(index => Index = index != null && int.TryParse(index.ToString(), out var i) ? i : 0);
@@ -168,65 +221,49 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                                           var tid = Thread.CurrentThread.ManagedThreadId;
                                                                           if (threadid == tid)
                                                                           {
-                                                                              //SecsGemEquipment.ReStartSecsgem();
-                                                                              //SecsGemEquipment.Enable(true);
-                                                                              //SecsGemEquipment.Online(true);
                                                                           }
                                                                       },
                                                                       null);
                                               });
 
-        AddA = new RelayCommand(_ =>
+        AddAGV = new RelayCommand(_ =>
         {
-            MessageBox.Show("AddA");
-
+            AddEnabled = false;
+            AddAGVevent?.Invoke(CarrierIndex);
         });
-
-        AddB = new RelayCommand(_ =>
-        {
-            MessageBox.Show("AddB");
-
-        });
-
         OutAGV = new RelayCommand(_ =>
         {
-            MessageBox.Show("OutAGV");
-
+            OutEnabled = false;
+            OutAGVevent?.Invoke(CarrierIndex);
         });
-
+        NGOutAGV = new RelayCommand(_ =>
+        {
+            NGOutEnabled = false;
+            NGOutAGVevent?.Invoke(CarrierIndex);
+        });
         RetAGV = new RelayCommand(_ =>
         {
-            MessageBox.Show("RetAGV");
-
+            RetEnabled = false;
+            RetAGVevent?.Invoke(CarrierIndex);
         });
 
         TaskControl = new RelayCommand(_ =>
         {
-            MessageBox.Show("TaskControl");
+            TaskControlevent?.Invoke();
         });
 
         DataUpload = new RelayCommand(_ =>
         {
-            MessageBox.Show("DataUpload");
+            DataUploadevent?.Invoke();
         });
 
         Ingredients = new RelayCommand(_ =>
         {
-            MessageBox.Show("Ingredients");
+            Ingredientsevent?.Invoke();
         });
 
         PropertyChanged += (_, e) =>
                {
-                   //if (e.PropertyName is nameof(SECS_ENABLE) or nameof(SECS_Communicating) or nameof(SECS_ONLINE) or nameof(SECS_REMOTE))
-                   //{
-                   //    //var val  = SECS_ENABLE && SECS_Communicating && SECS_ONLINE;
-                   //    //var val2 = val         && SECS_REMOTE;
-                   //    foreach (var plc in PLC_All)
-                   //    {
-                   //        plc.SecsIsOnline       = val;
-                   //        plc.SecsIsRemoteOnline = val2;
-                   //    }
-                   //}
                };
         //var address = plcaddress.GetAddressBytes();
 

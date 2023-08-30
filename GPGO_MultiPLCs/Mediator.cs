@@ -113,6 +113,7 @@ public sealed class Mediator : ObservableObject
     public TotalView_ViewModel TotalVM { get; }
     public TraceabilityView_ViewModel TraceVM { get; }
     public IGate PlcGate { get; }
+    public string CarrierID { get; private set; }
 
     public Mediator()
     {
@@ -140,6 +141,9 @@ public sealed class Mediator : ObservableObject
             Level = UserLevel.Guest
         };
         User = AuthenticatorVM.NowUser;
+
+        SCC_ServerSideRef.MacIntfWSClient Web = new SCC_ServerSideRef.MacIntfWSClient();
+        Web.Open();
 
         AuthenticatorVM.Settings.PropertyChanged += (s, e) =>
                                                     {
@@ -190,6 +194,14 @@ public sealed class Mediator : ObservableObject
             }
         };
 
+        AuthenticatorVM.BtnSaveEvent += async () =>
+        {
+            DialogVM.Show(new Dictionary<Language, string>
+                                                     {
+                                                         { Language.TW, "MES設定存檔成功" },
+                                                         { Language.CHS, "MES设定存档成功" },
+                                                     });
+        };
         //! 當回到主頁時，也將生產總覽回到總覽頁
         MainVM.IndexChangedEvent += i =>
                                     {
@@ -453,6 +465,192 @@ public sealed class Mediator : ObservableObject
 
         TotalVM.DeleteRecipe += recipe => RecipeVM.Delete(recipe).Result;
 
+        #region WebService
+        //AddAGV
+        TotalVM.AddAGVevent += async e =>
+        {
+            await Task.Run(() =>
+            {
+                GetCarrierID(e);
+                var methodInvoke = "CallAgv";
+                var macCode = AuthenticatorVM.Settings.EquipmentID;
+                var berthCode = $"In_{CarrierID}" ;
+                var wipEntity = "";
+                var input = $@"<?xml version=""1.0"" encoding=""UTF-8""?>
+                            <CallAgv>
+                            xmlns:xsi = ""http://www.w3.org/2001/XMLSchema-instance""
+                            xmIns:xsd = ""http://www.w3.org/2001/XMLSchema""
+                            macCode = ""{macCode}""
+                            berthCode = ""{berthCode}""
+                            wipEntity = """">
+                            </CallAgv> ";
+
+                Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+                {
+                    methodInvoke = methodInvoke,
+                    input = input
+                });
+                Log.Debug($"methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+                Thread.Sleep(AuthenticatorVM.Settings.AVGTime * 1000);
+                TotalVM.AddEnabled = true;
+            });
+        };
+
+        //出料
+        TotalVM.OutAGVevent += e =>
+        {
+            GetCarrierID(e);
+            var methodInvoke = "CallAgv";
+            var macCode = AuthenticatorVM.Settings.EquipmentID;
+            var berthCode = $"Out_{CarrierID}";
+            var wipEntity = ""; //板件2D??
+            var input = $@"<?xml version=""1.0"" encoding=""UTF-8""?>
+                            <CallAgv>
+                            xmlns:xsi = ""http://www.w3.org/2001/XMLSchema-instance""
+                            xmIns:xsd = ""http://www.w3.org/2001/XMLSchema""
+                            macCode = ""{macCode}""
+                            berthCode = ""{berthCode}""
+                            wipEntity = ""{wipEntity}"">
+                            </CallAgv> ";
+
+
+            Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+            {
+                methodInvoke = methodInvoke,
+                input = input
+            });
+            Log.Debug($"methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+        };
+
+        //NG出料
+        TotalVM.NGOutAGVevent += e =>
+        {
+            GetCarrierID(e);
+            var methodInvoke = "CallAgv";
+            var macCode = AuthenticatorVM.Settings.EquipmentID;
+            var berthCode = $"NGOut_{CarrierID}";
+            var wipEntity = ""; //板件2D??
+            var input = $@"<?xml version=""1.0"" encoding=""UTF-8""?>
+                            <CallAgv>
+                            xmlns:xsi = ""http://www.w3.org/2001/XMLSchema-instance""
+                            xmIns:xsd = ""http://www.w3.org/2001/XMLSchema""
+                            macCode = ""{macCode}""
+                            berthCode = ""{berthCode}""
+                            wipEntity = ""{wipEntity}"">
+                            </CallAgv> ";
+
+            Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+            {
+                methodInvoke = methodInvoke,
+                input = input
+            });
+            Log.Debug($"methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+        };
+
+        //退料
+        TotalVM.RetAGVevent += async e =>
+        {
+            await Task.Run(() =>
+            {
+                GetCarrierID(e);
+                var methodInvoke = "CallAgv";
+                var macCode = AuthenticatorVM.Settings.EquipmentID;
+                var berthCode = $"Ret_{CarrierID}";
+                var wipEntity = "";  //板件2D??
+                var input = $@"<?xml version=""1.0"" encoding=""UTF-8""?>
+                            <CallAgv>
+                            xmlns:xsi = ""http://www.w3.org/2001/XMLSchema-instance""
+                            xmIns:xsd = ""http://www.w3.org/2001/XMLSchema""
+                            macCode = ""{macCode}""
+                            berthCode = ""{berthCode}""
+                            wipEntity = ""{wipEntity}"">
+                            </CallAgv> ";
+
+                Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+                {
+                    methodInvoke = methodInvoke,
+                    input = input
+                });
+                Log.Debug($"methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+                Thread.Sleep(AuthenticatorVM.Settings.AVGTime * 1000);
+                TotalVM.AddEnabled = true;
+            });
+        };
+
+        //上傳加工紀錄
+        TotalVM.DataUploadevent += async () =>
+        {
+            var methodInvoke = "DataUpload";
+            var macCode = AuthenticatorVM.Settings.EquipmentID;
+            var wipEntity = "";  //工單ID
+
+            var input = $@"<?xml version=""1.0"" encoding=""UTF-8""?>
+                            <DataUpload>
+                            xmlns:xsi = ""http://www.w3.org/2001/XMLSchema-instance""
+                            xmIns:xsd = ""http://www.w3.org/2001/XMLSchema""
+                            macCode = ""{macCode}""
+                            wipEntity = ""{wipEntity}"">
+                                <item tagCode=""{macCode}""_1000 tagValue=""工單ID"" timeStamp="""" />
+                                <item tagCode=""{macCode}""_1001 tagValue=""物資編碼"" timeStamp="""" />
+                                <item tagCode=""{macCode}""_1002 tagValue=""工序代碼"" timeStamp="""" />
+                                <item tagCode=""{macCode}""_1003 tagValue=""計畫加工板數"" timeStamp="""" />
+                            </DataUpload> ";
+
+            Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+            {
+                methodInvoke = methodInvoke,
+                input = input
+            });
+            Log.Debug($"methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+        };
+
+        //作業管控  人工掃碼，掃板子的碼
+        TotalVM.TaskControlevent += async () =>
+        {
+            var methodInvoke = "TaskControl";
+            var macCode = AuthenticatorVM.Settings.EquipmentID;
+            var wipEntity = "";  //大板是Panel 小板是Strip?
+
+            var input = $@"<?xml version=""1.0"" encoding=""UTF-8""?>
+                            <TaskControl>
+                            xmlns:xsi = ""http://www.w3.org/2001/XMLSchema-instance""
+                            xmIns:xsd = ""http://www.w3.org/2001/XMLSchema""
+                            macCode = ""{macCode}""
+                            wipEntity = ""{wipEntity}"">                              
+                            </TaskControl> ";
+
+            Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+            {
+                methodInvoke = methodInvoke,
+                input = input
+            });
+            Log.Debug($"methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+        };
+
+        //配方
+        TotalVM.Ingredientsevent += async () =>
+        {
+            var methodInvoke = "Ingredients";
+            var macCode = AuthenticatorVM.Settings.EquipmentID;
+            var wipEntity = "";  //板件2D 或是工單ID?
+
+            var input = $@"<?xml version=""1.0"" encoding=""UTF-8""?>
+                            <Ingredients>
+                            xmlns:xsi = ""http://www.w3.org/2001/XMLSchema-instance""
+                            xmIns:xsd = ""http://www.w3.org/2001/XMLSchema""
+                            macCode = ""{macCode}""
+                            wipEntity = ""{wipEntity}"">                              
+                            </Ingredients> ";
+
+            Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+            {
+                methodInvoke = methodInvoke,
+                input = input
+            });
+            Log.Debug($"methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+        };
+        #endregion
+
         LogVM.WantInfo += e => TraceVM.FindInfo(e.station, e.time);
 
         LogVM.GoDetailView += async e =>
@@ -546,6 +744,15 @@ public sealed class Mediator : ObservableObject
             Console.WriteLine($"{e.Message}");
         }
     }
+
+    public void GetCarrierID(int CarrierIndex)
+    {
+        if (CarrierIndex is 0)
+            CarrierID = AuthenticatorVM.Settings.CarrierAID;
+        else
+            CarrierID = AuthenticatorVM.Settings.CarrierBID;
+    }
+
     /// <summary>產生測試資料至資料庫</summary>
     /// <param name="PLC_Count"></param>
     //public void MakeTestData(int PLC_Count)

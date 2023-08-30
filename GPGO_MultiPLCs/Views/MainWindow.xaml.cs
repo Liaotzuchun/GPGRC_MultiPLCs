@@ -36,17 +36,14 @@ public partial class MainWindow
         source?.AddHook(Hook);
     }
 
-    private IntPtr Hook(IntPtr   hwnd,
-                        int      msg,
-                        IntPtr   wparam,
-                        IntPtr   lparam,
+    private IntPtr Hook(IntPtr hwnd,
+                        int msg,
+                        IntPtr wparam,
+                        IntPtr lparam,
                         ref bool handled)
     {
         if (msg == 0x00FF)
         {
-//#if DEBUG
-//            Extensions.IsReaderInput = true;
-//#else
             try
             {
                 var data = RawInputData.FromHandle(lparam);
@@ -71,7 +68,6 @@ public partial class MainWindow
             {
                 Log.Error(ex, "");
             }
-//#endif
         }
 
         return IntPtr.Zero;

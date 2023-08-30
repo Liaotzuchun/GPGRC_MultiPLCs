@@ -48,7 +48,8 @@
                         </ListBox.ItemsPanel>
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem">
-                                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                                <Setter Property="FocusVisualStyle"
+                                        Value="{x:Null}" />
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBoxItem">
@@ -235,7 +236,9 @@
                                 <DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"
                                                  Value="True">
-                                        <Setter TargetName="TemperatureText" Property="Foreground" Value="{StaticResource BaseForeground}" />
+                                        <Setter TargetName="TemperatureText"
+                                                Property="Foreground"
+                                                Value="{StaticResource BaseForeground}" />
                                     </DataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>
@@ -264,6 +267,7 @@
                         <RowDefinition Height="4" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="4" />
+                        <RowDefinition Height="Auto" />
                         <RowDefinition />
                         <RowDefinition Height="40" />
                     </Grid.RowDefinitions>
@@ -279,9 +283,10 @@
                                 <RowDefinition Height="5" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            
+
                             <ListBox Grid.Row="0"
                                      ItemContainerStyle="{StaticResource ListBoxItem_Top}"
+                                     Background="Yellow"
                                      SelectedIndex="{Binding Mode, Mode=TwoWay}">
                                 <ListBox.Template>
                                     <ControlTemplate>
@@ -292,116 +297,228 @@
                                     <ItemsPanelTemplate>
                                         <UniformGrid Rows="1" />
                                     </ItemsPanelTemplate>
-                                </ListBox.ItemsPanel>                                
-                                <TextBlock Text="{DynamicResource 離線}"   />
+                                </ListBox.ItemsPanel>
+                                <TextBlock Text="{DynamicResource 離線}" />
                                 <TextBlock Text="{DynamicResource 半自動}" />
-                                <TextBlock Text="{DynamicResource 在線}"   />
-                            </ListBox>                           
+                                <TextBlock Text="{DynamicResource 在線}" />
+                            </ListBox>
                             <GroupBox Grid.Row="2"
                                       Header="MES">
-                                <Grid >
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="50"/>
-                                    <RowDefinition Height="50"/>
-                                    <RowDefinition Height="50"/>
-                                    <RowDefinition Height="50"/>
-                                </Grid.RowDefinitions>
-                                <Grid Grid.Row="0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition></ColumnDefinition>
-                                        <ColumnDefinition></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-                                    <Button Grid.Row="0"
-                                            Grid.Column="0"
-                                                IsEnabled="{Binding Mode, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}">
-                                        <TextBlock>A叫料</TextBlock>
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="Click">
-                                                <i:InvokeCommandAction Command="{Binding AddA, Mode=OneTime}" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
-                                    </Button>
-                                    <Button Grid.Row="0"
-                                            Grid.Column="1"
-                                                IsEnabled="{Binding Mode, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}">
-                                        <TextBlock>B叫料</TextBlock>
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="Click">
-                                                <i:InvokeCommandAction Command="{Binding AddB, Mode=OneTime}" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
-                                    </Button>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="50" />
+                                        <RowDefinition Height="5" />
+                                        <RowDefinition Height="100" />
+                                        <RowDefinition Height="100" />
+                                    </Grid.RowDefinitions>
+                                    <ListBox Grid.Row="0"
+                                             FontWeight="Bold"
+                                             SelectedIndex="{Binding CarrierIndex, Mode=TwoWay}"
+                                             Style="{StaticResource ListBoxHorizontal2}"
+                                             IsEnabled="{Binding Mode, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}">
+                                        <ListBox.Template>
+                                            <ControlTemplate>
+                                                <ItemsPresenter />
+                                            </ControlTemplate>
+                                        </ListBox.Template>
+                                        <ListBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <views:UniformStackPanel Orientation="Horizontal" />
+                                            </ItemsPanelTemplate>
+                                        </ListBox.ItemsPanel>
+                                        <TextBlock Text="{DynamicResource 載具A}" />
+                                        <TextBlock Text="{DynamicResource 載具B}" />
+                                    </ListBox>
+                                    <Grid Grid.Row="2"
+                                          IsEnabled="{Binding Mode, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Button x:Name="AddAgv"
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                IsEnabled="{Binding AddEnabled}">
+                                            <TextBlock>叫料</TextBlock>
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction Command="{Binding AddAGV, Mode=OneTime}" />
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </Button>
+                                        <Button Grid.Row="0"
+                                                Grid.Column="1"
+                                                IsEnabled="{Binding RetEnabled}">
+                                            <TextBlock>退料</TextBlock>
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction Command="{Binding RetAGV, Mode=OneTime}" />
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </Button>
+
+                                        <Button Grid.Row="1"
+                                                Grid.Column="0"
+                                                IsEnabled="{Binding OutEnabled}">
+                                            <TextBlock Text="出料">
+                                            </TextBlock>
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction Command="{Binding OutAGV, Mode=OneTime}" />
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </Button>
+
+                                        <Button Grid.Row="1"
+                                                Grid.Column="1"
+                                                IsEnabled="{Binding NGOutEnabled}">
+                                            <TextBlock>NG出料
+                                            </TextBlock>
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction Command="{Binding NGOutAGV, Mode=OneTime}" />
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </Button>
+                                    </Grid>
+                                    <Grid Grid.Row="3"
+                                          Grid.ColumnSpan="2"
+                                          IsEnabled="{Binding Mode, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Grid.Row="0"
+                                                Grid.Column="0">
+                                            <TextBlock>作業管控</TextBlock>
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction Command="{Binding TaskControl, Mode=OneTime}" />
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </Button>
+                                        <Button Grid.Row="0"
+                                                Grid.Column="1">
+                                            <TextBlock>加工紀錄</TextBlock>
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction Command="{Binding DataUpload, Mode=OneTime}" />
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </Button>
+                                        <Button Grid.Row="1"
+                                                Grid.Column="0">
+                                            <TextBlock>請求下發配方</TextBlock>
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction Command="{Binding Ingredients, Mode=OneTime}" />
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </Button> 
+                                        <Button Grid.Row="1"
+                                                Grid.Column="1">
+                                            <TextBlock>復位</TextBlock>
+                                            
+                                        </Button>
+                                    </Grid>
                                 </Grid>
-                                <Grid Grid.Row="1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition></ColumnDefinition>
-                                        <ColumnDefinition></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-                                    <Button Grid.Row="0"
-                                            Grid.Column="0"
-                                            IsEnabled="{Binding Mode, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}">
-                                        <TextBlock>出料
-                                        </TextBlock>
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="Click">
-                                                <i:InvokeCommandAction Command="{Binding OutAGV, Mode=OneTime}" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
-                                    </Button>
-                                    <Button Grid.Row="0"
-                                            Grid.Column="1"
-                                            IsEnabled="{Binding Mode, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}">
-                                        <TextBlock>退料</TextBlock>
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="Click">
-                                                <i:InvokeCommandAction Command="{Binding RetAGV, Mode=OneTime}" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
-                                    </Button>
-                                </Grid>
-                                <Grid Grid.Row="2">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition></ColumnDefinition>
-                                        <ColumnDefinition></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-                                    <Button Grid.Row="0"
-                                            Grid.Column="0"
-                                            IsEnabled="{Binding Mode, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}">
-                                        <TextBlock>作業管控</TextBlock>
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="Click">
-                                                <i:InvokeCommandAction Command="{Binding TaskControl, Mode=OneTime}" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
-                                    </Button>
-                                    <Button Grid.Row="0"
-                                            Grid.Column="1"
-                                            IsEnabled="{Binding Mode, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}">
-                                        <TextBlock>加工紀錄</TextBlock>
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="Click">
-                                                <i:InvokeCommandAction Command="{Binding DataUpload, Mode=OneTime}" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
-                                    </Button>
-                                </Grid>
-                                
-                                <Button Grid.Row="3"
-                                        Grid.Column="0"
-                                        IsEnabled="{Binding Mode, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}">
-                                    <TextBlock>請求下發配方</TextBlock>
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding Ingredients, Mode=OneTime}" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Button>                              
-                                
-                            </Grid>
                             </GroupBox>
                         </Grid>
                     </GroupBox>
-                    <GroupBox Grid.Row="3">
+                    <GroupBox Grid.Row="3"
+                              FontSize="16"
+                              Header="設備狀態">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition />
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <ListBox Grid.Row="0"
+                                     Grid.ColumnSpan="3"
+                                     FontWeight="Bold"
+                                     SelectedIndex="{Binding EqpState, Mode=TwoWay}"
+                                     Style="{StaticResource ListBoxHorizontal2}"
+                                     Grid.RowSpan="2">
+                                <ListBox.Template>
+                                    <ControlTemplate>
+                                        <ItemsPresenter />
+                                    </ControlTemplate>
+                                </ListBox.Template>
+                                <TextBlock Text="開啟變更狀態" />
+                                <TextBlock Text="關閉變更狀態" />
+                            </ListBox>
+                            
+                            <!--<ListBox Grid.Column="0"
+                                    Grid.Row="2"
+                                    IsEnabled="{Binding EqpState, Converter={StaticResource IsLessThanValue}, ConverterParameter=0, Mode=OneWay}"
+                                    Grid.ColumnSpan="2"
+                                    Margin="0,0,74,0">
+                                <TextBlock>停機</TextBlock>
+                            </ListBox>
+                            
+                            <ListBox Grid.Column="1"
+                                    Grid.Row="2"
+                                    SelectedValue="0"
+                                    IsEnabled="{Binding EqpState, Converter={StaticResource IsLessThanValue}, ConverterParameter=0, Mode=OneWay}">
+                                <TextBlock>故障</TextBlock>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding FailureCommand, Mode=OneTime}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ListBox>
+                            
+                            <ListBox Grid.Column="1"
+                                    Grid.Row="2"
+                                    IsEnabled="{Binding EqpState, Converter={StaticResource IsLessThanValue}, ConverterParameter=0, Mode=OneWay}"
+                                    Grid.ColumnSpan="2"
+                                    Margin="74,0,0,0">
+                                <TextBlock>保養</TextBlock>
+                            </ListBox>-->
+                            <Grid Grid.Row="2"
+                                  Grid.ColumnSpan="3"
+                                  IsEnabled="{Binding EqpState, Converter={StaticResource IsLessThanValue}, ConverterParameter=0, Mode=OneWay}">
+                                <ListBox FontWeight="Bold"
+                                         SelectedIndex="-1"
+                                         Style="{StaticResource ListBoxHorizontal2}">
+                                    <ListBox.Template>
+                                        <ControlTemplate>
+                                            <ItemsPresenter />
+                                        </ControlTemplate>
+                                    </ListBox.Template>
+                                    <TextBlock Text="停機" />
+                                    <TextBlock Text="故障" />
+                                    <TextBlock Text="保養" />
+                                </ListBox>
+                            </Grid>
+                            <Grid Grid.ColumnSpan="3"
+                                  Grid.Row="3"
+                                  IsEnabled="{Binding EqpState, Converter={StaticResource IsLessThanValue}, ConverterParameter=0, Mode=OneWay}">
+                                <Button Margin="0,3,0,0"
+                                        IsEnabled="{Binding Status ,Converter={StaticResource IsEqualValue}, ConverterParameter=0 ,Mode=TwoWay}">
+                                    <TextBlock>異常停止</TextBlock>
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </GroupBox>
+                    
+                    <GroupBox Grid.Row="4"
+                              Margin="0,4,0,0">
                         <GroupBox.Header>
                             <Border Background="Transparent"
                                     MouseDown="Border_MouseDown">
@@ -414,7 +531,7 @@
                                 </TextBlock>
                             </Border>
                         </GroupBox.Header>
-                    <DataGrid x:Name="MessageDataGrid"
+                        <DataGrid x:Name="MessageDataGrid"
                                   AutoGenerateColumns="False"
                                   BorderThickness="1,0,1,0"
                                   FontSize="12"
@@ -424,14 +541,22 @@
                                   VerticalScrollBarVisibility="Visible">
                             <DataGrid.CellStyle>
                                 <Style TargetType="{x:Type DataGridCell}">
-                                    <Setter Property="Background" Value="Transparent" />
-                                    <Setter Property="BorderBrush" Value="{x:Null}" />
-                                    <Setter Property="BorderThickness" Value="0" />
-                                    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
-                                    <Setter Property="MinHeight" Value="24" />
-                                    <Setter Property="Padding" Value="4" />
+                                    <Setter Property="Background"
+                                            Value="Transparent" />
+                                    <Setter Property="BorderBrush"
+                                            Value="{x:Null}" />
+                                    <Setter Property="BorderThickness"
+                                            Value="0" />
+                                    <Setter Property="FocusVisualStyle"
+                                            Value="{x:Null}" />
+                                    <Setter Property="HorizontalContentAlignment"
+                                            Value="Center" />
+                                    <Setter Property="KeyboardNavigation.TabNavigation"
+                                            Value="None" />
+                                    <Setter Property="MinHeight"
+                                            Value="24" />
+                                    <Setter Property="Padding"
+                                            Value="4" />
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="{x:Type DataGridCell}">
@@ -445,20 +570,26 @@
                                             </ControlTemplate>
                                         </Setter.Value>
                                     </Setter>
-                                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                                    <Setter Property="VerticalContentAlignment"
+                                            Value="Center" />
                                     <Style.Triggers>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter Property="Foreground" Value="{DynamicResource BaseForeground}" />
+                                        <Trigger Property="IsSelected"
+                                                 Value="True">
+                                            <Setter Property="Foreground"
+                                                    Value="{DynamicResource BaseForeground}" />
                                         </Trigger>
-                                        <Trigger Property="IsEnabled" Value="False">
-                                            <Setter Property="Foreground" Value="{DynamicResource DisabledBorderBrush}" />
+                                        <Trigger Property="IsEnabled"
+                                                 Value="False">
+                                            <Setter Property="Foreground"
+                                                    Value="{DynamicResource DisabledBorderBrush}" />
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
                             </DataGrid.CellStyle>
                             <DataGrid.RowHeaderStyle>
                                 <Style TargetType="DataGridRowHeader">
-                                    <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+                                    <Setter Property="KeyboardNavigation.TabNavigation"
+                                            Value="None" />
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
@@ -471,14 +602,20 @@
                             </DataGrid.RowHeaderStyle>
                             <DataGrid.RowStyle>
                                 <Style TargetType="{x:Type DataGridRow}">
-                                    <Setter Property="Background" Value="{DynamicResource WindowBackgroundBrush6}" />
-                                    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                                    <Setter Property="Background"
+                                            Value="{DynamicResource WindowBackgroundBrush6}" />
+                                    <Setter Property="FocusVisualStyle"
+                                            Value="{x:Null}" />
                                     <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="{DynamicResource LightBrush}" />
+                                        <Trigger Property="IsMouseOver"
+                                                 Value="True">
+                                            <Setter Property="Background"
+                                                    Value="{DynamicResource LightBrush}" />
                                         </Trigger>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter Property="Background" Value="{DynamicResource LightBrush}" />
+                                        <Trigger Property="IsSelected"
+                                                 Value="True">
+                                            <Setter Property="Background"
+                                                    Value="{DynamicResource LightBrush}" />
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
@@ -492,23 +629,33 @@
                                     <DataTemplate.Triggers>
                                         <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                                      Value="Normal">
-                                            <Setter TargetName="Border" Property="Background" Value="Green" />
+                                            <Setter TargetName="Border"
+                                                    Property="Background"
+                                                    Value="Green" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                                      Value="StatusChanged">
-                                            <Setter TargetName="Border" Property="Background" Value="DodgerBlue" />
+                                            <Setter TargetName="Border"
+                                                    Property="Background"
+                                                    Value="DodgerBlue" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                                      Value="Trigger">
-                                            <Setter TargetName="Border" Property="Background" Value="Blue" />
+                                            <Setter TargetName="Border"
+                                                    Property="Background"
+                                                    Value="Blue" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                                      Value="Operator">
-                                            <Setter TargetName="Border" Property="Background" Value="DarkOrange" />
+                                            <Setter TargetName="Border"
+                                                    Property="Background"
+                                                    Value="DarkOrange" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                                      Value="Alert">
-                                            <Setter TargetName="Border" Property="Background" Value="Lime" />
+                                            <Setter TargetName="Border"
+                                                    Property="Background"
+                                                    Value="Lime" />
                                         </DataTrigger>
                                         <DataTrigger Value="True">
                                             <DataTrigger.Binding>
@@ -523,11 +670,15 @@
                                                                                              AncestorType={x:Type DataGridRowHeader}}" />
                                                 </MultiBinding>
                                             </DataTrigger.Binding>
-                                            <Setter TargetName="Border" Property="Background" Value="OrangeRed" />
+                                            <Setter TargetName="Border"
+                                                    Property="Background"
+                                                    Value="OrangeRed" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                                      Value="Alarm">
-                                            <Setter TargetName="Border" Property="Background" Value="Lime" />
+                                            <Setter TargetName="Border"
+                                                    Property="Background"
+                                                    Value="Lime" />
                                         </DataTrigger>
                                         <DataTrigger Value="True">
                                             <DataTrigger.Binding>
@@ -542,15 +693,21 @@
                                                                                              AncestorType={x:Type DataGridRowHeader}}" />
                                                 </MultiBinding>
                                             </DataTrigger.Binding>
-                                            <Setter TargetName="Border" Property="Background" Value="Red" />
+                                            <Setter TargetName="Border"
+                                                    Property="Background"
+                                                    Value="Red" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                                      Value="SECSCommand">
-                                            <Setter TargetName="Border" Property="Background" Value="Magenta" />
+                                            <Setter TargetName="Border"
+                                                    Property="Background"
+                                                    Value="Magenta" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
                                                      Value="RecipeChanged">
-                                            <Setter TargetName="Border" Property="Background" Value="Gold" />
+                                            <Setter TargetName="Border"
+                                                    Property="Background"
+                                                    Value="Gold" />
                                         </DataTrigger>
                                     </DataTemplate.Triggers>
                                 </DataTemplate>
@@ -639,7 +796,7 @@
                             </DataGrid.Columns>
                         </DataGrid>
                     </GroupBox>
-                    <Border Grid.Row="4"
+                    <Border Grid.Row="5"
                             Background="{StaticResource WindowBackgroundBrush6}"
                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
                             BorderThickness="0,1,0,0">
@@ -729,7 +886,8 @@
                         </ListBox.ItemsPanel>
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem">
-                                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                                <Setter Property="FocusVisualStyle"
+                                        Value="{x:Null}" />
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBoxItem">
@@ -877,9 +1035,12 @@
                                     <Border Grid.Column="1"
                                             Visibility="{Binding ConnectionStatus.CurrentValue, Mode=OneWay, Converter={StaticResource BoolNotVis}}">
                                         <Border.Background>
-                                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                                <GradientStop Offset="0" Color="{Binding Color, Source={StaticResource DisabledBackgroundBrush}}" />
-                                                <GradientStop Offset="1" Color="{Binding Color, Source={StaticResource DisabledBorderBrush}}" />
+                                            <LinearGradientBrush StartPoint="0.5,0"
+                                                                 EndPoint="0.5,1">
+                                                <GradientStop Offset="0"
+                                                              Color="{Binding Color, Source={StaticResource DisabledBackgroundBrush}}" />
+                                                <GradientStop Offset="1"
+                                                              Color="{Binding Color, Source={StaticResource DisabledBorderBrush}}" />
                                             </LinearGradientBrush>
                                         </Border.Background>
                                         <TextBlock HorizontalAlignment="Center"
@@ -915,19 +1076,27 @@
                                 <DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding IsRamp, Mode=OneWay}"
                                                  Value="True">
-                                        <Setter TargetName="Progress" Property="Background" Value="{StaticResource EnergyBrush}" />
+                                        <Setter TargetName="Progress"
+                                                Property="Background"
+                                                Value="{StaticResource EnergyBrush}" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding IsDwell, Mode=OneWay}"
                                                  Value="True">
-                                        <Setter TargetName="Progress" Property="Background" Value="{StaticResource OKBrush}" />
+                                        <Setter TargetName="Progress"
+                                                Property="Background"
+                                                Value="{StaticResource OKBrush}" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding IsCooling, Mode=OneWay}"
                                                  Value="True">
-                                        <Setter TargetName="Progress" Property="Background" Value="{StaticResource PressedBrush}" />
+                                        <Setter TargetName="Progress"
+                                                Property="Background"
+                                                Value="{StaticResource PressedBrush}" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"
                                                  Value="True">
-                                        <Setter TargetName="RemainTimeText" Property="Foreground" Value="{StaticResource BaseForeground}" />
+                                        <Setter TargetName="RemainTimeText"
+                                                Property="Foreground"
+                                                Value="{StaticResource BaseForeground}" />
                                     </DataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>

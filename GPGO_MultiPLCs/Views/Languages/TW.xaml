@@ -259,4 +259,7 @@
     <sys:String x:Key="ChangeMode">切換模式</sys:String>
     <sys:String x:Key="在線">在線</sys:String>
     <sys:String x:Key="半自動">半自動</sys:String>
+    <sys:String x:Key="載具A">載具A</sys:String>
+    <sys:String x:Key="載具B">載具B</sys:String>
+    <sys:String x:Key="改變設備狀態">改變設備狀態</sys:String>
 </ResourceDictionary>
