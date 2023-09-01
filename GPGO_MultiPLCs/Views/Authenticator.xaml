@@ -689,7 +689,7 @@
                             <Button Grid.Row="3"
                                     Grid.ColumnSpan="2">
                                 <Viewbox StretchDirection="DownOnly">
-                                    <TextBlock Text="存檔" />
+                                    <TextBlock Text="{DynamicResource 存檔}" />
                                 </Viewbox>
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Click">

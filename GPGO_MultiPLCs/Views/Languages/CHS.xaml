@@ -241,4 +241,35 @@
     <sys:String x:Key="靜音">静音</sys:String>
     <sys:String x:Key="本地">本地</sys:String>
     <sys:String x:Key="遠端">远程</sys:String>
+
+    <sys:String x:Key="Equipment ID">设备ID</sys:String>
+    <sys:String x:Key="iMES URL">iMES URL</sys:String>
+    <sys:String x:Key="Carrier A">A载具编号</sys:String>
+    <sys:String x:Key="Carrier B">B载具编号</sys:String>
+    <sys:String x:Key="AVG Timeliness">AVG按钮时效</sys:String>
+    <sys:String x:Key="TimeOut">通讯超时</sys:String>
+    <sys:String x:Key="MESHeartConfig">MES心跳</sys:String>
+    <sys:String x:Key="Use MES Heart">启用心跳</sys:String>
+    <sys:String x:Key="HeartContent">心跳内容</sys:String>
+    <sys:String x:Key="HeartService">心跳服务</sys:String>
+    <sys:String x:Key="HeartPort">心跳端口</sys:String>
+    <sys:String x:Key="HeartTime">心跳频率</sys:String>
+    <sys:String x:Key="MES">MES</sys:String>
+    <sys:String x:Key="ChangeMode">切换模式</sys:String>
+    <sys:String x:Key="在線">在线</sys:String>
+    <sys:String x:Key="半自動">半自动</sys:String>
+    <sys:String x:Key="載具A">载具A</sys:String>
+    <sys:String x:Key="載具B">载具B</sys:String>
+    <sys:String x:Key="改變設備狀態">改变设备状态</sys:String>
+    <sys:String x:Key="作業管控">作业管控</sys:String>
+    <sys:String x:Key="加工紀錄">加工纪录</sys:String>
+    <sys:String x:Key="復位">复位</sys:String>
+    <sys:String x:Key="開啟變更狀態">开启变更状态</sys:String>
+    <sys:String x:Key="關閉變更狀態">关闭变更状态</sys:String>
+    <sys:String x:Key="停機">停机</sys:String> 
+    <sys:String x:Key="故障">故障</sys:String>
+    <sys:String x:Key="保養">保养</sys:String>
+    <sys:String x:Key="異常停止">异常停止</sys:String>
+    <sys:String x:Key="請求下發配方">请求下发配方</sys:String>
+    <sys:String x:Key="存檔">存档</sys:String>
 </ResourceDictionary>

@@ -271,10 +271,13 @@
                         <RowDefinition />
                         <RowDefinition Height="40" />
                     </Grid.RowDefinitions>
+                    
+                    <!--之後加一個有心跳才啟用 GroupBox IsEnabled-->
                     <GroupBox Grid.Row="1"
                               Grid.RowSpan="2"
                               FontSize="16"
                               FontWeight="Bold"
+                              IsEnabled="False"  
                               Header="MES模式切換">
                         <Grid Margin="0,0,0,4"
                               IsEnabled="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}">
@@ -283,7 +286,6 @@
                                 <RowDefinition Height="5" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-
                             <ListBox Grid.Row="0"
                                      ItemContainerStyle="{StaticResource ListBoxItem_Top}"
                                      Background="Yellow"
@@ -398,7 +400,7 @@
                                         </Grid.ColumnDefinitions>
                                         <Button Grid.Row="0"
                                                 Grid.Column="0">
-                                            <TextBlock>作業管控</TextBlock>
+                                            <TextBlock Text="{DynamicResource 作業管控}"></TextBlock>
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="Click">
                                                     <i:InvokeCommandAction Command="{Binding TaskControl, Mode=OneTime}" />
@@ -407,7 +409,7 @@
                                         </Button>
                                         <Button Grid.Row="0"
                                                 Grid.Column="1">
-                                            <TextBlock>加工紀錄</TextBlock>
+                                            <TextBlock Text="{DynamicResource 加工紀錄}"></TextBlock>
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="Click">
                                                     <i:InvokeCommandAction Command="{Binding DataUpload, Mode=OneTime}" />
@@ -416,7 +418,7 @@
                                         </Button>
                                         <Button Grid.Row="1"
                                                 Grid.Column="0">
-                                            <TextBlock>請求下發配方</TextBlock>
+                                            <TextBlock  Text="{DynamicResource 請求下發配方}"></TextBlock>
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="Click">
                                                     <i:InvokeCommandAction Command="{Binding Ingredients, Mode=OneTime}" />
@@ -425,7 +427,7 @@
                                         </Button> 
                                         <Button Grid.Row="1"
                                                 Grid.Column="1">
-                                            <TextBlock>復位</TextBlock>
+                                            <TextBlock Text="{DynamicResource 復位}"></TextBlock>
                                             
                                         </Button>
                                     </Grid>
@@ -435,7 +437,7 @@
                     </GroupBox>
                     <GroupBox Grid.Row="3"
                               FontSize="16"
-                              Header="設備狀態">
+                              Header="{DynamicResource 設備狀態}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="50"/>
@@ -459,8 +461,8 @@
                                         <ItemsPresenter />
                                     </ControlTemplate>
                                 </ListBox.Template>
-                                <TextBlock Text="開啟變更狀態" />
-                                <TextBlock Text="關閉變更狀態" />
+                                <TextBlock Text="{DynamicResource 開啟變更狀態}" />
+                                <TextBlock Text="{DynamicResource 關閉變更狀態}" />
                             </ListBox>
                             <Grid Grid.Row="2"
                                   Grid.ColumnSpan="3"
@@ -473,9 +475,9 @@
                                             <ItemsPresenter />
                                         </ControlTemplate>
                                     </ListBox.Template>
-                                    <TextBlock Text="停機" />
-                                    <TextBlock Text="故障" />
-                                    <TextBlock Text="保養" />
+                                    <TextBlock Text="{DynamicResource 停機}" />
+                                    <TextBlock Text="{DynamicResource 故障}" />
+                                    <TextBlock Text="{DynamicResource 保養}" />
                                 </ListBox>
                             </Grid>
                             <Grid Grid.ColumnSpan="3"
@@ -483,7 +485,7 @@
                                   IsEnabled="{Binding EqpState, Converter={StaticResource IsLessThanValue}, ConverterParameter=0, Mode=OneWay}">
                                 <Button Margin="0,3,0,0"
                                         IsEnabled="{Binding Status ,Converter={StaticResource IsEqualValue}, ConverterParameter=1 ,Mode=TwoWay}">
-                                    <TextBlock>異常停止</TextBlock>
+                                    <TextBlock Text="{DynamicResource 異常停止}"></TextBlock>
                                 </Button>
                             </Grid>
                         </Grid>

@@ -331,16 +331,22 @@
                     <Border BorderThickness="1,0,1,1">
                         <Border.Style>
                             <Style TargetType="Border">
-                                <Setter Property="Background" Value="{StaticResource LightBrush}" />
-                                <Setter Property="BorderBrush" Value="{StaticResource WindowBackgroundBrush4}" />
+                                <Setter Property="Background"
+                                        Value="{StaticResource LightBrush}" />
+                                <Setter Property="BorderBrush"
+                                        Value="{StaticResource WindowBackgroundBrush4}" />
                                 <Style.Triggers>
-                                    <Trigger Property="IsEnabled" Value="False">
-                                        <Setter Property="Background" Value="{DynamicResource DisabledBackgroundBrush}" />
-                                        <Setter Property="BorderBrush" Value="{DynamicResource DisabledBorderBrush}" />
+                                    <Trigger Property="IsEnabled"
+                                             Value="False">
+                                        <Setter Property="Background"
+                                                Value="{DynamicResource DisabledBackgroundBrush}" />
+                                        <Setter Property="BorderBrush"
+                                                Value="{DynamicResource DisabledBorderBrush}" />
                                     </Trigger>
                                     <DataTrigger Binding="{Binding IsKeyboardFocused, ElementName=NumericTextBox, Mode=OneWay}"
                                                  Value="True">
-                                        <Setter Property="Background" Value="{DynamicResource LightColorBrush}" />
+                                        <Setter Property="Background"
+                                                Value="{DynamicResource LightColorBrush}" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>

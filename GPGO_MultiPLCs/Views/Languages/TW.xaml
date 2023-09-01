@@ -262,4 +262,15 @@
     <sys:String x:Key="載具A">載具A</sys:String>
     <sys:String x:Key="載具B">載具B</sys:String>
     <sys:String x:Key="改變設備狀態">改變設備狀態</sys:String>
+    <sys:String x:Key="作業管控">作業管控</sys:String>
+    <sys:String x:Key="請求下發配方">請求下發配方</sys:String>
+    <sys:String x:Key="加工紀錄">加工紀錄</sys:String>
+    <sys:String x:Key="復位">復位</sys:String>
+    <sys:String x:Key="開啟變更狀態">開啟變更狀態</sys:String>
+    <sys:String x:Key="關閉變更狀態">關閉變更狀態</sys:String>
+    <sys:String x:Key="停機">停機</sys:String>
+    <sys:String x:Key="故障">故障</sys:String>
+    <sys:String x:Key="保養">保養</sys:String>
+    <sys:String x:Key="異常停止">異常停止</sys:String>
+    <sys:String x:Key="存檔">存檔</sys:String>
 </ResourceDictionary>
