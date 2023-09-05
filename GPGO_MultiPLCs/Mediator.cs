@@ -200,14 +200,9 @@ public sealed class Mediator : ObservableObject
 
         AuthenticatorVM.BtnHeartBeatEvent += async (e) =>
         {
-            if (e)
-            {
-                MessageBox.Show("心跳! 啟動");
 
-            }
-            else
-            {
-            }
+            IsHeartbeat = e;
+
         };
 
         AuthenticatorVM.BtnSaveEvent += async () =>
