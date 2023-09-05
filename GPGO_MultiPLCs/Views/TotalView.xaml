@@ -277,7 +277,7 @@
                               Grid.RowSpan="2"
                               FontSize="16"
                               FontWeight="Bold"
-                              IsEnabled="False"  
+                              IsEnabled="{Binding IsHeartbeat , Source={StaticResource Mediator},Mode=OneWay}"  
                               Header="MES模式切換">
                         <Grid Margin="0,0,0,4"
                               IsEnabled="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}">

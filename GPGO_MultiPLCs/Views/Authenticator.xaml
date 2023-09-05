@@ -577,6 +577,11 @@
                                       Style="{StaticResource ToggleSwitch}">
                                 <TextBlock VerticalAlignment="Center"
                                            Text="{DynamicResource Use MES Heart}" />
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding BtnHeartBeatCommand, Mode=OneWay}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
                             </CheckBox>
                             <Border BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="0,0,0,0"

@@ -104,7 +104,11 @@ public sealed class Mediator : ObservableObject
             }
         }
     }
-
+    public bool IsHeartbeat
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
     public Authenticator_ViewModel AuthenticatorVM { get; }
     public GlobalDialog_ViewModel DialogVM { get; }
     public LogView_ViewModel LogVM { get; }
@@ -191,6 +195,18 @@ public sealed class Mediator : ObservableObject
                     MainVM.UseHeart = Visibility.Visible;
                 else
                     MainVM.UseHeart = Visibility.Hidden;
+            }
+        };
+
+        AuthenticatorVM.BtnHeartBeatEvent += async (e) =>
+        {
+            if (e)
+            {
+                MessageBox.Show("心跳! 啟動");
+
+            }
+            else
+            {
             }
         };
 
