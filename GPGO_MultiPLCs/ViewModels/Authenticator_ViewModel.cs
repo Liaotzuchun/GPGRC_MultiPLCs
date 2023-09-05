@@ -16,9 +16,11 @@ public class Authenticator_ViewModel : AuthenticatorModel
     /// <summary>系統參數</summary>
     public GlobalSettings Settings { get; }
     public RelayCommand BtnSaveCommand { get; }
+    public RelayCommand BtnHeartBeatCommand { get; }
     public GlobalDialog_ViewModel DialogVM { get; }
 
     public event Func<Task>? BtnSaveEvent;
+    public event Action<bool> BtnHeartBeatEvent;
     public Authenticator_ViewModel()
     {
         Settings = new GlobalSettings();
@@ -36,6 +38,21 @@ public class Authenticator_ViewModel : AuthenticatorModel
             catch (Exception ex)
             {
                 Log.Error(ex, "DB寫入失敗");
+            }
+        });
+
+        BtnHeartBeatCommand = new RelayCommand(e =>
+        {
+            try
+            {
+                if (Settings.UseHeart)
+                    BtnHeartBeatEvent?.Invoke(true);
+                else
+                    BtnHeartBeatEvent?.Invoke(false);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "MES心跳");
             }
         });
     }
