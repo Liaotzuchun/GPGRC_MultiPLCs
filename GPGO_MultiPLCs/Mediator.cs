@@ -29,6 +29,9 @@ public sealed class Mediator : ObservableObject
     private readonly DataoutputCSV CsvCreator = new();
 
     private ServiceHost _webServiceHost;
+    //心跳頻率
+    public DispatcherTimer WebServiceHostTimer;
+
 
     public ServiceHost webServiceHost
     {
@@ -128,16 +131,17 @@ public sealed class Mediator : ObservableObject
         RecipeVM = new RecipeControl_ViewModel(new MongoBase<PLC_Recipe>(db.GetCollection<PLC_Recipe>("PLC_Recipes")),
                                                new MongoBase<PLC_Recipe>(db.GetCollection<PLC_Recipe>("Old_PLC_Recipes")),
                                                DialogVM);
-
         TraceVM = new TraceabilityView_ViewModel(new MongoBase<ProcessInfo>(db.GetCollection<ProcessInfo>("ProductInfos")), DialogVM);
         LogVM = new LogView_ViewModel(new MongoBase<LogEvent>(db.GetCollection<LogEvent>("EventLogs")), DialogVM);
-
         PlcGate = new JsonRPCPLCGate();
-
         AuthenticatorVM = new Authenticator_ViewModel();
         TotalVM = new TotalView_ViewModel(AuthenticatorVM.Settings.OvenCount, PlcGate, IPAddress.Parse(AuthenticatorVM.IPString), DialogVM);
         Language = AuthenticatorVM.Settings.Lng;
         OvenCount = AuthenticatorVM.Settings.OvenCount;
+
+        var Web = new SCC_Reference2.MacIntfWSClient();
+        Web.Open();
+
         AuthenticatorVM.NowUser = new User
         {
             Name = "Guest",
@@ -145,9 +149,6 @@ public sealed class Mediator : ObservableObject
             Level = UserLevel.Guest
         };
         User = AuthenticatorVM.NowUser;
-
-        SCC_ServerSideRef.MacIntfWSClient Web = new SCC_ServerSideRef.MacIntfWSClient();
-        Web.Open();
 
         AuthenticatorVM.Settings.PropertyChanged += (s, e) =>
                                                     {
@@ -187,20 +188,17 @@ public sealed class Mediator : ObservableObject
                                                    Extensions.IsGodMode = User?.Level >= UserLevel.Administrator;
                                                }
                                            };
+
         AuthenticatorVM.Settings.PropertyChanged += (s, e) =>
         {
             if (e.PropertyName == nameof(AuthenticatorVM.Settings.UseHeart))
             {
-                if (AuthenticatorVM.Settings.UseHeart)
-                    MainVM.UseHeart = Visibility.Visible;
-                else
-                    MainVM.UseHeart = Visibility.Hidden;
+                MainVM.UseHeart = AuthenticatorVM.Settings.UseHeart ? Visibility.Visible : Visibility.Hidden;
             }
         };
 
         AuthenticatorVM.BtnHeartBeatEvent += async (e) =>
         {
-
             IsHeartbeat = e;
 
         };
@@ -496,13 +494,34 @@ public sealed class Mediator : ObservableObject
                             wipEntity = """">
                             </CallAgv> ";
 
-                Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+                var result =Web.macIntf(new SCC_Reference2.macIntfRequest()
                 {
                     methodInvoke = methodInvoke,
                     input = input
                 });
-                Log.Debug($"methodInvoke:[{methodInvoke}], berthCode:[{input}]");
-                Thread.Sleep(AuthenticatorVM.Settings.AVGTime * 1000);
+
+                var ErrorCode = result.macIntfResult.errorCodek__BackingField;
+                var Msg = result.macIntfResult.errorMsgk__BackingField;
+                var ResultData = result.macIntfResult.resultDatak__BackingField;
+                if (ErrorCode == "-1") // errorCode = -1
+                {
+                    DialogVM.Show(new Dictionary<Language, string> { { Language.TW, Msg },
+                                                                     { Language.CHS, Msg },
+                                                                     { Language.EN, Msg }});
+                }
+                else if (ErrorCode == "0")
+                {
+                    Thread.Sleep(AuthenticatorVM.Settings.AVGTime * 1000);
+                }
+                else
+                {
+                    DialogVM.Show(new Dictionary<Language, string> { { Language.TW, Msg },
+                                                                     { Language.CHS, Msg },
+                                                                     { Language.EN, Msg }});
+                }
+
+                Log.Debug($"Request : methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+                Log.Debug($"Request : ErrorCode:[{ErrorCode}], Msg:[{Msg}] , ResultData:[{ResultData}]");
                 TotalVM.AddEnabled = true;
             });
         };
@@ -525,7 +544,7 @@ public sealed class Mediator : ObservableObject
                             </CallAgv> ";
 
 
-            Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+            Web.macIntf(new SCC_Reference2.macIntfRequest()
             {
                 methodInvoke = methodInvoke,
                 input = input
@@ -550,7 +569,7 @@ public sealed class Mediator : ObservableObject
                             wipEntity = ""{wipEntity}"">
                             </CallAgv> ";
 
-            Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+            Web.macIntf(new SCC_Reference2.macIntfRequest()
             {
                 methodInvoke = methodInvoke,
                 input = input
@@ -577,7 +596,7 @@ public sealed class Mediator : ObservableObject
                             wipEntity = ""{wipEntity}"">
                             </CallAgv> ";
 
-                Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+                Web.macIntf(new SCC_Reference2.macIntfRequest()
                 {
                     methodInvoke = methodInvoke,
                     input = input
@@ -607,7 +626,7 @@ public sealed class Mediator : ObservableObject
                                 <item tagCode=""{macCode}""_1003 tagValue=""計畫加工板數"" timeStamp="""" />
                             </DataUpload> ";
 
-            Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+            Web.macIntf(new SCC_Reference2.macIntfRequest()
             {
                 methodInvoke = methodInvoke,
                 input = input
@@ -630,7 +649,7 @@ public sealed class Mediator : ObservableObject
                             wipEntity = ""{wipEntity}"">                              
                             </TaskControl> ";
 
-            Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+            Web.macIntf(new SCC_Reference2.macIntfRequest()
             {
                 methodInvoke = methodInvoke,
                 input = input
@@ -653,7 +672,7 @@ public sealed class Mediator : ObservableObject
                             wipEntity = ""{wipEntity}"">                              
                             </Ingredients> ";
 
-            Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+            Web.macIntf(new SCC_Reference2.macIntfRequest()
             {
                 methodInvoke = methodInvoke,
                 input = input
@@ -717,6 +736,9 @@ public sealed class Mediator : ObservableObject
         //              TimeSpan.FromMinutes(5));
         //#endregion
         GPServiceHostFunc();
+
+
+
         //SCC_ServerSideRef.MacIntfWSClient Web = new SCC_ServerSideRef.MacIntfWSClient();
         //Web.Open();
         //Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
@@ -756,13 +778,7 @@ public sealed class Mediator : ObservableObject
         }
     }
 
-    public void GetCarrierID(int CarrierIndex)
-    {
-        if (CarrierIndex is 0)
-            CarrierID = AuthenticatorVM.Settings.CarrierAID;
-        else
-            CarrierID = AuthenticatorVM.Settings.CarrierBID;
-    }
+    public void GetCarrierID(int CarrierIndex) => CarrierID = CarrierIndex is 0 ? AuthenticatorVM.Settings.CarrierAID : AuthenticatorVM.Settings.CarrierBID;
 
     /// <summary>產生測試資料至資料庫</summary>
     /// <param name="PLC_Count"></param>
