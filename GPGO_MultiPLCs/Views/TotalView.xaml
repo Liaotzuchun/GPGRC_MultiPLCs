@@ -399,7 +399,8 @@
                                             <ColumnDefinition></ColumnDefinition>
                                         </Grid.ColumnDefinitions>
                                         <Button Grid.Row="0"
-                                                Grid.Column="0">
+                                                Grid.Column="0"
+                                                IsEnabled="{Binding TaskControlButtonEnabled}">
                                             <TextBlock Text="{DynamicResource 作業管控}"></TextBlock>
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="Click">
@@ -408,7 +409,8 @@
                                             </i:Interaction.Triggers>
                                         </Button>
                                         <Button Grid.Row="0"
-                                                Grid.Column="1">
+                                                Grid.Column="1"
+                                                IsEnabled="{Binding DataUploadButtonEnabled}">
                                             <TextBlock Text="{DynamicResource 加工紀錄}"></TextBlock>
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="Click">
@@ -417,7 +419,8 @@
                                             </i:Interaction.Triggers>
                                         </Button>
                                         <Button Grid.Row="1"
-                                                Grid.Column="0">
+                                                Grid.Column="0"
+                                                IsEnabled="{Binding IngredientsButtonEnabled}">
                                             <TextBlock  Text="{DynamicResource 請求下發配方}"></TextBlock>
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="Click">

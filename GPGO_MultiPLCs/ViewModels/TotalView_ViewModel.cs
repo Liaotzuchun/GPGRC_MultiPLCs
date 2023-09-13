@@ -150,6 +150,21 @@ public sealed class TotalView_ViewModel : ObservableObject
         get => Get<bool>();
         set => Set(value);
     }
+    public bool TaskControlButtonEnabled
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+    public bool DataUploadButtonEnabled
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+    public bool IngredientsButtonEnabled
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
     public int Status
     {
         get => Get<int>();
@@ -172,6 +187,10 @@ public sealed class TotalView_ViewModel : ObservableObject
         RetEnabled = false;
         OutEnabled = false;
         NGOutEnabled = false;
+        TaskControlButtonEnabled = false;
+        DataUploadButtonEnabled = false;
+        IngredientsButtonEnabled = false;
+
         Status = -1;
 
         var v = Assembly.GetExecutingAssembly().GetName().Version;
