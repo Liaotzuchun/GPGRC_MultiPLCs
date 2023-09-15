@@ -282,4 +282,5 @@
     <sys:String x:Key="工序代碼">工序代码</sys:String>
     <sys:String x:Key="計畫加工板數">计划加工板数</sys:String>
     <sys:String x:Key="配方名稱">配方名称</sys:String>
+    <sys:String x:Key="列隊">列队</sys:String>
 </ResourceDictionary>

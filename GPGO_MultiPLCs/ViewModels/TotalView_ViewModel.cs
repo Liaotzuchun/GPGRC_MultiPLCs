@@ -62,6 +62,7 @@ public sealed class TotalView_ViewModel : ObservableObject
     public RelayCommand TaskControl { get; }
     public RelayCommand Ingredients { get; }
     public RelayCommand CheckButton { get; }
+    public RelayCommand ResetButton { get; }
     public RelayCommand DataUpload { get; }
     public RelayCommand Shutdown { get; }
     public RelayCommand PM { get; }
@@ -327,6 +328,7 @@ public sealed class TotalView_ViewModel : ObservableObject
         {
             OutEnabled = true;
             NGOutEnabled = true;
+            DataUploadevent?.Invoke(0);
         });
 
         DataUpload = new RelayCommand(_ =>
@@ -357,6 +359,12 @@ public sealed class TotalView_ViewModel : ObservableObject
         Production = new RelayCommand(_ =>
         {
             DataUploadevent?.Invoke(1);
+        });
+
+        ResetButton = new RelayCommand(_ =>
+        {
+            CheckButtonEnabled = true;
+            RetEnabled = true;
         });
 
 

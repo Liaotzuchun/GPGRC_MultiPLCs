@@ -475,7 +475,7 @@ public sealed class Mediator : ObservableObject
             //! 輸出欣興CSV紀錄
             _ = CsvCreator.AddEvent(logevent, AuthenticatorVM.Settings.DataOutputPath);
 
-            //發生事件 傳送AlarmUpload
+            #region 發生事件 傳送AlarmUpload
             try
             {
                 var methodInvoke = "AlarmUpload";
@@ -514,6 +514,7 @@ public sealed class Mediator : ObservableObject
             {
                 Log.Debug(ex.Message);
             }
+            #endregion
         };
 
         TotalVM.UpsertRecipe += recipe => RecipeVM.Upsert(recipe).Result;
@@ -615,6 +616,10 @@ public sealed class Mediator : ObservableObject
                 if (ErrorCode is "0")
                 {
                     TotalVM.NGOutEnabled = false;
+
+                    //在線模式，出料任務返回0，解鎖掃碼功能
+                    if (TotalVM.Mode == 2)
+                        TotalVM.BarcodeEnabled = true;
                 }
                 else
                 {
@@ -641,7 +646,7 @@ public sealed class Mediator : ObservableObject
                 var berthCode = $"NGOut_{CarrierID}";
                 var wipEntity = TotalVM.Barcode; //板件2D??
                 var input = $"""
-                                <?xml version="1.0" encoding="UTF-8"?>
+                             <?xml version="1.0" encoding="UTF-8"?>
                                 <CallAgv
                                 xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
                                 xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
@@ -664,8 +669,6 @@ public sealed class Mediator : ObservableObject
                 if (ErrorCode is "0")
                 {
                     TotalVM.OutEnabled = false;
-                    //測試用
-                    MessageBox.Show(ErrorMsg + "OK");
                 }
                 else
                 {
@@ -694,7 +697,7 @@ public sealed class Mediator : ObservableObject
                     var berthCode = $"Ret_{CarrierID}";
                     var wipEntity = TotalVM.Barcode;  //板件2D??
                     var input = $"""
-                                    <?xml version="1.0" encoding="UTF-8"?>
+                                 <?xml version="1.0" encoding="UTF-8"?>
                                     <CallAgv
                                     xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
                                     xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
@@ -777,7 +780,19 @@ public sealed class Mediator : ObservableObject
                     var ResultData = Result.macIntfResult.resultDatak__BackingField;
                     Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
                     Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
-                    if (ErrorCode is "-1")
+                    if (ErrorCode is "0")
+                    {
+                        DialogVM.Show(new Dictionary<Language, string>
+                                                     {{ Language.TW, ErrorMsg },
+                                                      { Language.CHS, ErrorMsg}});
+                        //半自動模式，檢驗OK解鎖掃碼
+                        if (TotalVM.Mode == 1)
+                        {
+                            TotalVM.Barcode = "";
+                            TotalVM.BarcodeEnabled = true;
+                        }
+                    }
+                    else
                     {
                         DialogVM.Show(new Dictionary<Language, string>
                                                      {{ Language.TW, ErrorMsg },
@@ -867,18 +882,12 @@ public sealed class Mediator : ObservableObject
                 Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
                 Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] ,ResultData:[{ResultData}] ");
 
-                //測試用
-                TotalVM.IngredientsButtonEnabled = true;
-                //
                 TotalVM.BarcodeEnabled = false;
                 if (ErrorCode is "0")
                 {
                     DialogVM.Show(new Dictionary<Language, string>
                                                      {{ Language.TW, "OK" },
                                                       { Language.CHS, "OK"}});
-                    //測試用 看起來是要直接問配方   品質合格 下發配方可用
-                    TotalVM.IngredientsButtonEnabled = true;
-
                     GetRecipeIngredients();
                 }
                 else if (ErrorCode is "-1")
@@ -900,64 +909,6 @@ public sealed class Mediator : ObservableObject
             catch (Exception ex)
             {
                 Log.Debug(ex.Message);
-            }
-        };
-
-        //配方
-        TotalVM.Ingredientsevent += async () =>
-        {
-            var methodInvoke = "Ingredients";
-            var macCode = AuthenticatorVM.Settings.EquipmentID;
-            var wipEntity = TotalVM.Barcode;
-
-            var input = $"""
-                                    <?xml version="1.0" encoding="UTF-8"?>
-                                    <Ingredients
-                                    xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
-                                    xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
-                                    macCode = "{macCode}"
-                                    wipEntity = "{wipEntity}">                              
-                                    </Ingredients>
-                               """;
-
-            var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
-            {
-                methodInvoke = methodInvoke,
-                input = input
-            });
-            var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
-            var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
-            var ResultData = Result.macIntfResult.resultDatak__BackingField;
-            Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
-            Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
-
-            if (ErrorCode is "0")
-            {
-                DialogVM.Show(new Dictionary<Language, string>
-                                                     {{ Language.TW, ResultData },
-                                                      { Language.CHS, ResultData}});
-                //taskcontrol功能鎖定
-                TotalVM.TaskControlButtonEnabled = false;
-
-            }
-            else if (ErrorCode is "-1")   //配方下發失敗
-            {
-                DialogVM.Show(new Dictionary<Language, string>
-                                                     {{ Language.TW, ErrorMsg },
-                                                      { Language.CHS, ErrorMsg}});
-            }
-            else if (ErrorCode is "-2")    //無配方
-            {
-                DialogVM.Show(new Dictionary<Language, string>
-                                                     {{ Language.TW, ErrorMsg },
-                                                      { Language.CHS, ErrorMsg}});
-                TotalVM.RetEnabled = false;
-            }
-            else
-            {
-                DialogVM.Show(new Dictionary<Language, string>
-                                                     {{ Language.TW, ErrorMsg },
-                                                      { Language.CHS, ErrorMsg}});
             }
         };
         #endregion
