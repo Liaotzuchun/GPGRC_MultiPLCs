@@ -485,17 +485,19 @@ public sealed class Mediator : ObservableObject
                 var alarmDesc = logevent.Description;
 
                 //001 工單ID 002員工號
-                var input = $@"<?xml version=""1.0"" encoding=""UTF-8""?>
-                                                              <AlarmUpload
-                                                              xmlns:xsi = ""http://www.w3.org/2001/XMLSchema-instance""
-                                                              xmlns:xsd = ""http://www.w3.org/2001/XMLSchema""
-                                                              macCode=""{macCode}""
-                                                              alarmCode=""{alarmCode}""
-                                                              alarmDesc=""{alarmDesc}""
-                                                              timeStamp=""{DateTime.Now:yyyy-MM-dd HH:mm:ss}"">
-                                                                      <item tagCode=""{macCode}_001"" tagValue=""{wipEntity}"" timeStamp="">
-                                                                      <item tagCode=""{macCode}_002"" tagValue=""{User.Name}"" timeStamp="">
-                                                              </AlarmUpload> ";
+                var input = $"""
+                                     <?xml version="1.0" encoding="UTF-8"?>
+                                        <AlarmUpload
+                                        xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                                        xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                                        macCode="{macCode}"
+                                        alarmCode="{alarmCode}"
+                                        alarmDesc="{alarmDesc}"
+                                        timeStamp="{DateTime.Now:yyyy-MM-dd HH:mm:ss}">
+                                            <item tagCode="{macCode}_001" tagValue="{wipEntity}" timeStamp=""/>
+                                            <item tagCode="{macCode}_002" tagValue="{User.Name}" timeStamp=""/>
+                                     </AlarmUpload> 
+                                     """;
 
                 var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
                 {
@@ -505,7 +507,7 @@ public sealed class Mediator : ObservableObject
                 var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
                 var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
                 var ResultData = Result.macIntfResult.resultDatak__BackingField;
-                Log.Debug($"Request : methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+                Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
                 Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] ,ResultData:[{ResultData}] ");
             }
             catch (Exception ex)
@@ -531,15 +533,16 @@ public sealed class Mediator : ObservableObject
                     var macCode = AuthenticatorVM.Settings.EquipmentID;
                     var berthCode = $"In_{CarrierID}" ;
                     var wipEntity = "";
-                    var input = @$"<?xml version=""1.0"" encoding=""UTF-8""?>
+                    var input = $"""
+                                         <?xml version="1.0" encoding="UTF-8"?>
                                          <CallAgv
-                                         xmlns:xsi = ""http://www.w3.org/2001/XMLSchema-instance""
-                                         xmlns:xsd = ""http://www.w3.org/2001/XMLSchema""
-                                         macCode = ""{macCode}""
-                                         berthCode = ""{berthCode}""
-                                         wipEntity = ""{wipEntity}"">
+                                         xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                                         xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                                         macCode = "{macCode}"
+                                         berthCode = "{berthCode}"
+                                         wipEntity = "{wipEntity}">
                                          </CallAgv>
-                                         ";
+                                         """;
 
                     var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
                     {
@@ -549,7 +552,7 @@ public sealed class Mediator : ObservableObject
                     var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
                     var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
                     var ResultData = Result.macIntfResult.resultDatak__BackingField;
-                    Log.Debug($"Request : methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+                    Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
                     Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                     if (ErrorCode is "0")
                     {
@@ -588,14 +591,16 @@ public sealed class Mediator : ObservableObject
                 var macCode = AuthenticatorVM.Settings.EquipmentID;
                 var berthCode = $"Out_{CarrierID}";
                 var wipEntity = TotalVM.Barcode; //板件2D??
-                var input = $@"<?xml version=""1.0"" encoding=""UTF-8""?>
-                            <CallAgv
-                            xmlns:xsi = ""http://www.w3.org/2001/XMLSchema-instance""
-                            xmlns:xsd = ""http://www.w3.org/2001/XMLSchema""
-                            macCode = ""{macCode}""
-                            berthCode = ""{berthCode}""
-                            wipEntity = ""{wipEntity}"">
-                            </CallAgv> ";
+                var input = $"""
+                                    <?xml version="1.0" encoding="UTF-8"?>
+                                           <CallAgv
+                                           xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                                           xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                                           macCode = "{macCode}"
+                                           berthCode = "{berthCode}"
+                                           wipEntity = "{wipEntity}">
+                                           </CallAgv> 
+                                    """;
 
                 var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
                 {
@@ -605,7 +610,7 @@ public sealed class Mediator : ObservableObject
                 var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
                 var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
                 var ResultData = Result.macIntfResult.resultDatak__BackingField;
-                Log.Debug($"Request : methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+                Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
                 Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                 if (ErrorCode is "0")
                 {
@@ -635,14 +640,16 @@ public sealed class Mediator : ObservableObject
                 var macCode = AuthenticatorVM.Settings.EquipmentID;
                 var berthCode = $"NGOut_{CarrierID}";
                 var wipEntity = TotalVM.Barcode; //板件2D??
-                var input = $@"<?xml version=""1.0"" encoding=""UTF-8""?>
-                            <CallAgv
-                            xmlns:xsi = ""http://www.w3.org/2001/XMLSchema-instance""
-                            xmlns:xsd = ""http://www.w3.org/2001/XMLSchema""
-                            macCode = ""{macCode}""
-                            berthCode = ""{berthCode}""
-                            wipEntity = ""{wipEntity}"">
-                            </CallAgv> ";
+                var input = $"""
+                                <?xml version="1.0" encoding="UTF-8"?>
+                                <CallAgv
+                                xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                                xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                                macCode = "{macCode}"
+                                berthCode = "{berthCode}"
+                                wipEntity = "{wipEntity}">
+                                </CallAgv> 
+                             """;
 
                 var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
                 {
@@ -652,7 +659,7 @@ public sealed class Mediator : ObservableObject
                 var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
                 var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
                 var ResultData = Result.macIntfResult.resultDatak__BackingField;
-                Log.Debug($"Request : methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+                Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
                 Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                 if (ErrorCode is "0")
                 {
@@ -686,14 +693,16 @@ public sealed class Mediator : ObservableObject
                     var macCode = AuthenticatorVM.Settings.EquipmentID;
                     var berthCode = $"Ret_{CarrierID}";
                     var wipEntity = TotalVM.Barcode;  //板件2D??
-                    var input = $@"<?xml version=""1.0"" encoding=""UTF-8""?>
-                            <CallAgv
-                            xmlns:xsi = ""http://www.w3.org/2001/XMLSchema-instance""
-                            xmlns:xsd = ""http://www.w3.org/2001/XMLSchema""
-                            macCode = ""{macCode}""
-                            berthCode = ""{berthCode}""
-                            wipEntity = ""{wipEntity}"">
-                            </CallAgv> ";
+                    var input = $"""
+                                    <?xml version="1.0" encoding="UTF-8"?>
+                                    <CallAgv
+                                    xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                                    xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                                    macCode = "{macCode}"
+                                    berthCode = "{berthCode}"
+                                    wipEntity = "{wipEntity}">
+                                    </CallAgv>
+                                 """;
 
                     var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
                     {
@@ -703,7 +712,7 @@ public sealed class Mediator : ObservableObject
                     var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
                     var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
                     var ResultData = Result.macIntfResult.resultDatak__BackingField;
-                    Log.Debug($"Request : methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+                    Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
                     Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                     if (ErrorCode is "0")
                     {
@@ -766,7 +775,7 @@ public sealed class Mediator : ObservableObject
                     var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
                     var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
                     var ResultData = Result.macIntfResult.resultDatak__BackingField;
-                    Log.Debug($"Request : methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+                    Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
                     Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                     if (ErrorCode is "-1")
                     {
@@ -800,7 +809,7 @@ public sealed class Mediator : ObservableObject
                     var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
                     var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
                     var ResultData = Result.macIntfResult.resultDatak__BackingField;
-                    Log.Debug($"Request : methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+                    Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
                     Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                     if (ErrorCode is "-1")
                     {
@@ -837,13 +846,15 @@ public sealed class Mediator : ObservableObject
                     });
                     return;
                 }
-                var input = $@"<?xml version=""1.0"" encoding=""UTF-8""?>
-                            <TaskControl
-                            xmlns:xsi = ""http://www.w3.org/2001/XMLSchema-instance""
-                            xmlns:xsd = ""http://www.w3.org/2001/XMLSchema""
-                            macCode = ""{macCode}""
-                            wipEntity = ""{wipEntity}"">                              
-                            </TaskControl> ";
+                var input = $"""
+                                   <?xml version="1.0" encoding="UTF-8"?>
+                                        <TaskControl
+                                        xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                                        xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                                        macCode = "{macCode}"
+                                        wipEntity = "{wipEntity}">                              
+                                        </TaskControl>
+                                   """;
 
                 var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
                 {
@@ -853,7 +864,7 @@ public sealed class Mediator : ObservableObject
                 var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
                 var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
                 var ResultData = Result.macIntfResult.resultDatak__BackingField;
-                Log.Debug($"Request : methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+                Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
                 Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] ,ResultData:[{ResultData}] ");
 
                 //測試用
@@ -899,13 +910,15 @@ public sealed class Mediator : ObservableObject
             var macCode = AuthenticatorVM.Settings.EquipmentID;
             var wipEntity = TotalVM.Barcode;
 
-            var input = $@"<?xml version=""1.0"" encoding=""UTF-8""?>
-                            <Ingredients
-                            xmlns:xsi = ""http://www.w3.org/2001/XMLSchema-instance""
-                            xmlns:xsd = ""http://www.w3.org/2001/XMLSchema""
-                            macCode = ""{macCode}""
-                            wipEntity = ""{wipEntity}"">                              
-                            </Ingredients> ";
+            var input = $"""
+                                    <?xml version="1.0" encoding="UTF-8"?>
+                                    <Ingredients
+                                    xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                                    xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                                    macCode = "{macCode}"
+                                    wipEntity = "{wipEntity}">                              
+                                    </Ingredients>
+                               """;
 
             var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
             {
@@ -1018,13 +1031,15 @@ public sealed class Mediator : ObservableObject
         var macCode = AuthenticatorVM.Settings.EquipmentID;
         var wipEntity = TotalVM.Barcode;
 
-        var input = $@"<?xml version=""1.0"" encoding=""UTF-8""?>
-                            <Ingredients
-                            xmlns:xsi = ""http://www.w3.org/2001/XMLSchema-instance""
-                            xmlns:xsd = ""http://www.w3.org/2001/XMLSchema""
-                            macCode = ""{macCode}""
-                            wipEntity = ""{wipEntity}"">                              
-                            </Ingredients> ";
+        var input = $"""
+                            <?xml version="1.0" encoding="UTF-8"?>
+                                <Ingredients
+                                xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                                xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                                macCode = "{macCode}"
+                                wipEntity = "{wipEntity}">                              
+                                </Ingredients>
+                            """;
 
         var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
         {
