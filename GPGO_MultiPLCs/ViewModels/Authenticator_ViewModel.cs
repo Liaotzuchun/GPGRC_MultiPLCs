@@ -100,6 +100,4 @@ public class Authenticator_ViewModel : AuthenticatorModel
         }
 
     }
-
-
 }

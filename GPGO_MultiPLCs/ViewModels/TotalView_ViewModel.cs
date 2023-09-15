@@ -60,16 +60,23 @@ public sealed class TotalView_ViewModel : ObservableObject
     public RelayCommand NGOutAGV { get; }
     public RelayCommand RetAGV { get; }
     public RelayCommand TaskControl { get; }
-    public RelayCommand DataUpload { get; }
     public RelayCommand Ingredients { get; }
+    public RelayCommand CheckButton { get; }
+    public RelayCommand DataUpload { get; }
+    public RelayCommand Shutdown { get; }
+    public RelayCommand PM { get; }
+    public RelayCommand Standby { get; }
+    public RelayCommand Production { get; }
+    public RelayCommand Fault { get; }
 
     public event Action<int> AddAGVevent;
     public event Action<int> OutAGVevent;
     public event Action<int> NGOutAGVevent;
     public event Action<int> RetAGVevent;
-    public event Func<Task> TaskControlevent;
-    public event Func<Task> DataUploadevent;
+    public event Action<int> DataUploadevent;
     public event Func<Task> Ingredientsevent;
+    public event Func<Task> CheckButtonevent;
+    public event Func<Task> TaskControlevent;
 
     /// <summary>所有PLC</summary>
     public IList<PLC_ViewModel> PLC_All { get; }
@@ -170,7 +177,47 @@ public sealed class TotalView_ViewModel : ObservableObject
         get => Get<int>();
         set => Set(value);
     }
+    public string Barcode
+    {
+        get => Get<string>();
+        set => Set(value);
+    }
+    public bool BarcodeEnabled
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
 
+    public bool CheckButtonEnabled
+    {
+        get;
+        set;
+    }
+    public string WorkOrder
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string PartID
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string ProcessID
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string PanelCount
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string RecipeID
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
 
     public TotalView_ViewModel(int count, IGate gate, IPAddress plcaddress, IDialogService dialog)
     {
@@ -188,7 +235,8 @@ public sealed class TotalView_ViewModel : ObservableObject
         OutEnabled = false;
         NGOutEnabled = false;
         TaskControlButtonEnabled = false;
-        DataUploadButtonEnabled = false;
+        DataUploadButtonEnabled = true;
+        CheckButtonEnabled = true;
         IngredientsButtonEnabled = false;
 
         Status = -1;
@@ -271,15 +319,46 @@ public sealed class TotalView_ViewModel : ObservableObject
             TaskControlevent?.Invoke();
         });
 
-        DataUpload = new RelayCommand(_ =>
-        {
-            DataUploadevent?.Invoke();
-        });
-
         Ingredients = new RelayCommand(_ =>
         {
             Ingredientsevent?.Invoke();
         });
+        CheckButton = new RelayCommand(_ =>
+        {
+            OutEnabled = true;
+            NGOutEnabled = true;
+        });
+
+        DataUpload = new RelayCommand(_ =>
+        {
+            DataUploadevent?.Invoke(0);
+        });
+
+        Shutdown = new RelayCommand(_ =>
+        {
+            DataUploadevent?.Invoke(16);
+        });
+
+        PM = new RelayCommand(_ =>
+        {
+            DataUploadevent?.Invoke(8);
+        });
+
+        Fault = new RelayCommand(_ =>
+        {
+            DataUploadevent?.Invoke(4);
+        });
+
+        Standby = new RelayCommand(_ =>
+        {
+            DataUploadevent?.Invoke(2);
+        });
+
+        Production = new RelayCommand(_ =>
+        {
+            DataUploadevent?.Invoke(1);
+        });
+
 
         PropertyChanged += (_, e) =>
                {

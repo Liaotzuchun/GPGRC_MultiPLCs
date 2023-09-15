@@ -268,9 +268,19 @@
     <sys:String x:Key="復位">復位</sys:String>
     <sys:String x:Key="開啟變更狀態">開啟變更狀態</sys:String>
     <sys:String x:Key="關閉變更狀態">關閉變更狀態</sys:String>
-    <sys:String x:Key="停機">停機</sys:String>
-    <sys:String x:Key="故障">故障</sys:String>
-    <sys:String x:Key="保養">保養</sys:String>
     <sys:String x:Key="異常停止">異常停止</sys:String>
     <sys:String x:Key="存檔">存檔</sys:String>
+    <sys:String x:Key="掃碼">掃碼</sys:String>
+    <sys:String x:Key="檢測完成">檢測完成</sys:String>
+    <sys:String x:Key="停機">停機</sys:String>  
+    <sys:String x:Key="保養">保養</sys:String>
+    <sys:String x:Key="故障">故障</sys:String>
+    <sys:String x:Key="待機">待機</sys:String>
+    <sys:String x:Key="生產">生產</sys:String>
+    <sys:String x:Key="配方訊息">配方訊息</sys:String>
+    <sys:String x:Key="工單ID">工單ID</sys:String>
+    <sys:String x:Key="物资编码">物資編碼</sys:String>
+    <sys:String x:Key="工序代碼">工序代碼</sys:String>
+    <sys:String x:Key="計畫加工板數">計畫加工板數</sys:String>
+    <sys:String x:Key="配方名稱">配方名稱</sys:String>
 </ResourceDictionary>

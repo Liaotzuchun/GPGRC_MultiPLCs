@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -10,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using System.Xml.Serialization;
 using GPGO_MultiPLCs.Models;
 using GPGO_MultiPLCs.ViewModels;
 using GPMVVM.Helpers;
@@ -18,6 +20,7 @@ using GPMVVM.MongoDB.Helpers;
 using GPMVVM.PooledCollections;
 using MongoDB.Driver;
 using Serilog;
+using static GPGO_MultiPLCs.Models.WebDataModel;
 using Extensions = GPGO_MultiPLCs.Helpers.Extensions;
 #pragma warning disable VSTHRD101
 
@@ -187,6 +190,7 @@ public sealed class Mediator : ObservableObject
                                                    Extensions.IsGodMode = User?.Level >= UserLevel.Administrator;
                                                }
                                            };
+
         AuthenticatorVM.Settings.PropertyChanged += (s, e) =>
         {
             if (e.PropertyName == nameof(AuthenticatorVM.Settings.UseHeart))
@@ -470,6 +474,44 @@ public sealed class Mediator : ObservableObject
 
                                      //! 輸出欣興CSV紀錄
                                      _ = CsvCreator.AddEvent(logevent, AuthenticatorVM.Settings.DataOutputPath);
+
+                                     //發生事件 傳送AlarmUpload
+                                     try
+                                     {
+                                         var methodInvoke = "AlarmUpload";
+                                         var macCode = AuthenticatorVM.Settings.EquipmentID;
+                                         var wipEntity = TotalVM.Barcode;
+                                         var alarmCode = logevent.TagCode;
+                                         var alarmDesc = logevent.Description;
+
+                                         //001 工單ID 002員工號
+                                         var input = $@"<?xml version=""1.0"" encoding=""UTF-8""?>
+                                                              <AlarmUpload
+                                                              xmlns:xsi = ""http://www.w3.org/2001/XMLSchema-instance""
+                                                              xmlns:xsd = ""http://www.w3.org/2001/XMLSchema""
+                                                              macCode=""{macCode}""
+                                                              alarmCode=""{alarmCode}""
+                                                              alarmDesc=""{alarmDesc}""
+                                                              timeStamp=""{DateTime.Now:yyyy-MM-dd HH:mm:ss}"">
+                                                                      <item tagCode=""{macCode}_001"" tagValue=""{wipEntity}"" timeStamp="">
+                                                                      <item tagCode=""{macCode}_002"" tagValue=""{User.Name}"" timeStamp="">
+                                                              </AlarmUpload> ";
+
+                                         var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+                                         {
+                                             methodInvoke = methodInvoke,
+                                             input = input
+                                         });
+                                         var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
+                                         var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
+                                         var ResultData = Result.macIntfResult.resultDatak__BackingField;
+                                         Log.Debug($"Request : methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+                                         Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] ,ResultData:[{ResultData}] ");
+                                     }
+                                     catch (Exception ex)
+                                     {
+                                         Log.Debug(ex.Message);
+                                     }
                                  };
 
         TotalVM.UpsertRecipe += recipe => RecipeVM.Upsert(recipe).Result;
@@ -477,7 +519,7 @@ public sealed class Mediator : ObservableObject
         TotalVM.DeleteRecipe += recipe => RecipeVM.Delete(recipe).Result;
 
         #region WebService
-        //AddAGV
+        //叫料
         TotalVM.AddAGVevent += async e =>
         {
             await Task.Run(() =>
@@ -489,15 +531,15 @@ public sealed class Mediator : ObservableObject
                     var macCode = AuthenticatorVM.Settings.EquipmentID;
                     var berthCode = $"In_{CarrierID}" ;
                     var wipEntity = "";
-                    var input = $"""
-                                       <?xml version="1.0" encoding="UTF-8"?>
-                                       <Ingredients
-                                       xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
-                                       xmIns:xsd = "http://www.w3.org/2001/XMLSchema"
-                                       macCode = "{macCode}"
-                                       wipEntity = "{wipEntity}">
-                                       </Ingredients>
-                                       """;
+                    var input = @$"<?xml version=""1.0"" encoding=""UTF-8""?>
+                                         <CallAgv
+                                         xmlns:xsi = ""http://www.w3.org/2001/XMLSchema-instance""
+                                         xmlns:xsd = ""http://www.w3.org/2001/XMLSchema""
+                                         macCode = ""{macCode}""
+                                         berthCode = ""{berthCode}""
+                                         wipEntity = ""{wipEntity}"">
+                                         </CallAgv>
+                                         ";
 
                     var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
                     {
@@ -508,13 +550,13 @@ public sealed class Mediator : ObservableObject
                     var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
                     var ResultData = Result.macIntfResult.resultDatak__BackingField;
                     Log.Debug($"Request : methodInvoke:[{methodInvoke}], berthCode:[{input}]");
-                    Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{input}] , ResultData:[{ResultData}]");
+                    Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                     if (ErrorCode is "0")
                     {
+                        //開啟作業管控功能
                         TotalVM.TaskControlButtonEnabled = true;
+                        TotalVM.BarcodeEnabled = true;
                         Thread.Sleep(AuthenticatorVM.Settings.AVGTime * 1000);
-                        //測試用
-                        MessageBox.Show(ErrorMsg + "OK");
                     }
                     else
                     {
@@ -523,10 +565,15 @@ public sealed class Mediator : ObservableObject
                                                       { Language.CHS, ErrorMsg}});
                     }
                     TotalVM.AddEnabled = true;
+
                 }
                 catch (Exception ex)
                 {
+                    DialogVM.Show(new Dictionary<Language, string>
+                                                     {{ Language.TW, ex.Message },
+                                                      { Language.CHS, ex.Message}});
                     Log.Debug(ex.Message);
+                    TotalVM.AddEnabled = true;
                 }
             });
         };
@@ -540,7 +587,7 @@ public sealed class Mediator : ObservableObject
                 var methodInvoke = "CallAgv";
                 var macCode = AuthenticatorVM.Settings.EquipmentID;
                 var berthCode = $"Out_{CarrierID}";
-                var wipEntity = ""; //板件2D??
+                var wipEntity = TotalVM.Barcode; //板件2D??
                 var input = $@"<?xml version=""1.0"" encoding=""UTF-8""?>
                             <CallAgv
                             xmlns:xsi = ""http://www.w3.org/2001/XMLSchema-instance""
@@ -550,13 +597,27 @@ public sealed class Mediator : ObservableObject
                             wipEntity = ""{wipEntity}"">
                             </CallAgv> ";
 
-
-                Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+                var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
                 {
                     methodInvoke = methodInvoke,
                     input = input
                 });
-                Log.Debug($"methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+                var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
+                var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
+                var ResultData = Result.macIntfResult.resultDatak__BackingField;
+                Log.Debug($"Request : methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+                Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
+                if (ErrorCode is "0")
+                {
+                    TotalVM.NGOutEnabled = false;
+                }
+                else
+                {
+                    DialogVM.Show(new Dictionary<Language, string>
+                                                     {{ Language.TW, ErrorMsg },
+                                                      { Language.CHS, ErrorMsg}});
+                    TotalVM.OutEnabled = true;
+                }
             }
             catch (Exception ex)
             {
@@ -573,7 +634,7 @@ public sealed class Mediator : ObservableObject
                 var methodInvoke = "CallAgv";
                 var macCode = AuthenticatorVM.Settings.EquipmentID;
                 var berthCode = $"NGOut_{CarrierID}";
-                var wipEntity = ""; //板件2D??
+                var wipEntity = TotalVM.Barcode; //板件2D??
                 var input = $@"<?xml version=""1.0"" encoding=""UTF-8""?>
                             <CallAgv
                             xmlns:xsi = ""http://www.w3.org/2001/XMLSchema-instance""
@@ -583,12 +644,29 @@ public sealed class Mediator : ObservableObject
                             wipEntity = ""{wipEntity}"">
                             </CallAgv> ";
 
-                Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+                var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
                 {
                     methodInvoke = methodInvoke,
                     input = input
                 });
-                Log.Debug($"methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+                var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
+                var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
+                var ResultData = Result.macIntfResult.resultDatak__BackingField;
+                Log.Debug($"Request : methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+                Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
+                if (ErrorCode is "0")
+                {
+                    TotalVM.OutEnabled = false;
+                    //測試用
+                    MessageBox.Show(ErrorMsg + "OK");
+                }
+                else
+                {
+                    DialogVM.Show(new Dictionary<Language, string>
+                                                     {{ Language.TW, ErrorMsg },
+                                                      { Language.CHS, ErrorMsg}});
+                    TotalVM.NGOutEnabled = true;
+                }
             }
             catch (Exception ex)
             {
@@ -607,7 +685,7 @@ public sealed class Mediator : ObservableObject
                     var methodInvoke = "CallAgv";
                     var macCode = AuthenticatorVM.Settings.EquipmentID;
                     var berthCode = $"Ret_{CarrierID}";
-                    var wipEntity = "";  //板件2D??
+                    var wipEntity = TotalVM.Barcode;  //板件2D??
                     var input = $@"<?xml version=""1.0"" encoding=""UTF-8""?>
                             <CallAgv
                             xmlns:xsi = ""http://www.w3.org/2001/XMLSchema-instance""
@@ -626,7 +704,7 @@ public sealed class Mediator : ObservableObject
                     var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
                     var ResultData = Result.macIntfResult.resultDatak__BackingField;
                     Log.Debug($"Request : methodInvoke:[{methodInvoke}], berthCode:[{input}]");
-                    Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{input}] , ResultData:[{ResultData}]");
+                    Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                     if (ErrorCode is "0")
                     {
                         //測試用
@@ -655,48 +733,110 @@ public sealed class Mediator : ObservableObject
         };
 
         //上傳加工紀錄
-        TotalVM.DataUploadevent += async () =>
+        TotalVM.DataUploadevent += e =>
         {
+            //e = 0 按鈕上傳 , e = 1 生產 , e = 2 待機 , e = 4 故障 , 保養 = 8 , 停機 = 16
             try
             {
-                var methodInvoke = "DataUpload";
-                var macCode = AuthenticatorVM.Settings.EquipmentID;
-                var wipEntity = "";  //工單ID
-
-                var input = $@"<?xml version=""1.0"" encoding=""UTF-8""?>
-                            <DataUpload
-                            xmlns:xsi = ""http://www.w3.org/2001/XMLSchema-instance""
-                            xmlns:xsd = ""http://www.w3.org/2001/XMLSchema""
-                            macCode = ""{macCode}""
-                            wipEntity = ""{wipEntity}"">
-                                <item tagCode=""{macCode}""_1000 tagValue=""工單ID"" timeStamp="""" />
-                                <item tagCode=""{macCode}""_1001 tagValue=""物資編碼"" timeStamp="""" />
-                                <item tagCode=""{macCode}""_1002 tagValue=""工序代碼"" timeStamp="""" />
-                                <item tagCode=""{macCode}""_1003 tagValue=""計畫加工板數"" timeStamp="""" />
-                            </DataUpload> ";
-
-                Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+                if (e is 0)
                 {
-                    methodInvoke = methodInvoke,
-                    input = input
-                });
-                Log.Debug($"methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+                    var methodInvoke = "DataUpload";
+                    var macCode = AuthenticatorVM.Settings.EquipmentID;
+                    var wipEntity = TotalVM.Barcode;  //工單ID
+
+                    var input = $"""
+                                    <?xml version="1.0" encoding="UTF-8"?>
+                                    <DataUpload
+                                       xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                                       xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                                        macCode = "{macCode}"
+                                        wipEntity = "{wipEntity}">
+                                       <item tagCode="{macCode}_1000" tagValue="{wipEntity}" timeStamp="" />
+                                       <item tagCode="{macCode}_1001" tagValue="{TotalVM.PartID}" timeStamp="" />
+                                       <item tagCode="{macCode}_1002" tagValue="{TotalVM.ProcessID}" timeStamp="" />
+                                       <item tagCode="{macCode}_1003" tagValue="{TotalVM.PanelCount}" timeStamp="" />
+                                    </DataUpload> 
+                                    """;
+
+                    var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+                    {
+                        methodInvoke = methodInvoke,
+                        input = input
+                    });
+                    var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
+                    var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
+                    var ResultData = Result.macIntfResult.resultDatak__BackingField;
+                    Log.Debug($"Request : methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+                    Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
+                    if (ErrorCode is "-1")
+                    {
+                        DialogVM.Show(new Dictionary<Language, string>
+                                                     {{ Language.TW, ErrorMsg },
+                                                      { Language.CHS, ErrorMsg}});
+                    }
+                }
+                else
+                {
+                    var methodInvoke = "DataUpload";
+                    var macCode = AuthenticatorVM.Settings.EquipmentID;
+                    var wipEntity = TotalVM.Barcode;  //工單ID
+
+                    var input = $"""
+                                     <?xml version="1.0" encoding="UTF-8"?>
+                                     <DataUpload
+                                     xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                                     xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                                     macCode = "{macCode}"
+                                     wipEntity = "{wipEntity}">
+                                             <item tagCode="{macCode}_016" tagValue="{e}" timeStamp="{DateTime.Now:yyyy-MM-dd HH:mm:ss}" />                              
+                                     </DataUpload> 
+                                     """;
+
+                    var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+                    {
+                        methodInvoke = methodInvoke,
+                        input = input
+                    });
+                    var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
+                    var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
+                    var ResultData = Result.macIntfResult.resultDatak__BackingField;
+                    Log.Debug($"Request : methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+                    Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
+                    if (ErrorCode is "-1")
+                    {
+                        DialogVM.Show(new Dictionary<Language, string>
+                                                     {{ Language.TW, ErrorMsg },
+                                                      { Language.CHS, ErrorMsg}});
+                    }
+                }
+
             }
             catch (Exception ex)
             {
+                DialogVM.Show(new Dictionary<Language, string>
+                                                     {{ Language.TW, ex.Message },
+                                                      { Language.CHS, ex.Message}});
                 Log.Debug(ex.Message);
             }
         };
 
-        //作業管控  人工掃碼，掃板子的碼 => wipEntity
+        //作業管控  
         TotalVM.TaskControlevent += async () =>
         {
             try
             {
                 var methodInvoke = "TaskControl";
                 var macCode = AuthenticatorVM.Settings.EquipmentID;
-                var wipEntity = "";
-
+                var wipEntity = TotalVM.Barcode;
+                if (wipEntity == null)
+                {
+                    DialogVM.Show(new Dictionary<Language, string>
+                    {
+                        { Language.TW, "掃碼不能為空" },
+                        { Language.CHS, "扫码不能为空"}
+                    });
+                    return;
+                }
                 var input = $@"<?xml version=""1.0"" encoding=""UTF-8""?>
                             <TaskControl
                             xmlns:xsi = ""http://www.w3.org/2001/XMLSchema-instance""
@@ -714,18 +854,21 @@ public sealed class Mediator : ObservableObject
                 var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
                 var ResultData = Result.macIntfResult.resultDatak__BackingField;
                 Log.Debug($"Request : methodInvoke:[{methodInvoke}], berthCode:[{input}]");
-                Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{input}] ,ResultData:[{ResultData}] ");
+                Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] ,ResultData:[{ResultData}] ");
 
                 //測試用
                 TotalVM.IngredientsButtonEnabled = true;
-
+                //
+                TotalVM.BarcodeEnabled = false;
                 if (ErrorCode is "0")
                 {
                     DialogVM.Show(new Dictionary<Language, string>
                                                      {{ Language.TW, "OK" },
                                                       { Language.CHS, "OK"}});
-                    //品質合格 下發配方可用
+                    //測試用 看起來是要直接問配方   品質合格 下發配方可用
                     TotalVM.IngredientsButtonEnabled = true;
+
+                    GetRecipeIngredients();
                 }
                 else if (ErrorCode is "-1")
                 {
@@ -733,6 +876,8 @@ public sealed class Mediator : ObservableObject
                                                      {{ Language.TW, ErrorMsg },
                                                       { Language.CHS, ErrorMsg}});
                     TotalVM.RetEnabled = true;
+                    //測試用
+                    GetRecipeIngredients();
                 }
                 else
                 {
@@ -750,20 +895,9 @@ public sealed class Mediator : ObservableObject
         //配方
         TotalVM.Ingredientsevent += async () =>
         {
-            //var ResultData =   $@"
-            //     <item tagCode=""MAC001_1000"" tagValue=""12345678"" timeStamp="""">
-            //     <item tagCode=""MAC001_2000"" tagValue=""12345678"" timeStamp="""">  ";
-
-            //var a = ResultData.Split(' ');
-            //MessageBox.Show(a[0]);
-
-            /*
-             <item tagCode="MAC001_1000" tagValue="12345678" timeStamp="">
-             <item tagCode="MAC001_2000" tagValue="12345678" timeStamp="">
-             */
             var methodInvoke = "Ingredients";
             var macCode = AuthenticatorVM.Settings.EquipmentID;
-            var wipEntity = "";  //板件2D 或是工單ID?
+            var wipEntity = TotalVM.Barcode;
 
             var input = $@"<?xml version=""1.0"" encoding=""UTF-8""?>
                             <Ingredients
@@ -781,20 +915,14 @@ public sealed class Mediator : ObservableObject
             var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
             var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
             var ResultData = Result.macIntfResult.resultDatak__BackingField;
-            Log.Debug($"Request : methodInvoke:[{methodInvoke}], berthCode:[{input}]");
-            Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{input}] , ResultData:[{ResultData}]");
+            Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
+            Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
+
             if (ErrorCode is "0")
             {
-                //測試用
-                MessageBox.Show("OK");
-                //回傳工單ID,配方訊息,
-                //顯示工單ID
-                //顯示配方訊息
-                //var a = ResultData.Split
-                /*
-                 <item tagCode="MAC001_1000" tagValue="12345678" timeStamp="">
-                 <item tagCode="MAC001_2000" tagValue="12345678" timeStamp="">
-                 */
+                DialogVM.Show(new Dictionary<Language, string>
+                                                     {{ Language.TW, ResultData },
+                                                      { Language.CHS, ResultData}});
                 //taskcontrol功能鎖定
                 TotalVM.TaskControlButtonEnabled = false;
 
@@ -845,44 +973,6 @@ public sealed class Mediator : ObservableObject
         LogVM.LogAdded += log =>
         {
             TotalVM.InsertMessage(log);
-
-            //發生事件 傳送AlarmUpload
-            try
-            {
-                var methodInvoke = "AlarmUpload";
-                var macCode = AuthenticatorVM.Settings.EquipmentID;
-                var alarmCode = "";
-                var alarmDesc = "";
-
-                var input = $@"<?xml version=""1.0"" encoding=""UTF-8""?>
-                            <AlarmUpload
-                            xmlns:xsi = ""http://www.w3.org/2001/XMLSchema-instance""
-                            xmlns:xsd = ""http://www.w3.org/2001/XMLSchema""
-                            macCode=""{macCode}""
-                            alarmCode=""{alarmCode}""
-                            alarmDesc=""{alarmDesc}""
-                            timeStamp=""{DateTime.Now:yyyy-MM-dd HH:mm:ss}"">
-                                    <item tagCode="" tagValue="" timeStamp="">
-                                    <item tagCode="" tagValue="" timeStamp="">
-                            </AlarmUpload> ";
-
-                var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
-                {
-                    methodInvoke = methodInvoke,
-                    input = input
-                });
-                var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
-                var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
-                var ResultData = Result.macIntfResult.resultDatak__BackingField;
-                Log.Debug($"Request : methodInvoke:[{methodInvoke}], berthCode:[{input}]");
-                Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{input}] ,ResultData:[{ResultData}] ");
-            }
-            catch (Exception ex)
-            {
-                Log.Debug(ex.Message);
-            }
-
-
         };
 
         _ = Task.Run(() =>
@@ -891,7 +981,7 @@ public sealed class Mediator : ObservableObject
                          TotalVM.InsertMessage(evs);
                      });
 
-        //#region 產生測試用生產數據資料庫，務必先建立配方！！
+        #region 產生測試用生產數據資料庫，務必先建立配方！！
         //DialogVM.Show(new Dictionary<Language, string>
         //              {
         //                  { Language.TW, "測試資料產生中，請稍後！" },
@@ -915,28 +1005,67 @@ public sealed class Mediator : ObservableObject
         //                                        }
         //                                    }),
         //              TimeSpan.FromMinutes(5));
-        //#endregion
+        #endregion
         GPServiceHostFunc();
-        //SCC_ServerSideRef.MacIntfWSClient Web = new SCC_ServerSideRef.MacIntfWSClient();
-        //Web.Open();
-        //Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
-        //{
-        //    methodInvoke = "CallAgv",
-        //    input = $@"<?xml version=""1.0"" encoding=""UTF-8""?>
-        //                <CallAgv>
-        //                xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance""
-        //                xmIns:xsd=""http://www.w3.org/2001/XMLSchema""
-        //                macCode=""MAC001""
-        //                berthCode=""In_D0001""
-        //                wipEntity="""">
-        //                </CallAgv>"
-        //}
-        //);
-        //MacIntfWSClient macIntfWS = new MacIntfWSClient();
-        //macIntfWS.Open();
-
-
     }
+
+    private void GetRecipeIngredients()
+    {
+        SCC_ServerSideRef.MacIntfWSClient Web = new SCC_ServerSideRef.MacIntfWSClient();
+        Web.Open();
+
+        var methodInvoke = "Ingredients";
+        var macCode = AuthenticatorVM.Settings.EquipmentID;
+        var wipEntity = TotalVM.Barcode;
+
+        var input = $@"<?xml version=""1.0"" encoding=""UTF-8""?>
+                            <Ingredients
+                            xmlns:xsi = ""http://www.w3.org/2001/XMLSchema-instance""
+                            xmlns:xsd = ""http://www.w3.org/2001/XMLSchema""
+                            macCode = ""{macCode}""
+                            wipEntity = ""{wipEntity}"">                              
+                            </Ingredients> ";
+
+        var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+        {
+            methodInvoke = methodInvoke,
+            input = input
+        });
+        var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
+        var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
+        var ResultData = Result.macIntfResult.resultDatak__BackingField;
+        Log.Debug($"Request : methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+        Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
+        if (ErrorCode is "0")
+        {
+            GetResultData(ResultData);
+            DialogVM.Show(new Dictionary<Language, string>
+                                                     {{ Language.TW, ResultData },
+                                                      { Language.CHS, ResultData}});
+            //taskcontrol功能鎖定
+            TotalVM.TaskControlButtonEnabled = false;
+        }
+        else if (ErrorCode is "-1")   //配方下發失敗
+        {
+            DialogVM.Show(new Dictionary<Language, string>
+                                                     {{ Language.TW, ErrorMsg },
+                                                      { Language.CHS, ErrorMsg}});
+        }
+        else if (ErrorCode is "-2")    //無配方
+        {
+            DialogVM.Show(new Dictionary<Language, string>
+                                                     {{ Language.TW, ErrorMsg },
+                                                      { Language.CHS, ErrorMsg}});
+            TotalVM.RetEnabled = false;
+        }
+        else
+        {
+            DialogVM.Show(new Dictionary<Language, string>
+                                                     {{ Language.TW, ErrorMsg },
+                                                      { Language.CHS, ErrorMsg}});
+        }
+    }
+
     public void GPServiceHostFunc()
     {
         try
@@ -963,7 +1092,54 @@ public sealed class Mediator : ObservableObject
         else
             CarrierID = AuthenticatorVM.Settings.CarrierBID;
     }
+    public void GetResultData(string Data)
+    {
+        /*測試用
+        Data = $"""
+           <?xml version="1.0" encoding="utf-8"?> 
+            <Ingredients
+                    xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                    xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                    macCode = "MAC001"
+                    wipEntity = "12345678" >
+                    <item tagCode = "MAC001_1000" tagValue = "Test1234" timeStamp = "" />
+                    <item tagCode = "MAC001_1001" tagValue = "Part1234" timeStamp = "" />
+                    <item tagCode = "MAC001_1002" tagValue = "Process1234" timeStamp = "" />
+                    <item tagCode = "MAC001_1003" tagValue = "Panel1234" timeStamp = "" />
+                    <item tagCode = "MAC001_1004" tagValue = "Recipe1234" timeStamp = "" />
+           </Ingredients >         
+           """;
+        */
+        var reader = new StringReader(Data);
+        var serializer = new XmlSerializer(typeof(Ingredients));
+        var instance  = (Ingredients)serializer.Deserialize(reader);
 
+        foreach (var item in instance.item)
+        {
+            if (item.tagCode.Contains("1000"))
+            {
+                TotalVM.WorkOrder = item.tagValue;
+            }
+            else if (item.tagCode.Contains("1001"))
+            {
+                TotalVM.PartID = item.tagValue;
+            }
+            else if (item.tagCode.Contains("1002"))
+            {
+                TotalVM.ProcessID = item.tagValue;
+            }
+            else if (item.tagCode.Contains("1003"))
+            {
+                TotalVM.PanelCount = item.tagValue;
+            }
+            else if (item.tagCode.Contains("1004"))
+            {
+                TotalVM.RecipeID = item.tagValue;
+            }
+        }
+    }
+
+    #region 產生測試資料
     /// <summary>產生測試資料至資料庫</summary>
     /// <param name="PLC_Count"></param>
     //public void MakeTestData(int PLC_Count)
@@ -1185,4 +1361,5 @@ public sealed class Mediator : ObservableObject
 
     //    return info;
     //}
+    #endregion
 }

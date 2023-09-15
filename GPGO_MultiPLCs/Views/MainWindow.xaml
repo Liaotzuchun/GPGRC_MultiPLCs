@@ -192,12 +192,20 @@
                 <TextBlock Text="{DynamicResource 配方管理}" />
                 <TextBlock Text="{DynamicResource 生產履歷}" />
                 <TextBlock Text="{DynamicResource 事件履歷}" />
+                
             </ListBox>
         </Grid>
         <Border Grid.Row="0"
                 Grid.Column="1"
-                Background="{StaticResource LightBrush}"
-                Child="{StaticResource GP_Logo}" />
+                Background="{StaticResource WindowBackgroundBrush6}"
+                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                BorderThickness="0,1,0,0">
+            <views:DigitalClock HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="18"
+                                FontWeight="Bold"
+                                IsHitTestVisible="False" />
+        </Border>
         <TabControl Grid.Row="1"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"

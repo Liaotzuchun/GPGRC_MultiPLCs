@@ -13,10 +13,10 @@ public partial class OvenDetailView
 
     private void SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
     {
-        if (dg.SelectedItem != null)
-        {
-            dg.ScrollIntoView(dg.SelectedItem);
-        }
+        //if (dg.SelectedItem != null)
+        //{
+        //    dg.ScrollIntoView(dg.SelectedItem);
+        //}
     }
 
     private void DataGrid_Loaded(object sender, RoutedEventArgs e)

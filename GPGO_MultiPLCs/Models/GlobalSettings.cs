@@ -188,9 +188,9 @@ public class GlobalSettings : RecipeFileBase<GlobalSettings>
         HeartTime = 1;
         HeartContent = "SSEMP";
         HeartPort = "5001";
-        HeartService = "www.google.com";
+        HeartService = "HeartService";
         EquipmentID = "GPGO";
-        iMESURL = "www.yahoo.com";
+        iMESURL = "iMESurl";
         CarrierAID = "CarrierA";
         CarrierBID = "CarrierB";
     }

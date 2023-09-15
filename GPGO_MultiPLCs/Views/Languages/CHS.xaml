@@ -272,4 +272,14 @@
     <sys:String x:Key="異常停止">异常停止</sys:String>
     <sys:String x:Key="請求下發配方">请求下发配方</sys:String>
     <sys:String x:Key="存檔">存档</sys:String>
+    <sys:String x:Key="掃碼">扫码</sys:String>
+    <sys:String x:Key="檢測完成">检测完成</sys:String>
+    <sys:String x:Key="待機">待机</sys:String>
+    <sys:String x:Key="生產">生产</sys:String>
+    <sys:String x:Key="配方訊息">配方訊息</sys:String>
+    <sys:String x:Key="工單ID">工单ID</sys:String>
+    <sys:String x:Key="物资编码">物资编码</sys:String>
+    <sys:String x:Key="工序代碼">工序代码</sys:String>
+    <sys:String x:Key="計畫加工板數">计划加工板数</sys:String>
+    <sys:String x:Key="配方名稱">配方名称</sys:String>
 </ResourceDictionary>

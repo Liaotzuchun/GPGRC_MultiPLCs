@@ -3,7 +3,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Input;
 
 namespace GPGO_MultiPLCs.Views;
 
@@ -12,7 +11,7 @@ public partial class TotalView
 {
     public TotalView() => InitializeComponent();
 
-    private void Border_MouseDown(object sender, MouseButtonEventArgs e) => MessageDataGrid.UnselectAll();
+    //private void Border_MouseDown(object sender, MouseButtonEventArgs e) => MessageDataGrid.UnselectAll();
 
     private void MessageDataGrid_Loaded(object sender, RoutedEventArgs e)
     {
