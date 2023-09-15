@@ -1,27 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.ServiceModel;
-using System.ServiceModel.Description;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Threading;
-using System.Xml.Serialization;
-using GPGO_MultiPLCs.Models;
-using GPGO_MultiPLCs.ViewModels;
-using GPMVVM.Helpers;
-using GPMVVM.Models;
-using GPMVVM.MongoDB.Helpers;
-using GPMVVM.PooledCollections;
-using MongoDB.Driver;
-using Serilog;
-using static GPGO_MultiPLCs.Models.WebDataModel;
-using Extensions = GPGO_MultiPLCs.Helpers.Extensions;
+﻿using Extensions = GPGO_MultiPLCs.Helpers.Extensions;
 #pragma warning disable VSTHRD101
 
 namespace GPGO_MultiPLCs;
@@ -32,6 +9,9 @@ public sealed class Mediator : ObservableObject
     private readonly DataoutputCSV CsvCreator = new();
 
     private ServiceHost _webServiceHost;
+    //心跳頻率
+    public DispatcherTimer WebServiceHostTimer;
+
 
     public ServiceHost webServiceHost
     {
@@ -131,16 +111,17 @@ public sealed class Mediator : ObservableObject
         RecipeVM = new RecipeControl_ViewModel(new MongoBase<PLC_Recipe>(db.GetCollection<PLC_Recipe>("PLC_Recipes")),
                                                new MongoBase<PLC_Recipe>(db.GetCollection<PLC_Recipe>("Old_PLC_Recipes")),
                                                DialogVM);
-
         TraceVM = new TraceabilityView_ViewModel(new MongoBase<ProcessInfo>(db.GetCollection<ProcessInfo>("ProductInfos")), DialogVM);
         LogVM = new LogView_ViewModel(new MongoBase<LogEvent>(db.GetCollection<LogEvent>("EventLogs")), DialogVM);
-
         PlcGate = new JsonRPCPLCGate();
-
         AuthenticatorVM = new Authenticator_ViewModel();
         TotalVM = new TotalView_ViewModel(AuthenticatorVM.Settings.OvenCount, PlcGate, IPAddress.Parse(AuthenticatorVM.IPString), DialogVM);
         Language = AuthenticatorVM.Settings.Lng;
         OvenCount = AuthenticatorVM.Settings.OvenCount;
+
+        var Web = new SCC_Reference2.MacIntfWSClient();
+        Web.Open();
+
         AuthenticatorVM.NowUser = new User
         {
             Name = "Guest",
@@ -148,9 +129,6 @@ public sealed class Mediator : ObservableObject
             Level = UserLevel.Guest
         };
         User = AuthenticatorVM.NowUser;
-
-        SCC_ServerSideRef.MacIntfWSClient Web = new SCC_ServerSideRef.MacIntfWSClient();
-        Web.Open();
 
         AuthenticatorVM.Settings.PropertyChanged += (s, e) =>
                                                     {
@@ -195,16 +173,12 @@ public sealed class Mediator : ObservableObject
         {
             if (e.PropertyName == nameof(AuthenticatorVM.Settings.UseHeart))
             {
-                if (AuthenticatorVM.Settings.UseHeart)
-                    MainVM.UseHeart = Visibility.Visible;
-                else
-                    MainVM.UseHeart = Visibility.Hidden;
+                MainVM.UseHeart = AuthenticatorVM.Settings.UseHeart ? Visibility.Visible : Visibility.Hidden;
             }
         };
 
         AuthenticatorVM.BtnHeartBeatEvent += async (e) =>
         {
-
             IsHeartbeat = e;
 
         };
