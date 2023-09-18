@@ -5,8 +5,9 @@ public class WebSetting : MongodbDataBaseClass
 {
     public string EquipmentID { get; set; }
     public string iMESURL { get; set; }
-    public string CarrierAID { get; set; }
-    public string CarrierBID { get; set; }
+    public string CallCarrierID { get; set; }
+    public string OutCarrierID { get; set; }
+    public string NGCarrierID { get; set; }
     public int AVGTime { get; set; }
     public int Timeout { get; set; }
 
@@ -16,12 +17,13 @@ public class WebSetting : MongodbDataBaseClass
     public string HeartContent { get; set; }
     public string HeartPort { get; set; }
     public string HeartService { get; set; }
-    public WebSetting(string equipmentID, string imesurl, string carrierAID, string carrierBID, int aVGTime, int timeOut, bool useheart, int heartime, string heartcontent, string heartport, string heartservice)
+    public WebSetting(string equipmentID, string imesurl, string callcarrierID, string outcarrierID, string ngcarrierID, int aVGTime, int timeOut, bool useheart, int heartime, string heartcontent, string heartport, string heartservice)
     {
         EquipmentID = equipmentID;
         iMESURL = imesurl;
-        CarrierAID = carrierAID;
-        CarrierBID = carrierBID;
+        CallCarrierID = callcarrierID;
+        OutCarrierID = outcarrierID;
+        NGCarrierID = ngcarrierID;
         AVGTime = aVGTime;
         Timeout = timeOut;
         UseHeart = useheart;

@@ -309,29 +309,10 @@
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="50" />
-                                        <RowDefinition Height="5" />
-                                        <RowDefinition Height="50" />
                                         <RowDefinition Height="100" />
                                     </Grid.RowDefinitions>
-                                    <ListBox Grid.Row="0"
-                                             FontWeight="Bold"
-                                             SelectedIndex="{Binding CarrierIndex, Mode=TwoWay}"
-                                             Style="{StaticResource ListBoxHorizontal2}"
-                                             IsEnabled="{Binding Mode, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}">
-                                        <ListBox.Template>
-                                            <ControlTemplate>
-                                                <ItemsPresenter />
-                                            </ControlTemplate>
-                                        </ListBox.Template>
-                                        <ListBox.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <views:UniformStackPanel Orientation="Horizontal" />
-                                            </ItemsPanelTemplate>
-                                        </ListBox.ItemsPanel>
-                                        <TextBlock Text="{DynamicResource 載具A}" />
-                                        <TextBlock Text="{DynamicResource 載具B}" />
-                                    </ListBox>
-                                    <Grid Grid.Row="2"
+                                    
+                                    <Grid Grid.Row="0"
                                           IsEnabled="{Binding Mode, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}">
                                         <Grid.RowDefinitions>
                                             <RowDefinition />
@@ -388,7 +369,7 @@
                                             </i:Interaction.Triggers>
                                         </Button>
                                     </Grid>
-                                    <Grid Grid.Row="3"
+                                    <Grid Grid.Row="1"
                                           Grid.ColumnSpan="2"
                                           IsEnabled="{Binding Mode, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}">
                                         <Grid.RowDefinitions>
@@ -597,9 +578,9 @@
 
                         <Grid Background="#cbdac4">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="2*"/>
                                 <ColumnDefinition Width="10*"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="3*"/>
                                 <ColumnDefinition Width="10*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>

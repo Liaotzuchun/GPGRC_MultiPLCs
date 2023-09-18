@@ -4,6 +4,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.Text;
@@ -204,9 +205,11 @@ public sealed class Mediator : ObservableObject
 
         AuthenticatorVM.BtnHeartBeatEvent += async (e) =>
         {
-
             IsHeartbeat = e;
-
+            if (e)
+            {
+                HeartbeatRun();
+            }
         };
 
         AuthenticatorVM.BtnSaveEvent += async () =>
@@ -529,10 +532,9 @@ public sealed class Mediator : ObservableObject
             {
                 try
                 {
-                    GetCarrierID(e);
                     var methodInvoke = "CallAgv";
                     var macCode = AuthenticatorVM.Settings.EquipmentID;
-                    var berthCode = $"In_{CarrierID}" ;
+                    var berthCode = $"In_{AuthenticatorVM.Settings.CallCarrierID}" ;
                     var wipEntity = "";
                     var input = $"""
                                          <?xml version="1.0" encoding="UTF-8"?>
@@ -587,10 +589,9 @@ public sealed class Mediator : ObservableObject
         {
             try
             {
-                GetCarrierID(e);
                 var methodInvoke = "CallAgv";
                 var macCode = AuthenticatorVM.Settings.EquipmentID;
-                var berthCode = $"Out_{CarrierID}";
+                var berthCode = $"Out_{AuthenticatorVM.Settings.OutCarrierID}";
                 var wipEntity = TotalVM.Barcode; //板件2D??
                 var input = $"""
                                     <?xml version="1.0" encoding="UTF-8"?>
@@ -640,10 +641,9 @@ public sealed class Mediator : ObservableObject
         {
             try
             {
-                GetCarrierID(e);
                 var methodInvoke = "CallAgv";
                 var macCode = AuthenticatorVM.Settings.EquipmentID;
-                var berthCode = $"NGOut_{CarrierID}";
+                var berthCode = $"NGOut_{AuthenticatorVM.Settings.NGCarrierID}";
                 var wipEntity = TotalVM.Barcode; //板件2D??
                 var input = $"""
                              <?xml version="1.0" encoding="UTF-8"?>
@@ -691,10 +691,9 @@ public sealed class Mediator : ObservableObject
             {
                 await Task.Run(() =>
                 {
-                    GetCarrierID(e);
                     var methodInvoke = "CallAgv";
                     var macCode = AuthenticatorVM.Settings.EquipmentID;
-                    var berthCode = $"Ret_{CarrierID}";
+                    var berthCode = $"Ret_{AuthenticatorVM.Settings.CallCarrierID}";
                     var wipEntity = TotalVM.Barcode;  //板件2D??
                     var input = $"""
                                  <?xml version="1.0" encoding="UTF-8"?>
@@ -1051,13 +1050,6 @@ public sealed class Mediator : ObservableObject
         }
     }
 
-    public void GetCarrierID(int CarrierIndex)
-    {
-        if (CarrierIndex is 0)
-            CarrierID = AuthenticatorVM.Settings.CarrierAID;
-        else
-            CarrierID = AuthenticatorVM.Settings.CarrierBID;
-    }
     public void GetResultData(string Data)
     {
         /*測試用
@@ -1105,6 +1097,99 @@ public sealed class Mediator : ObservableObject
         }
     }
 
+    public void HeartbeatRun()
+    {
+        try
+        {
+            while (true)
+            {
+                ClientSender.getInstance().Send(AuthenticatorVM.Settings.EquipmentID);
+                Thread.Sleep(5000);
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.StackTrace);
+        }
+    }
+
+    #region 客戶提供開啟Client
+    class ClientSender
+    {
+        private ClientSender()
+        {
+        }
+
+        Socket sender = null;
+        private static ClientSender instance;
+        private static readonly object lockHelper = new object();
+        private static byte[] result = new byte[512];
+
+        public static ClientSender getInstance()
+        {
+            if (instance == null)
+            {
+                lock (lockHelper)
+                {
+                    instance = new ClientSender();
+                }
+            }
+            return instance;
+        }
+
+        /// <summary> 
+        /// 发送心跳包并返回服务器的回应 
+        /// </summary> 
+        /// <param name="msg"></param> 
+        /// <returns>根据返回的信息更新服务器的状态,正常状态下返回为"OK[E]"</returns> 
+        public string Send(String msg)
+        {
+            //设定服务器IP地址 
+            IPAddress ip = IPAddress.Parse("10.10.193.54");
+            try
+            {
+                sender = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                sender.Connect(new IPEndPoint(ip, 60001)); //配置服务器IP与端口 
+                sender.ReceiveTimeout = 3000;
+                Console.WriteLine("连接服务器成功");
+            }
+            catch
+            {
+                Console.WriteLine("连接服务器失ì败！");
+                return null;
+            }
+
+            try
+            {
+                sender.Send(Encoding.UTF8.GetBytes(msg + "[E]\n\r"));
+                Console.WriteLine("向服务器发送消息:{0}", msg);
+                int receiveLength = sender.Receive(result);
+                Console.WriteLine("接收服务器消息：{0}", Encoding.UTF8.GetString(result, 0, receiveLength));
+                return Encoding.UTF8.GetString(result, 0, receiveLength);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+                return null;
+            }
+            finally
+            {
+                if (null != sender)
+                {
+                    try
+                    {
+                        sender.Shutdown(SocketShutdown.Both);
+                        sender.Close();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.StackTrace);
+                    }
+                }
+            }
+        }
+    }
+    #endregion
     #region 產生測試資料
     /// <summary>產生測試資料至資料庫</summary>
     /// <param name="PLC_Count"></param>

@@ -245,7 +245,7 @@
 
     <sys:String x:Key="Equipment ID">設備ID</sys:String>
     <sys:String x:Key="iMES URL">iMES URL</sys:String>
-    <sys:String x:Key="Carrier A">A載具編號</sys:String>
+    <sys:String x:Key="CallCarrier">叫料載具編號</sys:String>
     <sys:String x:Key="Carrier B">B載具編號</sys:String>
     <sys:String x:Key="AVG Timeliness">AVG按鈕時效</sys:String>
     <sys:String x:Key="TimeOut">通訊超時</sys:String>
@@ -284,4 +284,7 @@
     <sys:String x:Key="計畫加工板數">計畫加工板數</sys:String>
     <sys:String x:Key="配方名稱">配方名稱</sys:String>
     <sys:String x:Key="列隊">列隊</sys:String>
+    <sys:String x:Key="OutCarrier">出料載具編號</sys:String>
+    <sys:String x:Key="NGCarrier">NG載具編號</sys:String>
+    <sys:String x:Key="Heart">心跳</sys:String>
 </ResourceDictionary>

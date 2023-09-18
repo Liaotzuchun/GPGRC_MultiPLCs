@@ -72,7 +72,7 @@ public class Authenticator_ViewModel : AuthenticatorModel
 
     private void SaveData()
     {
-        var tmp = new WebSetting(Settings.EquipmentID,Settings.iMESURL,Settings.CarrierAID,Settings.CarrierBID,Settings.AVGTime,Settings.TimeOut,Settings.UseHeart,Settings.HeartTime,Settings.HeartContent,Settings.HeartPort,Settings.HeartService);
+        var tmp = new WebSetting(Settings.EquipmentID,Settings.iMESURL,Settings.CallCarrierID,Settings.OutCarrierID,Settings.NGCarrierID,Settings.AVGTime,Settings.TimeOut,Settings.UseHeart,Settings.HeartTime,Settings.HeartContent,Settings.HeartPort,Settings.HeartService);
         var tmpbefore = FindInfo("GP", "WebSetting", tmp.Id);
         if (tmpbefore != null)
         {

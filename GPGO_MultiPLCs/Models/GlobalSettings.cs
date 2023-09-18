@@ -54,12 +54,17 @@ public class GlobalSettings : RecipeFileBase<GlobalSettings>
         get => Get<string>() ?? string.Empty;
         set => Set(value);
     }
-    public string CarrierAID
+    public string CallCarrierID
     {
         get => Get<string>() ?? string.Empty;
         set => Set(value);
     }
-    public string CarrierBID
+    public string OutCarrierID
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string NGCarrierID
     {
         get => Get<string>() ?? string.Empty;
         set => Set(value);
@@ -191,7 +196,8 @@ public class GlobalSettings : RecipeFileBase<GlobalSettings>
         HeartService = "HeartService";
         EquipmentID = "GPGO";
         iMESURL = "iMESurl";
-        CarrierAID = "CarrierA";
-        CarrierBID = "CarrierB";
+        CallCarrierID = "CallCarrierID";
+        OutCarrierID = "OutCarrierID";
+        NGCarrierID = "NGCarrierID";
     }
 }
