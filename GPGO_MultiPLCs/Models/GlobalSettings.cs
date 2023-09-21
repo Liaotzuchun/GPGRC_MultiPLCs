@@ -39,9 +39,9 @@ public class GlobalSettings : RecipeFileBase<GlobalSettings>
         get => Get<string>() ?? string.Empty;
         set => Set(value);
     }
-    public string HeartPort
+    public int HeartPort
     {
-        get => Get<string>() ?? string.Empty;
+        get => Get<int>();
         set => Set(value);
     }
     public string EquipmentID
@@ -192,8 +192,8 @@ public class GlobalSettings : RecipeFileBase<GlobalSettings>
         AVGTime = 1;
         HeartTime = 1;
         HeartContent = "SSEMP";
-        HeartPort = "5001";
-        HeartService = "HeartService";
+        HeartPort = 5001;
+        HeartService = "127.0.0.1";
         EquipmentID = "GPGO";
         iMESURL = "iMESurl";
         CallCarrierID = "CallCarrierID";

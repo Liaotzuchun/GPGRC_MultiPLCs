@@ -15,9 +15,9 @@ public class WebSetting : MongodbDataBaseClass
 
     public int HeartTime { get; set; }
     public string HeartContent { get; set; }
-    public string HeartPort { get; set; }
+    public int HeartPort { get; set; }
     public string HeartService { get; set; }
-    public WebSetting(string equipmentID, string imesurl, string callcarrierID, string outcarrierID, string ngcarrierID, int aVGTime, int timeOut, bool useheart, int heartime, string heartcontent, string heartport, string heartservice)
+    public WebSetting(string equipmentID, string imesurl, string callcarrierID, string outcarrierID, string ngcarrierID, int aVGTime, int timeOut, bool useheart, int heartime, string heartcontent, int heartport, string heartservice)
     {
         EquipmentID = equipmentID;
         iMESURL = imesurl;

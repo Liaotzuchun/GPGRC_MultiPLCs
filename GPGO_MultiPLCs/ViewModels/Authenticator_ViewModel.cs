@@ -45,10 +45,7 @@ public class Authenticator_ViewModel : AuthenticatorModel
         {
             try
             {
-                if (Settings.UseHeart)
-                    BtnHeartBeatEvent?.Invoke(true);
-                else
-                    BtnHeartBeatEvent?.Invoke(false);
+                BtnHeartBeatEvent?.Invoke(Settings.UseHeart);
             }
             catch (Exception ex)
             {

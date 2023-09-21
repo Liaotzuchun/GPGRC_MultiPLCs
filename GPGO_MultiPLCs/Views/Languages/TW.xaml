@@ -271,7 +271,7 @@
     <sys:String x:Key="異常停止">異常停止</sys:String>
     <sys:String x:Key="存檔">存檔</sys:String>
     <sys:String x:Key="掃碼">掃碼</sys:String>
-    <sys:String x:Key="檢測完成">檢測完成</sys:String>
+    <sys:String x:Key="加工完成">加工完成</sys:String>
     <sys:String x:Key="停機">停機</sys:String>  
     <sys:String x:Key="保養">保養</sys:String>
     <sys:String x:Key="故障">故障</sys:String>
@@ -287,4 +287,8 @@
     <sys:String x:Key="OutCarrier">出料載具編號</sys:String>
     <sys:String x:Key="NGCarrier">NG載具編號</sys:String>
     <sys:String x:Key="Heart">心跳</sys:String>
+    <sys:String x:Key="MES消息">MES消息</sys:String>
+    <sys:String x:Key="確認">確認</sys:String>
+    <sys:String x:Key="配方項">配方項</sys:String>
+    <sys:String x:Key="配方值">配方值</sys:String>
 </ResourceDictionary>

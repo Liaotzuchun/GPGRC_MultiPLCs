@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -108,6 +109,11 @@ public sealed class Mediator : ObservableObject
             }
         }
     }
+    public Brushes MesColor
+    {
+        get => Get<Brushes>();
+        set => Set(value);
+    }
     public bool IsHeartbeat
     {
         get => Get<bool>();
@@ -208,7 +214,8 @@ public sealed class Mediator : ObservableObject
             IsHeartbeat = e;
             if (e)
             {
-                HeartbeatRun();
+                Task t = new Task(HeartbeatRun);
+                t.Start();
             }
         };
 
@@ -337,45 +344,6 @@ public sealed class Mediator : ObservableObject
                         Log.Error(ex, "ProcessJob資料夾無法創建");
                     }
                 }
-
-                //if (TotalVM.SecsGemEquipment.CCodeDocument?.CCodeItems.TryGetValue("1", out var ccode) == true)
-                //{
-                //    foreach (var recipe in list)
-                //    {
-                //        var _recipe = recipe.ToDictionary();
-                //        var fpath   = $"{path}\\{recipe.RecipeName}.pjb";
-                //        var ini     = new IniParser(fpath);
-
-                //        foreach (var param in ccode.ParameterItems)
-                //        {
-                //            if (_recipe.TryGetValue(param.PParameterName, out var val))
-                //            {
-                //                if (val is double d)
-                //                {
-                //                    ini[ccode.CCodeName][param.PParameterName] = d.ToString("0.0").ToUpper();
-                //                }
-                //                else if (val is float f)
-                //                {
-                //                    ini[ccode.CCodeName][param.PParameterName] = f.ToString("0.0").ToUpper();
-                //                }
-                //                else
-                //                {
-                //                    ini[ccode.CCodeName][param.PParameterName] = val.ToString().ToUpper();
-                //                }
-                //            }
-                //        }
-
-                //        try
-                //        {
-                //            await ini.SaveAsync();
-                //        }
-                //        catch (Exception ex)
-                //        {
-                //            Log.Error(ex, "pjb寫入失敗");
-                //        }
-                //    }
-                //}
-
                 //! 輸出欣興Recipe CSV
                 await CsvCreator.ExportRecipe(list, AuthenticatorVM.Settings.DataOutputPath);
             }
@@ -559,25 +527,22 @@ public sealed class Mediator : ObservableObject
                     Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                     if (ErrorCode is "0")
                     {
+                        TotalVM.MESMessage = "OK";
                         //開啟作業管控功能
-                        TotalVM.TaskControlButtonEnabled = true;
+                        TotalVM.IngredientsButtonEnabled = true;
                         TotalVM.BarcodeEnabled = true;
                         Thread.Sleep(AuthenticatorVM.Settings.AVGTime * 1000);
                     }
                     else
                     {
-                        DialogVM.Show(new Dictionary<Language, string>
-                                                     {{ Language.TW, ErrorMsg },
-                                                      { Language.CHS, ErrorMsg}});
+                        TotalVM.MESMessage = "当前没有计划工单";
                     }
                     TotalVM.AddEnabled = true;
 
                 }
                 catch (Exception ex)
                 {
-                    DialogVM.Show(new Dictionary<Language, string>
-                                                     {{ Language.TW, ex.Message },
-                                                      { Language.CHS, ex.Message}});
+                    TotalVM.MESMessage = ex.ToString();
                     Log.Debug(ex.Message);
                     TotalVM.AddEnabled = true;
                 }
@@ -616,6 +581,7 @@ public sealed class Mediator : ObservableObject
                 Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                 if (ErrorCode is "0")
                 {
+                    TotalVM.MESMessage = "OK";
                     TotalVM.NGOutEnabled = false;
 
                     //在線模式，出料任務返回0，解鎖掃碼功能
@@ -624,9 +590,7 @@ public sealed class Mediator : ObservableObject
                 }
                 else
                 {
-                    DialogVM.Show(new Dictionary<Language, string>
-                                                     {{ Language.TW, ErrorMsg },
-                                                      { Language.CHS, ErrorMsg}});
+                    TotalVM.MESMessage = "没有空载位";
                     TotalVM.OutEnabled = true;
                 }
             }
@@ -668,13 +632,12 @@ public sealed class Mediator : ObservableObject
                 Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                 if (ErrorCode is "0")
                 {
+                    TotalVM.MESMessage = "OK";
                     TotalVM.OutEnabled = false;
                 }
                 else
                 {
-                    DialogVM.Show(new Dictionary<Language, string>
-                                                     {{ Language.TW, ErrorMsg },
-                                                      { Language.CHS, ErrorMsg}});
+                    TotalVM.MESMessage = "没有空载位";
                     TotalVM.NGOutEnabled = true;
                 }
             }
@@ -718,21 +681,16 @@ public sealed class Mediator : ObservableObject
                     Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                     if (ErrorCode is "0")
                     {
-                        //測試用
-                        MessageBox.Show(ErrorMsg + "退料OK");
+                        TotalVM.MESMessage = "OK";
                     }
                     else if (ErrorCode is "-1")
                     {
-                        DialogVM.Show(new Dictionary<Language, string>
-                                                         {{ Language.TW, ErrorMsg },
-                                                      { Language.CHS, ErrorMsg}});
+                        TotalVM.MESMessage = "没有空载位";
                         TotalVM.RetEnabled = true;
                     }
                     else
                     {
-                        DialogVM.Show(new Dictionary<Language, string>
-                                                         {{ Language.TW, ErrorMsg },
-                                                      { Language.CHS, ErrorMsg}});
+                        TotalVM.MESMessage = ErrorMsg;
                     }
                     Log.Debug($"methodInvoke:[{methodInvoke}], berthCode:[{input}]");
                 });
@@ -744,12 +702,11 @@ public sealed class Mediator : ObservableObject
         };
 
         //上傳加工紀錄
-        TotalVM.DataUploadevent += e =>
+        TotalVM.DataUploadevent += async e =>
         {
-            //e = 0 按鈕上傳 , e = 1 生產 , e = 2 待機 , e = 4 故障 , 保養 = 8 , 停機 = 16
-            try
+            await Task.Run(() =>
             {
-                if (e is 0)
+                try
                 {
                     var methodInvoke = "DataUpload";
                     var macCode = AuthenticatorVM.Settings.EquipmentID;
@@ -762,10 +719,12 @@ public sealed class Mediator : ObservableObject
                                        xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
                                         macCode = "{macCode}"
                                         wipEntity = "{wipEntity}">
-                                       <item tagCode="{macCode}_1000" tagValue="{wipEntity}" timeStamp="" />
                                        <item tagCode="{macCode}_1001" tagValue="{TotalVM.PartID}" timeStamp="" />
                                        <item tagCode="{macCode}_1002" tagValue="{TotalVM.ProcessID}" timeStamp="" />
                                        <item tagCode="{macCode}_1003" tagValue="{TotalVM.PanelCount}" timeStamp="" />
+                                       <item tagCode="{macCode}_1004" tagValue="請求配方時間" timeStamp="" />
+                                       <item tagCode="{macCode}_1005" tagValue="{DateTime.Now.ToString()}" timeStamp="" />
+                                       <item tagCode="{macCode}_1006" tagValue="{User.Name}" timeStamp="" />
                                     </DataUpload> 
                                     """;
 
@@ -781,133 +740,68 @@ public sealed class Mediator : ObservableObject
                     Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                     if (ErrorCode is "0")
                     {
-                        DialogVM.Show(new Dictionary<Language, string>
-                                                     {{ Language.TW, ErrorMsg },
-                                                      { Language.CHS, ErrorMsg}});
-                        //半自動模式，檢驗OK解鎖掃碼
-                        if (TotalVM.Mode == 1)
-                        {
-                            TotalVM.Barcode = "";
-                            TotalVM.BarcodeEnabled = true;
-                        }
+                        TotalVM.MESMessage = "OK";
+                        TotalVM.OutEnabled = true;
+                        TotalVM.NGOutEnabled = true;
                     }
                     else
                     {
-                        DialogVM.Show(new Dictionary<Language, string>
-                                                     {{ Language.TW, ErrorMsg },
-                                                      { Language.CHS, ErrorMsg}});
+                        TotalVM.MESMessage = "加工数据上传失败";
+                        Thread.Sleep(AuthenticatorVM.Settings.AVGTime * 1000);
+                        TotalVM.CheckButtonEnabled = true;
                     }
                 }
-                else
+                catch (Exception ex)
                 {
-                    var methodInvoke = "DataUpload";
-                    var macCode = AuthenticatorVM.Settings.EquipmentID;
-                    var wipEntity = TotalVM.Barcode;  //工單ID
-
-                    var input = $"""
-                                     <?xml version="1.0" encoding="UTF-8"?>
-                                     <DataUpload
-                                     xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
-                                     xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
-                                     macCode = "{macCode}"
-                                     wipEntity = "{wipEntity}">
-                                             <item tagCode="{macCode}_016" tagValue="{e}" timeStamp="{DateTime.Now:yyyy-MM-dd HH:mm:ss}" />                              
-                                     </DataUpload> 
-                                     """;
-
-                    var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
-                    {
-                        methodInvoke = methodInvoke,
-                        input = input
-                    });
-                    var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
-                    var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
-                    var ResultData = Result.macIntfResult.resultDatak__BackingField;
-                    Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
-                    Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
-                    if (ErrorCode is "-1")
-                    {
-                        DialogVM.Show(new Dictionary<Language, string>
-                                                     {{ Language.TW, ErrorMsg },
-                                                      { Language.CHS, ErrorMsg}});
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                DialogVM.Show(new Dictionary<Language, string>
+                    DialogVM.Show(new Dictionary<Language, string>
                                                      {{ Language.TW, ex.Message },
                                                       { Language.CHS, ex.Message}});
-                Log.Debug(ex.Message);
-            }
+                    Log.Debug(ex.Message);
+                }
+            });
         };
 
         //作業管控  
-        TotalVM.TaskControlevent += async () =>
+        TotalVM.Ingredientsevent += async () =>
         {
-            try
+            var methodInvoke = "Ingredients";
+            var macCode = AuthenticatorVM.Settings.EquipmentID;
+            var wipEntity = TotalVM.Barcode;
+            if (wipEntity == null)
             {
-                var methodInvoke = "TaskControl";
-                var macCode = AuthenticatorVM.Settings.EquipmentID;
-                var wipEntity = TotalVM.Barcode;
-                if (wipEntity == null)
-                {
-                    DialogVM.Show(new Dictionary<Language, string>
-                    {
-                        { Language.TW, "掃碼不能為空" },
-                        { Language.CHS, "扫码不能为空"}
-                    });
-                    return;
-                }
-                var input = $"""
-                                   <?xml version="1.0" encoding="UTF-8"?>
-                                        <TaskControl
-                                        xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
-                                        xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
-                                        macCode = "{macCode}"
-                                        wipEntity = "{wipEntity}">                              
-                                        </TaskControl>
-                                   """;
-
-                var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
-                {
-                    methodInvoke = methodInvoke,
-                    input = input
-                });
-                var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
-                var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
-                var ResultData = Result.macIntfResult.resultDatak__BackingField;
-                Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
-                Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] ,ResultData:[{ResultData}] ");
-
-                TotalVM.BarcodeEnabled = false;
-                if (ErrorCode is "0")
-                {
-                    DialogVM.Show(new Dictionary<Language, string>
-                                                     {{ Language.TW, "OK" },
-                                                      { Language.CHS, "OK"}});
-                    GetRecipeIngredients();
-                }
-                else if (ErrorCode is "-1")
-                {
-                    DialogVM.Show(new Dictionary<Language, string>
-                                                     {{ Language.TW, ErrorMsg },
-                                                      { Language.CHS, ErrorMsg}});
-                    TotalVM.RetEnabled = true;
-                    //測試用
-                    GetRecipeIngredients();
-                }
-                else
-                {
-                    DialogVM.Show(new Dictionary<Language, string>
-                                                     {{ Language.TW, ErrorMsg },
-                                                      { Language.CHS, ErrorMsg}});
-                }
+                TotalVM.MESMessage = "扫码不能为空";
+                return;
             }
-            catch (Exception ex)
+            var input = $"""
+                            <?xml version="1.0" encoding="UTF-8"?>
+                                <Ingredients
+                                xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                                xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                                macCode = "{macCode}"
+                                wipEntity = "{wipEntity}">                              
+                                </Ingredients>
+                            """;
+
+            var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
             {
-                Log.Debug(ex.Message);
+                methodInvoke = methodInvoke,
+                input = input
+            });
+            var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
+            var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
+            var ResultData = Result.macIntfResult.resultDatak__BackingField;
+            Log.Debug($"Request : methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+            Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
+            if (ErrorCode is "0")
+            {
+                GetResultData(ResultData);
+                TotalVM.MESMessage = "配方下发完成";
+
+                TotalVM.IngredientsButtonEnabled = false;
+            }
+            else
+            {
+                TotalVM.MESMessage = "配方下发失败";
             }
         };
         #endregion
@@ -972,62 +866,71 @@ public sealed class Mediator : ObservableObject
         GPServiceHostFunc();
     }
 
-    private void GetRecipeIngredients()
+    private void HeartbeatRun()
     {
-        SCC_ServerSideRef.MacIntfWSClient Web = new SCC_ServerSideRef.MacIntfWSClient();
-        Web.Open();
+        try
+        {
+            while (AuthenticatorVM.Settings.UseHeart)
+            {
+                Send();
+                Thread.Sleep(5000);
+            }
 
-        var methodInvoke = "Ingredients";
-        var macCode = AuthenticatorVM.Settings.EquipmentID;
-        var wipEntity = TotalVM.Barcode;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.StackTrace);
+        }
+    }
 
-        var input = $"""
-                            <?xml version="1.0" encoding="UTF-8"?>
-                                <Ingredients
-                                xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
-                                xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
-                                macCode = "{macCode}"
-                                wipEntity = "{wipEntity}">                              
-                                </Ingredients>
-                            """;
 
-        var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+    Socket sender = null;
+    private static readonly object lockHelper = new object();
+    private static byte[] result = new byte[512];
+
+    public string? Send()
+    {
+        var Ip = AuthenticatorVM.Settings.HeartService;
+        var Port = AuthenticatorVM.Settings.HeartPort;
+        var EqpID = AuthenticatorVM.Settings.EquipmentID;
+        var hearttime = AuthenticatorVM.Settings.HeartTime;
+        var ip = IPAddress.Parse(Ip);
+        try
         {
-            methodInvoke = methodInvoke,
-            input = input
-        });
-        var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
-        var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
-        var ResultData = Result.macIntfResult.resultDatak__BackingField;
-        Log.Debug($"Request : methodInvoke:[{methodInvoke}], berthCode:[{input}]");
-        Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
-        if (ErrorCode is "0")
-        {
-            GetResultData(ResultData);
-            DialogVM.Show(new Dictionary<Language, string>
-                                                     {{ Language.TW, ResultData },
-                                                      { Language.CHS, ResultData}});
-            //taskcontrol功能鎖定
-            TotalVM.TaskControlButtonEnabled = false;
+            sender = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            sender.Connect(new IPEndPoint(ip, Port));
+            sender.ReceiveTimeout = hearttime;
         }
-        else if (ErrorCode is "-1")   //配方下發失敗
+        catch
         {
-            DialogVM.Show(new Dictionary<Language, string>
-                                                     {{ Language.TW, ErrorMsg },
-                                                      { Language.CHS, ErrorMsg}});
+            return null;
         }
-        else if (ErrorCode is "-2")    //無配方
+
+        try
         {
-            DialogVM.Show(new Dictionary<Language, string>
-                                                     {{ Language.TW, ErrorMsg },
-                                                      { Language.CHS, ErrorMsg}});
-            TotalVM.RetEnabled = false;
+            sender.Send(Encoding.UTF8.GetBytes(EqpID + "[E]\n\r"));
+            var receiveLength = sender.Receive(result);
+            return Encoding.UTF8.GetString(result, 0, receiveLength);
         }
-        else
+        catch (Exception e)
         {
-            DialogVM.Show(new Dictionary<Language, string>
-                                                     {{ Language.TW, ErrorMsg },
-                                                      { Language.CHS, ErrorMsg}});
+            Console.WriteLine(e.StackTrace);
+            return null;
+        }
+        finally
+        {
+            if (null != sender)
+            {
+                try
+                {
+                    sender.Shutdown(SocketShutdown.Both);
+                    sender.Close();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                }
+            }
         }
     }
 
@@ -1052,22 +955,22 @@ public sealed class Mediator : ObservableObject
 
     public void GetResultData(string Data)
     {
-        /*測試用
-        Data = $"""
-           <?xml version="1.0" encoding="utf-8"?> 
-            <Ingredients
-                    xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
-                    xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
-                    macCode = "MAC001"
-                    wipEntity = "12345678" >
-                    <item tagCode = "MAC001_1000" tagValue = "Test1234" timeStamp = "" />
-                    <item tagCode = "MAC001_1001" tagValue = "Part1234" timeStamp = "" />
-                    <item tagCode = "MAC001_1002" tagValue = "Process1234" timeStamp = "" />
-                    <item tagCode = "MAC001_1003" tagValue = "Panel1234" timeStamp = "" />
-                    <item tagCode = "MAC001_1004" tagValue = "Recipe1234" timeStamp = "" />
-           </Ingredients >         
-           """;
-        */
+        //測試用
+        //Data = $"""
+        //   <?xml version="1.0" encoding="utf-8"?> 
+        //    <Ingredients
+        //            xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+        //            xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+        //            macCode = "MAC001"
+        //            wipEntity = "12345678" >
+        //            <item tagCode = "MAC001_1000" tagValue = "Test1234" timeStamp = "" />
+        //            <item tagCode = "MAC001_1001" tagValue = "Part1234" timeStamp = "" />
+        //            <item tagCode = "MAC001_1002" tagValue = "Process1234" timeStamp = "" />
+        //            <item tagCode = "MAC001_1003" tagValue = "Panel1234" timeStamp = "" />
+        //            <item tagCode = "MAC001_1004" tagValue = "Recipe1234" timeStamp = "" />
+        //   </Ingredients >         
+        //   """;
+
         var reader = new StringReader(Data);
         var serializer = new XmlSerializer(typeof(Ingredients));
         var instance  = (Ingredients)serializer.Deserialize(reader);
@@ -1097,98 +1000,82 @@ public sealed class Mediator : ObservableObject
         }
     }
 
-    public void HeartbeatRun()
-    {
-        try
-        {
-            while (true)
-            {
-                ClientSender.getInstance().Send(AuthenticatorVM.Settings.EquipmentID);
-                Thread.Sleep(5000);
-            }
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.StackTrace);
-        }
-    }
-
     #region 客戶提供開啟Client
-    class ClientSender
-    {
-        private ClientSender()
-        {
-        }
+    //class ClientSender
+    //{
+    //    private ClientSender()
+    //    {
+    //    }
 
-        Socket sender = null;
-        private static ClientSender instance;
-        private static readonly object lockHelper = new object();
-        private static byte[] result = new byte[512];
+    //    Socket sender = null;
+    //    private static ClientSender instance;
+    //    private static readonly object lockHelper = new object();
+    //    private static byte[] result = new byte[512];
 
-        public static ClientSender getInstance()
-        {
-            if (instance == null)
-            {
-                lock (lockHelper)
-                {
-                    instance = new ClientSender();
-                }
-            }
-            return instance;
-        }
+    //    public static ClientSender getInstance()
+    //    {
+    //        if (instance == null)
+    //        {
+    //            lock (lockHelper)
+    //            {
+    //                instance = new ClientSender();
+    //            }
+    //        }
+    //        return instance;
+    //    }
 
-        /// <summary> 
-        /// 发送心跳包并返回服务器的回应 
-        /// </summary> 
-        /// <param name="msg"></param> 
-        /// <returns>根据返回的信息更新服务器的状态,正常状态下返回为"OK[E]"</returns> 
-        public string Send(String msg)
-        {
-            //设定服务器IP地址 
-            IPAddress ip = IPAddress.Parse("10.10.193.54");
-            try
-            {
-                sender = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                sender.Connect(new IPEndPoint(ip, 60001)); //配置服务器IP与端口 
-                sender.ReceiveTimeout = 3000;
-                Console.WriteLine("连接服务器成功");
-            }
-            catch
-            {
-                Console.WriteLine("连接服务器失ì败！");
-                return null;
-            }
+    //    /// <summary> 
+    //    /// 发送心跳包并返回服务器的回应 
+    //    /// </summary> 
+    //    /// <param name="msg"></param> 
+    //    /// <returns>根据返回的信息更新服务器的状态,正常状态下返回为"OK[E]"</returns> 
+    //    public string Send(String msg)
+    //    {
+    //        //设定服务器IP地址 
+    //        IPAddress ip = IPAddress.Parse("10.10.193.54");
+    //        try
+    //        {
+    //            sender = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+    //            sender.Connect(new IPEndPoint(ip, 60001)); //配置服务器IP与端口 
+    //            sender.ReceiveTimeout = 3000;
+    //            Console.WriteLine("连接服务器成功");
+    //        }
+    //        catch
+    //        {
+    //            Console.WriteLine("连接服务器失ì败！");
+    //            return null;
+    //        }
 
-            try
-            {
-                sender.Send(Encoding.UTF8.GetBytes(msg + "[E]\n\r"));
-                Console.WriteLine("向服务器发送消息:{0}", msg);
-                int receiveLength = sender.Receive(result);
-                Console.WriteLine("接收服务器消息：{0}", Encoding.UTF8.GetString(result, 0, receiveLength));
-                return Encoding.UTF8.GetString(result, 0, receiveLength);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.StackTrace);
-                return null;
-            }
-            finally
-            {
-                if (null != sender)
-                {
-                    try
-                    {
-                        sender.Shutdown(SocketShutdown.Both);
-                        sender.Close();
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.StackTrace);
-                    }
-                }
-            }
-        }
-    }
+    //        try
+    //        {
+    //            sender.Send(Encoding.UTF8.GetBytes(msg + "[E]\n\r"));
+    //            Console.WriteLine("向服务器发送消息:{0}", msg);
+    //            int receiveLength = sender.Receive(result);
+    //            Console.WriteLine("接收服务器消息：{0}", Encoding.UTF8.GetString(result, 0, receiveLength));
+    //            return Encoding.UTF8.GetString(result, 0, receiveLength);
+    //        }
+    //        catch (Exception e)
+    //        {
+    //            Console.WriteLine(e.StackTrace);
+    //            return null;
+    //        }
+    //        finally
+    //        {
+    //            if (null != sender)
+    //            {
+    //                try
+    //                {
+    //                    sender.Shutdown(SocketShutdown.Both);
+    //                    sender.Close();
+    //                }
+    //                catch (Exception e)
+    //                {
+    //                    Console.WriteLine(e.StackTrace);
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
     #endregion
     #region 產生測試資料
     /// <summary>產生測試資料至資料庫</summary>

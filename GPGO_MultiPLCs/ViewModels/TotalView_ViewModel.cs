@@ -61,8 +61,8 @@ public sealed class TotalView_ViewModel : ObservableObject
     public RelayCommand RetAGV { get; }
     public RelayCommand TaskControl { get; }
     public RelayCommand Ingredients { get; }
+    public RelayCommand CleanWO { get; }
     public RelayCommand CheckButton { get; }
-    public RelayCommand ResetButton { get; }
     public RelayCommand DataUpload { get; }
     public RelayCommand Shutdown { get; }
     public RelayCommand PM { get; }
@@ -76,7 +76,7 @@ public sealed class TotalView_ViewModel : ObservableObject
     public event Action<int> RetAGVevent;
     public event Action<int> DataUploadevent;
     public event Func<Task> Ingredientsevent;
-    public event Func<Task> CheckButtonevent;
+    public event Func<Task> CleanWOevent;
     public event Func<Task> TaskControlevent;
 
     /// <summary>所有PLC</summary>
@@ -191,8 +191,8 @@ public sealed class TotalView_ViewModel : ObservableObject
 
     public bool CheckButtonEnabled
     {
-        get;
-        set;
+        get => Get<bool>();
+        set => Set(value);
     }
     public string WorkOrder
     {
@@ -215,6 +215,11 @@ public sealed class TotalView_ViewModel : ObservableObject
         set => Set(value);
     }
     public string RecipeID
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string MESMessage
     {
         get => Get<string>() ?? string.Empty;
         set => Set(value);
@@ -324,10 +329,14 @@ public sealed class TotalView_ViewModel : ObservableObject
         {
             Ingredientsevent?.Invoke();
         });
+
+        CleanWO = new RelayCommand(_ =>
+        {
+            Barcode = "";
+        });
         CheckButton = new RelayCommand(_ =>
         {
-            OutEnabled = true;
-            NGOutEnabled = true;
+            CheckButtonEnabled = false;
             DataUploadevent?.Invoke(0);
         });
 
@@ -360,13 +369,6 @@ public sealed class TotalView_ViewModel : ObservableObject
         {
             DataUploadevent?.Invoke(1);
         });
-
-        ResetButton = new RelayCommand(_ =>
-        {
-            CheckButtonEnabled = true;
-            RetEnabled = true;
-        });
-
 
         PropertyChanged += (_, e) =>
                {

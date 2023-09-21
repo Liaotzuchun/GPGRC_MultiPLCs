@@ -273,7 +273,7 @@
     <sys:String x:Key="請求下發配方">请求下发配方</sys:String>
     <sys:String x:Key="存檔">存档</sys:String>
     <sys:String x:Key="掃碼">扫码</sys:String>
-    <sys:String x:Key="檢測完成">检测完成</sys:String>
+    <sys:String x:Key="加工完成">加工完成</sys:String>
     <sys:String x:Key="待機">待机</sys:String>
     <sys:String x:Key="生產">生产</sys:String>
     <sys:String x:Key="配方訊息">配方訊息</sys:String>
@@ -286,4 +286,8 @@
     <sys:String x:Key="OutCarrier">出料载具编号</sys:String>
     <sys:String x:Key="NGCarrier">NG载具编号</sys:String>
     <sys:String x:Key="Heart">心跳</sys:String>
+    <sys:String x:Key="MES訊息">MES消息</sys:String>
+    <sys:String x:Key="確認">确认</sys:String>
+    <sys:String x:Key="配方項">配方項</sys:String>
+    <sys:String x:Key="配方值">配方值</sys:String>
 </ResourceDictionary>

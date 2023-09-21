@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using SCC_Reference2;
+using SCC_ServerSideRef;
 
 namespace GPGO_MultiPLCs.Models;
 internal class SCC_Service : IMacIntfWS
@@ -23,6 +20,8 @@ internal class SCC_Service : IMacIntfWS
     {
         return new macIntfResponse();
     }
+
+    public Task<macIntfResponse> macIntfAsync(macIntfRequest request) => throw new NotImplementedException();
     //public Task<macIntfResponse> macIntfAsync(macIntfRequest request)  
     //{
     //    return Task.Factory.StartNew(_ =>

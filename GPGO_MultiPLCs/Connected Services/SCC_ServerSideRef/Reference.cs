@@ -72,8 +72,8 @@ namespace SCC_ServerSideRef
         [System.ServiceModel.OperationContractAttribute(Action="http://scc.com.cn/IMacIntfWS/macIntf", ReplyAction="http://scc.com.cn/IMacIntfWS/macIntfResponse")]
         SCC_ServerSideRef.macIntfResponse macIntf(SCC_ServerSideRef.macIntfRequest request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://scc.com.cn/IMacIntfWS/macIntf", ReplyAction="http://scc.com.cn/IMacIntfWS/macIntfResponse")]
-        System.Threading.Tasks.Task<SCC_ServerSideRef.macIntfResponse> macIntfAsync(SCC_ServerSideRef.macIntfRequest request);
+        //[System.ServiceModel.OperationContractAttribute(Action="http://scc.com.cn/IMacIntfWS/macIntf", ReplyAction="http://scc.com.cn/IMacIntfWS/macIntfResponse")]
+        //System.Threading.Tasks.Task<SCC_ServerSideRef.macIntfResponse> macIntfAsync(SCC_ServerSideRef.macIntfRequest request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -173,20 +173,20 @@ namespace SCC_ServerSideRef
             return base.Channel.macIntf(request);
         }
         
-        public System.Threading.Tasks.Task<SCC_ServerSideRef.macIntfResponse> macIntfAsync(SCC_ServerSideRef.macIntfRequest request)
-        {
-            return base.Channel.macIntfAsync(request);
-        }
+        //public System.Threading.Tasks.Task<SCC_ServerSideRef.macIntfResponse> macIntfAsync(SCC_ServerSideRef.macIntfRequest request)
+        //{
+        //    return base.Channel.macIntfAsync(request);
+        //}
         
-        public virtual System.Threading.Tasks.Task OpenAsync()
-        {
-            return System.Threading.Tasks.Task.Factory.FromAsync(((System.ServiceModel.ICommunicationObject)(this)).BeginOpen(null, null), new System.Action<System.IAsyncResult>(((System.ServiceModel.ICommunicationObject)(this)).EndOpen));
-        }
+        //public virtual System.Threading.Tasks.Task OpenAsync()
+        //{
+        //    return System.Threading.Tasks.Task.Factory.FromAsync(((System.ServiceModel.ICommunicationObject)(this)).BeginOpen(null, null), new System.Action<System.IAsyncResult>(((System.ServiceModel.ICommunicationObject)(this)).EndOpen));
+        //}
         
-        public virtual System.Threading.Tasks.Task CloseAsync()
-        {
-            return System.Threading.Tasks.Task.Factory.FromAsync(((System.ServiceModel.ICommunicationObject)(this)).BeginClose(null, null), new System.Action<System.IAsyncResult>(((System.ServiceModel.ICommunicationObject)(this)).EndClose));
-        }
+        //public virtual System.Threading.Tasks.Task CloseAsync()
+        //{
+        //    return System.Threading.Tasks.Task.Factory.FromAsync(((System.ServiceModel.ICommunicationObject)(this)).BeginClose(null, null), new System.Action<System.IAsyncResult>(((System.ServiceModel.ICommunicationObject)(this)).EndClose));
+        //}
         
         private static System.ServiceModel.Channels.Binding GetBindingForEndpoint(EndpointConfiguration endpointConfiguration)
         {

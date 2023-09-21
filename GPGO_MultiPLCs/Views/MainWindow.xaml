@@ -76,7 +76,7 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </ToggleButton>
-                    
+
                     <Border x:Name="SSEMP"
                             DockPanel.Dock="Left"
                             Visibility="{Binding UseHeart , Mode=TwoWay}"
@@ -88,7 +88,6 @@
                                    Foreground="black"
                                    Text="{Binding AuthenticatorVM.Settings.HeartContent, Source={StaticResource Mediator} ,Mode=OneWay}" />
                     </Border>
-
                 </DockPanel>
                 <ToggleButton Margin="4,0,0,0"
                               FontSize="12"
@@ -122,7 +121,7 @@
                                        VerticalAlignment="Center"
                                        Foreground="{StaticResource GlyphBrush}"
                                        Text="Gate" />
-                        </StackPanel>
+                        </StackPanel> 
                     </StackPanel>
                 </ToggleButton>
             </StackPanel>
