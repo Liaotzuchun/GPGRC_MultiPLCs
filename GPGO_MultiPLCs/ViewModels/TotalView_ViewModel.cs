@@ -87,6 +87,7 @@ public sealed class TotalView_ViewModel : ObservableObject
     /// <summary>檢視詳細資訊的PLC</summary>
     public PLC_ViewModel PLC_In_Focused => PLCIndex > -1 ? PLC_All[PLCIndex] : PLC_All[0];
 
+
     public int OvenCount
     {
         get => Get<int>();
@@ -240,8 +241,6 @@ public sealed class TotalView_ViewModel : ObservableObject
         RetEnabled = false;
         OutEnabled = false;
         NGOutEnabled = false;
-        TaskControlButtonEnabled = false;
-        DataUploadButtonEnabled = true;
         CheckButtonEnabled = true;
         IngredientsButtonEnabled = false;
 
@@ -340,36 +339,6 @@ public sealed class TotalView_ViewModel : ObservableObject
             DataUploadevent?.Invoke(0);
         });
 
-        DataUpload = new RelayCommand(_ =>
-        {
-            DataUploadevent?.Invoke(0);
-        });
-
-        Shutdown = new RelayCommand(_ =>
-        {
-            DataUploadevent?.Invoke(16);
-        });
-
-        PM = new RelayCommand(_ =>
-        {
-            DataUploadevent?.Invoke(8);
-        });
-
-        Fault = new RelayCommand(_ =>
-        {
-            DataUploadevent?.Invoke(4);
-        });
-
-        Standby = new RelayCommand(_ =>
-        {
-            DataUploadevent?.Invoke(2);
-        });
-
-        Production = new RelayCommand(_ =>
-        {
-            DataUploadevent?.Invoke(1);
-        });
-
         PropertyChanged += (_, e) =>
                {
                };
@@ -403,7 +372,7 @@ public sealed class TotalView_ViewModel : ObservableObject
 
             plc.WantDetail += () =>
                               {
-                                  PLCIndex = index;
+                                  PLCIndex = index * 2;
                                   Index = 1;
                               };
 

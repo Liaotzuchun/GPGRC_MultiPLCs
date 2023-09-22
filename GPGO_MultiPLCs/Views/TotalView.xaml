@@ -23,7 +23,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition />
-                    <ColumnDefinition Width="400" />
+                    <ColumnDefinition Width="700" />
                 </Grid.ColumnDefinitions>
                 <Grid Margin="0,4,0,0">
                     <Grid.RowDefinitions>
@@ -264,15 +264,14 @@
                                     DataContext="{Binding PLC_In_Focused, Mode=OneWay}" />
                 <Grid Grid.Column="2">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="4" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="4" />
-                        <RowDefinition Height="200"/>
-                        <RowDefinition Height="100" />
-                        <RowDefinition Height="400" />
+                        <RowDefinition Height="4*" />
+                        <RowDefinition Height="5*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="10*"/>
+                        <RowDefinition Height="7*" />
+                        <RowDefinition Height="20*" />
                     </Grid.RowDefinitions>
                     
-                    <!--之後加一個有心跳才啟用 GroupBox IsEnabled-->
                     <GroupBox Grid.Row="0"
                               Grid.RowSpan="3"
                               FontSize="16"
@@ -591,373 +590,194 @@
                         </Grid>
                     </GroupBox>
                     <GroupBox Grid.Row="5"
-                              FontSize="16"
-                              Header="{DynamicResource 設備狀態}">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="50" />
-                                <RowDefinition Height="50" />
-                                <RowDefinition Height="50" />
-                            </Grid.RowDefinitions>
+                              Margin="0,0,0,5">
+                        <GroupBox.Header>
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="16"
+                                       FontWeight="Bold"
+                                       Foreground="{StaticResource GlyphBrush}">
+                                    <Run Text="智能单元状态" />
+                            </TextBlock>
+                        </GroupBox.Header>
+                        <Grid Background="#cbdac4">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition></ColumnDefinition>
                                 <ColumnDefinition></ColumnDefinition>
                                 <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <ListBox Grid.Row="0"
-                                     Grid.ColumnSpan="3"
-                                     FontWeight="Bold"
-                                     SelectedIndex="{Binding EqpState, Mode=TwoWay}"
-                                     Style="{StaticResource ListBoxHorizontal2}">
-                                <ListBox.Template>
-                                    <ControlTemplate>
-                                        <ItemsPresenter />
-                                    </ControlTemplate>
-                                </ListBox.Template>
-                                <TextBlock Text="{DynamicResource 開啟變更狀態}" />
-                                <TextBlock Text="{DynamicResource 關閉變更狀態}" />
-                            </ListBox>
-                            <Grid Grid.Row="1"
-                                  Grid.ColumnSpan="3"
-                                  IsEnabled="{Binding EqpState, Converter={StaticResource IsLessThanValue}, ConverterParameter=0, Mode=OneWay}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <Button Grid.Column="0">
-                                    <TextBlock  Text="{DynamicResource 停機}"></TextBlock>
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding Shutdown, Mode=OneTime}" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Button>
-                                <Button Grid.Column="1">
-                                    <TextBlock  Text="{DynamicResource 保養}"></TextBlock>
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding PM, Mode=OneTime}" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Button>
-                                <Button Grid.Column="2">
-                                    <TextBlock  Text="{DynamicResource 故障}"></TextBlock>
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding Fault, Mode=OneTime}" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Button>
-                                <Button Grid.Column="3">
-                                    <TextBlock  Text="{DynamicResource 待機}"></TextBlock>
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding Standby, Mode=OneTime}" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Button>
-                                <Button Grid.Column="4">
-                                    <TextBlock  Text="{DynamicResource 生產}"></TextBlock>
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding Production, Mode=OneTime}" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Button>
-                            </Grid>
-                            <Grid Grid.ColumnSpan="3"
-                                  Grid.Row="2"
-                                  IsEnabled="{Binding EqpState, Converter={StaticResource IsLessThanValue}, ConverterParameter=0, Mode=OneWay}">
-                                <Button Margin="0,3,0,0"
-                                        IsEnabled="{Binding Status ,Converter={StaticResource IsEqualValue}, ConverterParameter=1 ,Mode=TwoWay}">
-                                    <TextBlock Text="{DynamicResource 異常停止}"></TextBlock>
-                                </Button>
-                            </Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <RadioButton Grid.Column="0"
+                                    Grid.Row="0">
+                                <TextBlock>
+                                     <Run Text="主設備故障" />
+                                          <LineBreak />
+                                     <Run Text="(170)" />
+                                </TextBlock>
+                            </RadioButton>
+                            <RadioButton Grid.Column="1"
+                                         Grid.Row="0">
+                                <TextBlock>
+                                    <Run Text="計畫內保養" />
+                                          <LineBreak />
+                                     <Run Text="(130)" />
+                                </TextBlock>
+                            </RadioButton>
+                            <RadioButton Grid.Column="2"
+                                         Grid.Row="0">
+                                <TextBlock>
+                                    <Run Text="參數測試" />
+                                          <LineBreak />
+                                     <Run Text="(110)" />
+                                </TextBlock>
+                            </RadioButton>
+                            <RadioButton Grid.Column="3"
+                                         Grid.Row="0">
+                                <TextBlock>
+                                    <Run Text="正常生產" />
+                                          <LineBreak />
+                                     <Run Text="(90)" />
+                                </TextBlock>
+                            </RadioButton>
+                            <RadioButton Grid.Column="4"
+                                         Grid.Row="0">
+                                <TextBlock>
+                                    <Run Text="無待產" />
+                                          <LineBreak />
+                                     <Run Text="(40)" />
+                                </TextBlock>
+                            </RadioButton>
+                            <RadioButton Grid.Column="5"
+                                         Grid.Row="0">
+                                <TextBlock>
+                                    <Run Text="設備關機" />
+                                          <LineBreak />
+                                     <Run Text="(10)" />
+                                </TextBlock>
+                            </RadioButton>
+                            <RadioButton Grid.Column="0"
+                                         Grid.Row="1">
+                                <TextBlock>
+                                    <Run Text="附屬設備故障" />
+                                          <LineBreak />
+                                     <Run Text="(180)" />
+                                </TextBlock>
+                            </RadioButton>
+                            <RadioButton Grid.Column="1"
+                                         Grid.Row="1">
+                                <TextBlock>
+                                    <Run Text="設備改造" />
+                                          <LineBreak />
+                                     <Run Text="(140)" />
+                                </TextBlock>
+                            </RadioButton>
+                            <RadioButton Grid.Column="2"
+                                         Grid.Row="1">
+                                <TextBlock>
+                                    <Run Text="設備調試" />
+                                          <LineBreak />
+                                     <Run Text="(120)" />
+                                </TextBlock>
+                            </RadioButton>
+                            <RadioButton Grid.Column="3"
+                                         Grid.Row="1">
+                                <TextBlock>
+                                    <Run Text="返工" />
+                                          <LineBreak />
+                                     <Run Text="(100)" />
+                                </TextBlock>
+                            </RadioButton>
+                            <RadioButton Grid.Column="4"
+                                         Grid.Row="1">
+                                <TextBlock>
+                                    <Run Text="等待首件結果" />
+                                          <LineBreak />
+                                     <Run Text="(50)" />
+                                </TextBlock>
+                            </RadioButton>
+                            <RadioButton Grid.Column="5"
+                                         Grid.Row="1">
+                                <TextBlock>
+                                    <Run Text="離線培訓" />
+                                          <LineBreak />
+                                     <Run Text="(20)" />
+                                </TextBlock>
+                            </RadioButton>
+                            <RadioButton Grid.Column="0"
+                                         Grid.Row="2">
+                                <TextBlock>
+                                    <Run Text="設備異常" />
+                                          <LineBreak />
+                                     <Run Text="(190)" />
+                                </TextBlock>
+                            </RadioButton>
+                            <RadioButton Grid.Column="1"
+                                         Grid.Row="2">
+                                <TextBlock>
+                                    <Run Text="設施維護" />
+                                          <LineBreak />
+                                     <Run Text="(150)" />
+                                </TextBlock>
+                            </RadioButton>
+                            <RadioButton Grid.Column="4"
+                                         Grid.Row="2">
+                                <TextBlock>
+                                    <Run Text="程式切換" />
+                                          <LineBreak />
+                                     <Run Text="(60)" />
+                                </TextBlock>
+                            </RadioButton>
+                            <RadioButton Grid.Column="5"
+                                         Grid.Row="2">
+                                <TextBlock>
+                                    <Run Text="升級軟件" />
+                                          <LineBreak />
+                                     <Run Text="(30)" />
+                                </TextBlock>
+                            </RadioButton>
+                            <RadioButton Grid.Column="0"
+                                         Grid.Row="3">
+                                <TextBlock>
+                                    <Run Text="計畫外保養" />
+                                          <LineBreak />
+                                     <Run Text="(200)" />
+                                </TextBlock>
+                            </RadioButton>
+                            <RadioButton Grid.Column="1"
+                                         Grid.Row="3">
+                                <TextBlock>
+                                    <Run Text="更換物料" />
+                                          <LineBreak />
+                                     <Run Text="(160)" />
+                                </TextBlock>
+                            </RadioButton>
+                            <RadioButton Grid.Column="4"
+                                         Grid.Row="3">
+                                <TextBlock>
+                                    <Run Text="無作業員" />
+                                          <LineBreak />
+                                     <Run Text="(70)" />
+                                </TextBlock>
+                            </RadioButton>
+                            <RadioButton Grid.Column="4"
+                                         Grid.Row="4">
+                                <TextBlock>
+                                    <Run Text="批次切換" />
+                                          <LineBreak />
+                                     <Run Text="(80)" />
+                                </TextBlock>
+                            </RadioButton>
                         </Grid>
                     </GroupBox>
-                    <!--<GroupBox Grid.Row="4"
-                              Margin="0,4,0,0">
-                        <GroupBox.Header>
-                            <Border Background="Transparent"
-                                    MouseDown="Border_MouseDown">
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="16"
-                                           FontWeight="Bold"
-                                           Foreground="{StaticResource GlyphBrush}">
-                                    <Run Text="{DynamicResource 本日}" /><Run Text="{DynamicResource 訊息}" />
-                                </TextBlock>
-                            </Border>
-                        </GroupBox.Header>
-                        <DataGrid x:Name="MessageDataGrid"
-                                  AutoGenerateColumns="False"
-                                  BorderThickness="1,0,1,0"
-                                  FontSize="12"
-                                  HorizontalScrollBarVisibility="Disabled"
-                                  ItemsSource="{Binding QueueMessages, Mode=OneWay}"
-                                  Loaded="MessageDataGrid_Loaded"
-                                  VerticalScrollBarVisibility="Visible">
-                            <DataGrid.CellStyle>
-                                <Style TargetType="{x:Type DataGridCell}">
-                                    <Setter Property="Background"
-                                            Value="Transparent" />
-                                    <Setter Property="BorderBrush"
-                                            Value="{x:Null}" />
-                                    <Setter Property="BorderThickness"
-                                            Value="0" />
-                                    <Setter Property="FocusVisualStyle"
-                                            Value="{x:Null}" />
-                                    <Setter Property="HorizontalContentAlignment"
-                                            Value="Center" />
-                                    <Setter Property="KeyboardNavigation.TabNavigation"
-                                            Value="None" />
-                                    <Setter Property="MinHeight"
-                                            Value="24" />
-                                    <Setter Property="Padding"
-                                            Value="4" />
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type DataGridCell}">
-                                                <Border Background="{TemplateBinding Background}"
-                                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                                        BorderThickness="{TemplateBinding BorderThickness}">
-                                                    <ContentPresenter Margin="{TemplateBinding Padding}"
-                                                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                                                </Border>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Setter Property="VerticalContentAlignment"
-                                            Value="Center" />
-                                    <Style.Triggers>
-                                        <Trigger Property="IsSelected"
-                                                 Value="True">
-                                            <Setter Property="Foreground"
-                                                    Value="{DynamicResource BaseForeground}" />
-                                        </Trigger>
-                                        <Trigger Property="IsEnabled"
-                                                 Value="False">
-                                            <Setter Property="Foreground"
-                                                    Value="{DynamicResource DisabledBorderBrush}" />
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </DataGrid.CellStyle>
-                            <DataGrid.RowHeaderStyle>
-                                <Style TargetType="DataGridRowHeader">
-                                    <Setter Property="KeyboardNavigation.TabNavigation"
-                                            Value="None" />
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
-                                                <ContentPresenter Content="{TemplateBinding Content}"
-                                                                  ContentTemplate="{TemplateBinding ContentTemplate}" />
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </DataGrid.RowHeaderStyle>
-                            <DataGrid.RowStyle>
-                                <Style TargetType="{x:Type DataGridRow}">
-                                    <Setter Property="Background"
-                                            Value="{DynamicResource WindowBackgroundBrush6}" />
-                                    <Setter Property="FocusVisualStyle"
-                                            Value="{x:Null}" />
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver"
-                                                 Value="True">
-                                            <Setter Property="Background"
-                                                    Value="{DynamicResource LightBrush}" />
-                                        </Trigger>
-                                        <Trigger Property="IsSelected"
-                                                 Value="True">
-                                            <Setter Property="Background"
-                                                    Value="{DynamicResource LightBrush}" />
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </DataGrid.RowStyle>
-                            <DataGrid.RowHeaderTemplate>
-                                <DataTemplate>
-                                    <Border x:Name="Border"
-                                            Width="5"
-                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,1,1" />
-                                    <DataTemplate.Triggers>
-                                        <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
-                                                     Value="Normal">
-                                            <Setter TargetName="Border"
-                                                    Property="Background"
-                                                    Value="Green" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
-                                                     Value="StatusChanged">
-                                            <Setter TargetName="Border"
-                                                    Property="Background"
-                                                    Value="DodgerBlue" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
-                                                     Value="Trigger">
-                                            <Setter TargetName="Border"
-                                                    Property="Background"
-                                                    Value="Blue" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
-                                                     Value="Operator">
-                                            <Setter TargetName="Border"
-                                                    Property="Background"
-                                                    Value="DarkOrange" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
-                                                     Value="Alert">
-                                            <Setter TargetName="Border"
-                                                    Property="Background"
-                                                    Value="Lime" />
-                                        </DataTrigger>
-                                        <DataTrigger Value="True">
-                                            <DataTrigger.Binding>
-                                                <MultiBinding Converter="{StaticResource MultiAllTrue}">
-                                                    <Binding Converter="{StaticResource IsEqualValue}"
-                                                             ConverterParameter="4"
-                                                             Path="DataContext.(models:LogEvent.Type)"
-                                                             RelativeSource="{RelativeSource FindAncestor,
-                                                                                             AncestorType={x:Type DataGridRowHeader}}" />
-                                                    <Binding Path="DataContext.(models:LogEvent.Value)"
-                                                             RelativeSource="{RelativeSource FindAncestor,
-                                                                                             AncestorType={x:Type DataGridRowHeader}}" />
-                                                </MultiBinding>
-                                            </DataTrigger.Binding>
-                                            <Setter TargetName="Border"
-                                                    Property="Background"
-                                                    Value="OrangeRed" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
-                                                     Value="Alarm">
-                                            <Setter TargetName="Border"
-                                                    Property="Background"
-                                                    Value="Lime" />
-                                        </DataTrigger>
-                                        <DataTrigger Value="True">
-                                            <DataTrigger.Binding>
-                                                <MultiBinding Converter="{StaticResource MultiAllTrue}">
-                                                    <Binding Converter="{StaticResource IsEqualValue}"
-                                                             ConverterParameter="5"
-                                                             Path="DataContext.(models:LogEvent.Type)"
-                                                             RelativeSource="{RelativeSource FindAncestor,
-                                                                                             AncestorType={x:Type DataGridRowHeader}}" />
-                                                    <Binding Path="DataContext.(models:LogEvent.Value)"
-                                                             RelativeSource="{RelativeSource FindAncestor,
-                                                                                             AncestorType={x:Type DataGridRowHeader}}" />
-                                                </MultiBinding>
-                                            </DataTrigger.Binding>
-                                            <Setter TargetName="Border"
-                                                    Property="Background"
-                                                    Value="Red" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
-                                                     Value="SECSCommand">
-                                            <Setter TargetName="Border"
-                                                    Property="Background"
-                                                    Value="Magenta" />
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding DataContext.(models:LogEvent.Type), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRowHeader}}}"
-                                                     Value="RecipeChanged">
-                                            <Setter TargetName="Border"
-                                                    Property="Background"
-                                                    Value="Gold" />
-                                        </DataTrigger>
-                                    </DataTemplate.Triggers>
-                                </DataTemplate>
-                            </DataGrid.RowHeaderTemplate>
-                            <DataGrid.RowDetailsTemplate>
-                                <DataTemplate DataType="models:LogEvent">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition />
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition />
-                                            <RowDefinition />
-                                        </Grid.RowDefinitions>
-                                        <Border Background="{StaticResource WindowBackgroundBrush6}"
-                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                BorderThickness="0,0,1,1">
-                                            <TextBlock Margin="4"
-                                                       HorizontalAlignment="Right"
-                                                       Text="{DynamicResource 名稱}" />
-                                        </Border>
-                                        <Border Grid.Row="0"
-                                                Grid.Column="1"
-                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                BorderThickness="0,0,0,1">
-                                            <TextBlock Margin="4"
-                                                       HorizontalAlignment="Left"
-                                                       Text="{Binding Description, Mode=OneWay}"
-                                                       TextWrapping="Wrap" />
-                                        </Border>
-                                        <Border Grid.Row="1"
-                                                Grid.Column="0"
-                                                Background="{StaticResource WindowBackgroundBrush6}"
-                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                BorderThickness="0,0,1,0">
-                                            <TextBlock Margin="4"
-                                                       HorizontalAlignment="Right"
-                                                       Text="{DynamicResource 值}" />
-                                        </Border>
-                                        <Border Grid.Row="1"
-                                                Grid.Column="1"
-                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                BorderThickness="0,0,0,0">
-                                            <ContentControl Margin="4"
-                                                            VerticalAlignment="Center"
-                                                            Content="{Binding Mode=OneWay}"
-                                                            ContentTemplateSelector="{StaticResource LogTypeTemplateSelector}" />
-                                        </Border>
-                                    </Grid>
-                                </DataTemplate>
-                            </DataGrid.RowDetailsTemplate>
-                            <DataGrid.Columns>
-                                <DataGridTemplateColumn Width="*"
-                                                        MinWidth="60">
-                                    <DataGridTemplateColumn.Header>
-                                        <TextBlock Text="{DynamicResource 時間}" />
-                                    </DataGridTemplateColumn.Header>
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate DataType="models:LogEvent">
-                                            <TextBlock Text="{Binding AddedTime, Mode=OneWay, StringFormat=\{0:M/d HH:mm:ss\}}" />
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Width="Auto"
-                                                        Visibility="{Binding OvenCount, Source={StaticResource Mediator}, Mode=OneWay, Converter={StaticResource IsMoreThanValueVis}, ConverterParameter={StaticResource two}}">
-                                    <DataGridTemplateColumn.Header>
-                                        <TextBlock Text="{DynamicResource 烤箱}" />
-                                    </DataGridTemplateColumn.Header>
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate DataType="models:LogEvent">
-                                            <TextBlock Text="{Binding StationNumber, Mode=OneWay}" />
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Width="*">
-                                    <DataGridTemplateColumn.Header>
-                                        <TextBlock Text="{DynamicResource 類型}" />
-                                    </DataGridTemplateColumn.Header>
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate DataType="models:LogEvent">
-                                            <TextBlock Text="{Binding Type, Mode=OneWay, Converter={views:StringToResource}}" />
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </GroupBox>-->
-                   
                 </Grid>
             </Grid>
         </TabItem>

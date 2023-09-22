@@ -15,13 +15,13 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_3182431B3E4B4768A0CD6FF00A9B439C"
+        "MsmKey" = "8:_9575E6F7C0E74E0DB9078CBB7C4A0C9C"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_9575E6F7C0E74E0DB9078CBB7C4A0C9C"
+        "MsmKey" = "8:_99171B333CEC41A298ECEDE94CA4C1FC"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -367,7 +367,7 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_38FA3FC970FC4321BF5FB7DEAD033AAF"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_4A09D7E66D3E42C1824C2B8711511C05"
             {
             "Name" = "8:GPGO_MultiPLCs"
             "Arguments" = "8:"
@@ -375,24 +375,24 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_3182431B3E4B4768A0CD6FF00A9B439C"
-            "Folder" = "8:_1B1ABD4A76B54604BFA10DF40F5B4A90"
-            "WorkingFolder" = "8:_CA831586DEBD430999B0ABF706D868F8"
-            "Icon" = "8:_9575E6F7C0E74E0DB9078CBB7C4A0C9C"
-            "Feature" = "8:"
-            }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_4297E15CF7064839A5B597CA22B2F202"
-            {
-            "Name" = "8:GPGO_MultiPLCs"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_3182431B3E4B4768A0CD6FF00A9B439C"
+            "Target" = "8:_99171B333CEC41A298ECEDE94CA4C1FC"
             "Folder" = "8:_BDC0EF4AA2CC4923B17F0258ADEBFA67"
             "WorkingFolder" = "8:_CA831586DEBD430999B0ABF706D868F8"
-            "Icon" = "8:_9575E6F7C0E74E0DB9078CBB7C4A0C9C"
+            "Icon" = "8:"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_6007BB9B9C6543FE913A5BC4026B7191"
+            {
+            "Name" = "8:GPGO_MultiPLCs"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_99171B333CEC41A298ECEDE94CA4C1FC"
+            "Folder" = "8:_1B1ABD4A76B54604BFA10DF40F5B4A90"
+            "WorkingFolder" = "8:_CA831586DEBD430999B0ABF706D868F8"
+            "Icon" = "8:"
             "Feature" = "8:"
             }
         }
@@ -794,7 +794,7 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_0BCF79CE042F44249CC8F534F6284CA3"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_0A319E5A56544F059E9B6DE20CB3EFDE"
             {
             "SourcePath" = "8:"
             "TargetName" = "8:"
@@ -822,7 +822,7 @@
                 {
                 }
             }
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_2EECE5ED051E48A1B15A882CB4C55BE7"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_5339B590F696450694AD0E7A5DB596F8"
             {
             "SourcePath" = "8:"
             "TargetName" = "8:"
@@ -843,70 +843,14 @@
             "IsolateTo" = "8:"
             "ProjectOutputGroupRegister" = "3:1"
             "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:Documentation"
+            "OutputGroupCanonicalName" = "8:PublishItems"
             "OutputProjectGuid" = "8:{6336CCC9-C993-4B18-BDD2-11D0309C8F21}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
                 }
             }
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_3182431B3E4B4768A0CD6FF00A9B439C"
-            {
-            "SourcePath" = "8:..\\GPGO_MultiPLCs\\obj\\x86\\Debug\\net48\\GPGO_MultiPLCs.exe"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_CA831586DEBD430999B0ABF706D868F8"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{6336CCC9-C993-4B18-BDD2-11D0309C8F21}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_7947C772602F46289A4CF2B6721F459F"
-            {
-            "SourcePath" = "8:"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_CA831586DEBD430999B0ABF706D868F8"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:Symbols"
-            "OutputProjectGuid" = "8:{6336CCC9-C993-4B18-BDD2-11D0309C8F21}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_8C81B37B550F42AF879EDCB9E10483EF"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_595EF6FCC953439BAC445E688EF66761"
             {
             "SourcePath" = "8:"
             "TargetName" = "8:"
@@ -934,7 +878,7 @@
                 {
                 }
             }
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_E642CAD504034E0A8A37D32C5AFB13C8"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_8817C92B77CA42768C7B84BAD20E12BF"
             {
             "SourcePath" = "8:"
             "TargetName" = "8:"
@@ -955,13 +899,67 @@
             "IsolateTo" = "8:"
             "ProjectOutputGroupRegister" = "3:1"
             "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:PublishItems"
+            "OutputGroupCanonicalName" = "8:Symbols"
             "OutputProjectGuid" = "8:{6336CCC9-C993-4B18-BDD2-11D0309C8F21}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
-                "ExcludeFilter" = "8:GPGO_MultiPLCs.pdb"
-                "ExcludeFilter" = "8:GPGO_MultiPLCs.exe"
+                }
+            }
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_99171B333CEC41A298ECEDE94CA4C1FC"
+            {
+            "SourcePath" = "8:..\\GPGO_MultiPLCs\\obj\\Debug\\net48\\GPGO_MultiPLCs.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_CA831586DEBD430999B0ABF706D868F8"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{6336CCC9-C993-4B18-BDD2-11D0309C8F21}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_EB0EE1C670C24E8D984A175B50D323B1"
+            {
+            "SourcePath" = "8:"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_CA831586DEBD430999B0ABF706D868F8"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Documentation"
+            "OutputProjectGuid" = "8:{6336CCC9-C993-4B18-BDD2-11D0309C8F21}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
                 }
             }
         }

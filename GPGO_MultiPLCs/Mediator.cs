@@ -899,9 +899,13 @@ public sealed class Mediator : ObservableObject
                     Send_Msg(Msg);
                     Thread.Sleep(AuthenticatorVM.Settings.HeartTime * 1000);
                     UseHeartbeat = UseHeartbeat ? !UseHeartbeat : true;
+                    IsHeartbeat = true;
                 }
                 else
-                    UseHeartbeat = false;
+                {
+                    UseHeartbeat = IsHeartbeat = false;
+                }
+
             }
         }
         catch (Exception e)
