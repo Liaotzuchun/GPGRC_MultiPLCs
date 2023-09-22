@@ -380,7 +380,6 @@ public sealed class TotalView_ViewModel : ObservableObject
         {
             var plc = new PLC_ViewModel(dialog,
                                         Gate,
-                                        //BitConverter.ToInt32(new[] { address[0], address[1], address[2], (byte)(address[3] + i) }, 0),
                                         i,
                                         "GOL",
                                         (bits_shift: new Dictionary<BitType, int>
@@ -536,7 +535,165 @@ public sealed class TotalView_ViewModel : ObservableObject
             //                              UpsertRecipe?.Invoke(recipe);
             //                          };
         }
+        for (var i = 0; i < count; i++)
+        {
+            var plc = new PLC_ViewModel(dialog,
+                                        Gate,
+                                        i,
+                                        "GOL",
+                                        (bits_shift: new Dictionary<BitType, int>
+                                                     {
+                                                         { BitType.B, 0 },
+                                                         { BitType.M, 0 },
+                                                         { BitType.S, 0 },
+                                                         { BitType.X, 0 },
+                                                         { BitType.Y, 0 }
+                                                     },
+                                         datas_shift: new Dictionary<DataType, int>
+                                                      {
+                                                          { DataType.D, 0 },
+                                                          { DataType.W, 0 }
+                                                      })); //! 可指定PLC點位位移
 
+            plc.OvenInfo.OvenCode = $"Oven{i + 1}";
+
+            PLC_All[i] = plc;
+            var index = i;
+
+            plc.WantDetail += () =>
+            {
+                PLCIndex = index;
+                Index = 1;
+            };
+
+            plc.CheckUser += op => CheckUser != null && CheckUser.Invoke(op);
+
+            plc.CheckIn += e =>
+            {
+                var (opid, rackid) = e;
+            };
+
+            //! 取消投產
+            plc.CancelCheckIn += _ =>
+            {
+            };
+
+            plc.CheckOut += _ =>
+            {
+
+            };
+
+            plc.LotAdded += lotid =>
+            {
+
+            };
+
+            plc.LotRemoved += lotid =>
+            {
+            };
+
+            //! PLC讀取配方內容時
+            plc.GetRecipe += recipeName => string.IsNullOrEmpty(recipeName) ? null : GetRecipe?.Invoke(recipeName);
+
+            plc.ExecutingStarted += () =>
+            {
+                PLCIndex = index;
+                Index = 1;
+            };
+
+            //! 烘烤流程結束時
+            plc.ExecutingFinished += async baseInfo =>
+            {
+                var product = new ProcessInfo(baseInfo);
+
+                //! 更新ProcessData以供上報
+                try
+                {
+                    // SecsGemEquipment.UpdateDV($"Oven{index + 1}_ProcessData", JsonConvert.SerializeObject(baseInfo));
+                }
+                catch
+                {
+                    // ignored
+                }
+
+                if (baseInfo.IsFinished)
+                {
+                    //SecsGemEquipment.InvokeEvent($"Oven{index + 1}_ProcessComplete");
+                    dialog.Show(new Dictionary<Language, string>
+                                                         {
+                                                             { Language.TW, "已完成烘烤！" },
+                                                             { Language.CHS, "已完成烘烤！" },
+                                                             { Language.EN, "Finished!" }
+                                                         });
+                }
+                else
+                {
+                    //SecsGemEquipment.InvokeEvent($"Oven{index + 1}_ProcessAborted");
+                    dialog.Show(new Dictionary<Language, string>
+                                                         {
+                                                             { Language.TW, "已取消烘烤！" },
+                                                             { Language.CHS, "已取消烘烤！" },
+                                                             { Language.EN, "Canceled!" }
+                                                         });
+                }
+
+                if (AddRecordToDB != null)
+                {
+                    await AddRecordToDB.Invoke((index, product));
+                }
+
+                Index = 0; //! 烘烤完成，切回投產頁面
+            };
+
+            //! 由OP變更設備代碼時
+            plc.MachineCodeChanged += _ => SaveMachineCodes(MachineCodesPath);
+
+            //! 由OP變更財產編號時
+            plc.AssetNumberChanged += _ => SaveAssetNumbers(AssetNumbersPath);
+
+            //! PLC配方輸入錯誤時
+            plc.RecipeKeyInError += () =>
+            {
+                dialog.Show(new Dictionary<Language, string>
+                                                    {
+                                                        { Language.TW, "配方輸入錯誤！" },
+                                                        { Language.CHS, "配方输入错误！" },
+                                                        { Language.EN, "Recipe input error!" }
+                                                    },
+                            TimeSpan.FromSeconds(1),
+                            DialogMsgType.Alarm);
+            };
+
+            //! PLC事件紀錄
+            plc.EventHappened += e => EventHappened?.Invoke((index, e.type, e.time, e.note, e.tag, e.value));
+
+            //plc.InvokeSECSEvent += EventName => SecsGemEquipment.InvokeEvent($"Oven{index + 1}_{EventName}");
+
+            //plc.InvokeSECSAlarm += (AlarmName, val) => SecsGemEquipment.InvokeAlarm($"Oven{index + 1}_{AlarmName}", val);
+
+            plc.SV_Changed += (name, value) =>
+            {
+                if (name == nameof(PLC_ViewModel.EquipmentState))
+                {
+                    //     SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PROCESS_STATE, value);
+                }
+                else if (name == $"Previous{nameof(PLC_ViewModel.EquipmentState)}")
+                {
+                    //   SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PREVIOUS_PROCESS_STATE, value);
+                }
+                else if (name == nameof(PLC_ViewModel.SV_RecipeName))
+                {
+                    // SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PP_EXEC_NAME, value);
+                }
+
+                //SecsGemEquipment.UpdateSV($"Oven{index + 1}_{name}", value);
+            };
+
+            //plc.RecipeChangedbyPLC += recipe =>
+            //                          {
+            //                              UpsertRecipe?.Invoke(recipe);
+            //                          };
+        }
         #region PLCGate事件通知
         Gate.GateStatus.ValueChanged += status =>
                                         {

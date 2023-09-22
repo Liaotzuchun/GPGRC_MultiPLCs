@@ -21,6 +21,7 @@ using GPMVVM.Models;
 using GPMVVM.MongoDB.Helpers;
 using GPMVVM.PooledCollections;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using Serilog;
 using static GPGO_MultiPLCs.Models.WebDataModel;
 using Extensions = GPGO_MultiPLCs.Helpers.Extensions;
@@ -34,7 +35,30 @@ public sealed class Mediator : ObservableObject
     private readonly DataoutputCSV CsvCreator = new();
 
     private ServiceHost _webServiceHost;
+    public  NetworkStream _streamFromServer = default;
+    private bool _ToConnect;
+    private TcpClient TcpClient;
 
+    public bool ToConnect
+    {
+        get { return _ToConnect; }
+        set { _ToConnect = value; }
+    }
+    private bool _closed = true;
+
+    public bool closed
+    {
+        get { return _closed; }
+        set { _closed = value; }
+    }
+
+    private TcpClient _TcpClient;
+
+    public TcpClient mTcpClient
+    {
+        get { return _TcpClient; }
+        set { _TcpClient = value; }
+    }
     public ServiceHost webServiceHost
     {
         get;
@@ -119,6 +143,11 @@ public sealed class Mediator : ObservableObject
         get => Get<bool>();
         set => Set(value);
     }
+    public bool UseHeartbeat
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
     public Authenticator_ViewModel AuthenticatorVM { get; }
     public GlobalDialog_ViewModel DialogVM { get; }
     public LogView_ViewModel LogVM { get; }
@@ -132,22 +161,21 @@ public sealed class Mediator : ObservableObject
     public Mediator()
     {
         var db = new MongoClient("mongodb://localhost:27017").GetDatabase("GP");
-
         DialogVM = new GlobalDialog_ViewModel();
         MainVM = new MainWindow_ViewModel();
         RecipeVM = new RecipeControl_ViewModel(new MongoBase<PLC_Recipe>(db.GetCollection<PLC_Recipe>("PLC_Recipes")),
                                                new MongoBase<PLC_Recipe>(db.GetCollection<PLC_Recipe>("Old_PLC_Recipes")),
                                                DialogVM);
-
         TraceVM = new TraceabilityView_ViewModel(new MongoBase<ProcessInfo>(db.GetCollection<ProcessInfo>("ProductInfos")), DialogVM);
         LogVM = new LogView_ViewModel(new MongoBase<LogEvent>(db.GetCollection<LogEvent>("EventLogs")), DialogVM);
-
         PlcGate = new JsonRPCPLCGate();
-
         AuthenticatorVM = new Authenticator_ViewModel();
         TotalVM = new TotalView_ViewModel(AuthenticatorVM.Settings.OvenCount, PlcGate, IPAddress.Parse(AuthenticatorVM.IPString), DialogVM);
         Language = AuthenticatorVM.Settings.Lng;
         OvenCount = AuthenticatorVM.Settings.OvenCount;
+        Task.Factory.StartNew(ReadMessage, TaskCreationOptions.LongRunning);
+        Task.Factory.StartNew(HeartbeatRun);
+
         AuthenticatorVM.NowUser = new User
         {
             Name = "Guest",
@@ -202,21 +230,14 @@ public sealed class Mediator : ObservableObject
         {
             if (e.PropertyName == nameof(AuthenticatorVM.Settings.UseHeart))
             {
-                if (AuthenticatorVM.Settings.UseHeart)
-                    MainVM.UseHeart = Visibility.Visible;
-                else
-                    MainVM.UseHeart = Visibility.Hidden;
+                MainVM.UseHeart = AuthenticatorVM.Settings.UseHeart ? Visibility.Visible : Visibility.Hidden;
             }
         };
 
+        //開啟心跳
         AuthenticatorVM.BtnHeartBeatEvent += async (e) =>
         {
-            IsHeartbeat = e;
-            if (e)
-            {
-                Task t = new Task(HeartbeatRun);
-                t.Start();
-            }
+            IsHeartbeat = UseHeartbeat = e;
         };
 
         AuthenticatorVM.BtnSaveEvent += async () =>
@@ -870,67 +891,23 @@ public sealed class Mediator : ObservableObject
     {
         try
         {
-            while (AuthenticatorVM.Settings.UseHeart)
+            while (true)
             {
-                Send();
-                Thread.Sleep(5000);
+                if (ToConnect && !closed && AuthenticatorVM.Settings.UseHeart)
+                {
+                    var Msg = Encoding.UTF8.GetBytes(AuthenticatorVM.Settings.EquipmentID+"[E]\n\r");
+                    Send_Msg(Msg);
+                    Thread.Sleep(AuthenticatorVM.Settings.HeartTime * 1000);
+                    UseHeartbeat = UseHeartbeat ? !UseHeartbeat : true;
+                }
+                else
+                    UseHeartbeat = false;
             }
-
         }
         catch (Exception e)
         {
             Console.WriteLine(e.StackTrace);
-        }
-    }
-
-
-    Socket sender = null;
-    private static readonly object lockHelper = new object();
-    private static byte[] result = new byte[512];
-
-    public string? Send()
-    {
-        var Ip = AuthenticatorVM.Settings.HeartService;
-        var Port = AuthenticatorVM.Settings.HeartPort;
-        var EqpID = AuthenticatorVM.Settings.EquipmentID;
-        var hearttime = AuthenticatorVM.Settings.HeartTime;
-        var ip = IPAddress.Parse(Ip);
-        try
-        {
-            sender = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            sender.Connect(new IPEndPoint(ip, Port));
-            sender.ReceiveTimeout = hearttime;
-        }
-        catch
-        {
-            return null;
-        }
-
-        try
-        {
-            sender.Send(Encoding.UTF8.GetBytes(EqpID + "[E]\n\r"));
-            var receiveLength = sender.Receive(result);
-            return Encoding.UTF8.GetString(result, 0, receiveLength);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.StackTrace);
-            return null;
-        }
-        finally
-        {
-            if (null != sender)
-            {
-                try
-                {
-                    sender.Shutdown(SocketShutdown.Both);
-                    sender.Close();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.StackTrace);
-                }
-            }
+            HeartbeatRun();
         }
     }
 
@@ -952,6 +929,88 @@ public sealed class Mediator : ObservableObject
             Console.WriteLine($"{e.Message}");
         }
     }
+
+    private void TcpToConnect()
+    {
+        var hostIP = AuthenticatorVM.Settings.HeartService;
+        var port = AuthenticatorVM.Settings.HeartPort;
+        mTcpClient = new TcpClient();
+        mTcpClient.ReceiveTimeout = 1000;
+        mTcpClient.SendTimeout = 1000;
+        mTcpClient.BeginConnect(IPAddress.Parse(hostIP), port, mCallBackMsgFun, null);
+
+    }
+    private void ReadMessage()
+    {
+        var testingByte = new byte[1];
+        while (true)
+        {
+            Thread.Sleep(1000);
+            if (!ToConnect && closed)
+            {
+                UseHeartbeat = false;
+                closed = false;
+                IsHeartbeat = false;
+                TcpToConnect();
+            }
+            if (mTcpClient.Connected)
+            {
+                if (mTcpClient.Available > 0)
+                {
+                    var logstr = string.Format("MsgReceivedStarts at [{0}]", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+                    _streamFromServer = mTcpClient.GetStream();
+                    var buff = new byte[mTcpClient.ReceiveBufferSize];
+                    _streamFromServer.Read(buff, 0, buff.Length);
+                }
+            }
+            try
+            {
+                if (mTcpClient.Connected && mTcpClient.Client.Poll(0, SelectMode.SelectRead))
+                    closed = mTcpClient.Client.Receive(testingByte, SocketFlags.Peek) == 0;
+                if (closed)
+                {
+                    ToConnect = false;
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
+    }
+
+    private void mCallBackMsgFun(IAsyncResult ar)
+    {
+        try
+        {
+            ToConnect = ar.AsyncWaitHandle.WaitOne(100, true);
+            if (mTcpClient.Connected && ToConnect)
+            {
+                closed = false;
+                ToConnect = true;
+                string logstr = string.Format("{0} : {1} ConnectionStatus: {2}", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"), "Connected", ToConnect.ToString());
+            }
+            else
+            {
+                ToConnect = false;
+                closed = true;
+                string logstr = string.Format("{0} : {1} ConnectionStatus: {2}", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"), "Disconnected", ToConnect.ToString());
+                _streamFromServer?.Close();
+            }
+        }
+        catch (Exception e)
+        {
+            string logstr = string.Format("ConnectionStatus: {0} : {1}", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"), e.Message.ToString());
+        }
+    }
+
+    public void Send_Msg(byte[] dataOutStream)
+    {
+        _streamFromServer = mTcpClient.GetStream();
+        _streamFromServer.WriteAsync(dataOutStream, 0, dataOutStream.Length);
+        _streamFromServer.Flush();
+    }
+
 
     public void GetResultData(string Data)
     {
