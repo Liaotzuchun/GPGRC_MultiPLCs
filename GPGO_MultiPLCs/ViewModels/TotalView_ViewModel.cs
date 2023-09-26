@@ -46,15 +46,10 @@ public sealed class TotalView_ViewModel : ObservableObject
 
     /// <summary>回到總覽頁</summary>
     public RelayCommand BackCommand { get; }
-
     public RelayCommand GoDetailCommand { get; }
-
     public RelayCommand LoadedCommand { get; }
-
     public AsyncCommand SendTerminalMessageCommand { get; }
-
     public RelayCommand SecsReStartCommand { get; }
-
     public RelayCommand AddAGV { get; }
     public RelayCommand OutAGV { get; }
     public RelayCommand NGOutAGV { get; }
@@ -69,12 +64,36 @@ public sealed class TotalView_ViewModel : ObservableObject
     public RelayCommand Standby { get; }
     public RelayCommand Production { get; }
     public RelayCommand Fault { get; }
+    public RelayCommand DataUpload10Command { get; }
+    public RelayCommand DataUpload20Command { get; }
+    public RelayCommand DataUpload30Command { get; }
+    public RelayCommand DataUpload40Command { get; }
+    public RelayCommand DataUpload50Command { get; }
+    public RelayCommand DataUpload60Command { get; }
+    public RelayCommand DataUpload70Command { get; }
+    public RelayCommand DataUpload80Command { get; }
+    public RelayCommand DataUpload90Command { get; }
+    public RelayCommand DataUpload100Command { get; }
+    public RelayCommand DataUpload110Command { get; }
+    public RelayCommand DataUpload120Command { get; }
+    public RelayCommand DataUpload130Command { get; }
+    public RelayCommand DataUpload140Command { get; }
+    public RelayCommand DataUpload150Command { get; }
+    public RelayCommand DataUpload160Command { get; }
+    public RelayCommand DataUpload170Command { get; }
+    public RelayCommand DataUpload180Command { get; }
+    public RelayCommand DataUpload190Command { get; }
+    public RelayCommand DataUpload200Command { get; }
+    public RelayCommand OvenTopBottomChangeCommand { get; }
 
     public event Action<int> AddAGVevent;
     public event Action<int> OutAGVevent;
     public event Action<int> NGOutAGVevent;
     public event Action<int> RetAGVevent;
     public event Action<int> DataUploadevent;
+    public event Action<int> ChangeStatusevent;
+    public event Action<int> OvenTopBottomChangeevent;
+
     public event Func<Task> Ingredientsevent;
     public event Func<Task> CleanWOevent;
     public event Func<Task> TaskControlevent;
@@ -97,7 +116,6 @@ public sealed class TotalView_ViewModel : ObservableObject
             {
                 return;
             }
-
             Set(value);
             NotifyPropertyChanged(nameof(PLC_All_View));
 
@@ -225,7 +243,15 @@ public sealed class TotalView_ViewModel : ObservableObject
         get => Get<string>() ?? string.Empty;
         set => Set(value);
     }
-
+    public int EditOvenChange
+    {
+        get => Get<int>();
+        set
+        {
+            Set(value);
+            OvenTopBottomChangeevent?.Invoke(EditOvenChange);
+        }
+    }
     public TotalView_ViewModel(int count, IGate gate, IPAddress plcaddress, IDialogService dialog)
     {
         asyncOperation = AsyncOperationManager.CreateOperation(null);
@@ -286,17 +312,17 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                       },
                                                       null);
 
-        SecsReStartCommand = new RelayCommand(_ =>
-                                              {
-                                                  asyncOperation.Post(_ =>
-                                                                      {
-                                                                          var tid = Thread.CurrentThread.ManagedThreadId;
-                                                                          if (threadid == tid)
-                                                                          {
-                                                                          }
-                                                                      },
-                                                                      null);
-                                              });
+        //SecsReStartCommand = new RelayCommand(_ =>
+        //                                      {
+        //                                          asyncOperation.Post(_ =>
+        //                                                              {
+        //                                                                  var tid = Thread.CurrentThread.ManagedThreadId;
+        //                                                                  if (threadid == tid)
+        //                                                                  {
+        //                                                                  }
+        //                                                              },
+        //                                                              null);
+        //                                      });
 
         AddAGV = new RelayCommand(_ =>
         {
@@ -339,6 +365,87 @@ public sealed class TotalView_ViewModel : ObservableObject
             DataUploadevent?.Invoke(0);
         });
 
+        DataUpload10Command = new RelayCommand(_ =>
+        {
+            ChangeStatusevent?.Invoke(10);
+        });
+        DataUpload120Command = new RelayCommand(_ =>
+        {
+            ChangeStatusevent?.Invoke(20);
+        });
+        DataUpload30Command = new RelayCommand(_ =>
+        {
+            ChangeStatusevent?.Invoke(30);
+        });
+        DataUpload40Command = new RelayCommand(_ =>
+        {
+            ChangeStatusevent?.Invoke(40);
+        });
+        DataUpload50Command = new RelayCommand(_ =>
+        {
+            ChangeStatusevent?.Invoke(50);
+        });
+        DataUpload60Command = new RelayCommand(_ =>
+        {
+            ChangeStatusevent?.Invoke(60);
+        });
+        DataUpload70Command = new RelayCommand(_ =>
+        {
+            ChangeStatusevent?.Invoke(70);
+        });
+        DataUpload80Command = new RelayCommand(_ =>
+        {
+            ChangeStatusevent?.Invoke(80);
+        });
+        DataUpload90Command = new RelayCommand(_ =>
+        {
+            ChangeStatusevent?.Invoke(90);
+        });
+        DataUpload100Command = new RelayCommand(_ =>
+        {
+            ChangeStatusevent?.Invoke(100);
+        });
+        DataUpload110Command = new RelayCommand(_ =>
+        {
+            ChangeStatusevent?.Invoke(110);
+        });
+        DataUpload120Command = new RelayCommand(_ =>
+        {
+            ChangeStatusevent?.Invoke(120);
+        });
+        DataUpload130Command = new RelayCommand(_ =>
+        {
+            ChangeStatusevent?.Invoke(130);
+        });
+        DataUpload140Command = new RelayCommand(_ =>
+        {
+            ChangeStatusevent?.Invoke(140);
+        });
+        DataUpload150Command = new RelayCommand(_ =>
+        {
+            ChangeStatusevent?.Invoke(150);
+        });
+        DataUpload160Command = new RelayCommand(_ =>
+        {
+            ChangeStatusevent?.Invoke(160);
+        });
+        DataUpload170Command = new RelayCommand(_ =>
+        {
+            ChangeStatusevent?.Invoke(170);
+        });
+        DataUpload180Command = new RelayCommand(_ =>
+        {
+            ChangeStatusevent?.Invoke(180);
+        });
+        DataUpload190Command = new RelayCommand(_ =>
+        {
+            ChangeStatusevent?.Invoke(190);
+        });
+        DataUpload200Command = new RelayCommand(_ =>
+        {
+            ChangeStatusevent?.Invoke(200);
+        });
+
         PropertyChanged += (_, e) =>
                {
                };
@@ -372,7 +479,7 @@ public sealed class TotalView_ViewModel : ObservableObject
 
             plc.WantDetail += () =>
                               {
-                                  PLCIndex = index * 2;
+                                  PLCIndex = index;
                                   Index = 1;
                               };
 
@@ -419,7 +526,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                          //! 更新ProcessData以供上報
                                          try
                                          {
-                                             // SecsGemEquipment.UpdateDV($"Oven{index + 1}_ProcessData", JsonConvert.SerializeObject(baseInfo));
+                                             //DataUploadevent.Invoke(0);
                                          }
                                          catch
                                          {
@@ -491,172 +598,13 @@ public sealed class TotalView_ViewModel : ObservableObject
                                   {
                                       //   SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PREVIOUS_PROCESS_STATE, value);
                                   }
-                                  else if (name == nameof(PLC_ViewModel.SV_RecipeName))
+                                  else if (name == nameof(PLC_ViewModel.SV_TopRecipeName))
                                   {
                                       // SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PP_EXEC_NAME, value);
                                   }
 
                                   //SecsGemEquipment.UpdateSV($"Oven{index + 1}_{name}", value);
                               };
-
-            //plc.RecipeChangedbyPLC += recipe =>
-            //                          {
-            //                              UpsertRecipe?.Invoke(recipe);
-            //                          };
-        }
-        for (var i = 0; i < count; i++)
-        {
-            var plc = new PLC_ViewModel(dialog,
-                                        Gate,
-                                        i,
-                                        "GOL",
-                                        (bits_shift: new Dictionary<BitType, int>
-                                                     {
-                                                         { BitType.B, 0 },
-                                                         { BitType.M, 0 },
-                                                         { BitType.S, 0 },
-                                                         { BitType.X, 0 },
-                                                         { BitType.Y, 0 }
-                                                     },
-                                         datas_shift: new Dictionary<DataType, int>
-                                                      {
-                                                          { DataType.D, 0 },
-                                                          { DataType.W, 0 }
-                                                      })); //! 可指定PLC點位位移
-
-            plc.OvenInfo.OvenCode = $"Oven{i + 1}";
-
-            PLC_All[i] = plc;
-            var index = i;
-
-            plc.WantDetail += () =>
-            {
-                PLCIndex = index;
-                Index = 1;
-            };
-
-            plc.CheckUser += op => CheckUser != null && CheckUser.Invoke(op);
-
-            plc.CheckIn += e =>
-            {
-                var (opid, rackid) = e;
-            };
-
-            //! 取消投產
-            plc.CancelCheckIn += _ =>
-            {
-            };
-
-            plc.CheckOut += _ =>
-            {
-
-            };
-
-            plc.LotAdded += lotid =>
-            {
-
-            };
-
-            plc.LotRemoved += lotid =>
-            {
-            };
-
-            //! PLC讀取配方內容時
-            plc.GetRecipe += recipeName => string.IsNullOrEmpty(recipeName) ? null : GetRecipe?.Invoke(recipeName);
-
-            plc.ExecutingStarted += () =>
-            {
-                PLCIndex = index;
-                Index = 1;
-            };
-
-            //! 烘烤流程結束時
-            plc.ExecutingFinished += async baseInfo =>
-            {
-                var product = new ProcessInfo(baseInfo);
-
-                //! 更新ProcessData以供上報
-                try
-                {
-                    // SecsGemEquipment.UpdateDV($"Oven{index + 1}_ProcessData", JsonConvert.SerializeObject(baseInfo));
-                }
-                catch
-                {
-                    // ignored
-                }
-
-                if (baseInfo.IsFinished)
-                {
-                    //SecsGemEquipment.InvokeEvent($"Oven{index + 1}_ProcessComplete");
-                    dialog.Show(new Dictionary<Language, string>
-                                                         {
-                                                             { Language.TW, "已完成烘烤！" },
-                                                             { Language.CHS, "已完成烘烤！" },
-                                                             { Language.EN, "Finished!" }
-                                                         });
-                }
-                else
-                {
-                    //SecsGemEquipment.InvokeEvent($"Oven{index + 1}_ProcessAborted");
-                    dialog.Show(new Dictionary<Language, string>
-                                                         {
-                                                             { Language.TW, "已取消烘烤！" },
-                                                             { Language.CHS, "已取消烘烤！" },
-                                                             { Language.EN, "Canceled!" }
-                                                         });
-                }
-
-                if (AddRecordToDB != null)
-                {
-                    await AddRecordToDB.Invoke((index, product));
-                }
-
-                Index = 0; //! 烘烤完成，切回投產頁面
-            };
-
-            //! 由OP變更設備代碼時
-            plc.MachineCodeChanged += _ => SaveMachineCodes(MachineCodesPath);
-
-            //! 由OP變更財產編號時
-            plc.AssetNumberChanged += _ => SaveAssetNumbers(AssetNumbersPath);
-
-            //! PLC配方輸入錯誤時
-            plc.RecipeKeyInError += () =>
-            {
-                dialog.Show(new Dictionary<Language, string>
-                                                    {
-                                                        { Language.TW, "配方輸入錯誤！" },
-                                                        { Language.CHS, "配方输入错误！" },
-                                                        { Language.EN, "Recipe input error!" }
-                                                    },
-                            TimeSpan.FromSeconds(1),
-                            DialogMsgType.Alarm);
-            };
-
-            //! PLC事件紀錄
-            plc.EventHappened += e => EventHappened?.Invoke((index, e.type, e.time, e.note, e.tag, e.value));
-
-            //plc.InvokeSECSEvent += EventName => SecsGemEquipment.InvokeEvent($"Oven{index + 1}_{EventName}");
-
-            //plc.InvokeSECSAlarm += (AlarmName, val) => SecsGemEquipment.InvokeAlarm($"Oven{index + 1}_{AlarmName}", val);
-
-            plc.SV_Changed += (name, value) =>
-            {
-                if (name == nameof(PLC_ViewModel.EquipmentState))
-                {
-                    //     SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PROCESS_STATE, value);
-                }
-                else if (name == $"Previous{nameof(PLC_ViewModel.EquipmentState)}")
-                {
-                    //   SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PREVIOUS_PROCESS_STATE, value);
-                }
-                else if (name == nameof(PLC_ViewModel.SV_RecipeName))
-                {
-                    // SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PP_EXEC_NAME, value);
-                }
-
-                //SecsGemEquipment.UpdateSV($"Oven{index + 1}_{name}", value);
-            };
 
             //plc.RecipeChangedbyPLC += recipe =>
             //                          {
@@ -766,7 +714,6 @@ public sealed class TotalView_ViewModel : ObservableObject
             PLC_All[i].OvenInfo.MachineCode = $"Oven{i + 1}";
         }
     }
-
     /// <summary>儲存財產編號</summary>
     public void SaveAssetNumbers(string path)
     {

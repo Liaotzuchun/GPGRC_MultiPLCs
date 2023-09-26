@@ -18,17 +18,21 @@
     <TabControl views:TabControl.EnableSliding="True"
                 SelectedIndex="{Binding Index, Mode=TwoWay}">
         <TabItem Width="0"
-                 Height="0">
+                 Height="0">   
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="200" />
                     <ColumnDefinition />
-                    <ColumnDefinition Width="700" />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Grid Margin="0,4,0,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition Height="200" />
+                        <RowDefinition Height="3*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
                     <ListBox HorizontalContentAlignment="Center"
                              VerticalContentAlignment="Center"
@@ -250,7 +254,7 @@
                                  StretchDirection="DownOnly">
                             <ItemsControl FontSize="24"
                                           FontWeight="Bold"
-                                          ItemsSource="{DynamicResource 設備狀態}" />
+                                          ItemsSource="{DynamicResource iMES設置}" />
                         </Viewbox>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
@@ -258,213 +262,287 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
+                    <Grid Grid.Column="1"
+                          Grid.RowSpan="2"
+                          Margin="4,0,4,0">
+                        <ListBox Grid.Row="0"
+                                 ItemContainerStyle="{StaticResource ListBoxItem_Bottom}"
+                                 Background="Yellow"
+                                 SelectedIndex="{Binding EditOvenChange, Mode=TwoWay}">
+                            <ListBox.Template>
+                                <ControlTemplate>
+                                    <ItemsPresenter />
+                                </ControlTemplate>
+                            </ListBox.Template>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Rows="2" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <TextBlock Text="{DynamicResource 上爐}" />
+                            <TextBlock Text="{DynamicResource 下爐}" />
+                        </ListBox>
+                    </Grid>
+
                 </Grid>
                 <local:OvenEditView Grid.Column="1"
                                     Margin="4,4,4,0"
                                     DataContext="{Binding PLC_In_Focused, Mode=OneWay}" />
-                <Grid Grid.Column="2">
+                <Grid Background="{StaticResource WindowBackgroundBrush}"
+                      Grid.Column="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="13*" />
+                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="4*" />
-                        <RowDefinition Height="5*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="10*"/>
-                        <RowDefinition Height="7*" />
-                        <RowDefinition Height="20*" />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
-                    
-                    <GroupBox Grid.Row="0"
-                              Grid.RowSpan="3"
-                              FontSize="16"
-                              FontWeight="Bold"
-                              IsEnabled="{Binding IsHeartbeat , Source={StaticResource Mediator},Mode=OneWay}"  
-                              Header="MES模式切換">
-                        <Grid Margin="0,0,0,4"
-                              IsEnabled="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="50" />
-                                <RowDefinition Height="5" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <ListBox Grid.Row="0"
-                                     ItemContainerStyle="{StaticResource ListBoxItem_Top}"
-                                     Background="Yellow"
-                                     SelectedIndex="{Binding Mode, Mode=TwoWay}">
-                                <ListBox.Template>
-                                    <ControlTemplate>
-                                        <ItemsPresenter />
-                                    </ControlTemplate>
-                                </ListBox.Template>
-                                <ListBox.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <UniformGrid Rows="1" />
-                                    </ItemsPanelTemplate>
-                                </ListBox.ItemsPanel>
-                                <TextBlock Text="{DynamicResource 離線}" />
-                                <TextBlock Text="{DynamicResource 在線}" />
-                            </ListBox>
-                            <GroupBox Grid.Row="2"
-                                      Header="MES">
-                                <Grid>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Loaded">
+                            <i:InvokeCommandAction Command="{Binding LoadedCommand, Mode=OneTime}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}, Mode=OneWay}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <local:OvenDetailView Grid.ColumnSpan="2"
+                                          DataContext="{Binding PLC_In_Focused, Mode=OneWay}" />
+                    <Grid Grid.Row="1"
+                          Grid.Column="0"
+                          Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="160" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                       
+                    </Grid>
+                </Grid>
+            </Grid>
+        </TabItem>
+        <TabItem Width="0"
+                 Height="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="16*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0"
+                            Grid.Row="6"
+                            Margin="4,4,4,4"
+                            Content="{DynamicResource 投產頁面}"
+                            FontSize="20"
+                            FontWeight="Bold">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding BackCommand, Mode=OneTime}"
+                                                   CommandParameter="0" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="4*" />
+                    <RowDefinition Height="5*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="10*" />
+                    <RowDefinition Height="7*" />
+                    <RowDefinition Height="20*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.2*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <GroupBox Grid.Row="0"
+                          Grid.RowSpan="3"
+                          FontSize="16"
+                          FontWeight="Bold"
+                          IsEnabled="{Binding IsHeartbeat , Source={StaticResource Mediator},Mode=OneWay}"
+                          Header="MES模式切換">
+                    <Grid Margin="0,4,0,4"
+                          IsEnabled="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="5" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <ListBox Grid.Row="0"
+                                 ItemContainerStyle="{StaticResource ListBoxItem_Top}"
+                                 Background="Yellow"
+                                 SelectedIndex="{Binding Mode, Mode=TwoWay}">
+                            <ListBox.Template>
+                                <ControlTemplate>
+                                    <ItemsPresenter />
+                                </ControlTemplate>
+                            </ListBox.Template>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Rows="1" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <TextBlock Text="{DynamicResource 離線}" />
+                            <TextBlock Text="{DynamicResource 在線}" />
+                        </ListBox>
+                        <GroupBox Grid.Row="2"
+                                  Header="MES">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50" />
+                                    <RowDefinition Height="50" />
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0"
+                                      IsEnabled="{Binding Mode, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="50" />
-                                        <RowDefinition Height="50" />
+                                        <RowDefinition />
                                     </Grid.RowDefinitions>
-                                    
-                                    <Grid Grid.Row="0"
-                                          IsEnabled="{Binding Mode, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition />
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                            <ColumnDefinition />
-                                        </Grid.ColumnDefinitions>
-                                        <Button x:Name="AddAgv"
-                                                Grid.Row="0"
-                                                Grid.Column="0"
-                                                IsEnabled="{Binding AddEnabled}">
-                                            <TextBlock>叫料</TextBlock>
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="Click">
-                                                    <i:InvokeCommandAction Command="{Binding AddAGV, Mode=OneTime}" />
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
-                                        </Button>
-                                        <Button Grid.Row="0"
-                                                Grid.Column="1"
-                                                IsEnabled="{Binding RetEnabled}">
-                                            <TextBlock>退料</TextBlock>
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="Click">
-                                                    <i:InvokeCommandAction Command="{Binding RetAGV, Mode=OneTime}" />
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
-                                        </Button>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Button x:Name="AddAgv"
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            IsEnabled="{Binding AddEnabled}">
+                                        <TextBlock>叫料</TextBlock>
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding AddAGV, Mode=OneTime}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
+                                    <Button Grid.Row="0"
+                                            Grid.Column="1"
+                                            IsEnabled="{Binding RetEnabled}">
+                                        <TextBlock>退料</TextBlock>
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding RetAGV, Mode=OneTime}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
 
-                                        <Button Grid.Row="0"
-                                                Grid.Column="2"
-                                                IsEnabled="{Binding OutEnabled}">
-                                            <TextBlock Text="出料">
-                                            </TextBlock>
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="Click">
-                                                    <i:InvokeCommandAction Command="{Binding OutAGV, Mode=OneTime}" />
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
-                                        </Button>
+                                    <Button Grid.Row="0"
+                                            Grid.Column="2"
+                                            IsEnabled="{Binding OutEnabled}">
+                                        <TextBlock Text="出料">
+                                        </TextBlock>
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding OutAGV, Mode=OneTime}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
 
-                                        <Button Grid.Row="0"
-                                                Grid.Column="3"
-                                                IsEnabled="{Binding NGOutEnabled}">
-                                            <TextBlock>NG出料
-                                            </TextBlock>
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="Click">
-                                                    <i:InvokeCommandAction Command="{Binding NGOutAGV, Mode=OneTime}" />
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
-                                        </Button>
-                                        <Button Grid.Row="0"
-                                                Grid.Column="4"
-                                                IsEnabled="{Binding CheckButtonEnabled}">
-                                            <TextBlock  Text="{DynamicResource 加工完成}"></TextBlock>
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="Click">
-                                                    <i:InvokeCommandAction Command="{Binding CheckButton, Mode=OneTime}" />
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
-                                        </Button>
-                                    </Grid>
-                                    <Grid Grid.Row="1"
-                                          Grid.ColumnSpan="2"
-                                          IsEnabled="{Binding Mode, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition></RowDefinition>
-                                        </Grid.RowDefinitions>
-                                        <Grid Grid.Row="1"
-                                              Grid.Column="0">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="80" />
-                                                <ColumnDefinition Width="220" />
-                                                <ColumnDefinition />
-                                                <ColumnDefinition />
-                                            </Grid.ColumnDefinitions>
-                                            <Border Grid.Column="0"
-                                                    Background="{StaticResource WindowBackgroundBrush2}"
-                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                    BorderThickness="1,1,0,1">
-                                                <TextBlock HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           Text="{DynamicResource 掃碼}" />
-                                            </Border>
-                                            <TextBox Grid.Column="1"
-                                                     BorderThickness="1,0,1,1"
-                                                     FontSize="16"
-                                                     IsEnabled="{Binding BarcodeEnabled , Mode=TwoWay}"
-                                                     Text="{Binding Barcode , Mode=TwoWay}" />
-                                            <Button Grid.Column="2"
-                                                    IsEnabled="{Binding IngredientsButtonEnabled}">
-                                                <TextBlock Text="{DynamicResource 確認}"></TextBlock>
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding Ingredients, Mode=OneTime}" />
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
-                                            </Button> 
-                                            <Button Grid.Column="3"
-                                                    IsEnabled="{Binding IngredientsButtonEnabled}">
-                                                <TextBlock Text="{DynamicResource 清除}"></TextBlock>
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding CleanWO, Mode=OneTime}" />
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
-                                            </Button>
-                                            
-                                           
-                                        </Grid>
-
-                                    </Grid>
+                                    <Button Grid.Row="0"
+                                            Grid.Column="3"
+                                            IsEnabled="{Binding NGOutEnabled}">
+                                        <TextBlock>NG出料
+                                        </TextBlock>
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding NGOutAGV, Mode=OneTime}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
+                                    <Button Grid.Row="0"
+                                            Grid.Column="4"
+                                            IsEnabled="{Binding CheckButtonEnabled}">
+                                        <TextBlock  Text="{DynamicResource 加工完成}"></TextBlock>
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding CheckButton, Mode=OneTime}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
                                 </Grid>
-                            </GroupBox>
-                        </Grid>
-                    </GroupBox>
-                    <GroupBox Grid.Row="3"
-                              Margin="0,0,0,5">
-                        <GroupBox.Header>
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       FontSize="16"
-                                       FontWeight="Bold"
-                                       Foreground="{StaticResource GlyphBrush}">
-                                    <Run Text="{DynamicResource 配方訊息}" />
-                            </TextBlock>
-                        </GroupBox.Header>
+                                <Grid Grid.Row="1"
+                                      Grid.ColumnSpan="2"
+                                      IsEnabled="{Binding Mode, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="1"
+                                          Grid.Column="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.5*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="0.5*"/>
+                                            <ColumnDefinition Width="0.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border Grid.Column="0"
+                                                Background="{StaticResource WindowBackgroundBrush2}"
+                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                BorderThickness="1,1,0,1">
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Text="{DynamicResource 掃碼}" />
+                                        </Border>
+                                        <TextBox Grid.Column="1"
+                                                 BorderThickness="1,0,1,1"
+                                                 FontSize="16"
+                                                 IsEnabled="{Binding BarcodeEnabled , Mode=TwoWay}"
+                                                 Text="{Binding Barcode , Mode=TwoWay}" />
+                                        <Button Grid.Column="2"
+                                                IsEnabled="{Binding IngredientsButtonEnabled}">
+                                            <TextBlock Text="{DynamicResource 確認}"></TextBlock>
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction Command="{Binding Ingredients, Mode=OneTime}" />
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </Button>
+                                        <Button Grid.Column="3"
+                                                IsEnabled="{Binding IngredientsButtonEnabled}">
+                                            <TextBlock Text="{DynamicResource 清除}"></TextBlock>
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction Command="{Binding CleanWO, Mode=OneTime}" />
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </Button>
 
-                        <Grid Background="#cbdac4">
+                                    </Grid>
+
+                                </Grid>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Grid.Row="3"
+                          Grid.RowSpan="2"
+                          Margin="0,0,0,5">
+                    <GroupBox.Header>
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   Foreground="{StaticResource GlyphBrush}">
+                                    <Run Text="{DynamicResource 配方訊息}" />
+                        </TextBlock>
+                    </GroupBox.Header>
+
+                    <Grid Background="#cbdac4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0"
+                              Grid.Column="0"
+                              Grid.ColumnSpan="2"
+                              Background="SlateGray">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition></ColumnDefinition>
                                 <ColumnDefinition></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <Grid Grid.Row="0"
-                                  Grid.Column="0"
-                                  Grid.ColumnSpan="2"
-                                  Background="SlateGray">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
                             <TextBlock  Grid.Row="0"
                                         Grid.Column="0"
                                         HorizontalAlignment="Center"
@@ -481,601 +559,330 @@
                                         FontWeight="Bold"
                                         Foreground="black"
                                         Text="{DynamicResource 配方值}" />
-                            </Grid>
-                            <TextBlock  Grid.Row="1"
+                        </Grid>
+                        <TextBlock  Grid.Row="1"
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontSize="20"
+                                    FontWeight="Bold"
+                                    Foreground="black"
+                                    Text="{DynamicResource 工單ID}" />
+                        <TextBlock  Grid.Row="1"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontSize="20"
+                                    FontWeight="Bold"
+                                    Foreground="black"
+                                    Text="{Binding WorkOrder , Mode=OneWay}" />
+                        <TextBlock  Grid.Row="2"
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontSize="20"
+                                    FontWeight="Bold"
+                                    Foreground="black"
+                                    Text="{DynamicResource  物资编码}" />
+                        <TextBlock  Grid.Row="2"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontSize="20"
+                                    FontWeight="Bold"
+                                    Foreground="black"
+                                    Text="{Binding PartID , Mode=OneWay}" />
+                        <TextBlock  Grid.Row="3"
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontSize="20"
+                                    FontWeight="Bold"
+                                    Foreground="black"
+                                    Text="{DynamicResource  工序代碼}" />
+                        <TextBlock  Grid.Row="3"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontSize="20"
+                                    FontWeight="Bold"
+                                    Foreground="black"
+                                    Text="{Binding ProcessID , Mode=OneWay}" />
+                        <TextBlock  Grid.Row="4"
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontSize="20"
+                                    FontWeight="Bold"
+                                    Foreground="black"
+                                    Text="{DynamicResource  計畫加工板數}" />
+                        <TextBlock  Grid.Row="4"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontSize="20"
+                                    FontWeight="Bold"
+                                    Foreground="black"
+                                    Text="{Binding PanelCount , Mode=OneWay}" />
+                        <TextBlock  Grid.Row="5"
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontSize="20"
+                                    FontWeight="Bold"
+                                    Foreground="black"
+                                    Text="{DynamicResource  配方名稱}" />
+                        <TextBlock  Grid.Row="5"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontSize="20"
+                                    FontWeight="Bold"
+                                    Foreground="black"
+                                    Text="{Binding RecipeID , Mode=OneWay}" />
+                    </Grid>
+                </GroupBox>
+                <GroupBox Grid.Row="0"
+                          Grid.Column="1"
+                          Grid.RowSpan="6"
+                          Margin="4,0,5,4">
+                    <GroupBox.Header>
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   Foreground="{StaticResource GlyphBrush}">
+                                    <Run Text="MES消息" />
+                        </TextBlock>
+                    </GroupBox.Header>
+                    <Grid Background="#cbdac4">
+                         <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                <TextBlock  Grid.Row="0"
                                             Grid.Column="0"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
                                             FontSize="20"
                                             FontWeight="Bold"
                                             Foreground="black"
-                                        Text="{DynamicResource 工單ID}" />
-                            <TextBlock  Grid.Row="1"
-                                        Grid.Column="1"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        FontSize="20"
-                                        FontWeight="Bold"
-                                        Foreground="black"
-                                        Text="{Binding WorkOrder , Mode=OneWay}" />
-                            <TextBlock  Grid.Row="2"
-                                        Grid.Column="0"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        FontSize="20"
-                                        FontWeight="Bold"
-                                        Foreground="black"
-                                        Text="{DynamicResource  物资编码}" />
-                            <TextBlock  Grid.Row="2"
-                                        Grid.Column="1"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        FontSize="20"
-                                        FontWeight="Bold"
-                                        Foreground="black"
-                                        Text="{Binding PartID , Mode=OneWay}" />
-                            <TextBlock  Grid.Row="3"
-                                        Grid.Column="0"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        FontSize="20"
-                                        FontWeight="Bold"
-                                        Foreground="black"
-                                        Text="{DynamicResource  工序代碼}" />
-                            <TextBlock  Grid.Row="3"
-                                        Grid.Column="1"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        FontSize="20"
-                                        FontWeight="Bold"
-                                        Foreground="black"
-                                        Text="{Binding ProcessID , Mode=OneWay}" />
-                            <TextBlock  Grid.Row="4"
-                                        Grid.Column="0"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        FontSize="20"
-                                        FontWeight="Bold"
-                                        Foreground="black"
-                                        Text="{DynamicResource  計畫加工板數}" />
-                            <TextBlock  Grid.Row="4"
-                                        Grid.Column="1"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        FontSize="20"
-                                        FontWeight="Bold"
-                                        Foreground="black"
-                                        Text="{Binding PanelCount , Mode=OneWay}" />
-                            <TextBlock  Grid.Row="5"
-                                        Grid.Column="0"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        FontSize="20"
-                                        FontWeight="Bold"
-                                        Foreground="black"
-                                        Text="{DynamicResource  配方名稱}" />
-                            <TextBlock  Grid.Row="5"
-                                        Grid.Column="1"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        FontSize="20"
-                                        FontWeight="Bold"
-                                        Foreground="black"
-                                        Text="{Binding RecipeID , Mode=OneWay}" />
-                        </Grid>
-                    </GroupBox>
-                    <GroupBox Grid.Row="4"
-                              Margin="0,0,0,5">
-                        <GroupBox.Header>
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       FontSize="16"
-                                       FontWeight="Bold"
-                                       Foreground="{StaticResource GlyphBrush}">
-                                    <Run Text="MES消息" />
-                            </TextBlock>
-                        </GroupBox.Header>
-                        <Grid Background="#cbdac4">
-                            <Grid.RowDefinitions>
-                                <RowDefinition></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <TextBlock  Grid.Row="0"
-                                        Grid.Column="0"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        FontSize="20"
-                                        FontWeight="Bold"
-                                        Foreground="black"
-                                        Text="{Binding MESMessage, Mode=OneWay}" />
-                        </Grid>
-                    </GroupBox>
-                    <GroupBox Grid.Row="5"
-                              Margin="0,0,0,5">
-                        <GroupBox.Header>
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       FontSize="16"
-                                       FontWeight="Bold"
-                                       Foreground="{StaticResource GlyphBrush}">
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Top">
+                                    <Run  Text="{Binding MESMessage, Mode=OneWay}" />
+                                </TextBlock>
+                         </ScrollViewer>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Grid.Row="5"
+                          Margin="0,0,0,5"
+                          IsEnabled="{Binding IsHeartbeat , Source={StaticResource Mediator},Mode=OneWay}">
+                    <GroupBox.Header>
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   Foreground="{StaticResource GlyphBrush}">
                                     <Run Text="智能单元状态" />
-                            </TextBlock>
-                        </GroupBox.Header>
-                        <Grid Background="#cbdac4">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition></ColumnDefinition>
-                                <ColumnDefinition></ColumnDefinition>
-                                <ColumnDefinition></ColumnDefinition>
-                                <ColumnDefinition></ColumnDefinition>
-                                <ColumnDefinition></ColumnDefinition>
-                                <ColumnDefinition></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <RadioButton Grid.Column="0"
-                                    Grid.Row="0">
-                                <TextBlock>
-                                     <Run Text="主設備故障" />
+                        </TextBlock>
+                    </GroupBox.Header>
+                    <Grid Background="#cbdac4"
+                          IsEnabled="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <RadioButton Grid.Column="0"
+                                     Grid.Row="0"
+                                     Command="{Binding  DataUpload170Command}">
+                            <TextBlock>
+                                     <Run Text="主设故障" />
                                           <LineBreak />
                                      <Run Text="(170)" />
-                                </TextBlock>
-                            </RadioButton>
-                            <RadioButton Grid.Column="1"
-                                         Grid.Row="0">
-                                <TextBlock>
-                                    <Run Text="計畫內保養" />
+                            </TextBlock>
+                        </RadioButton>
+                        <RadioButton Grid.Column="1"
+                                     Grid.Row="0"
+                                     Command="{Binding  DataUpload130Command}">
+                            <TextBlock>
+                                    <Run Text="计划内保养" />
                                           <LineBreak />
                                      <Run Text="(130)" />
-                                </TextBlock>
-                            </RadioButton>
-                            <RadioButton Grid.Column="2"
-                                         Grid.Row="0">
-                                <TextBlock>
-                                    <Run Text="參數測試" />
+                            </TextBlock>
+                        </RadioButton>
+                        <RadioButton Grid.Column="2"
+                                     Grid.Row="0"
+                                     Command="{Binding  DataUpload110Command}">
+                            <TextBlock>
+                                    <Run Text="参数测试" />
                                           <LineBreak />
                                      <Run Text="(110)" />
-                                </TextBlock>
-                            </RadioButton>
-                            <RadioButton Grid.Column="3"
-                                         Grid.Row="0">
-                                <TextBlock>
-                                    <Run Text="正常生產" />
+                            </TextBlock>
+                        </RadioButton>
+                        <RadioButton Grid.Column="3"
+                                     Grid.Row="0"
+                                     Command="{Binding  DataUpload90Command}">
+                            <TextBlock>
+                                    <Run Text="正常生产" />
                                           <LineBreak />
                                      <Run Text="(90)" />
-                                </TextBlock>
-                            </RadioButton>
-                            <RadioButton Grid.Column="4"
-                                         Grid.Row="0">
-                                <TextBlock>
-                                    <Run Text="無待產" />
+                            </TextBlock>
+                        </RadioButton>
+                        <RadioButton Grid.Column="4"
+                                     Grid.Row="0"
+                                     Command="{Binding  DataUpload40Command}">
+                            <TextBlock>
+                                    <Run Text="无待产" />
                                           <LineBreak />
                                      <Run Text="(40)" />
-                                </TextBlock>
-                            </RadioButton>
-                            <RadioButton Grid.Column="5"
-                                         Grid.Row="0">
-                                <TextBlock>
-                                    <Run Text="設備關機" />
+                            </TextBlock>
+                        </RadioButton>
+                        <RadioButton Grid.Column="5"
+                                     Grid.Row="0"
+                                     Command="{Binding  DataUpload10Command}">
+                            <TextBlock>
+                                    <Run Text="设备关机" />
                                           <LineBreak />
                                      <Run Text="(10)" />
-                                </TextBlock>
-                            </RadioButton>
-                            <RadioButton Grid.Column="0"
-                                         Grid.Row="1">
-                                <TextBlock>
-                                    <Run Text="附屬設備故障" />
+                            </TextBlock>
+                        </RadioButton>
+                        <RadioButton Grid.Column="0"
+                                     Grid.Row="1"
+                                     Command="{Binding  DataUpload180Command}">
+                            <TextBlock>
+                                    <Run Text="附属设备故障" />
                                           <LineBreak />
                                      <Run Text="(180)" />
-                                </TextBlock>
-                            </RadioButton>
-                            <RadioButton Grid.Column="1"
-                                         Grid.Row="1">
-                                <TextBlock>
-                                    <Run Text="設備改造" />
+                            </TextBlock>
+                        </RadioButton>
+                        <RadioButton Grid.Column="1"
+                                     Grid.Row="1"
+                                     Command="{Binding  DataUpload140Command}">
+                            <TextBlock>
+                                    <Run Text="设备改造" />
                                           <LineBreak />
                                      <Run Text="(140)" />
-                                </TextBlock>
-                            </RadioButton>
-                            <RadioButton Grid.Column="2"
-                                         Grid.Row="1">
-                                <TextBlock>
-                                    <Run Text="設備調試" />
+                            </TextBlock>
+                        </RadioButton>
+                        <RadioButton Grid.Column="2"
+                                     Grid.Row="1"
+                                     Command="{Binding  DataUpload120Command}">
+                            <TextBlock>
+                                    <Run Text="设备调试" />
                                           <LineBreak />
                                      <Run Text="(120)" />
-                                </TextBlock>
-                            </RadioButton>
-                            <RadioButton Grid.Column="3"
-                                         Grid.Row="1">
-                                <TextBlock>
+                            </TextBlock>
+                        </RadioButton>
+                        <RadioButton Grid.Column="3"
+                                     Grid.Row="1"
+                                     Command="{Binding  DataUpload100Command}">
+                            <TextBlock>
                                     <Run Text="返工" />
                                           <LineBreak />
                                      <Run Text="(100)" />
-                                </TextBlock>
-                            </RadioButton>
-                            <RadioButton Grid.Column="4"
-                                         Grid.Row="1">
-                                <TextBlock>
-                                    <Run Text="等待首件結果" />
+                            </TextBlock>
+                        </RadioButton>
+                        <RadioButton Grid.Column="4"
+                                     Grid.Row="1"
+                                     Command="{Binding  DataUpload50Command}">
+                            <TextBlock>
+                                    <Run Text="等待首件结果" />
                                           <LineBreak />
                                      <Run Text="(50)" />
-                                </TextBlock>
-                            </RadioButton>
-                            <RadioButton Grid.Column="5"
-                                         Grid.Row="1">
-                                <TextBlock>
-                                    <Run Text="離線培訓" />
+                            </TextBlock>
+                        </RadioButton>
+                        <RadioButton Grid.Column="5"
+                                     Grid.Row="1"
+                                     Command="{Binding  DataUpload20Command}">
+                            <TextBlock>
+                                    <Run Text="离线培训" />
                                           <LineBreak />
                                      <Run Text="(20)" />
-                                </TextBlock>
-                            </RadioButton>
-                            <RadioButton Grid.Column="0"
-                                         Grid.Row="2">
-                                <TextBlock>
-                                    <Run Text="設備異常" />
+                            </TextBlock>
+                        </RadioButton>
+                        <RadioButton Grid.Column="0"
+                                     Grid.Row="2"
+                                     Command="{Binding  DataUpload190Command}">
+                            <TextBlock>
+                                    <Run Text="设施异常" />
                                           <LineBreak />
                                      <Run Text="(190)" />
-                                </TextBlock>
-                            </RadioButton>
-                            <RadioButton Grid.Column="1"
-                                         Grid.Row="2">
-                                <TextBlock>
-                                    <Run Text="設施維護" />
+                            </TextBlock>
+                        </RadioButton>
+                        <RadioButton Grid.Column="1"
+                                     Grid.Row="2"
+                                     Command="{Binding  DataUpload150Command}">
+                            <TextBlock>
+                                    <Run Text="设施维护" />
                                           <LineBreak />
                                      <Run Text="(150)" />
-                                </TextBlock>
-                            </RadioButton>
-                            <RadioButton Grid.Column="4"
-                                         Grid.Row="2">
-                                <TextBlock>
-                                    <Run Text="程式切換" />
+                            </TextBlock>
+                        </RadioButton>
+                        <RadioButton Grid.Column="4"
+                                     Grid.Row="2"
+                                     Command="{Binding  DataUpload60Command}">
+                            <TextBlock>
+                                    <Run Text="程式切换" />
                                           <LineBreak />
                                      <Run Text="(60)" />
-                                </TextBlock>
-                            </RadioButton>
-                            <RadioButton Grid.Column="5"
-                                         Grid.Row="2">
-                                <TextBlock>
-                                    <Run Text="升級軟件" />
+                            </TextBlock>
+                        </RadioButton>
+                        <RadioButton Grid.Column="5"
+                                     Grid.Row="2"
+                                     Command="{Binding  DataUpload30Command}">
+                            <TextBlock>
+                                    <Run Text="升级软件" />
                                           <LineBreak />
                                      <Run Text="(30)" />
-                                </TextBlock>
-                            </RadioButton>
-                            <RadioButton Grid.Column="0"
-                                         Grid.Row="3">
-                                <TextBlock>
-                                    <Run Text="計畫外保養" />
+                            </TextBlock>
+                        </RadioButton>
+                        <RadioButton Grid.Column="0"
+                                     Grid.Row="3"
+                                     Command="{Binding  DataUpload200Command}">
+                            <TextBlock>
+                                    <Run Text="计划外保养" />
                                           <LineBreak />
                                      <Run Text="(200)" />
-                                </TextBlock>
-                            </RadioButton>
-                            <RadioButton Grid.Column="1"
-                                         Grid.Row="3">
-                                <TextBlock>
-                                    <Run Text="更換物料" />
+                            </TextBlock>
+                        </RadioButton>
+                        <RadioButton Grid.Column="1"
+                                     Grid.Row="3"
+                                     Command="{Binding  DataUpload160Command}">
+                            <TextBlock>
+                                    <Run Text="更换物料" />
                                           <LineBreak />
                                      <Run Text="(160)" />
-                                </TextBlock>
-                            </RadioButton>
-                            <RadioButton Grid.Column="4"
-                                         Grid.Row="3">
-                                <TextBlock>
-                                    <Run Text="無作業員" />
+                            </TextBlock>
+                        </RadioButton>
+                        <RadioButton Grid.Column="4"
+                                     Grid.Row="3"
+                                     Command="{Binding  DataUpload70Command}">
+                            <TextBlock>
+                                    <Run Text="无作业员" />
                                           <LineBreak />
                                      <Run Text="(70)" />
-                                </TextBlock>
-                            </RadioButton>
-                            <RadioButton Grid.Column="4"
-                                         Grid.Row="4">
-                                <TextBlock>
-                                    <Run Text="批次切換" />
+                            </TextBlock>
+                        </RadioButton>
+                        <RadioButton Grid.Column="4"
+                                     Grid.Row="4"
+                                     Command="{Binding  DataUpload80Command}">
+                            <TextBlock>
+                                    <Run Text="批次切换" />
                                           <LineBreak />
                                      <Run Text="(80)" />
-                                </TextBlock>
-                            </RadioButton>
-                        </Grid>
-                    </GroupBox>
-                </Grid>
+                            </TextBlock>
+                        </RadioButton>
+                    </Grid>
+                </GroupBox>
             </Grid>
-        </TabItem>
-        <TabItem Width="0"
-                 Height="0">
-            <Grid Background="{StaticResource WindowBackgroundBrush}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="13*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition Height="50" />
-                </Grid.RowDefinitions>
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Loaded">
-                        <i:InvokeCommandAction Command="{Binding LoadedCommand, Mode=OneTime}"
-                                               CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}, Mode=OneWay}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                <local:OvenDetailView Grid.ColumnSpan="2"
-                                      DataContext="{Binding PLC_In_Focused, Mode=OneWay}" />
-                <Grid Grid.Row="1"
-                      Grid.Column="0"
-                      Grid.ColumnSpan="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="160" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Button Content="{DynamicResource 投產頁面}"
-                            FontSize="20"
-                            FontWeight="Bold">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction Command="{Binding BackCommand, Mode=OneTime}"
-                                                       CommandParameter="0" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </Button>
-                    <ListBox Grid.Column="1"
-                             HorizontalContentAlignment="Center"
-                             VerticalContentAlignment="Center"
-                             AlternationCount="2147483647"
-                             ItemsSource="{Binding PLC_All_View, Mode=OneWay}"
-                             SelectedIndex="{Binding PLCIndex, Mode=TwoWay}">
-                        <ListBox.Template>
-                            <ControlTemplate>
-                                <ItemsPresenter />
-                            </ControlTemplate>
-                        </ListBox.Template>
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <views:UniformGridWithOrientation Orientation="Vertical">
-                                    <views:UniformGridWithOrientation.Rows>
-                                        <MultiBinding Converter="{StaticResource IfElse}"
-                                                      Mode="OneWay">
-                                            <MultiBinding.FallbackValue>
-                                                <system:Int32>1</system:Int32>
-                                            </MultiBinding.FallbackValue>
-                                            <Binding Converter="{StaticResource IsLessThanValue}"
-                                                     ConverterParameter="10"
-                                                     Mode="OneWay"
-                                                     Path="OvenCount" />
-                                            <Binding>
-                                                <Binding.Source>
-                                                    <system:Int32>1</system:Int32>
-                                                </Binding.Source>
-                                            </Binding>
-                                            <Binding>
-                                                <Binding.Source>
-                                                    <system:Int32>2</system:Int32>
-                                                </Binding.Source>
-                                            </Binding>
-                                        </MultiBinding>
-                                    </views:UniformGridWithOrientation.Rows>
-                                </views:UniformGridWithOrientation>
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                        <ListBox.ItemContainerStyle>
-                            <Style TargetType="ListBoxItem">
-                                <Setter Property="FocusVisualStyle"
-                                        Value="{x:Null}" />
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="ListBoxItem">
-                                            <Grid Margin="4,0,0,0">
-                                                <Grid.Resources>
-                                                    <system:Int32 x:Key="two">2</system:Int32>
-                                                </Grid.Resources>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition />
-                                                </Grid.ColumnDefinitions>
-                                                <Grid Grid.Column="0"
-                                                      Width="80"
-                                                      Visibility="{Binding DataContext.PLC_All_View.Count, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneWay, Converter={StaticResource IsMoreThanValueVis}, ConverterParameter={StaticResource two}}">
-                                                    <Border x:Name="Border"
-                                                            Background="{StaticResource WindowBackgroundBrush2}"
-                                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                                            BorderThickness="1" />
-                                                    <Border x:Name="Border3"
-                                                            Background="{StaticResource PressedBrush}"
-                                                            BorderBrush="{StaticResource PressedBorderBrush}"
-                                                            BorderThickness="1"
-                                                            Opacity="0" />
-                                                    <Viewbox>
-                                                        <TextBlock x:Name="TextBlock"
-                                                                   Margin="8"
-                                                                   FontWeight="Bold"
-                                                                   Foreground="{StaticResource DisabledForegroundBrush}"
-                                                                   Text="{Binding OvenInfo.OvenCode, Mode=OneWay}" />
-                                                    </Viewbox>
-                                                    <Border x:Name="Border4"
-                                                            Height="0"
-                                                            VerticalAlignment="Top"
-                                                            Background="{StaticResource WorkingBrush}" />
-                                                </Grid>
-                                                <ContentPresenter Grid.Column="1" />
-                                                <VisualStateManager.VisualStateGroups>
-                                                    <VisualStateGroup x:Name="CommonStates">
-                                                        <VisualStateGroup.Transitions>
-                                                            <VisualTransition GeneratedDuration="0:0:0.12" />
-                                                        </VisualStateGroup.Transitions>
-                                                        <VisualState x:Name="Normal" />
-                                                        <VisualState x:Name="MouseOver" />
-                                                        <VisualState x:Name="Disabled">
-                                                            <Storyboard>
-                                                                <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
-                                                                                              Storyboard.TargetProperty="Background.Color">
-                                                                    <EasingColorKeyFrame KeyTime="0"
-                                                                                         Value="{StaticResource DisabledBackgroundColor}" />
-                                                                </ColorAnimationUsingKeyFrames>
-                                                                <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
-                                                                                              Storyboard.TargetProperty="BorderBrush.Color">
-                                                                    <EasingColorKeyFrame KeyTime="0"
-                                                                                         Value="{StaticResource DisabledBorderColor}" />
-                                                                </ColorAnimationUsingKeyFrames>
-                                                                <ColorAnimationUsingKeyFrames Storyboard.TargetName="TextBlock"
-                                                                                              Storyboard.TargetProperty="Foreground.Color">
-                                                                    <EasingColorKeyFrame KeyTime="0"
-                                                                                         Value="{StaticResource DisabledForegroundColor}" />
-                                                                </ColorAnimationUsingKeyFrames>
-                                                            </Storyboard>
-                                                        </VisualState>
-                                                    </VisualStateGroup>
-                                                    <VisualStateGroup x:Name="SelectionStates">
-                                                        <VisualStateGroup.Transitions>
-                                                            <VisualTransition GeneratedDuration="0:0:0.12" />
-                                                        </VisualStateGroup.Transitions>
-                                                        <VisualState x:Name="Unselected" />
-                                                        <VisualState x:Name="Selected">
-                                                            <Storyboard>
-                                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Border3"
-                                                                                               Storyboard.TargetProperty="Opacity">
-                                                                    <EasingDoubleKeyFrame KeyTime="0"
-                                                                                          Value="1" />
-                                                                </DoubleAnimationUsingKeyFrames>
-                                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Border4"
-                                                                                               Storyboard.TargetProperty="Height">
-                                                                    <EasingDoubleKeyFrame KeyTime="0"
-                                                                                          Value="4" />
-                                                                </DoubleAnimationUsingKeyFrames>
-                                                                <ColorAnimationUsingKeyFrames Storyboard.TargetName="TextBlock"
-                                                                                              Storyboard.TargetProperty="Foreground.Color">
-                                                                    <EasingColorKeyFrame KeyTime="0"
-                                                                                         Value="{StaticResource GlyphColor}" />
-                                                                </ColorAnimationUsingKeyFrames>
-                                                            </Storyboard>
-                                                        </VisualState>
-                                                    </VisualStateGroup>
-                                                </VisualStateManager.VisualStateGroups>
-                                            </Grid>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </ListBox.ItemContainerStyle>
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Grid TextElement.FontSize="12"
-                                      TextElement.Foreground="{StaticResource BaseForeground}">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition />
-                                        <ColumnDefinition Width="120" />
-                                    </Grid.ColumnDefinitions>
-                                    <views:UniformStackPanel Orientation="Horizontal">
-                                        <Border Width="20"
-                                                Background="{StaticResource BlueA700Brush}">
-                                            <Border Background="#99000000"
-                                                    Visibility="{Binding BlueLight, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
-                                        </Border>
-                                        <Border Width="20"
-                                                Background="{StaticResource OKBrush}">
-                                            <Border Background="#99000000"
-                                                    Visibility="{Binding GreenLight, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
-                                        </Border>
-                                        <Border Width="20"
-                                                Background="Gold">
-                                            <Border Background="#99000000"
-                                                    Visibility="{Binding YellowLight, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
-                                        </Border>
-                                        <Border Width="20"
-                                                Background="{StaticResource ErrorBrush}">
-                                            <Border Background="#99000000"
-                                                    Visibility="{Binding RedLight, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
-                                        </Border>
-                                    </views:UniformStackPanel>
-                                    <Grid Grid.Column="1">
-                                        <ProgressBar x:Name="Progress"
-                                                     BorderThickness="0"
-                                                     Maximum="1"
-                                                     Style="{StaticResource ProgressBarNoText}"
-                                                     Value="{Binding Progress, Mode=OneWay}" />
-                                        <TextBlock x:Name="RemainTimeText"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   FontSize="20"
-                                                   FontWeight="Bold"
-                                                   Foreground="{StaticResource DisabledForegroundBrush}">
-                                            <Run Text="{DynamicResource 剩餘時間}" />
-                                            <Run Text=":" />
-                                            <Run Text="{Binding RemainTime, Mode=OneWay, StringFormat=\{0:F1\}}" />
-                                            <Run Text="{DynamicResource 分}" />
-                                        </TextBlock>
-                                    </Grid>
-                                    <Border Grid.Column="1"
-                                            Visibility="{Binding ConnectionStatus.CurrentValue, Mode=OneWay, Converter={StaticResource BoolNotVis}}">
-                                        <Border.Background>
-                                            <LinearGradientBrush StartPoint="0.5,0"
-                                                                 EndPoint="0.5,1">
-                                                <GradientStop Offset="0"
-                                                              Color="{Binding Color, Source={StaticResource DisabledBackgroundBrush}}" />
-                                                <GradientStop Offset="1"
-                                                              Color="{Binding Color, Source={StaticResource DisabledBorderBrush}}" />
-                                            </LinearGradientBrush>
-                                        </Border.Background>
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   FontSize="16"
-                                                   FontWeight="Bold"
-                                                   Foreground="{StaticResource DisabledForegroundBrush}"
-                                                   Text="{DynamicResource 離線}" />
-                                    </Border>
-                                    <Button Grid.Column="2"
-                                            Content="{DynamicResource 中止}"
-                                            FontSize="20"
-                                            FontWeight="Bold">
-                                        <Button.IsEnabled>
-                                            <MultiBinding Converter="{StaticResource MultiAllTrue}">
-                                                <Binding Converter="{StaticResource IsMoreThanValue}"
-                                                         ConverterParameter="1"
-                                                         FallbackValue="False"
-                                                         Mode="OneWay"
-                                                         Path="User.Level"
-                                                         Source="{StaticResource Mediator}" />
-                                                <Binding Mode="OneWay"
-                                                         Path="AllowStop" />
-                                            </MultiBinding>
-                                        </Button.IsEnabled>
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="Click">
-                                                <i:InvokeCommandAction Command="{Binding StopCommand, Mode=OneTime}" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
-                                    </Button>
-                                </Grid>
-                                <DataTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding IsRamp, Mode=OneWay}"
-                                                 Value="True">
-                                        <Setter TargetName="Progress"
-                                                Property="Background"
-                                                Value="{StaticResource EnergyBrush}" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsDwell, Mode=OneWay}"
-                                                 Value="True">
-                                        <Setter TargetName="Progress"
-                                                Property="Background"
-                                                Value="{StaticResource OKBrush}" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsCooling, Mode=OneWay}"
-                                                 Value="True">
-                                        <Setter TargetName="Progress"
-                                                Property="Background"
-                                                Value="{StaticResource PressedBrush}" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"
-                                                 Value="True">
-                                        <Setter TargetName="RemainTimeText"
-                                                Property="Foreground"
-                                                Value="{StaticResource BaseForeground}" />
-                                    </DataTrigger>
-                                </DataTemplate.Triggers>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </Grid>
-            </Grid>
+
+        </Grid>
         </TabItem>
     </TabControl>
 </UserControl>

@@ -598,7 +598,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <!--<DataGridTemplateColumn Width="Auto"
+                    <DataGridTemplateColumn Width="Auto"
                                             HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
                             <ContentControl Content="{StaticResource OvenFilterData}"
@@ -610,7 +610,7 @@
                                 <TextBlock Text="{Binding StationNumber, Mode=OneWay}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>-->
+                    </DataGridTemplateColumn>
                     <DataGridTemplateColumn Width="Auto"
                                             HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>

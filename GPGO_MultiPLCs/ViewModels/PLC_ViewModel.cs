@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Schedulers;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
@@ -255,6 +256,79 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         get => Get<bool>();
         set => Set(value);
     }
+    public int EditOvenChange
+    {
+        get => Get<int>();
+        set
+        {
+            Set(value);
+            if (value is 0)
+            {
+                EditTopVisibility = Visibility.Visible;
+                EditBottomVisibility = Visibility.Hidden;
+            }
+            else if (value is 1)
+            {
+                EditTopVisibility = Visibility.Hidden;
+                EditBottomVisibility = Visibility.Visible;
+            }
+        }
+    }
+    public int DetailOvenChange
+    {
+        get => Get<int>();
+        set
+        {
+            Set(value);
+            if (value is 0)
+            {
+                DetailTopVisibility = Visibility.Visible;
+                DetailBottomVisibility = Visibility.Hidden;
+            }
+
+            else if (value is 1)
+            {
+                DetailTopVisibility = Visibility.Hidden;
+                DetailBottomVisibility = Visibility.Visible;
+            }
+        }
+    }
+    public Visibility EditBottomVisibility
+    {
+        get => Get<Visibility>();
+        set
+        {
+            Set(value);
+            NotifyPropertyChanged();
+        }
+    }
+    public Visibility EditTopVisibility
+    {
+        get => Get<Visibility>();
+        set
+        {
+            Set(value);
+            NotifyPropertyChanged();
+        }
+    }
+    public Visibility DetailTopVisibility
+    {
+        get => Get<Visibility>();
+        set
+        {
+            Set(value);
+            NotifyPropertyChanged();
+        }
+    }
+    public Visibility DetailBottomVisibility
+    {
+        get => Get<Visibility>();
+        set
+        {
+            Set(value);
+            NotifyPropertyChanged();
+        }
+    }
 
     public LogEvent SelectedLogEvent
     {
@@ -270,7 +344,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     {
         InputLayer = InputLayerMin;
         Dialog = dialog;
-
+        EditOvenChange = 0;
+        DetailOvenChange = 0;
         ConnectionStatus.ValueChanged += status =>
                                          {
                                              NotifyPropertyChanged(nameof(EquipmentStatus));
@@ -312,7 +387,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                         {
                                                             name = name.Trim();
 
-                                                            if (OvenInfo.TempProducts.Count > 0 && name != RecipeName)
+                                                            if (OvenInfo.TempProducts.Count > 0 && name != TopRecipeName)
                                                             {
                                                                 //! 欣興要求比對配方不同跳出異常
 
@@ -852,43 +927,43 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         return result;
     }
 
-    private bool RecipeCompare(PLC_Recipe recipe) => NitrogenMode == recipe.NitrogenMode &&
-                                                     OxygenContentSet.ToString("0.0") == recipe.OxygenContentSet.ToString("0.0") &&
-                                                     (RecipeName.Length > 16 ? RecipeName.Substring(0, 16) : RecipeName) == (recipe.RecipeName.Length > 16 ? recipe.RecipeName.Substring(0, 16) : recipe.RecipeName) && //! 只最多比對16個字(PLC的配方名長度)
-                                                     DwellTime_1.ToString("0.0") == recipe.DwellTime_1.ToString("0.0") &&
-                                                     DwellTime_2.ToString("0.0") == recipe.DwellTime_2.ToString("0.0") &&
-                                                     DwellTime_3.ToString("0.0") == recipe.DwellTime_3.ToString("0.0") &&
-                                                     DwellTime_4.ToString("0.0") == recipe.DwellTime_4.ToString("0.0") &&
-                                                     DwellTime_5.ToString("0.0") == recipe.DwellTime_5.ToString("0.0") &&
-                                                     DwellTime_6.ToString("0.0") == recipe.DwellTime_6.ToString("0.0") &&
-                                                     DwellAlarm_1.ToString("0.0") == recipe.DwellAlarm_1.ToString("0.0") &&
-                                                     DwellAlarm_2.ToString("0.0") == recipe.DwellAlarm_2.ToString("0.0") &&
-                                                     DwellAlarm_3.ToString("0.0") == recipe.DwellAlarm_3.ToString("0.0") &&
-                                                     DwellAlarm_4.ToString("0.0") == recipe.DwellAlarm_4.ToString("0.0") &&
-                                                     DwellAlarm_5.ToString("0.0") == recipe.DwellAlarm_5.ToString("0.0") &&
-                                                     DwellAlarm_6.ToString("0.0") == recipe.DwellAlarm_6.ToString("0.0") &&
-                                                     CoolingTime.ToString("0.0") == recipe.CoolingTime.ToString("0.0") &&
-                                                     CoolingTemperature.ToString("0.0") == recipe.CoolingTemperature.ToString("0.0") &&
-                                                     RampTime_1.ToString("0.0") == recipe.RampTime_1.ToString("0.0") &&
-                                                     RampTime_2.ToString("0.0") == recipe.RampTime_2.ToString("0.0") &&
-                                                     RampTime_3.ToString("0.0") == recipe.RampTime_3.ToString("0.0") &&
-                                                     RampTime_4.ToString("0.0") == recipe.RampTime_4.ToString("0.0") &&
-                                                     RampTime_5.ToString("0.0") == recipe.RampTime_5.ToString("0.0") &&
-                                                     RampTime_6.ToString("0.0") == recipe.RampTime_6.ToString("0.0") &&
-                                                     RampAlarm_1.ToString("0.0") == recipe.RampAlarm_1.ToString("0.0") &&
-                                                     RampAlarm_2.ToString("0.0") == recipe.RampAlarm_2.ToString("0.0") &&
-                                                     RampAlarm_3.ToString("0.0") == recipe.RampAlarm_3.ToString("0.0") &&
-                                                     RampAlarm_4.ToString("0.0") == recipe.RampAlarm_4.ToString("0.0") &&
-                                                     RampAlarm_5.ToString("0.0") == recipe.RampAlarm_5.ToString("0.0") &&
-                                                     RampAlarm_6.ToString("0.0") == recipe.RampAlarm_6.ToString("0.0") &&
-                                                     InflatingTime.ToString("0") == recipe.InflatingTime.ToString("0") &&
-                                                     TemperatureSetpoint_1.ToString("0.0") == recipe.TemperatureSetpoint_1.ToString("0.0") &&
-                                                     TemperatureSetpoint_2.ToString("0.0") == recipe.TemperatureSetpoint_2.ToString("0.0") &&
-                                                     TemperatureSetpoint_3.ToString("0.0") == recipe.TemperatureSetpoint_3.ToString("0.0") &&
-                                                     TemperatureSetpoint_4.ToString("0.0") == recipe.TemperatureSetpoint_4.ToString("0.0") &&
-                                                     TemperatureSetpoint_5.ToString("0.0") == recipe.TemperatureSetpoint_5.ToString("0.0") &&
-                                                     TemperatureSetpoint_6.ToString("0.0") == recipe.TemperatureSetpoint_6.ToString("0.0") &&
-                                                     SegmentCounts == recipe.SegmentCounts;
+    private bool RecipeCompare(PLC_Recipe recipe) => TopNitrogenMode == recipe.NitrogenMode &&
+                                                     TopOxygenContentSet.ToString("0.0") == recipe.OxygenContentSet.ToString("0.0") &&
+                                                     (TopRecipeName.Length > 16 ? TopRecipeName.Substring(0, 16) : TopRecipeName) == (recipe.RecipeName.Length > 16 ? recipe.RecipeName.Substring(0, 16) : recipe.RecipeName) && //! 只最多比對16個字(PLC的配方名長度)
+                                                     TopDwellTime_1.ToString("0.0") == recipe.DwellTime_1.ToString("0.0") &&
+                                                     TopDwellTime_2.ToString("0.0") == recipe.DwellTime_2.ToString("0.0") &&
+                                                     TopDwellTime_3.ToString("0.0") == recipe.DwellTime_3.ToString("0.0") &&
+                                                     TopDwellTime_4.ToString("0.0") == recipe.DwellTime_4.ToString("0.0") &&
+                                                     TopDwellTime_5.ToString("0.0") == recipe.DwellTime_5.ToString("0.0") &&
+                                                     TopDwellTime_6.ToString("0.0") == recipe.DwellTime_6.ToString("0.0") &&
+                                                     TopDwellAlarm_1.ToString("0.0") == recipe.DwellAlarm_1.ToString("0.0") &&
+                                                     TopDwellAlarm_2.ToString("0.0") == recipe.DwellAlarm_2.ToString("0.0") &&
+                                                     TopDwellAlarm_3.ToString("0.0") == recipe.DwellAlarm_3.ToString("0.0") &&
+                                                     TopDwellAlarm_4.ToString("0.0") == recipe.DwellAlarm_4.ToString("0.0") &&
+                                                     TopDwellAlarm_5.ToString("0.0") == recipe.DwellAlarm_5.ToString("0.0") &&
+                                                     TopDwellAlarm_6.ToString("0.0") == recipe.DwellAlarm_6.ToString("0.0") &&
+                                                     TopCoolingTime.ToString("0.0") == recipe.CoolingTime.ToString("0.0") &&
+                                                     TopCoolingTemperature.ToString("0.0") == recipe.CoolingTemperature.ToString("0.0") &&
+                                                     TopRampTime_1.ToString("0.0") == recipe.RampTime_1.ToString("0.0") &&
+                                                     TopRampTime_2.ToString("0.0") == recipe.RampTime_2.ToString("0.0") &&
+                                                     TopRampTime_3.ToString("0.0") == recipe.RampTime_3.ToString("0.0") &&
+                                                     TopRampTime_4.ToString("0.0") == recipe.RampTime_4.ToString("0.0") &&
+                                                     TopRampTime_5.ToString("0.0") == recipe.RampTime_5.ToString("0.0") &&
+                                                     TopRampTime_6.ToString("0.0") == recipe.RampTime_6.ToString("0.0") &&
+                                                     TopRampAlarm_1.ToString("0.0") == recipe.RampAlarm_1.ToString("0.0") &&
+                                                     TopRampAlarm_2.ToString("0.0") == recipe.RampAlarm_2.ToString("0.0") &&
+                                                     TopRampAlarm_3.ToString("0.0") == recipe.RampAlarm_3.ToString("0.0") &&
+                                                     TopRampAlarm_4.ToString("0.0") == recipe.RampAlarm_4.ToString("0.0") &&
+                                                     TopRampAlarm_5.ToString("0.0") == recipe.RampAlarm_5.ToString("0.0") &&
+                                                     TopRampAlarm_6.ToString("0.0") == recipe.RampAlarm_6.ToString("0.0") &&
+                                                     TopInflatingTime.ToString("0") == recipe.InflatingTime.ToString("0") &&
+                                                     TopTemperatureSetpoint_1.ToString("0.0") == recipe.TemperatureSetpoint_1.ToString("0.0") &&
+                                                     TopTemperatureSetpoint_2.ToString("0.0") == recipe.TemperatureSetpoint_2.ToString("0.0") &&
+                                                     TopTemperatureSetpoint_3.ToString("0.0") == recipe.TemperatureSetpoint_3.ToString("0.0") &&
+                                                     TopTemperatureSetpoint_4.ToString("0.0") == recipe.TemperatureSetpoint_4.ToString("0.0") &&
+                                                     TopTemperatureSetpoint_5.ToString("0.0") == recipe.TemperatureSetpoint_5.ToString("0.0") &&
+                                                     TopTemperatureSetpoint_6.ToString("0.0") == recipe.TemperatureSetpoint_6.ToString("0.0") &&
+                                                     TopSegmentCounts == recipe.SegmentCounts;
 
     private void AddProcessEvent((EventType type, DateTime addtime, string note, string tag, object value) eventdata)
     {
@@ -1030,8 +1105,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                              double t4,
                              double t5,
                              double t6,
-                             double t7,
-                             double t8,
+                             //double t7,
+                             //double t8,
                              double oxy)
         {
             var record = new RecordTemperatures
@@ -1045,8 +1120,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                 OvenTemperatures_4       = t4,
                 OvenTemperatures_5       = t5,
                 OvenTemperatures_6       = t6,
-                OvenTemperatures_7       = t7,
-                OvenTemperatures_8       = t8,
+                //OvenTemperatures_7       = t7,
+                //OvenTemperatures_8       = t8,
                 OxygenContent            = oxy
             };
 
@@ -1057,15 +1132,15 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         OvenInfo.StartTime = DateTime.Now;
         var nt                     = OvenInfo.StartTime;
         var n                      = TimeSpan.FromSeconds(RecordDelay); //! 每delay週期紀錄一次
-        var _ThermostatTemperature = PV_ThermostatTemperature;
+        var _ThermostatTemperature = PV_TopThermostatTemperature;
         var _OvenTemperature_1     = OvenTemperature_1;
         var _OvenTemperature_2     = OvenTemperature_2;
         var _OvenTemperature_3     = OvenTemperature_3;
         var _OvenTemperature_4     = OvenTemperature_4;
         var _OvenTemperature_5     = OvenTemperature_5;
         var _OvenTemperature_6     = OvenTemperature_6;
-        var _OvenTemperature_7     = OvenTemperature_7;
-        var _OvenTemperature_8     = OvenTemperature_8;
+        //var _OvenTemperature_7     = OvenTemperature_7;
+        //var _OvenTemperature_8     = OvenTemperature_8;
         var _OxygenContent         = OxygenContent;
 
         AddTemperatures(true,
@@ -1077,8 +1152,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                         _OvenTemperature_4,
                         _OvenTemperature_5,
                         _OvenTemperature_6,
-                        _OvenTemperature_7,
-                        _OvenTemperature_8,
+                        //_OvenTemperature_7,
+                        //_OvenTemperature_8,
                         OxygenContent);
 
         await OneScheduler.StartNew(() =>
@@ -1093,15 +1168,15 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                 AddProcessEvent(eventval);
                                             }
 
-                                            _ThermostatTemperature = PV_ThermostatTemperature <= 0 ? _ThermostatTemperature : PV_ThermostatTemperature;
+                                            _ThermostatTemperature = PV_TopThermostatTemperature <= 0 ? _ThermostatTemperature : PV_TopThermostatTemperature;
                                             _OvenTemperature_1 = OvenTemperature_1 <= 0 ? _OvenTemperature_1 : OvenTemperature_1;
                                             _OvenTemperature_2 = OvenTemperature_2 <= 0 ? _OvenTemperature_2 : OvenTemperature_2;
                                             _OvenTemperature_3 = OvenTemperature_3 <= 0 ? _OvenTemperature_3 : OvenTemperature_3;
                                             _OvenTemperature_4 = OvenTemperature_4 <= 0 ? _OvenTemperature_4 : OvenTemperature_4;
                                             _OvenTemperature_5 = OvenTemperature_5 <= 0 ? _OvenTemperature_5 : OvenTemperature_5;
                                             _OvenTemperature_6 = OvenTemperature_6 <= 0 ? _OvenTemperature_6 : OvenTemperature_6;
-                                            _OvenTemperature_7 = OvenTemperature_7 <= 0 ? _OvenTemperature_7 : OvenTemperature_7;
-                                            _OvenTemperature_8 = OvenTemperature_8 <= 0 ? _OvenTemperature_8 : OvenTemperature_8;
+                                            //_OvenTemperature_7 = OvenTemperature_7 <= 0 ? _OvenTemperature_7 : OvenTemperature_7;
+                                            //_OvenTemperature_8 = OvenTemperature_8 <= 0 ? _OvenTemperature_8 : OvenTemperature_8;
                                             _OxygenContent = OxygenContent <= 0 ? _OxygenContent : OxygenContent;
 
                                             if (DateTime.Now - nt >= n && ConnectionStatus.CurrentValue)
@@ -1116,8 +1191,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                                 _OvenTemperature_4,
                                                                 _OvenTemperature_5,
                                                                 _OvenTemperature_6,
-                                                                _OvenTemperature_7,
-                                                                _OvenTemperature_8,
+                                                                //_OvenTemperature_7,
+                                                                //_OvenTemperature_8,
                                                                 _OxygenContent);
                                             }
                                             else if (ManualRecord)
@@ -1132,8 +1207,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                                 _OvenTemperature_4,
                                                                 _OvenTemperature_5,
                                                                 _OvenTemperature_6,
-                                                                _OvenTemperature_7,
-                                                                _OvenTemperature_8,
+                                                                //_OvenTemperature_7,
+                                                                //_OvenTemperature_8,
                                                                 _OxygenContent);
                                             }
                                             else
@@ -1142,15 +1217,15 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                             }
                                         }
 
-                                        _ThermostatTemperature = PV_ThermostatTemperature <= 0 ? _ThermostatTemperature : PV_ThermostatTemperature;
+                                        _ThermostatTemperature = PV_TopThermostatTemperature <= 0 ? _ThermostatTemperature : PV_TopThermostatTemperature;
                                         _OvenTemperature_1 = OvenTemperature_1 <= 0 ? _OvenTemperature_1 : OvenTemperature_1;
                                         _OvenTemperature_2 = OvenTemperature_2 <= 0 ? _OvenTemperature_2 : OvenTemperature_2;
                                         _OvenTemperature_3 = OvenTemperature_3 <= 0 ? _OvenTemperature_3 : OvenTemperature_3;
                                         _OvenTemperature_4 = OvenTemperature_4 <= 0 ? _OvenTemperature_4 : OvenTemperature_4;
                                         _OvenTemperature_5 = OvenTemperature_5 <= 0 ? _OvenTemperature_5 : OvenTemperature_5;
                                         _OvenTemperature_6 = OvenTemperature_6 <= 0 ? _OvenTemperature_6 : OvenTemperature_6;
-                                        _OvenTemperature_7 = OvenTemperature_7 <= 0 ? _OvenTemperature_7 : OvenTemperature_7;
-                                        _OvenTemperature_8 = OvenTemperature_8 <= 0 ? _OvenTemperature_8 : OvenTemperature_8;
+                                        //_OvenTemperature_7 = OvenTemperature_7 <= 0 ? _OvenTemperature_7 : OvenTemperature_7;
+                                        //_OvenTemperature_8 = OvenTemperature_8 <= 0 ? _OvenTemperature_8 : OvenTemperature_8;
                                         _OxygenContent = OxygenContent <= 0 ? _OxygenContent : OxygenContent;
 
                                         AddTemperatures(true,
@@ -1162,8 +1237,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                         _OvenTemperature_4,
                                                         _OvenTemperature_5,
                                                         _OvenTemperature_6,
-                                                        _OvenTemperature_7,
-                                                        _OvenTemperature_8,
+                                                        //_OvenTemperature_7,
+                                                        //_OvenTemperature_8,
                                                         _OxygenContent);
                                     },
                                     ct);
@@ -1212,64 +1287,100 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
     public bool RecipeCompareSV() => RecipeCompare(GetRecipeSV());
 
-    public PLC_Recipe GetRecipeSV() => new()
+    public PLC_Recipe GetRecipeSV() => IsTop()
+    ? new PLC_Recipe
     {
-        NitrogenMode = SV_NitrogenMode,
-        OxygenContentSet = SV_OxygenContentSet,
-        RecipeName = SV_RecipeName,
-        DwellTemperature_1 = SV_DwellTemperature_1,
-        DwellTemperature_2 = SV_DwellTemperature_2,
-        DwellTemperature_3 = SV_DwellTemperature_3,
-        DwellTemperature_4 = SV_DwellTemperature_4,
-        DwellTemperature_5 = SV_DwellTemperature_5,
-        DwellTemperature_6 = SV_DwellTemperature_6,
-        DwellTemperature_7 = SV_DwellTemperature_7,
-        DwellTemperature_8 = SV_DwellTemperature_8,
-        DwellTime_1 = SV_DwellTime_1,
-        DwellTime_2 = SV_DwellTime_2,
-        DwellTime_3 = SV_DwellTime_3,
-        DwellTime_4 = SV_DwellTime_4,
-        DwellTime_5 = SV_DwellTime_5,
-        DwellTime_6 = SV_DwellTime_6,
-        DwellTime_7 = SV_DwellTime_7,
-        DwellTime_8 = SV_DwellTime_8,
-        DwellAlarm_1 = SV_DwellAlarm_1,
-        DwellAlarm_2 = SV_DwellAlarm_2,
-        DwellAlarm_3 = SV_DwellAlarm_3,
-        DwellAlarm_4 = SV_DwellAlarm_4,
-        DwellAlarm_5 = SV_DwellAlarm_5,
-        DwellAlarm_6 = SV_DwellAlarm_6,
-        DwellAlarm_7 = SV_DwellAlarm_7,
-        DwellAlarm_8 = SV_DwellAlarm_8,
-        CoolingTime = SV_CoolingTime,
-        CoolingTemperature = SV_CoolingTemperature,
-        RampTime_1 = SV_RampTime_1,
-        RampTime_2 = SV_RampTime_2,
-        RampTime_3 = SV_RampTime_3,
-        RampTime_4 = SV_RampTime_4,
-        RampTime_5 = SV_RampTime_5,
-        RampTime_6 = SV_RampTime_6,
-        RampTime_7 = SV_RampTime_7,
-        RampTime_8 = SV_RampTime_8,
-        RampAlarm_1 = SV_RampAlarm_1,
-        RampAlarm_2 = SV_RampAlarm_2,
-        RampAlarm_3 = SV_RampAlarm_3,
-        RampAlarm_4 = SV_RampAlarm_4,
-        RampAlarm_5 = SV_RampAlarm_5,
-        RampAlarm_6 = SV_RampAlarm_6,
-        RampAlarm_7 = SV_RampAlarm_7,
-        RampAlarm_8 = SV_RampAlarm_8,
-        InflatingTime = SV_InflatingTime,
-        TemperatureSetpoint_1 = SV_TemperatureSetpoint_1,
-        TemperatureSetpoint_2 = SV_TemperatureSetpoint_2,
-        TemperatureSetpoint_3 = SV_TemperatureSetpoint_3,
-        TemperatureSetpoint_4 = SV_TemperatureSetpoint_4,
-        TemperatureSetpoint_5 = SV_TemperatureSetpoint_5,
-        TemperatureSetpoint_6 = SV_TemperatureSetpoint_6,
-        TemperatureSetpoint_7 = SV_TemperatureSetpoint_7,
-        TemperatureSetpoint_8 = SV_TemperatureSetpoint_8,
-        SegmentCounts = SV_SegmentCounts
+        NitrogenMode = SV_TopNitrogenMode,
+        OxygenContentSet = SV_TopOxygenContentSet,
+        RecipeName = SV_TopRecipeName,
+        //DwellTemperature_1 = SV_DwellTemperature_1,
+        //DwellTemperature_2 = SV_DwellTemperature_2,
+        //DwellTemperature_3 = SV_DwellTemperature_3,
+        //DwellTemperature_4 = SV_DwellTemperature_4,
+        //DwellTemperature_5 = SV_DwellTemperature_5,
+        //DwellTemperature_6 = SV_DwellTemperature_6,
+        DwellTime_1 = SV_TopDwellTime_1,
+        DwellTime_2 = SV_TopDwellTime_2,
+        DwellTime_3 = SV_TopDwellTime_3,
+        DwellTime_4 = SV_TopDwellTime_4,
+        DwellTime_5 = SV_TopDwellTime_5,
+        DwellTime_6 = SV_TopDwellTime_6,
+        DwellAlarm_1 = SV_TopDwellAlarm_1,
+        DwellAlarm_2 = SV_TopDwellAlarm_2,
+        DwellAlarm_3 = SV_TopDwellAlarm_3,
+        DwellAlarm_4 = SV_TopDwellAlarm_4,
+        DwellAlarm_5 = SV_TopDwellAlarm_5,
+        DwellAlarm_6 = SV_TopDwellAlarm_6,
+        CoolingTime = SV_TopCoolingTime,
+        CoolingTemperature = SV_TopCoolingTemperature,
+        RampTime_1 = SV_TopRampTime_1,
+        RampTime_2 = SV_TopRampTime_2,
+        RampTime_3 = SV_TopRampTime_3,
+        RampTime_4 = SV_TopRampTime_4,
+        RampTime_5 = SV_TopRampTime_5,
+        RampTime_6 = SV_TopRampTime_6,
+        RampAlarm_1 = SV_TopRampAlarm_1,
+        RampAlarm_2 = SV_TopRampAlarm_2,
+        RampAlarm_3 = SV_TopRampAlarm_3,
+        RampAlarm_4 = SV_TopRampAlarm_4,
+        RampAlarm_5 = SV_TopRampAlarm_5,
+        RampAlarm_6 = SV_TopRampAlarm_6,
+        InflatingTime = SV_TopInflatingTime,
+        TemperatureSetpoint_1 = SV_TopTemperatureSetpoint_1,
+        TemperatureSetpoint_2 = SV_TopTemperatureSetpoint_2,
+        TemperatureSetpoint_3 = SV_TopTemperatureSetpoint_3,
+        TemperatureSetpoint_4 = SV_TopTemperatureSetpoint_4,
+        TemperatureSetpoint_5 = SV_TopTemperatureSetpoint_5,
+        TemperatureSetpoint_6 = SV_TopTemperatureSetpoint_6,
+        SegmentCounts = SV_TopSegmentCounts
+    }
+    : new PLC_Recipe
+    {
+        NitrogenMode = SV_BottomNitrogenMode,
+        OxygenContentSet = SV_BottomOxygenContentSet,
+        RecipeName = SV_BottomRecipeName,
+        //DwellTemperature_1 = SV_DwellTemperature_1,
+        //DwellTemperature_2 = SV_DwellTemperature_2,
+        //DwellTemperature_3 = SV_DwellTemperature_3,
+        //DwellTemperature_4 = SV_DwellTemperature_4,
+        //DwellTemperature_5 = SV_DwellTemperature_5,
+        //DwellTemperature_6 = SV_DwellTemperature_6,
+        DwellTime_1 = SV_BottomDwellTime_1,
+        DwellTime_2 = SV_BottomDwellTime_2,
+        DwellTime_3 = SV_BottomDwellTime_3,
+        DwellTime_4 = SV_BottomDwellTime_4,
+        DwellTime_5 = SV_BottomDwellTime_5,
+        DwellTime_6 = SV_BottomDwellTime_6,
+        DwellAlarm_1 = SV_BottomDwellAlarm_1,
+        DwellAlarm_2 = SV_BottomDwellAlarm_2,
+        DwellAlarm_3 = SV_BottomDwellAlarm_3,
+        DwellAlarm_4 = SV_BottomDwellAlarm_4,
+        DwellAlarm_5 = SV_BottomDwellAlarm_5,
+        DwellAlarm_6 = SV_BottomDwellAlarm_6,
+        CoolingTime = SV_BottomCoolingTime,
+        CoolingTemperature = SV_BottomCoolingTemperature,
+        RampTime_1 = SV_BottomRampTime_1,
+        RampTime_2 = SV_BottomRampTime_2,
+        RampTime_3 = SV_BottomRampTime_3,
+        RampTime_4 = SV_BottomRampTime_4,
+        RampTime_5 = SV_BottomRampTime_5,
+        RampTime_6 = SV_BottomRampTime_6,
+        RampAlarm_1 = SV_BottomRampAlarm_1,
+        RampAlarm_2 = SV_BottomRampAlarm_2,
+        RampAlarm_3 = SV_BottomRampAlarm_3,
+        RampAlarm_4 = SV_BottomRampAlarm_4,
+        RampAlarm_5 = SV_BottomRampAlarm_5,
+        RampAlarm_6 = SV_BottomRampAlarm_6,
+        InflatingTime = SV_BottomInflatingTime,
+        TemperatureSetpoint_1 = SV_BottomTemperatureSetpoint_1,
+        TemperatureSetpoint_2 = SV_BottomTemperatureSetpoint_2,
+        TemperatureSetpoint_3 = SV_BottomTemperatureSetpoint_3,
+        TemperatureSetpoint_4 = SV_BottomTemperatureSetpoint_4,
+        TemperatureSetpoint_5 = SV_BottomTemperatureSetpoint_5,
+        TemperatureSetpoint_6 = SV_BottomTemperatureSetpoint_6,
+        SegmentCounts = SV_BottomSegmentCounts
     };
+    public bool IsTop() => EditOvenChange == 0;
 
     public async Task<SetRecipeResult> SetRecipeAsync(PLC_Recipe? recipe)
     {
