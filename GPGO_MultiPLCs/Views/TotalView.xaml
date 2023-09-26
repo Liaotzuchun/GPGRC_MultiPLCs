@@ -175,7 +175,7 @@
                                                     Visibility="{Binding RedLight, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
                                         </Border>
                                     </views:UniformStackPanel>
-                                    <Border x:Name="StatusBorder"
+                                    <!--<Border x:Name="StatusBorder"
                                             Grid.Row="1"
                                             Background="{StaticResource WindowBackgroundBrush2}"
                                             BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -183,13 +183,28 @@
                                         <Viewbox Margin="6"
                                                  VerticalAlignment="Center"
                                                  StretchDirection="DownOnly">
-                                            <TextBlock x:Name="TemperatureText"
+                                            <TextBlock x:Name="TopTemperatureText"
                                                        FontSize="24"
                                                        FontWeight="Bold"
                                                        Foreground="{StaticResource DisabledForegroundBrush}"
-                                                       Text="{Binding PV_ThermostatTemperature, Mode=OneWay, StringFormat=\{0:F1\}°C}" />
+                                                       Text="{Binding PV_TopThermostatTemperature, Mode=OneWay, StringFormat=\{0:F1\}°C}" />
                                         </Viewbox>
                                     </Border>
+                                    <Border x:Name="BottomStatusBorder"
+                                            Grid.Row="2"
+                                            Background="{StaticResource WindowBackgroundBrush2}"
+                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                            BorderThickness="1">
+                                        <Viewbox Margin="6"
+                                                 VerticalAlignment="Center"
+                                                 StretchDirection="DownOnly">
+                                            <TextBlock x:Name="BottomTemperatureText"
+                                                       FontSize="24"
+                                                       FontWeight="Bold"
+                                                       Foreground="{StaticResource DisabledForegroundBrush}"
+                                                       Text="{Binding PV_BottomThermostatTemperature, Mode=OneWay, StringFormat=\{0:F1\}°C}" />
+                                        </Viewbox>
+                                    </Border>-->
                                     <Border Grid.Row="1"
                                             Background="{StaticResource WorkingBrush}"
                                             Visibility="{Binding IsExecuting, Mode=OneWay, Converter={StaticResource BoolVis}}">
@@ -199,7 +214,7 @@
                                             <TextBlock FontSize="24"
                                                        FontWeight="Bold"
                                                        Foreground="{StaticResource ErrorBrush}"
-                                                       Text="{Binding PV_ThermostatTemperature, Mode=OneWay, StringFormat=\{0:F1\}°C}" />
+                                                       Text="{Binding PV_TopThermostatTemperature, Mode=OneWay, StringFormat=\{0:F1\}°C}" />
                                         </Viewbox>
                                     </Border>
                                     <Border Grid.Row="1"
@@ -237,14 +252,14 @@
                                         </Viewbox>
                                     </Border>
                                 </Grid>
-                                <DataTemplate.Triggers>
+                                <!--<DataTemplate.Triggers>
                                     <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"
                                                  Value="True">
-                                        <Setter TargetName="TemperatureText"
+                                        <Setter TargetName="TopTemperatureText"
                                                 Property="Foreground"
                                                 Value="{StaticResource BaseForeground}" />
                                     </DataTrigger>
-                                </DataTemplate.Triggers>
+                                </DataTemplate.Triggers>-->
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>

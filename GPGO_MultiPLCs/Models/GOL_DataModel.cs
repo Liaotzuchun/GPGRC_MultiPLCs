@@ -2376,7 +2376,7 @@ public class GOL_DataModel : PLCDataProvider
         set => Set(value);
     }
 
-    /// <summary>設備狀態，0=待機，1=生產中，2=自動停止，3=設備異常</summary>
+    /// <summary>設備狀態，0:停機(STOP)、1:自動(IDLE)、2:自動啟動(RUN)、3:異常(DOWN)、4:保養(PM))</summary>
     [PLCData(DataType.D, 28, LogType.StatusVariables)]
     public short EquipmentState
     {
@@ -2384,9 +2384,32 @@ public class GOL_DataModel : PLCDataProvider
         set => Set(value);
     }
 
-    /// <summary>生產狀態，0=手動，1=升溫中，2=恆溫中，7=冷卻中，8=程式結束，9=自動，10=氮氣充氣中</summary>
+    /// <summary>設備狀態，0:停機(STOP)、1:自動(IDLE)、2:自動啟動(RUN)、3:異常(DOWN)、4:保養(PM))</summary>
+    [PLCData(DataType.D, 28, LogType.StatusVariables)]
+    public short TopEquipmentState
+    {
+        get => Get<short>();
+        set => Set(value);
+    }
+
+    /// <summary>設備狀態，0:停機(STOP)、1:自動(IDLE)、2:自動啟動(RUN)、3:異常(DOWN)、4:保養(PM))</summary>
+    [PLCData(DataType.D, 28, LogType.StatusVariables)]
+    public short BottomEquipmentState
+    {
+        get => Get<short>();
+        set => Set(value);
+    }
+
+    /// <summary>生產狀態0:手動、1:昇溫中、2:恆溫中、7:冷卻降溫中、8:程式結束、9:自動、10:氮氣充氣中 </summary>
     [PLCData(DataType.D, 29, LogType.StatusVariables)]
-    public short ProcessState
+    public short TopProcessState
+    {
+        get => Get<short>();
+        set => Set(value);
+    }
+    /// <summary>生產狀態，0:手動、1:昇溫中、2:恆溫中、7:冷卻降溫中、8:程式結束、9:自動、10:氮氣充氣中 </summary>
+    [PLCData(DataType.D, 29, LogType.StatusVariables)]
+    public short BottomProcessState
     {
         get => Get<short>();
         set => Set(value);

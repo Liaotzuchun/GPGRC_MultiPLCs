@@ -102,7 +102,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     /// <summary>進度狀態</summary>
     public Status EquipmentStatus => !ConnectionStatus.CurrentValue ?
                                          Status.離線 :
-                                         EquipmentState switch
+                                         TopEquipmentState switch
                                          {
                                              0 => Status.待命,
                                              1 => Status.運轉中,
@@ -184,25 +184,26 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         set
         {
             value = value.Trim().ToUpper();
-            if (value.Length < 10)
-            {
-                Set(string.Empty);
-                Dialog.Show(new Dictionary<Language, string>
-                            {
-                                { Language.TW, "需至少10個字元" },
-                                { Language.CHS, "需至少10个字符" },
-                                { Language.EN, "At least 10 chars" }
-                            },
-                            DialogMsgType.Alert);
+            //if (value.Length < 10)
+            //{
+            //    Set(string.Empty);
+            //    Dialog.Show(new Dictionary<Language, string>
+            //                {
+            //                    { Language.TW, "需至少10個字元" },
+            //                    { Language.CHS, "需至少10个字符" },
+            //                    { Language.EN, "At least 10 chars" }
+            //                },
+            //                DialogMsgType.Alert);
 
-                InputReFocus();
-            }
-            else
-            {
-                //! 欣興要求批號只取14個字
-                Set(value.Length > 14 ? value.Substring(0, 14) : value);
-                DelayClean();
-            }
+            //    InputReFocus();
+            //}
+            //else
+            //{
+            //    //! 欣興要求批號只取14個字
+            //    Set(value.Length > 14 ? value.Substring(0, 14) : value);
+            //    DelayClean();
+            //}
+            Set(value);
         }
     }
 
@@ -797,9 +798,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                             AddProcessEvent(eventval!);
                                         }
                                     }
-                                    else if (name == nameof(EquipmentState))
+                                    else if (name == nameof(TopEquipmentState))
                                     {
-                                        InvokeSECSEvent?.Invoke("EqpStatusChanged");
                                         SV_Changed?.Invoke($"Previous{name}", oldvalue!);
 
                                         EventHappened?.Invoke(eventval!);
@@ -810,7 +810,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
                                         NotifyPropertyChanged(nameof(EquipmentStatus));
                                     }
-                                    else if (name == nameof(ProcessState))
+                                    else if (name == nameof(TopProcessState))
                                     {
                                         EventHappened?.Invoke(eventval!);
                                         if (IsExecuting)
@@ -917,8 +917,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
         var errs = await ManualSetByPropertiesWithCheck(recipe.ToDictionary()).ConfigureAwait(false);
 
-        InvokeSECSEvent?.Invoke("RecipeChanged");
-
         var result = errs.Count == 0 ? SetRecipeResult.成功 : SetRecipeResult.比對不相符;
         if (result == SetRecipeResult.成功)
         {
@@ -1024,17 +1022,17 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             return SetRecipeResult.條件不允許;
         }
 
-        if (!RemoteMode)
-        {
-            Dialog.Show(new Dictionary<Language, string>
-                        {
-                            { Language.TW, "烤箱未在Remote模式" },
-                            { Language.CHS, "烤箱未在Remote模式" },
-                            { Language.EN, "Oven is not in Remote Mode" }
-                        });
+        //if (!RemoteMode)
+        //{
+        //    Dialog.Show(new Dictionary<Language, string>
+        //                {
+        //                    { Language.TW, "烤箱未在Remote模式" },
+        //                    { Language.CHS, "烤箱未在Remote模式" },
+        //                    { Language.EN, "Oven is not in Remote Mode" }
+        //                });
 
-            return SetRecipeResult.條件不允許;
-        }
+        //    return SetRecipeResult.條件不允許;
+        //}
 
         if (RecipeCompare(recipe)) //! 配方相同就不再確認
         {
@@ -1293,12 +1291,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         NitrogenMode = SV_TopNitrogenMode,
         OxygenContentSet = SV_TopOxygenContentSet,
         RecipeName = SV_TopRecipeName,
-        //DwellTemperature_1 = SV_DwellTemperature_1,
-        //DwellTemperature_2 = SV_DwellTemperature_2,
-        //DwellTemperature_3 = SV_DwellTemperature_3,
-        //DwellTemperature_4 = SV_DwellTemperature_4,
-        //DwellTemperature_5 = SV_DwellTemperature_5,
-        //DwellTemperature_6 = SV_DwellTemperature_6,
         DwellTime_1 = SV_TopDwellTime_1,
         DwellTime_2 = SV_TopDwellTime_2,
         DwellTime_3 = SV_TopDwellTime_3,
@@ -1339,12 +1331,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         NitrogenMode = SV_BottomNitrogenMode,
         OxygenContentSet = SV_BottomOxygenContentSet,
         RecipeName = SV_BottomRecipeName,
-        //DwellTemperature_1 = SV_DwellTemperature_1,
-        //DwellTemperature_2 = SV_DwellTemperature_2,
-        //DwellTemperature_3 = SV_DwellTemperature_3,
-        //DwellTemperature_4 = SV_DwellTemperature_4,
-        //DwellTemperature_5 = SV_DwellTemperature_5,
-        //DwellTemperature_6 = SV_DwellTemperature_6,
         DwellTime_1 = SV_BottomDwellTime_1,
         DwellTime_2 = SV_BottomDwellTime_2,
         DwellTime_3 = SV_BottomDwellTime_3,

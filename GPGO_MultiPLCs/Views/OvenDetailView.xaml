@@ -76,6 +76,10 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
             <!--<GroupBox Margin="0,4,2,4"
                       IsHitTestVisible="False">
                 <GroupBox.Header>
@@ -1048,6 +1052,14 @@
                     </Grid>
                 </Grid>
             </GroupBox>
+            <Button Grid.Row="1">
+                <TextBlock Text="按下去" />
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding AddLotCommand, Mode=OneWay}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
         </Grid>
         <Grid Grid.Column="1"
               Visibility="{Binding DetailBottomVisibility, Source={StaticResource Mediator},Mode=OneWay}">

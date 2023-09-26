@@ -49,7 +49,6 @@ public sealed class Mediator : ObservableObject
         set { _closed = value; }
     }
 
-
     public TcpClient mTcpClient
     {
         get => Get<TcpClient>();
@@ -201,6 +200,7 @@ public sealed class Mediator : ObservableObject
         Language = AuthenticatorVM.Settings.Lng;
         OvenCount = AuthenticatorVM.Settings.OvenCount;
         EditBottomVisibility = Visibility.Hidden;
+        DetailBottomVisibility = Visibility.Hidden;
         Task.Factory.StartNew(ReadMessage, TaskCreationOptions.LongRunning);
         Task.Factory.StartNew(HeartbeatRun);
 
@@ -443,7 +443,7 @@ public sealed class Mediator : ObservableObject
             {
                 foreach (var update in updated)
                 {
-                    //    TotalVM.InvokeRecipe(update.RecipeName, PPStatus.Change);
+                    //TotalVM.InvokeRecipe(update.RecipeName, PPStatus.Change);
                 }
             }
         };
@@ -889,7 +889,7 @@ public sealed class Mediator : ObservableObject
             });
         };
         #endregion
-        #region 作業管控
+        #region 掃碼工單號
         TotalVM.Ingredientsevent += async () =>
         {
             var methodInvoke = "Ingredients";
@@ -920,7 +920,7 @@ public sealed class Mediator : ObservableObject
             var ResultData = Result.macIntfResult.resultDatak__BackingField;
             Log.Debug($"Request : methodInvoke:[{methodInvoke}], berthCode:[{input}]");
             Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
-            //// Test
+            //// Test 之後要打開
             //if (ErrorCode is "0")
             //{
             //    GetResultData(ResultData);
@@ -974,6 +974,7 @@ public sealed class Mediator : ObservableObject
             TotalVM.InsertMessage(evs);
         });
 
+        //切換上下爐
         TotalVM.OvenTopBottomChangeevent += e =>
         {
             if (e is 0)
@@ -1162,7 +1163,7 @@ public sealed class Mediator : ObservableObject
                     <item tagCode = "MAC001_1000" tagValue = "Test1234" timeStamp = "" />
                     <item tagCode = "MAC001_1001" tagValue = "Part1234" timeStamp = "" />
                     <item tagCode = "MAC001_1002" tagValue = "Process1234" timeStamp = "" />
-                    <item tagCode = "MAC001_1003" tagValue = "Panel1234" timeStamp = "" />
+                    <item tagCode = "MAC001_1003" tagValue = "1234" timeStamp = "" />
                     <item tagCode = "MAC001_1004" tagValue = "Recipe1234" timeStamp = "" />
            </Ingredients >         
            """;
@@ -1193,6 +1194,51 @@ public sealed class Mediator : ObservableObject
             {
                 TotalVM.RecipeID = item.tagValue;
             }
+        }
+        //var CanUseOven = CheckOvenCanUse();
+        AddToPlcRecipe(CheckOvenCanUse(), TotalVM.PartID, TotalVM.WorkOrder, TotalVM.PanelCount, TotalVM.RecipeID);
+
+    }
+    public string CheckOvenCanUse()
+    {
+        var CanUseOven = "";
+        for (var i = 0; i < TotalVM.PLC_All.Count; i++)
+        {
+            if (TotalVM.PLC_All[i].TopEquipmentState == 1)
+            {
+                CanUseOven = $"{i};Top;";
+                break;
+            }
+            else if (TotalVM.PLC_All[i].BottomEquipmentState == 1)
+            {
+                CanUseOven = $"{i};Bottom;";
+                break;
+            }
+        }
+        if (string.IsNullOrEmpty(CanUseOven))
+        {
+            DialogVM.Show(new Dictionary<Language, string>
+                                                     {
+                                                         { Language.TW, "無空烤箱可烘烤" },
+                                                         { Language.CHS, "無空烤箱可烘烤" },
+                                                     });
+        }
+        return CanUseOven;
+    }
+    public void AddToPlcRecipe(string CanUseOven, string PartID, string LotID, string PanelCount, string RecipeID)
+    {
+        string[] SplitString = CanUseOven.Split(';');
+        var Oven = Convert.ToInt32(SplitString[0]);
+        var Location = SplitString[1];
+
+        if (Location == "Top")
+        {
+            TotalVM.PLC_All[Oven].AddLOT(PartID, LotID, 0, Convert.ToInt32(PanelCount));
+            TotalVM.GetRecipe += RecipeID => string.IsNullOrEmpty(RecipeID) ? null : RecipeVM.GetRecipe(RecipeID);
+        }
+        else
+        {
+            TotalVM.PLC_All[Oven].AddLOT("", "", 0, 0);
         }
     }
 

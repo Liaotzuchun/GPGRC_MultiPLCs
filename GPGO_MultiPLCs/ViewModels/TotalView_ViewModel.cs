@@ -590,11 +590,11 @@ public sealed class TotalView_ViewModel : ObservableObject
 
             plc.SV_Changed += (name, value) =>
                               {
-                                  if (name == nameof(PLC_ViewModel.EquipmentState))
+                                  if (name == nameof(PLC_ViewModel.TopEquipmentState))
                                   {
                                       //     SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PROCESS_STATE, value);
                                   }
-                                  else if (name == $"Previous{nameof(PLC_ViewModel.EquipmentState)}")
+                                  else if (name == $"Previous{nameof(PLC_ViewModel.TopEquipmentState)}")
                                   {
                                       //   SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PREVIOUS_PROCESS_STATE, value);
                                   }
