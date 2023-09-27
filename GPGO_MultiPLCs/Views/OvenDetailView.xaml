@@ -73,13 +73,6 @@
     <Grid>
         <Grid Grid.Column="1"
               Visibility="{Binding DetailTopVisibility, Source={StaticResource Mediator},Mode=OneWay}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="10*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-            </Grid.RowDefinitions>
             <!--<GroupBox Margin="0,4,2,4"
                       IsHitTestVisible="False">
                 <GroupBox.Header>
@@ -743,16 +736,6 @@
                                         Height="16"
                                         Margin="2,0"
                                         VerticalAlignment="Center"
-                                        Background="{StaticResource BlueA700Brush}"
-                                        CornerRadius="8">
-                                    <Border Background="#99000000"
-                                            CornerRadius="8"
-                                            Visibility="{Binding BlueLight, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
-                                </Border>
-                                <Border Width="16"
-                                        Height="16"
-                                        Margin="2,0"
-                                        VerticalAlignment="Center"
                                         Background="{StaticResource OKBrush}"
                                         CornerRadius="8">
                                     <Border Background="#99000000"
@@ -1051,15 +1034,7 @@
 
                     </Grid>
                 </Grid>
-            </GroupBox>
-            <Button Grid.Row="1">
-                <TextBlock Text="按下去" />
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <i:InvokeCommandAction Command="{Binding AddLotCommand, Mode=OneWay}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
+            </GroupBox>           
         </Grid>
         <Grid Grid.Column="1"
               Visibility="{Binding DetailBottomVisibility, Source={StaticResource Mediator},Mode=OneWay}">
@@ -1725,16 +1700,6 @@
                                 Background="{StaticResource DisabledBackgroundBrush}"
                                 CornerRadius="10">
                             <views:UniformStackPanel Orientation="Horizontal">
-                                <Border Width="16"
-                                        Height="16"
-                                        Margin="2,0"
-                                        VerticalAlignment="Center"
-                                        Background="{StaticResource BlueA700Brush}"
-                                        CornerRadius="8">
-                                    <Border Background="#99000000"
-                                            CornerRadius="8"
-                                            Visibility="{Binding BlueLight, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
-                                </Border>
                                 <Border Width="16"
                                         Height="16"
                                         Margin="2,0"

@@ -367,5 +367,6 @@
     <sys:String x:Key="M1267">下炉对BC通讯异常</sys:String>
     <sys:String x:Key="M1268">下炉PLC电池不足异常</sys:String>
     <sys:String x:Key="M1269">下炉温控器(TC2)通讯异常</sys:String>
+    <sys:String x:Key="OPID">操作員</sys:String>
 
 </ResourceDictionary>

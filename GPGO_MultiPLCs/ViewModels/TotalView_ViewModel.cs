@@ -213,6 +213,11 @@ public sealed class TotalView_ViewModel : ObservableObject
         get => Get<bool>();
         set => Set(value);
     }
+    public string OPID
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
     public string WorkOrder
     {
         get => Get<string>() ?? string.Empty;
@@ -353,6 +358,8 @@ public sealed class TotalView_ViewModel : ObservableObject
         Ingredients = new RelayCommand(_ =>
         {
             Ingredientsevent?.Invoke();
+
+            PutResultToUI();
         });
 
         CleanWO = new RelayCommand(_ =>
@@ -651,6 +658,17 @@ public sealed class TotalView_ViewModel : ObservableObject
                             Timeout.Infinite,
                             Timeout.Infinite);
     }
+
+    private void PutResultToUI()
+    {
+        PLC_All[0].InputOperatorID = OPID;
+        PLC_All[0].InputPartID = PartID;
+        PLC_All[0].InputLotID = ProcessID;
+        PLC_All[0].InputRecipeName = RecipeID;
+        PLC_All[0].InputQuantity = Convert.ToInt32(PanelCount);
+        PLC_All[0].InputLayer = 2;
+    }
+
 
     /// <summary>讀取財產編號</summary>
     public void LoadAssetNumbers()

@@ -901,7 +901,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         }
     }
 
-    private async Task<SetRecipeResult> WriteRecipeToPlcAsync(PLC_Recipe recipe)
+    public async Task<SetRecipeResult> WriteRecipeToPlcAsync(PLC_Recipe recipe)
     {
         if (AutoMode)
         {

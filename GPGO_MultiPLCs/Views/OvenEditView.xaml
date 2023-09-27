@@ -537,7 +537,7 @@
                                       FontSize="20"
                                       FontWeight="Bold"
                                       Tag="{x:Null}">
-                            <ToggleButton.Visibility>
+                            <!--<ToggleButton.Visibility>
                                 <MultiBinding Converter="{StaticResource MultiAnyTrueToVisibility}">
                                     <Binding Mode="OneWay"
                                              Path="IsChecked"
@@ -545,7 +545,7 @@
                                     <Binding Mode="OneWay"
                                              Path="SecsIsRemoteOnline" />
                                 </MultiBinding>
-                            </ToggleButton.Visibility>
+                            </ToggleButton.Visibility>-->
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Checked">
                                     <i:ChangePropertyAction PropertyName="Content"
@@ -566,7 +566,7 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </ToggleButton>
-                        <Grid Visibility="{Binding Visibility, ElementName=CheckInTB, Mode=OneWay, Converter={StaticResource InverseVis}}">
+                        <!--<Grid Visibility="{Binding Visibility, ElementName=CheckInTB, Mode=OneWay, Converter={StaticResource InverseVis}}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="60" />
@@ -593,7 +593,7 @@
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </Button>
-                        </Grid>
+                        </Grid>-->
                     </Grid>
                 </Grid>
             </GroupBox>
@@ -1616,7 +1616,7 @@
                         <RowDefinition />
                         <RowDefinition Height="50" />
                     </Grid.RowDefinitions>
-                    <DataGrid x:Name="DataGridBottom"
+                    <DataGrid x:Name="DataGrid2"
                               views:DataGridExtensions.DisplayRowNumber="True"
                               AutoGenerateColumns="False"
                               BorderThickness="1,1,1,1"
@@ -1702,7 +1702,7 @@
                                       FontSize="20"
                                       FontWeight="Bold"
                                       Tag="{x:Null}">
-                            <ToggleButton.Visibility>
+                            <!--<ToggleButton.Visibility>
                                 <MultiBinding Converter="{StaticResource MultiAnyTrueToVisibility}">
                                     <Binding Mode="OneWay"
                                              Path="IsChecked"
@@ -1710,7 +1710,7 @@
                                     <Binding Mode="OneWay"
                                              Path="SecsIsRemoteOnline" />
                                 </MultiBinding>
-                            </ToggleButton.Visibility>
+                            </ToggleButton.Visibility>-->
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="Checked">
                                     <i:ChangePropertyAction PropertyName="Content"
@@ -1731,7 +1731,7 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </ToggleButton>
-                        <Grid Visibility="{Binding Visibility, ElementName=CheckInTB, Mode=OneWay, Converter={StaticResource InverseVis}}">
+                        <!--<Grid Visibility="{Binding Visibility, ElementName=CheckInTB, Mode=OneWay, Converter={StaticResource InverseVis}}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="60" />
@@ -1757,8 +1757,8 @@
                                         <i:InvokeCommandAction Command="{Binding SilinceCommand, Mode=OneTime}" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
-                            </Button>
-                        </Grid>
+                            </Button>-->
+                        <!--</Grid>-->
                     </Grid>
                 </Grid>
             </GroupBox>

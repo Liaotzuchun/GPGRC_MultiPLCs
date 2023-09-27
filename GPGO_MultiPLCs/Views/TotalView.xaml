@@ -149,62 +149,42 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition />
-                                    </Grid.RowDefinitions>
-                                    <views:UniformStackPanel Orientation="Vertical">
-                                        <Border Height="20"
-                                                Background="{StaticResource BlueA700Brush}">
-                                            <Border Background="#99000000"
-                                                    Visibility="{Binding BlueLight, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Border x:Name="StatusBorder"
+                                                Grid.Row="0"
+                                                Background="{StaticResource WindowBackgroundBrush2}"
+                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                BorderThickness="1">
+                                            <Viewbox Margin="6"
+                                                     VerticalAlignment="Center"
+                                                     StretchDirection="DownOnly">
+                                                <TextBlock x:Name="TopTemperatureText"
+                                                           FontSize="24"
+                                                           FontWeight="Bold"
+                                                           Foreground="{StaticResource DisabledForegroundBrush}"
+                                                           Text="{Binding PV_TopThermostatTemperature, Mode=OneWay, StringFormat=\{0:F1\}°C}" />
+                                            </Viewbox>
                                         </Border>
-                                        <Border Height="20"
-                                                Background="{StaticResource OKBrush}">
-                                            <Border Background="#99000000"
-                                                    Visibility="{Binding GreenLight, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
+                                        <Border x:Name="BottomStatusBorder"
+                                                Grid.Row="1"
+                                                Background="{StaticResource WindowBackgroundBrush2}"
+                                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                BorderThickness="1">
+                                            <Viewbox Margin="6"
+                                                     VerticalAlignment="Center"
+                                                     StretchDirection="DownOnly">
+                                                <TextBlock x:Name="BottomTemperatureText"
+                                                           FontSize="24"
+                                                           FontWeight="Bold"
+                                                           Foreground="{StaticResource DisabledForegroundBrush}"
+                                                           Text="{Binding PV_BottomThermostatTemperature, Mode=OneWay, StringFormat=\{0:F1\}°C}" />
+                                            </Viewbox>
                                         </Border>
-                                        <Border Height="20"
-                                                Background="Gold">
-                                            <Border Background="#99000000"
-                                                    Visibility="{Binding YellowLight, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
-                                        </Border>
-                                        <Border Height="20"
-                                                Background="{StaticResource ErrorBrush}">
-                                            <Border Background="#99000000"
-                                                    Visibility="{Binding RedLight, Mode=OneWay, Converter={StaticResource BoolNotVis}}" />
-                                        </Border>
-                                    </views:UniformStackPanel>
-                                    <!--<Border x:Name="StatusBorder"
-                                            Grid.Row="1"
-                                            Background="{StaticResource WindowBackgroundBrush2}"
-                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="1">
-                                        <Viewbox Margin="6"
-                                                 VerticalAlignment="Center"
-                                                 StretchDirection="DownOnly">
-                                            <TextBlock x:Name="TopTemperatureText"
-                                                       FontSize="24"
-                                                       FontWeight="Bold"
-                                                       Foreground="{StaticResource DisabledForegroundBrush}"
-                                                       Text="{Binding PV_TopThermostatTemperature, Mode=OneWay, StringFormat=\{0:F1\}°C}" />
-                                        </Viewbox>
-                                    </Border>
-                                    <Border x:Name="BottomStatusBorder"
-                                            Grid.Row="2"
-                                            Background="{StaticResource WindowBackgroundBrush2}"
-                                            BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="1">
-                                        <Viewbox Margin="6"
-                                                 VerticalAlignment="Center"
-                                                 StretchDirection="DownOnly">
-                                            <TextBlock x:Name="BottomTemperatureText"
-                                                       FontSize="24"
-                                                       FontWeight="Bold"
-                                                       Foreground="{StaticResource DisabledForegroundBrush}"
-                                                       Text="{Binding PV_BottomThermostatTemperature, Mode=OneWay, StringFormat=\{0:F1\}°C}" />
-                                        </Viewbox>
-                                    </Border>-->
+                                    </Grid>
                                     <Border Grid.Row="1"
                                             Background="{StaticResource WorkingBrush}"
                                             Visibility="{Binding IsExecuting, Mode=OneWay, Converter={StaticResource BoolVis}}">

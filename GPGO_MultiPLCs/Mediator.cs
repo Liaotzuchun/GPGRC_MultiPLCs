@@ -1171,7 +1171,7 @@ public sealed class Mediator : ObservableObject
         var reader = new StringReader(Data);
         var serializer = new XmlSerializer(typeof(Ingredients));
         var instance  = (Ingredients)serializer.Deserialize(reader);
-
+        TotalVM.OPID = User.Name;
         foreach (var item in instance.item)
         {
             if (item.tagCode.Contains("1000"))
@@ -1194,51 +1194,6 @@ public sealed class Mediator : ObservableObject
             {
                 TotalVM.RecipeID = item.tagValue;
             }
-        }
-        //var CanUseOven = CheckOvenCanUse();
-        AddToPlcRecipe(CheckOvenCanUse(), TotalVM.PartID, TotalVM.WorkOrder, TotalVM.PanelCount, TotalVM.RecipeID);
-
-    }
-    public string CheckOvenCanUse()
-    {
-        var CanUseOven = "";
-        for (var i = 0; i < TotalVM.PLC_All.Count; i++)
-        {
-            if (TotalVM.PLC_All[i].TopEquipmentState == 1)
-            {
-                CanUseOven = $"{i};Top;";
-                break;
-            }
-            else if (TotalVM.PLC_All[i].BottomEquipmentState == 1)
-            {
-                CanUseOven = $"{i};Bottom;";
-                break;
-            }
-        }
-        if (string.IsNullOrEmpty(CanUseOven))
-        {
-            DialogVM.Show(new Dictionary<Language, string>
-                                                     {
-                                                         { Language.TW, "無空烤箱可烘烤" },
-                                                         { Language.CHS, "無空烤箱可烘烤" },
-                                                     });
-        }
-        return CanUseOven;
-    }
-    public void AddToPlcRecipe(string CanUseOven, string PartID, string LotID, string PanelCount, string RecipeID)
-    {
-        string[] SplitString = CanUseOven.Split(';');
-        var Oven = Convert.ToInt32(SplitString[0]);
-        var Location = SplitString[1];
-
-        if (Location == "Top")
-        {
-            TotalVM.PLC_All[Oven].AddLOT(PartID, LotID, 0, Convert.ToInt32(PanelCount));
-            TotalVM.GetRecipe += RecipeID => string.IsNullOrEmpty(RecipeID) ? null : RecipeVM.GetRecipe(RecipeID);
-        }
-        else
-        {
-            TotalVM.PLC_All[Oven].AddLOT("", "", 0, 0);
         }
     }
 
