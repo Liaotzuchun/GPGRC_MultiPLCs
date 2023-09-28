@@ -838,7 +838,7 @@
                                        VerticalAlignment="Center"
                                        FontSize="16"
                                        FontWeight="Bold">
-                                <Run Text="{Binding NitrogenFlow, Mode=OneWay, Converter={StaticResource DoubleRound}, ConverterParameter=0, StringFormat=\{0:F0\}}" />
+                                <Run Text="{Binding TopNitrogenFlow, Mode=OneWay, Converter={StaticResource DoubleRound}, ConverterParameter=0, StringFormat=\{0:F0\}}" />
                                 <Run Text="L/m" />
                             </TextBlock>
                         </Border>
@@ -1806,7 +1806,7 @@
                                        VerticalAlignment="Center"
                                        FontSize="16"
                                        FontWeight="Bold">
-                                <Run Text="{Binding NitrogenFlow, Mode=OneWay, Converter={StaticResource DoubleRound}, ConverterParameter=0, StringFormat=\{0:F0\}}" />
+                                <Run Text="{Binding BottomNitrogenFlow, Mode=OneWay, Converter={StaticResource DoubleRound}, ConverterParameter=0, StringFormat=\{0:F0\}}" />
                                 <Run Text="L/m" />
                             </TextBlock>
                         </Border>

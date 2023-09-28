@@ -117,20 +117,20 @@ public class GOL_DataModel : PLCDataProvider
         set => Set(value);
     }
 
-    /// <summary>充氣逾時時間</summary>
-    [PLCData(DataType.D, 2990, 1.0, LogType.RecipeSet)]
-    public double TopInflatingTime
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-    /// <summary>充氣逾時時間</summary>
-    [PLCData(DataType.D, 2990, 1.0, LogType.RecipeSet)]
-    public double BottomInflatingTime
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
+    ///// <summary>充氣逾時時間</summary>
+    //[PLCData(DataType.D, 2990, 1.0, LogType.RecipeSet)]
+    //public double TopInflatingTime
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+    ///// <summary>充氣逾時時間</summary>
+    //[PLCData(DataType.D, 2990, 1.0, LogType.RecipeSet)]
+    //public double BottomInflatingTime
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
 
     /// <summary>含氧量設定</summary>
     [PLCData(DataType.D, 749, 0.1, LogType.RecipeSet)]
@@ -317,382 +317,382 @@ public class GOL_DataModel : PLCDataProvider
 
     /// <summary>升溫時間1</summary>
     [PLCData(DataType.D, 740, 0.1, LogType.RecipeSet)]
-    public float TopRampTime_1
+    public double TopRampTime_1
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
     /// <summary>升溫時間1</summary>
     [PLCData(DataType.D, 1740, 0.1, LogType.RecipeSet)]
-    public float BottomRampTime_1
+    public double BottomRampTime_1
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>升溫時間2</summary>
     [PLCData(DataType.D, 741, 0.1, LogType.RecipeSet)]
-    public float TopRampTime_2
+    public double TopRampTime_2
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>升溫時間2</summary>
     [PLCData(DataType.D, 1741, 0.1, LogType.RecipeSet)]
-    public float BottomRampTime_2
+    public double BottomRampTime_2
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>升溫時間3</summary>
     [PLCData(DataType.D, 742, 0.1, LogType.RecipeSet)]
-    public float TopRampTime_3
+    public double TopRampTime_3
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>升溫時間3</summary>
     [PLCData(DataType.D, 1742, 0.1, LogType.RecipeSet)]
-    public float BottomRampTime_3
+    public double BottomRampTime_3
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>升溫時間4</summary>
     [PLCData(DataType.D, 743, 0.1, LogType.RecipeSet)]
-    public float TopRampTime_4
+    public double TopRampTime_4
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>升溫時間4</summary>
     [PLCData(DataType.D, 1743, 0.1, LogType.RecipeSet)]
-    public float BottomRampTime_4
+    public double BottomRampTime_4
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>升溫時間5</summary>
     [PLCData(DataType.D, 744, 0.1, LogType.RecipeSet)]
-    public float TopRampTime_5
+    public double TopRampTime_5
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>升溫時間5</summary>
     [PLCData(DataType.D, 1744, 0.1, LogType.RecipeSet)]
-    public float BottomRampTime_5
+    public double BottomRampTime_5
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>升溫時間6</summary>
     [PLCData(DataType.D, 745, 0.1, LogType.RecipeSet)]
-    public float TopRampTime_6
+    public double TopRampTime_6
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>升溫時間6</summary>
     [PLCData(DataType.D, 1745, 0.1, LogType.RecipeSet)]
-    public float BottomRampTime_6
+    public double BottomRampTime_6
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>升溫警報時間1</summary>
     [PLCData(DataType.D, 720, 0.1, LogType.RecipeSet)]
-    public float TopRampAlarm_1
+    public double TopRampAlarm_1
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>升溫警報時間2</summary>
     [PLCData(DataType.D, 721, 0.1, LogType.RecipeSet)]
-    public float TopRampAlarm_2
+    public double TopRampAlarm_2
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>升溫警報時間3</summary>
     [PLCData(DataType.D, 722, 0.1, LogType.RecipeSet)]
-    public float TopRampAlarm_3
+    public double TopRampAlarm_3
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>升溫警報時間4</summary>
     [PLCData(DataType.D, 723, 0.1, LogType.RecipeSet)]
-    public float TopRampAlarm_4
+    public double TopRampAlarm_4
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>升溫警報時間5</summary>
     [PLCData(DataType.D, 724, 0.1, LogType.RecipeSet)]
-    public float TopRampAlarm_5
+    public double TopRampAlarm_5
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>升溫警報時間6</summary>
     [PLCData(DataType.D, 725, 0.1, LogType.RecipeSet)]
-    public float TopRampAlarm_6
+    public double TopRampAlarm_6
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
     /// <summary>升溫警報時間1</summary>
     [PLCData(DataType.D, 1720, 0.1, LogType.RecipeSet)]
-    public float BottomRampAlarm_1
+    public double BottomRampAlarm_1
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>升溫警報時間2</summary>
     [PLCData(DataType.D, 1721, 0.1, LogType.RecipeSet)]
-    public float BottomRampAlarm_2
+    public double BottomRampAlarm_2
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>升溫警報時間3</summary>
     [PLCData(DataType.D, 1722, 0.1, LogType.RecipeSet)]
-    public float BottomRampAlarm_3
+    public double BottomRampAlarm_3
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>升溫警報時間4</summary>
     [PLCData(DataType.D, 1723, 0.1, LogType.RecipeSet)]
-    public float BottomRampAlarm_4
+    public double BottomRampAlarm_4
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>升溫警報時間5</summary>
     [PLCData(DataType.D, 1724, 0.1, LogType.RecipeSet)]
-    public float BottomRampAlarm_5
+    public double BottomRampAlarm_5
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>升溫警報時間6</summary>
     [PLCData(DataType.D, 1725, 0.1, LogType.RecipeSet)]
-    public float BottomRampAlarm_6
+    public double BottomRampAlarm_6
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>恆溫時間1</summary>
     [PLCData(DataType.D, 710, 0.1, LogType.RecipeSet)]
-    public float TopDwellTime_1
+    public double TopDwellTime_1
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>恆溫時間2</summary>
     [PLCData(DataType.D, 711, 0.1, LogType.RecipeSet)]
-    public float TopDwellTime_2
+    public double TopDwellTime_2
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>恆溫時間3</summary>
     [PLCData(DataType.D, 712, 0.1, LogType.RecipeSet)]
-    public float TopDwellTime_3
+    public double TopDwellTime_3
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>恆溫時間4</summary>
     [PLCData(DataType.D, 713, 0.1, LogType.RecipeSet)]
-    public float TopDwellTime_4
+    public double TopDwellTime_4
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>恆溫時間5</summary>
     [PLCData(DataType.D, 714, 0.1, LogType.RecipeSet)]
-    public float TopDwellTime_5
+    public double TopDwellTime_5
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>恆溫時間6</summary>
     [PLCData(DataType.D, 715, 0.1, LogType.RecipeSet)]
-    public float TopDwellTime_6
+    public double TopDwellTime_6
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>恆溫時間1</summary>
     [PLCData(DataType.D, 1710, 0.1, LogType.RecipeSet)]
-    public float BottomDwellTime_1
+    public double BottomDwellTime_1
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>恆溫時間2</summary>
     [PLCData(DataType.D, 1711, 0.1, LogType.RecipeSet)]
-    public float BottomDwellTime_2
+    public double BottomDwellTime_2
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>恆溫時間3</summary>
     [PLCData(DataType.D, 1712, 0.1, LogType.RecipeSet)]
-    public float BottomDwellTime_3
+    public double BottomDwellTime_3
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>恆溫時間4</summary>
     [PLCData(DataType.D, 1713, 0.1, LogType.RecipeSet)]
-    public float BottomDwellTime_4
+    public double BottomDwellTime_4
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>恆溫時間5</summary>
     [PLCData(DataType.D, 1714, 0.1, LogType.RecipeSet)]
-    public float BottomDwellTime_5
+    public double BottomDwellTime_5
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>恆溫時間6</summary>
     [PLCData(DataType.D, 1715, 0.1, LogType.RecipeSet)]
-    public float BottomDwellTime_6
+    public double BottomDwellTime_6
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>恆溫警報時間1</summary>
     [PLCData(DataType.D, 730, 0.1, LogType.RecipeSet)]
-    public float TopDwellAlarm_1
+    public double TopDwellAlarm_1
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>恆溫警報時間2</summary>
     [PLCData(DataType.D, 731, 0.1, LogType.RecipeSet)]
-    public float TopDwellAlarm_2
+    public double TopDwellAlarm_2
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>恆溫警報時間3</summary>
     [PLCData(DataType.D, 732, 0.1, LogType.RecipeSet)]
-    public float TopDwellAlarm_3
+    public double TopDwellAlarm_3
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>恆溫警報時間4</summary>
     [PLCData(DataType.D, 733, 0.1, LogType.RecipeSet)]
-    public float TopDwellAlarm_4
+    public double TopDwellAlarm_4
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>恆溫警報時間5</summary>
     [PLCData(DataType.D, 734, 0.1, LogType.RecipeSet)]
-    public float TopDwellAlarm_5
+    public double TopDwellAlarm_5
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>恆溫警報時間6</summary>
     [PLCData(DataType.D, 735, 0.1, LogType.RecipeSet)]
-    public float TopDwellAlarm_6
+    public double TopDwellAlarm_6
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
     /// <summary>恆溫警報時間1</summary>
     [PLCData(DataType.D, 1730, 0.1, LogType.RecipeSet)]
-    public float BottomDwellAlarm_1
+    public double BottomDwellAlarm_1
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>恆溫警報時間2</summary>
     [PLCData(DataType.D, 1731, 0.1, LogType.RecipeSet)]
-    public float BottomDwellAlarm_2
+    public double BottomDwellAlarm_2
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>恆溫警報時間3</summary>
     [PLCData(DataType.D, 1732, 0.1, LogType.RecipeSet)]
-    public float BottomDwellAlarm_3
+    public double BottomDwellAlarm_3
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>恆溫警報時間4</summary>
     [PLCData(DataType.D, 1733, 0.1, LogType.RecipeSet)]
-    public float BottomDwellAlarm_4
+    public double BottomDwellAlarm_4
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>恆溫警報時間5</summary>
     [PLCData(DataType.D, 1734, 0.1, LogType.RecipeSet)]
-    public float BottomDwellAlarm_5
+    public double BottomDwellAlarm_5
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
     /// <summary>恆溫警報時間6</summary>
     [PLCData(DataType.D, 1735, 0.1, LogType.RecipeSet)]
-    public float BottomDwellAlarm_6
+    public double BottomDwellAlarm_6
     {
-        get => Get<float>();
+        get => Get<double>();
         set => Set(value);
     }
 
@@ -793,679 +793,679 @@ public class GOL_DataModel : PLCDataProvider
     #endregion
 
     #region 配方運作值(配方SV)  寫給PLC的配方
-    /// <summary>配方SV 配方名</summary>
-    [PLCData(DataType.D, 700, 20, LogType.StatusVariables)]
-    public string SV_TopRecipeName
-    {
-        get => Get<string>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 配方名</summary>
-    [PLCData(DataType.D, 800, 20, LogType.StatusVariables)]
-    public string SV_BottomRecipeName
-    {
-        get => Get<string>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 降溫溫度</summary>
-    [PLCData(DataType.D, 713, 0.1, LogType.StatusVariables)]
-    public double SV_TopCoolingTemperature
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-    /// <summary>配方SV 降溫溫度</summary>
-    [PLCData(DataType.D, 813, 0.1, LogType.StatusVariables)]
-    public double SV_BottomCoolingTemperature
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 降溫時間</summary>
-    [PLCData(DataType.D, 712, 0.1, LogType.StatusVariables)]
-    public double SV_TopCoolingTime
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 降溫時間</summary>
-    [PLCData(DataType.D, 812, 0.1, LogType.StatusVariables)]
-    public double SV_BottomCoolingTime
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 氮氣模式</summary>
-    [PLCBitData(DataType.D, 752, 0, LogType.StatusVariables)]
-    public bool SV_TopNitrogenMode
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    /// <summary>配方SV 氮氣模式</summary>
-    [PLCBitData(DataType.D, 852, 0, LogType.StatusVariables)]
-    public bool SV_BottomNitrogenMode
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 充氣逾時時間</summary>
-    [PLCData(DataType.D, 790, 1.0, LogType.StatusVariables)]
-    public double SV_TopInflatingTime
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-    /// <summary>配方SV 充氣逾時時間</summary>
-    [PLCData(DataType.D, 790, 1.0, LogType.StatusVariables)]
-    public double SV_BottomInflatingTime
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 含氧量設定</summary>
-    [PLCData(DataType.D, 753, 0.1, LogType.StatusVariables)]
-    public double SV_TopOxygenContentSet
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-    /// <summary>配方SV 含氧量設定</summary>
-    [PLCData(DataType.D, 853, 0.1, LogType.StatusVariables)]
-    public double SV_BottomOxygenContentSet
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 使用段數</summary>
-    [PLCData(DataType.D, 711, LogType.StatusVariables)]
-    public short SV_TopSegmentCounts
-    {
-        get => Get<short>();
-        set => Set(value);
-    }
-    /// <summary>配方SV 使用段數</summary>
-    [PLCData(DataType.D, 811, LogType.StatusVariables)]
-    public short SV_BottomSegmentCounts
-    {
-        get => Get<short>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 目標溫度1</summary>
-    [PLCData(DataType.D, 715, 0.1, LogType.StatusVariables)]
-    public double SV_TopTemperatureSetpoint_1
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-    /// <summary>配方SV 目標溫度1</summary>
-    [PLCData(DataType.D, 815, 0.1, LogType.StatusVariables)]
-    public double SV_BottomTemperatureSetpoint_1
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 目標溫度2</summary>
-    [PLCData(DataType.D, 716, 0.1, LogType.StatusVariables)]
-    public double SV_TopTemperatureSetpoint_2
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-    /// <summary>配方SV 目標溫度2</summary>
-    [PLCData(DataType.D, 816, 0.1, LogType.StatusVariables)]
-    public double SV_BottomTemperatureSetpoint_2
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 目標溫度3</summary>
-    [PLCData(DataType.D, 717, 0.1, LogType.StatusVariables)]
-    public double SV_TopTemperatureSetpoint_3
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-    /// <summary>配方SV 目標溫度3</summary>
-    [PLCData(DataType.D, 817, 0.1, LogType.StatusVariables)]
-    public double SV_BottomTemperatureSetpoint_3
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 目標溫度4</summary>
-    [PLCData(DataType.D, 718, 0.1, LogType.StatusVariables)]
-    public double SV_TopTemperatureSetpoint_4
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 目標溫度4</summary>
-    [PLCData(DataType.D, 818, 0.1, LogType.StatusVariables)]
-    public double SV_BottomTemperatureSetpoint_4
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 目標溫度5</summary>
-    [PLCData(DataType.D, 719, 0.1, LogType.StatusVariables)]
-    public double SV_TopTemperatureSetpoint_5
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-    /// <summary>配方SV 目標溫度5</summary>
-    [PLCData(DataType.D, 819, 0.1, LogType.StatusVariables)]
-    public double SV_BottomTemperatureSetpoint_5
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 目標溫度6</summary>
-    [PLCData(DataType.D, 720, 0.1, LogType.StatusVariables)]
-    public double SV_TopTemperatureSetpoint_6
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 目標溫度6</summary>
-    [PLCData(DataType.D, 820, 0.1, LogType.StatusVariables)]
-    public double SV_BottomTemperatureSetpoint_6
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 升溫時間1</summary>
-    [PLCData(DataType.D, 721, 0.1, LogType.StatusVariables)]
-    public float SV_TopRampTime_1
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-    /// <summary>配方SV 升溫時間1</summary>
-    [PLCData(DataType.D, 821, 0.1, LogType.StatusVariables)]
-    public float SV_BottomRampTime_1
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 升溫時間2</summary>
-    [PLCData(DataType.D, 722, 0.1, LogType.StatusVariables)]
-    public float SV_TopRampTime_2
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 升溫時間2</summary>
-    [PLCData(DataType.D, 822, 0.1, LogType.StatusVariables)]
-    public float SV_BottomRampTime_2
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 升溫時間3</summary>
-    [PLCData(DataType.D, 723, 0.1, LogType.StatusVariables)]
-    public float SV_TopRampTime_3
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 升溫時間3</summary>
-    [PLCData(DataType.D, 823, 0.1, LogType.StatusVariables)]
-    public float SV_BottomRampTime_3
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 升溫時間4</summary>
-    [PLCData(DataType.D, 724, 0.1, LogType.StatusVariables)]
-    public float SV_TopRampTime_4
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 升溫時間4</summary>
-    [PLCData(DataType.D, 824, 0.1, LogType.StatusVariables)]
-    public float SV_BottomRampTime_4
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 升溫時間5</summary>
-    [PLCData(DataType.D, 725, 0.1, LogType.StatusVariables)]
-    public float SV_TopRampTime_5
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-    /// <summary>配方SV 升溫時間5</summary>
-    [PLCData(DataType.D, 825, 0.1, LogType.StatusVariables)]
-    public float SV_BottomRampTime_5
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 升溫時間6</summary>
-    [PLCData(DataType.D, 726, 0.1, LogType.StatusVariables)]
-    public float SV_TopRampTime_6
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 升溫時間6</summary>
-    [PLCData(DataType.D, 826, 0.1, LogType.StatusVariables)]
-    public float SV_BottomRampTime_6
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 升溫警報時間1</summary>
-    [PLCData(DataType.D, 827, 0.1, LogType.StatusVariables)]
-    public float SV_BottomRampAlarm_1
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 升溫警報時間2</summary>
-    [PLCData(DataType.D, 828, 0.1, LogType.StatusVariables)]
-    public float SV_BottomRampAlarm_2
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 升溫警報時間3</summary>
-    [PLCData(DataType.D, 829, 0.1, LogType.StatusVariables)]
-    public float SV_BottomRampAlarm_3
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 升溫警報時間4</summary>
-    [PLCData(DataType.D, 830, 0.1, LogType.StatusVariables)]
-    public float SV_BottomRampAlarm_4
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 升溫警報時間5</summary>
-    [PLCData(DataType.D, 831, 0.1, LogType.StatusVariables)]
-    public float SV_BottomRampAlarm_5
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 升溫警報時間6</summary>
-    [PLCData(DataType.D, 832, 0.1, LogType.StatusVariables)]
-    public float SV_BottomRampAlarm_6
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 升溫警報時間1</summary>
-    [PLCData(DataType.D, 727, 0.1, LogType.StatusVariables)]
-    public float SV_TopRampAlarm_1
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 升溫警報時間2</summary>
-    [PLCData(DataType.D, 728, 0.1, LogType.StatusVariables)]
-    public float SV_TopRampAlarm_2
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 升溫警報時間3</summary>
-    [PLCData(DataType.D, 729, 0.1, LogType.StatusVariables)]
-    public float SV_TopRampAlarm_3
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 升溫警報時間4</summary>
-    [PLCData(DataType.D, 730, 0.1, LogType.StatusVariables)]
-    public float SV_TopRampAlarm_4
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 升溫警報時間5</summary>
-    [PLCData(DataType.D, 731, 0.1, LogType.StatusVariables)]
-    public float SV_TopRampAlarm_5
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 升溫警報時間6</summary>
-    [PLCData(DataType.D, 732, 0.1, LogType.StatusVariables)]
-    public float SV_TopRampAlarm_6
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-    /// <summary>配方SV 恆溫時間1</summary>
-    [PLCData(DataType.D, 733, 0.1, LogType.StatusVariables)]
-    public float SV_TopDwellTime_1
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫時間2</summary>
-    [PLCData(DataType.D, 734, 0.1, LogType.StatusVariables)]
-    public float SV_TopDwellTime_2
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫時間3</summary>
-    [PLCData(DataType.D, 735, 0.1, LogType.StatusVariables)]
-    public float SV_TopDwellTime_3
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫時間4</summary>
-    [PLCData(DataType.D, 736, 0.1, LogType.StatusVariables)]
-    public float SV_TopDwellTime_4
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫時間5</summary>
-    [PLCData(DataType.D, 737, 0.1, LogType.StatusVariables)]
-    public float SV_TopDwellTime_5
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫時間6</summary>
-    [PLCData(DataType.D, 738, 0.1, LogType.StatusVariables)]
-    public float SV_TopDwellTime_6
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-    /// <summary>配方SV 恆溫時間1</summary>
-    [PLCData(DataType.D, 833, 0.1, LogType.StatusVariables)]
-    public float SV_BottomDwellTime_1
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫時間2</summary>
-    [PLCData(DataType.D, 834, 0.1, LogType.StatusVariables)]
-    public float SV_BottomDwellTime_2
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫時間3</summary>
-    [PLCData(DataType.D, 835, 0.1, LogType.StatusVariables)]
-    public float SV_BottomDwellTime_3
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫時間4</summary>
-    [PLCData(DataType.D, 836, 0.1, LogType.StatusVariables)]
-    public float SV_BottomDwellTime_4
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫時間5</summary>
-    [PLCData(DataType.D, 837, 0.1, LogType.StatusVariables)]
-    public float SV_BottomDwellTime_5
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫時間6</summary>
-    [PLCData(DataType.D, 838, 0.1, LogType.StatusVariables)]
-    public float SV_BottomDwellTime_6
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫警報時間1</summary>
-    [PLCData(DataType.D, 739, 0.1, LogType.StatusVariables)]
-    public float SV_TopDwellAlarm_1
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫警報時間2</summary>
-    [PLCData(DataType.D, 740, 0.1, LogType.StatusVariables)]
-    public float SV_TopDwellAlarm_2
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫警報時間3</summary>
-    [PLCData(DataType.D, 741, 0.1, LogType.StatusVariables)]
-    public float SV_TopDwellAlarm_3
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫警報時間4</summary>
-    [PLCData(DataType.D, 742, 0.1, LogType.StatusVariables)]
-    public float SV_TopDwellAlarm_4
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫警報時間5</summary>
-    [PLCData(DataType.D, 743, 0.1, LogType.StatusVariables)]
-    public float SV_TopDwellAlarm_5
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫警報時間6</summary>
-    [PLCData(DataType.D, 744, 0.1, LogType.StatusVariables)]
-    public float SV_TopDwellAlarm_6
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫警報時間1</summary>
-    [PLCData(DataType.D, 839, 0.1, LogType.StatusVariables)]
-    public float SV_BottomDwellAlarm_1
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫警報時間2</summary>
-    [PLCData(DataType.D, 840, 0.1, LogType.StatusVariables)]
-    public float SV_BottomDwellAlarm_2
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫警報時間3</summary>
-    [PLCData(DataType.D, 841, 0.1, LogType.StatusVariables)]
-    public float SV_BottomDwellAlarm_3
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫警報時間4</summary>
-    [PLCData(DataType.D, 842, 0.1, LogType.StatusVariables)]
-    public float SV_BottomDwellAlarm_4
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫警報時間5</summary>
-    [PLCData(DataType.D, 843, 0.1, LogType.StatusVariables)]
-    public float SV_BottomDwellAlarm_5
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫警報時間6</summary>
-    [PLCData(DataType.D, 844, 0.1, LogType.StatusVariables)]
-    public float SV_BottomDwellAlarm_6
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫時間Offset1</summary>
-    [PLCData(DataType.D, 745, 0.1, LogType.StatusVariables)]
-    public double SV_TopDwellTimeOffset_1
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫時間Offset2</summary>
-    [PLCData(DataType.D, 746, 0.1, LogType.StatusVariables)]
-    public double SV_TopDwellTimeOffset_2
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫時間Offset3</summary>
-    [PLCData(DataType.D, 747, 0.1, LogType.StatusVariables)]
-    public double SV_TopDwellTimeOffset_3
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫時間Offset4</summary>
-    [PLCData(DataType.D, 748, 0.1, LogType.StatusVariables)]
-    public double SV_TopDwellTimeOffset_4
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫時間Offset5</summary>
-    [PLCData(DataType.D, 749, 0.1, LogType.StatusVariables)]
-    public double SV_TopDwellTimeOffset_5
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫時間Offset6</summary>
-    [PLCData(DataType.D, 750, 0.1, LogType.StatusVariables)]
-    public double SV_TopDwellTimeOffset_6
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-    /// <summary>配方SV 恆溫時間Offset1</summary>
-    [PLCData(DataType.D, 845, 0.1, LogType.StatusVariables)]
-    public double SV_BottomDwellTimeOffset_1
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫時間Offset2</summary>
-    [PLCData(DataType.D, 846, 0.1, LogType.StatusVariables)]
-    public double SV_BottomDwellTimeOffset_2
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫時間Offset3</summary>
-    [PLCData(DataType.D, 847, 0.1, LogType.StatusVariables)]
-    public double SV_BottomDwellTimeOffset_3
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫時間Offset4</summary>
-    [PLCData(DataType.D, 848, 0.1, LogType.StatusVariables)]
-    public double SV_BottomDwellTimeOffset_4
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫時間Offset5</summary>
-    [PLCData(DataType.D, 849, 0.1, LogType.StatusVariables)]
-    public double SV_BottomDwellTimeOffset_5
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>配方SV 恆溫時間Offset6</summary>
-    [PLCData(DataType.D, 850, 0.1, LogType.StatusVariables)]
-    public double SV_BottomDwellTimeOffset_6
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
+    ///// <summary>配方SV 配方名</summary>
+    //[PLCData(DataType.D, 700, 20, LogType.StatusVariables)]
+    //public string SV_TopRecipeName
+    //{
+    //    get => Get<string>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 配方名</summary>
+    //[PLCData(DataType.D, 800, 20, LogType.StatusVariables)]
+    //public string SV_BottomRecipeName
+    //{
+    //    get => Get<string>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 降溫溫度</summary>
+    //[PLCData(DataType.D, 713, 0.1, LogType.StatusVariables)]
+    //public double SV_TopCoolingTemperature
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+    ///// <summary>配方SV 降溫溫度</summary>
+    //[PLCData(DataType.D, 813, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomCoolingTemperature
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 降溫時間</summary>
+    //[PLCData(DataType.D, 712, 0.1, LogType.StatusVariables)]
+    //public double SV_TopCoolingTime
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 降溫時間</summary>
+    //[PLCData(DataType.D, 812, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomCoolingTime
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 氮氣模式</summary>
+    //[PLCBitData(DataType.D, 752, 0, LogType.StatusVariables)]
+    //public bool SV_TopNitrogenMode
+    //{
+    //    get => Get<bool>();
+    //    set => Set(value);
+    //}
+    ///// <summary>配方SV 氮氣模式</summary>
+    //[PLCBitData(DataType.D, 852, 0, LogType.StatusVariables)]
+    //public bool SV_BottomNitrogenMode
+    //{
+    //    get => Get<bool>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 充氣逾時時間</summary>
+    //[PLCData(DataType.D, 190, 1.0, LogType.StatusVariables)]
+    //public double SV_TopInflatingTime
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+    ///// <summary>配方SV 充氣逾時時間</summary>
+    //[PLCData(DataType.D, 290, 1.0, LogType.StatusVariables)]
+    //public double SV_BottomInflatingTime
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 含氧量設定</summary>
+    //[PLCData(DataType.D, 753, 0.1, LogType.StatusVariables)]
+    //public double SV_TopOxygenContentSet
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+    ///// <summary>配方SV 含氧量設定</summary>
+    //[PLCData(DataType.D, 853, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomOxygenContentSet
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 使用段數</summary>
+    //[PLCData(DataType.D, 711, LogType.StatusVariables)]
+    //public short SV_TopSegmentCounts
+    //{
+    //    get => Get<short>();
+    //    set => Set(value);
+    //}
+    ///// <summary>配方SV 使用段數</summary>
+    //[PLCData(DataType.D, 811, LogType.StatusVariables)]
+    //public short SV_BottomSegmentCounts
+    //{
+    //    get => Get<short>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 目標溫度1</summary>
+    //[PLCData(DataType.D, 715, 0.1, LogType.StatusVariables)]
+    //public double SV_TopTemperatureSetpoint_1
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+    ///// <summary>配方SV 目標溫度1</summary>
+    //[PLCData(DataType.D, 815, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomTemperatureSetpoint_1
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 目標溫度2</summary>
+    //[PLCData(DataType.D, 716, 0.1, LogType.StatusVariables)]
+    //public double SV_TopTemperatureSetpoint_2
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+    ///// <summary>配方SV 目標溫度2</summary>
+    //[PLCData(DataType.D, 816, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomTemperatureSetpoint_2
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 目標溫度3</summary>
+    //[PLCData(DataType.D, 717, 0.1, LogType.StatusVariables)]
+    //public double SV_TopTemperatureSetpoint_3
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+    ///// <summary>配方SV 目標溫度3</summary>
+    //[PLCData(DataType.D, 817, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomTemperatureSetpoint_3
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 目標溫度4</summary>
+    //[PLCData(DataType.D, 718, 0.1, LogType.StatusVariables)]
+    //public double SV_TopTemperatureSetpoint_4
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 目標溫度4</summary>
+    //[PLCData(DataType.D, 818, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomTemperatureSetpoint_4
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 目標溫度5</summary>
+    //[PLCData(DataType.D, 719, 0.1, LogType.StatusVariables)]
+    //public double SV_TopTemperatureSetpoint_5
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+    ///// <summary>配方SV 目標溫度5</summary>
+    //[PLCData(DataType.D, 819, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomTemperatureSetpoint_5
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 目標溫度6</summary>
+    //[PLCData(DataType.D, 720, 0.1, LogType.StatusVariables)]
+    //public double SV_TopTemperatureSetpoint_6
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 目標溫度6</summary>
+    //[PLCData(DataType.D, 820, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomTemperatureSetpoint_6
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 升溫時間1</summary>
+    //[PLCData(DataType.D, 721, 0.1, LogType.StatusVariables)]
+    //public double SV_TopRampTime_1
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+    ///// <summary>配方SV 升溫時間1</summary>
+    //[PLCData(DataType.D, 821, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomRampTime_1
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 升溫時間2</summary>
+    //[PLCData(DataType.D, 722, 0.1, LogType.StatusVariables)]
+    //public double SV_TopRampTime_2
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 升溫時間2</summary>
+    //[PLCData(DataType.D, 822, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomRampTime_2
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 升溫時間3</summary>
+    //[PLCData(DataType.D, 723, 0.1, LogType.StatusVariables)]
+    //public double SV_TopRampTime_3
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 升溫時間3</summary>
+    //[PLCData(DataType.D, 823, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomRampTime_3
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 升溫時間4</summary>
+    //[PLCData(DataType.D, 724, 0.1, LogType.StatusVariables)]
+    //public double SV_TopRampTime_4
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 升溫時間4</summary>
+    //[PLCData(DataType.D, 824, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomRampTime_4
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 升溫時間5</summary>
+    //[PLCData(DataType.D, 725, 0.1, LogType.StatusVariables)]
+    //public double SV_TopRampTime_5
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+    ///// <summary>配方SV 升溫時間5</summary>
+    //[PLCData(DataType.D, 825, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomRampTime_5
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 升溫時間6</summary>
+    //[PLCData(DataType.D, 726, 0.1, LogType.StatusVariables)]
+    //public double SV_TopRampTime_6
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 升溫時間6</summary>
+    //[PLCData(DataType.D, 826, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomRampTime_6
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 升溫警報時間1</summary>
+    //[PLCData(DataType.D, 827, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomRampAlarm_1
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 升溫警報時間2</summary>
+    //[PLCData(DataType.D, 828, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomRampAlarm_2
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 升溫警報時間3</summary>
+    //[PLCData(DataType.D, 829, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomRampAlarm_3
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 升溫警報時間4</summary>
+    //[PLCData(DataType.D, 830, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomRampAlarm_4
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 升溫警報時間5</summary>
+    //[PLCData(DataType.D, 831, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomRampAlarm_5
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 升溫警報時間6</summary>
+    //[PLCData(DataType.D, 832, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomRampAlarm_6
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 升溫警報時間1</summary>
+    //[PLCData(DataType.D, 727, 0.1, LogType.StatusVariables)]
+    //public double SV_TopRampAlarm_1
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 升溫警報時間2</summary>
+    //[PLCData(DataType.D, 728, 0.1, LogType.StatusVariables)]
+    //public double SV_TopRampAlarm_2
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 升溫警報時間3</summary>
+    //[PLCData(DataType.D, 729, 0.1, LogType.StatusVariables)]
+    //public double SV_TopRampAlarm_3
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 升溫警報時間4</summary>
+    //[PLCData(DataType.D, 730, 0.1, LogType.StatusVariables)]
+    //public double SV_TopRampAlarm_4
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 升溫警報時間5</summary>
+    //[PLCData(DataType.D, 731, 0.1, LogType.StatusVariables)]
+    //public double SV_TopRampAlarm_5
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 升溫警報時間6</summary>
+    //[PLCData(DataType.D, 732, 0.1, LogType.StatusVariables)]
+    //public double SV_TopRampAlarm_6
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+    ///// <summary>配方SV 恆溫時間1</summary>
+    //[PLCData(DataType.D, 733, 0.1, LogType.StatusVariables)]
+    //public double SV_TopDwellTime_1
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫時間2</summary>
+    //[PLCData(DataType.D, 734, 0.1, LogType.StatusVariables)]
+    //public double SV_TopDwellTime_2
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫時間3</summary>
+    //[PLCData(DataType.D, 735, 0.1, LogType.StatusVariables)]
+    //public double SV_TopDwellTime_3
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫時間4</summary>
+    //[PLCData(DataType.D, 736, 0.1, LogType.StatusVariables)]
+    //public double SV_TopDwellTime_4
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫時間5</summary>
+    //[PLCData(DataType.D, 737, 0.1, LogType.StatusVariables)]
+    //public double SV_TopDwellTime_5
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫時間6</summary>
+    //[PLCData(DataType.D, 738, 0.1, LogType.StatusVariables)]
+    //public double SV_TopDwellTime_6
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+    ///// <summary>配方SV 恆溫時間1</summary>
+    //[PLCData(DataType.D, 833, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomDwellTime_1
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫時間2</summary>
+    //[PLCData(DataType.D, 834, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomDwellTime_2
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫時間3</summary>
+    //[PLCData(DataType.D, 835, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomDwellTime_3
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫時間4</summary>
+    //[PLCData(DataType.D, 836, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomDwellTime_4
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫時間5</summary>
+    //[PLCData(DataType.D, 837, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomDwellTime_5
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫時間6</summary>
+    //[PLCData(DataType.D, 838, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomDwellTime_6
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫警報時間1</summary>
+    //[PLCData(DataType.D, 739, 0.1, LogType.StatusVariables)]
+    //public double SV_TopDwellAlarm_1
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫警報時間2</summary>
+    //[PLCData(DataType.D, 740, 0.1, LogType.StatusVariables)]
+    //public double SV_TopDwellAlarm_2
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫警報時間3</summary>
+    //[PLCData(DataType.D, 741, 0.1, LogType.StatusVariables)]
+    //public double SV_TopDwellAlarm_3
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫警報時間4</summary>
+    //[PLCData(DataType.D, 742, 0.1, LogType.StatusVariables)]
+    //public double SV_TopDwellAlarm_4
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫警報時間5</summary>
+    //[PLCData(DataType.D, 743, 0.1, LogType.StatusVariables)]
+    //public double SV_TopDwellAlarm_5
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫警報時間6</summary>
+    //[PLCData(DataType.D, 744, 0.1, LogType.StatusVariables)]
+    //public double SV_TopDwellAlarm_6
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫警報時間1</summary>
+    //[PLCData(DataType.D, 839, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomDwellAlarm_1
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫警報時間2</summary>
+    //[PLCData(DataType.D, 840, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomDwellAlarm_2
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫警報時間3</summary>
+    //[PLCData(DataType.D, 841, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomDwellAlarm_3
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫警報時間4</summary>
+    //[PLCData(DataType.D, 842, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomDwellAlarm_4
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫警報時間5</summary>
+    //[PLCData(DataType.D, 843, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomDwellAlarm_5
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫警報時間6</summary>
+    //[PLCData(DataType.D, 844, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomDwellAlarm_6
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫時間Offset1</summary>
+    //[PLCData(DataType.D, 745, 0.1, LogType.StatusVariables)]
+    //public double SV_TopDwellTimeOffset_1
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫時間Offset2</summary>
+    //[PLCData(DataType.D, 746, 0.1, LogType.StatusVariables)]
+    //public double SV_TopDwellTimeOffset_2
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫時間Offset3</summary>
+    //[PLCData(DataType.D, 747, 0.1, LogType.StatusVariables)]
+    //public double SV_TopDwellTimeOffset_3
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫時間Offset4</summary>
+    //[PLCData(DataType.D, 748, 0.1, LogType.StatusVariables)]
+    //public double SV_TopDwellTimeOffset_4
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫時間Offset5</summary>
+    //[PLCData(DataType.D, 749, 0.1, LogType.StatusVariables)]
+    //public double SV_TopDwellTimeOffset_5
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫時間Offset6</summary>
+    //[PLCData(DataType.D, 750, 0.1, LogType.StatusVariables)]
+    //public double SV_TopDwellTimeOffset_6
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+    ///// <summary>配方SV 恆溫時間Offset1</summary>
+    //[PLCData(DataType.D, 845, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomDwellTimeOffset_1
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫時間Offset2</summary>
+    //[PLCData(DataType.D, 846, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomDwellTimeOffset_2
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫時間Offset3</summary>
+    //[PLCData(DataType.D, 847, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomDwellTimeOffset_3
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫時間Offset4</summary>
+    //[PLCData(DataType.D, 848, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomDwellTimeOffset_4
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫時間Offset5</summary>
+    //[PLCData(DataType.D, 849, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomDwellTimeOffset_5
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
+
+    ///// <summary>配方SV 恆溫時間Offset6</summary>
+    //[PLCData(DataType.D, 850, 0.1, LogType.StatusVariables)]
+    //public double SV_BottomDwellTimeOffset_6
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
     #endregion
 
     #region 警報

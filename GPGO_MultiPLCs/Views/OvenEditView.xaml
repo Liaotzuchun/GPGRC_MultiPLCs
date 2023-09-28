@@ -616,24 +616,11 @@
                                 <TextBlock.Foreground>
                                     <MultiBinding Converter="{StaticResource EqualBrush}">
                                         <Binding Mode="OneWay"
-                                                 Path="RecipeName" />
-                                        <Binding Mode="OneWay"
-                                                 Path="SV_RecipeName" />
+                                                 Path="TopRecipeName" />                                        
                                     </MultiBinding>
                                 </TextBlock.Foreground>
                             <Run Text="SV:" />
                             <Run Text="{Binding TopRecipeName, Mode=OneWay}" />
-                            </TextBlock>
-                        </Border>
-                        <Border VerticalAlignment="Center"
-                                Background="{StaticResource WindowBackgroundBrush6}"
-                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                BorderThickness="1,0,0,0">
-                            <TextBlock Margin="4,0"
-                                       FontSize="12"
-                                       Foreground="{StaticResource BaseForeground}">
-                            <Run Text="PV:" />
-                            <Run Text="{Binding SV_RecipeName, Mode=OneWay}" />
                             </TextBlock>
                         </Border>
                     </StackPanel>
@@ -672,8 +659,7 @@
                             Grid.Column="1"
                             BorderThickness="0,1,1,1"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopNitrogenMode, Mode=OneWay, Converter={StaticResource BoolOnOff}}"
-                                                 Value2="{Binding SV_TopNitrogenMode, Mode=OneWay, Converter={StaticResource BoolOnOff}}" />
+                        <local:PairValuesControl Value1="{Binding TopNitrogenMode, Mode=OneWay, Converter={StaticResource BoolOnOff}}" />
                     </Border>
                     <Border Grid.Row="0"
                             Grid.Column="2"
@@ -691,7 +677,7 @@
                             BorderThickness="0,1,1,1"
                             Style="{StaticResource ValueBorder}">
                         <local:PairValuesControl Value1="{Binding TopInflatingTime, Mode=OneWay, StringFormat=\{0:F0\}}"
-                                                 Value2="{Binding SV_TopInflatingTime, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                                                 />
                     </Border>
                     <Border Grid.Row="0"
                             Grid.Column="4"
@@ -708,8 +694,7 @@
                             Grid.Column="5"
                             BorderThickness="0,1,1,1"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopOxygenContentSet, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopOxygenContentSet, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopOxygenContentSet, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="1"
                             Grid.Column="0"
@@ -724,8 +709,7 @@
                             Grid.Column="1"
                             BorderThickness="0,0,1,1"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopSegmentCounts, Mode=OneWay}"
-                                                 Value2="{Binding SV_TopSegmentCounts, Mode=OneWay}" />
+                        <local:PairValuesControl Value1="{Binding TopSegmentCounts, Mode=OneWay}" />
                     </Border>
                     <Border Grid.Row="1"
                             Grid.Column="2"
@@ -742,8 +726,7 @@
                             Grid.Column="3"
                             BorderThickness="0,0,1,1"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopCoolingTemperature, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopCoolingTemperature, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopCoolingTemperature, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="1"
                             Grid.Column="4"
@@ -760,8 +743,7 @@
                             Grid.Column="5"
                             BorderThickness="0,0,1,1"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopCoolingTime, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopCoolingTime, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopCoolingTime, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="0"
                             Grid.RowSpan="2"
@@ -852,7 +834,7 @@
                             Grid.Row="4"
                             Grid.Column="0"
                             BorderThickness="1,0,1,1"
-                            IsEnabled="{Binding SegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2}"
+                            IsEnabled="{Binding TopSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2}"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
@@ -862,7 +844,7 @@
                             Grid.Row="5"
                             Grid.Column="0"
                             BorderThickness="1,0,1,1"
-                            IsEnabled="{Binding SegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
+                            IsEnabled="{Binding TopSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
@@ -872,7 +854,7 @@
                             Grid.Row="6"
                             Grid.Column="0"
                             BorderThickness="1,0,1,1"
-                            IsEnabled="{Binding SegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=4}"
+                            IsEnabled="{Binding TopSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=4}"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
@@ -882,7 +864,7 @@
                             Grid.Row="7"
                             Grid.Column="0"
                             BorderThickness="1,0,1,1"
-                            IsEnabled="{Binding SegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=5}"
+                            IsEnabled="{Binding TopSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=5}"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
@@ -892,7 +874,7 @@
                             Grid.Row="8"
                             Grid.Column="0"
                             BorderThickness="1,0,1,1"
-                            IsEnabled="{Binding SegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=6}"
+                            IsEnabled="{Binding TopSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=6}"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
@@ -902,283 +884,247 @@
                             Grid.Column="1"
                             BorderThickness="0,0,1,1"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopTemperatureSetpoint_1, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopTemperatureSetpoint_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopTemperatureSetpoint_1, Mode=OneWay, StringFormat=\{0:F1\}}"/>
                     </Border>
                     <Border Grid.Row="4"
                             Grid.Column="1"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopTemperatureSetpoint_2, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopTemperatureSetpoint_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopTemperatureSetpoint_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="5"
                             Grid.Column="1"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopTemperatureSetpoint_3, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopTemperatureSetpoint_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopTemperatureSetpoint_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="6"
                             Grid.Column="1"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopTemperatureSetpoint_4, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopTemperatureSetpoint_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopTemperatureSetpoint_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="7"
                             Grid.Column="1"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopTemperatureSetpoint_5, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopTemperatureSetpoint_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopTemperatureSetpoint_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="8"
                             Grid.Column="1"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopTemperatureSetpoint_6, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopTemperatureSetpoint_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopTemperatureSetpoint_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="3"
                             Grid.Column="2"
                             BorderThickness="0,0,1,1"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopRampTime_1, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopRampTime_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopRampTime_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="4"
                             Grid.Column="2"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopRampTime_2, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopRampTime_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopRampTime_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="5"
                             Grid.Column="2"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopRampTime_3, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopRampTime_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopRampTime_3, Mode=OneWay, StringFormat=\{0:F1\}}"/>
                     </Border>
                     <Border Grid.Row="6"
                             Grid.Column="2"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopRampTime_4, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopRampTime_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopRampTime_4, Mode=OneWay, StringFormat=\{0:F1\}}"/>
                     </Border>
                     <Border Grid.Row="7"
                             Grid.Column="2"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopRampTime_5, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopRampTime_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopRampTime_5, Mode=OneWay, StringFormat=\{0:F1\}}"/>
                     </Border>
                     <Border Grid.Row="8"
                             Grid.Column="2"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopRampTime_6, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopRampTime_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopRampTime_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="3"
                             Grid.Column="3"
                             BorderThickness="0,0,1,1"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopRampAlarm_1, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopRampAlarm_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopRampAlarm_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="4"
                             Grid.Column="3"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopRampAlarm_2, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopRampAlarm_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopRampAlarm_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="5"
                             Grid.Column="3"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopRampAlarm_3, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopRampAlarm_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopRampAlarm_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="6"
                             Grid.Column="3"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopRampAlarm_4, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopRampAlarm_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopRampAlarm_4, Mode=OneWay, StringFormat=\{0:F1\}}"/>
                     </Border>
                     <Border Grid.Row="7"
                             Grid.Column="3"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopRampAlarm_5, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopRampAlarm_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopRampAlarm_5, Mode=OneWay, StringFormat=\{0:F1\}}"/>
                     </Border>
                     <Border Grid.Row="8"
                             Grid.Column="3"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopRampAlarm_6, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopRampAlarm_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopRampAlarm_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="3"
                             Grid.Column="4"
                             BorderThickness="0,0,1,1"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopDwellTime_1, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopDwellTime_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopDwellTime_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="4"
                             Grid.Column="4"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopDwellTime_2, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopDwellTime_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopDwellTime_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="5"
                             Grid.Column="4"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopDwellTime_3, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopDwellTime_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopDwellTime_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="6"
                             Grid.Column="4"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopDwellTime_4, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopDwellTime_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopDwellTime_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="7"
                             Grid.Column="4"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopDwellTime_5, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopDwellTime_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopDwellTime_5, Mode=OneWay, StringFormat=\{0:F1\}}"/>
                     </Border>
                     <Border Grid.Row="8"
                             Grid.Column="4"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopDwellTime_6, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopDwellTime_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopDwellTime_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="3"
                             Grid.Column="5"
                             BorderThickness="0,0,1,1"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopDwellAlarm_1, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopDwellAlarm_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopDwellAlarm_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="4"
                             Grid.Column="5"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopDwellAlarm_2, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopDwellAlarm_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopDwellAlarm_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="5"
                             Grid.Column="5"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopDwellAlarm_3, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopDwellAlarm_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopDwellAlarm_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="6"
                             Grid.Column="5"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopDwellAlarm_4, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopDwellAlarm_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopDwellAlarm_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="7"
                             Grid.Column="5"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopDwellAlarm_5, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopDwellAlarm_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopDwellAlarm_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="8"
                             Grid.Column="5"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopDwellAlarm_6, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopDwellAlarm_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopDwellAlarm_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="3"
                             Grid.Column="6"
                             BorderThickness="0,0,1,1"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopDwellTimeOffset_1, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopDwellTimeOffset_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopDwellTimeOffset_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="4"
                             Grid.Column="6"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopDwellTimeOffset_2, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopDwellTimeOffset_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopDwellTimeOffset_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="5"
                             Grid.Column="6"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopDwellTimeOffset_3, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopDwellTimeOffset_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopDwellTimeOffset_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="6"
                             Grid.Column="6"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopDwellTimeOffset_4, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopDwellTimeOffset_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopDwellTimeOffset_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="7"
                             Grid.Column="6"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopDwellTimeOffset_5, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopDwellTimeOffset_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopDwellTimeOffset_5, Mode=OneWay, StringFormat=\{0:F1\}}"/>
                     </Border>
                     <Border Grid.Row="8"
                             Grid.Column="6"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding TopDwellTimeOffset_6, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_TopDwellTimeOffset_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding TopDwellTimeOffset_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                 </Grid>
             </GroupBox>
@@ -1781,24 +1727,13 @@
                                 <TextBlock.Foreground>
                                     <MultiBinding Converter="{StaticResource EqualBrush}">
                                         <Binding Mode="OneWay"
-                                                 Path="RecipeName" />
+                                                 Path="BottomRecipeName" />
                                         <Binding Mode="OneWay"
-                                                 Path="SV_RecipeName" />
+                                                 Path="SV_BottomRecipeName" />
                                     </MultiBinding>
                                 </TextBlock.Foreground>
                             <Run Text="SV:" />
-                            <Run Text="{Binding RecipeName, Mode=OneWay}" />
-                            </TextBlock>
-                        </Border>
-                        <Border VerticalAlignment="Center"
-                                Background="{StaticResource WindowBackgroundBrush6}"
-                                BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                BorderThickness="1,0,0,0">
-                            <TextBlock Margin="4,0"
-                                       FontSize="12"
-                                       Foreground="{StaticResource BaseForeground}">
-                            <Run Text="PV:" />
-                            <Run Text="{Binding SV_RecipeName, Mode=OneWay}" />
+                            <Run Text="{Binding BottomRecipeName, Mode=OneWay}" />
                             </TextBlock>
                         </Border>
                     </StackPanel>
@@ -1837,8 +1772,7 @@
                             Grid.Column="1"
                             BorderThickness="0,1,1,1"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomNitrogenMode, Mode=OneWay, Converter={StaticResource BoolOnOff}}"
-                                                 Value2="{Binding SV_BottomNitrogenMode, Mode=OneWay, Converter={StaticResource BoolOnOff}}" />
+                        <local:PairValuesControl Value1="{Binding BottomNitrogenMode, Mode=OneWay, Converter={StaticResource BoolOnOff}}" />
                     </Border>
                     <Border Grid.Row="0"
                             Grid.Column="2"
@@ -1855,8 +1789,7 @@
                             Grid.Column="3"
                             BorderThickness="0,1,1,1"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomInflatingTime, Mode=OneWay, StringFormat=\{0:F0\}}"
-                                                 Value2="{Binding SV_BottomInflatingTime, Mode=OneWay, StringFormat=\{0:F0\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomInflatingTime, Mode=OneWay, StringFormat=\{0:F0\}}" />
                     </Border>
                     <Border Grid.Row="0"
                             Grid.Column="4"
@@ -1873,8 +1806,7 @@
                             Grid.Column="5"
                             BorderThickness="0,1,1,1"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomOxygenContentSet, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomOxygenContentSet, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomOxygenContentSet, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="1"
                             Grid.Column="0"
@@ -1889,8 +1821,7 @@
                             Grid.Column="1"
                             BorderThickness="0,0,1,1"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomSegmentCounts, Mode=OneWay}"
-                                                 Value2="{Binding SV_BottomSegmentCounts, Mode=OneWay}" />
+                        <local:PairValuesControl Value1="{Binding BottomSegmentCounts, Mode=OneWay}" />
                     </Border>
                     <Border Grid.Row="1"
                             Grid.Column="2"
@@ -1907,8 +1838,7 @@
                             Grid.Column="3"
                             BorderThickness="0,0,1,1"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomCoolingTemperature, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomCoolingTemperature, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomCoolingTemperature, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="1"
                             Grid.Column="4"
@@ -1925,8 +1855,7 @@
                             Grid.Column="5"
                             BorderThickness="0,0,1,1"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomCoolingTime, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomCoolingTime, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomCoolingTime, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="0"
                             Grid.RowSpan="2"
@@ -2017,7 +1946,7 @@
                             Grid.Row="4"
                             Grid.Column="0"
                             BorderThickness="1,0,1,1"
-                            IsEnabled="{Binding SegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2}"
+                            IsEnabled="{Binding BottomSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2}"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
@@ -2027,7 +1956,7 @@
                             Grid.Row="5"
                             Grid.Column="0"
                             BorderThickness="1,0,1,1"
-                            IsEnabled="{Binding SegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
+                            IsEnabled="{Binding BottomSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
@@ -2037,7 +1966,7 @@
                             Grid.Row="6"
                             Grid.Column="0"
                             BorderThickness="1,0,1,1"
-                            IsEnabled="{Binding SegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=4}"
+                            IsEnabled="{Binding BottomSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=4}"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
@@ -2047,7 +1976,7 @@
                             Grid.Row="7"
                             Grid.Column="0"
                             BorderThickness="1,0,1,1"
-                            IsEnabled="{Binding SegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=5}"
+                            IsEnabled="{Binding BottomSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=5}"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
@@ -2057,7 +1986,7 @@
                             Grid.Row="8"
                             Grid.Column="0"
                             BorderThickness="1,0,1,1"
-                            IsEnabled="{Binding SegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=6}"
+                            IsEnabled="{Binding BottomSegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=6}"
                             Style="{StaticResource ValueBorder}">
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
@@ -2067,288 +1996,250 @@
                             Grid.Column="1"
                             BorderThickness="0,0,1,1"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomTemperatureSetpoint_1, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomTemperatureSetpoint_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomTemperatureSetpoint_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="4"
                             Grid.Column="1"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomTemperatureSetpoint_2, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomTemperatureSetpoint_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomTemperatureSetpoint_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="5"
                             Grid.Column="1"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomTemperatureSetpoint_3, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomTemperatureSetpoint_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomTemperatureSetpoint_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="6"
                             Grid.Column="1"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomTemperatureSetpoint_4, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomTemperatureSetpoint_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomTemperatureSetpoint_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="7"
                             Grid.Column="1"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomTemperatureSetpoint_5, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomTemperatureSetpoint_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomTemperatureSetpoint_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="8"
                             Grid.Column="1"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomTemperatureSetpoint_6, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomTemperatureSetpoint_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomTemperatureSetpoint_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="3"
                             Grid.Column="2"
                             BorderThickness="0,0,1,1"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomRampTime_1, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomRampTime_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomRampTime_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="4"
                             Grid.Column="2"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomRampTime_2, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomRampTime_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomRampTime_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="5"
                             Grid.Column="2"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomRampTime_3, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomRampTime_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomRampTime_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="6"
                             Grid.Column="2"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomRampTime_4, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomRampTime_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomRampTime_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="7"
                             Grid.Column="2"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomRampTime_5, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomRampTime_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomRampTime_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="8"
                             Grid.Column="2"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomRampTime_6, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomRampTime_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomRampTime_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="3"
                             Grid.Column="3"
                             BorderThickness="0,0,1,1"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomRampAlarm_1, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomRampAlarm_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomRampAlarm_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="4"
                             Grid.Column="3"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomRampAlarm_2, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomRampAlarm_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomRampAlarm_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="5"
                             Grid.Column="3"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomRampAlarm_3, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomRampAlarm_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomRampAlarm_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="6"
                             Grid.Column="3"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomRampAlarm_4, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomRampAlarm_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomRampAlarm_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="7"
                             Grid.Column="3"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomRampAlarm_5, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomRampAlarm_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomRampAlarm_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="8"
                             Grid.Column="3"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomRampAlarm_6, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomRampAlarm_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomRampAlarm_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="3"
                             Grid.Column="4"
                             BorderThickness="0,0,1,1"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomDwellTime_1, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomDwellTime_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomDwellTime_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="4"
                             Grid.Column="4"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomDwellTime_2, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomDwellTime_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomDwellTime_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="5"
                             Grid.Column="4"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomDwellTime_3, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomDwellTime_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomDwellTime_3, Mode=OneWay, StringFormat=\{0:F1\}}"/>
                     </Border>
                     <Border Grid.Row="6"
                             Grid.Column="4"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomDwellTime_4, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomDwellTime_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomDwellTime_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="7"
                             Grid.Column="4"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomDwellTime_5, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomDwellTime_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomDwellTime_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="8"
                             Grid.Column="4"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomDwellTime_6, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomDwellTime_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomDwellTime_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="3"
                             Grid.Column="5"
                             BorderThickness="0,0,1,1"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomDwellAlarm_1, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomDwellAlarm_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomDwellAlarm_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="4"
                             Grid.Column="5"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomDwellAlarm_2, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomDwellAlarm_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomDwellAlarm_2, Mode=OneWay, StringFormat=\{0:F1\}}"/>
                     </Border>
                     <Border Grid.Row="5"
                             Grid.Column="5"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomDwellAlarm_3, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomDwellAlarm_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomDwellAlarm_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="6"
                             Grid.Column="5"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomDwellAlarm_4, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomDwellAlarm_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomDwellAlarm_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="7"
                             Grid.Column="5"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomDwellAlarm_5, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomDwellAlarm_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomDwellAlarm_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="8"
                             Grid.Column="5"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomDwellAlarm_6, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomDwellAlarm_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomDwellAlarm_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="3"
                             Grid.Column="6"
                             BorderThickness="0,0,1,1"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomDwellTimeOffset_1, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomDwellTimeOffset_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomDwellTimeOffset_1, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="4"
                             Grid.Column="6"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomDwellTimeOffset_2, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomDwellTimeOffset_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomDwellTimeOffset_2, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="5"
                             Grid.Column="6"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomDwellTimeOffset_3, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomDwellTimeOffset_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomDwellTimeOffset_3, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="6"
                             Grid.Column="6"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomDwellTimeOffset_4, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomDwellTimeOffset_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomDwellTimeOffset_4, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="7"
                             Grid.Column="6"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomDwellTimeOffset_5, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomDwellTimeOffset_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomDwellTimeOffset_5, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                     <Border Grid.Row="8"
                             Grid.Column="6"
                             BorderThickness="0,0,1,1"
                             IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
                             Style="{StaticResource ValueBorder}">
-                        <local:PairValuesControl Value1="{Binding BottomDwellTimeOffset_6, Mode=OneWay, StringFormat=\{0:F1\}}"
-                                                 Value2="{Binding SV_BottomDwellTimeOffset_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
+                        <local:PairValuesControl Value1="{Binding BottomDwellTimeOffset_6, Mode=OneWay, StringFormat=\{0:F1\}}" />
                     </Border>
                 </Grid>
             </GroupBox>
         </Grid>
-       
     </Grid>
-    
 </UserControl>

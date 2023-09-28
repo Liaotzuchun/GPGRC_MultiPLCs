@@ -597,18 +597,18 @@ public sealed class TotalView_ViewModel : ObservableObject
 
             plc.SV_Changed += (name, value) =>
                               {
-                                  if (name == nameof(PLC_ViewModel.TopEquipmentState))
-                                  {
-                                      //     SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PROCESS_STATE, value);
-                                  }
-                                  else if (name == $"Previous{nameof(PLC_ViewModel.TopEquipmentState)}")
-                                  {
-                                      //   SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PREVIOUS_PROCESS_STATE, value);
-                                  }
-                                  else if (name == nameof(PLC_ViewModel.SV_TopRecipeName))
-                                  {
-                                      // SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PP_EXEC_NAME, value);
-                                  }
+                                  //if (name == nameof(PLC_ViewModel.TopEquipmentState))
+                                  //{
+                                  //    //     SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PROCESS_STATE, value);
+                                  //}
+                                  //else if (name == $"Previous{nameof(PLC_ViewModel.TopEquipmentState)}")
+                                  //{
+                                  //    //   SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PREVIOUS_PROCESS_STATE, value);
+                                  //}
+                                  //else if (name == nameof(PLC_ViewModel.SV_TopRecipeName))
+                                  //{
+                                  //    // SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PP_EXEC_NAME, value);
+                                  //}
 
                                   //SecsGemEquipment.UpdateSV($"Oven{index + 1}_{name}", value);
                               };
@@ -667,8 +667,8 @@ public sealed class TotalView_ViewModel : ObservableObject
         PLC_All[0].InputRecipeName = RecipeID;
         PLC_All[0].InputQuantity = Convert.ToInt32(PanelCount);
         PLC_All[0].InputLayer = 2;
+        PLC_All[0].GetGo();
     }
-
 
     /// <summary>讀取財產編號</summary>
     public void LoadAssetNumbers()

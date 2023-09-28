@@ -1476,50 +1476,50 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
 
     public PLC_Recipe(string name, string user, UserLevel level) : base(name, user, level)
     {
-        InflatingTime         = 10;
-        OxygenContentSet      = 21;
-        DwellTemperature_1    = 30;
-        DwellTemperature_2    = 30;
-        DwellTemperature_3    = 30;
-        DwellTemperature_4    = 30;
-        DwellTemperature_5    = 30;
-        DwellTemperature_6    = 30;
-        DwellTemperature_7    = 30;
-        DwellTemperature_8    = 30;
-        DwellTime_1           = 10;
-        DwellTime_2           = 10;
-        DwellTime_3           = 10;
-        DwellTime_4           = 10;
-        DwellTime_5           = 10;
-        DwellTime_6           = 10;
-        DwellTime_7           = 10;
-        DwellTime_8           = 10;
-        DwellAlarm_1          = 11;
-        DwellAlarm_2          = 11;
-        DwellAlarm_3          = 11;
-        DwellAlarm_4          = 11;
-        DwellAlarm_5          = 11;
-        DwellAlarm_6          = 11;
-        DwellAlarm_7          = 11;
-        DwellAlarm_8          = 11;
-        CoolingTime           = 30;
-        CoolingTemperature    = 40;
-        RampTime_1            = 10;
-        RampTime_2            = 10;
-        RampTime_3            = 10;
-        RampTime_4            = 10;
-        RampTime_5            = 10;
-        RampTime_6            = 10;
-        RampTime_7            = 10;
-        RampTime_8            = 10;
-        RampAlarm_1           = 11;
-        RampAlarm_2           = 11;
-        RampAlarm_3           = 11;
-        RampAlarm_4           = 11;
-        RampAlarm_5           = 11;
-        RampAlarm_6           = 11;
-        RampAlarm_7           = 11;
-        RampAlarm_8           = 11;
+        InflatingTime = 10;
+        OxygenContentSet = 21;
+        DwellTemperature_1 = 30;
+        DwellTemperature_2 = 30;
+        DwellTemperature_3 = 30;
+        DwellTemperature_4 = 30;
+        DwellTemperature_5 = 30;
+        DwellTemperature_6 = 30;
+        DwellTemperature_7 = 30;
+        DwellTemperature_8 = 30;
+        DwellTime_1 = 10;
+        DwellTime_2 = 10;
+        DwellTime_3 = 10;
+        DwellTime_4 = 10;
+        DwellTime_5 = 10;
+        DwellTime_6 = 10;
+        DwellTime_7 = 10;
+        DwellTime_8 = 10;
+        DwellAlarm_1 = 11;
+        DwellAlarm_2 = 11;
+        DwellAlarm_3 = 11;
+        DwellAlarm_4 = 11;
+        DwellAlarm_5 = 11;
+        DwellAlarm_6 = 11;
+        DwellAlarm_7 = 11;
+        DwellAlarm_8 = 11;
+        CoolingTime = 30;
+        CoolingTemperature = 40;
+        RampTime_1 = 10;
+        RampTime_2 = 10;
+        RampTime_3 = 10;
+        RampTime_4 = 10;
+        RampTime_5 = 10;
+        RampTime_6 = 10;
+        RampTime_7 = 10;
+        RampTime_8 = 10;
+        RampAlarm_1 = 11;
+        RampAlarm_2 = 11;
+        RampAlarm_3 = 11;
+        RampAlarm_4 = 11;
+        RampAlarm_5 = 11;
+        RampAlarm_6 = 11;
+        RampAlarm_7 = 11;
+        RampAlarm_8 = 11;
         TemperatureSetpoint_1 = 30;
         TemperatureSetpoint_2 = 30;
         TemperatureSetpoint_3 = 30;
@@ -1528,74 +1528,74 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         TemperatureSetpoint_6 = 30;
         TemperatureSetpoint_7 = 30;
         TemperatureSetpoint_8 = 30;
-        DwellTimeOffset_1     = 0;
-        DwellTimeOffset_2     = 0;
-        DwellTimeOffset_3     = 0;
-        DwellTimeOffset_4     = 0;
-        DwellTimeOffset_5     = 0;
-        DwellTimeOffset_6     = 0;
-        DwellTimeOffset_7     = 0;
-        DwellTimeOffset_8     = 0;
-        SegmentCounts         = SegmentCounts_Max;
+        DwellTimeOffset_1 = 0;
+        DwellTimeOffset_2 = 0;
+        DwellTimeOffset_3 = 0;
+        DwellTimeOffset_4 = 0;
+        DwellTimeOffset_5 = 0;
+        DwellTimeOffset_6 = 0;
+        DwellTimeOffset_7 = 0;
+        DwellTimeOffset_8 = 0;
+        SegmentCounts = SegmentCounts_Max;
     }
 
     public PLC_Recipe() { }
 
-    public override bool Equals(PLC_Recipe? other) => other                                 != null                                        &&
-                                                      RecipeName                            == other.RecipeName                            &&
-                                                      NitrogenMode                          == other.NitrogenMode                          &&
-                                                      OxygenContentSet.ToString("0.0")      == other.OxygenContentSet.ToString("0.0")      &&
-                                                      InflatingTime.ToString("0")           == other.InflatingTime.ToString("0")           &&
-                                                      DwellTemperature_1.ToString("0.0")    == other.DwellTemperature_1.ToString("0.0")    &&
-                                                      DwellTemperature_2.ToString("0.0")    == other.DwellTemperature_2.ToString("0.0")    &&
-                                                      DwellTemperature_3.ToString("0.0")    == other.DwellTemperature_3.ToString("0.0")    &&
-                                                      DwellTemperature_4.ToString("0.0")    == other.DwellTemperature_4.ToString("0.0")    &&
-                                                      DwellTemperature_5.ToString("0.0")    == other.DwellTemperature_5.ToString("0.0")    &&
-                                                      DwellTemperature_6.ToString("0.0")    == other.DwellTemperature_6.ToString("0.0")    &&
-                                                      DwellTemperature_7.ToString("0.0")    == other.DwellTemperature_7.ToString("0.0")    &&
-                                                      DwellTemperature_8.ToString("0.0")    == other.DwellTemperature_8.ToString("0.0")    &&
-                                                      DwellTime_1.ToString("0.0")           == other.DwellTime_1.ToString("0.0")           &&
-                                                      DwellTime_2.ToString("0.0")           == other.DwellTime_2.ToString("0.0")           &&
-                                                      DwellTime_3.ToString("0.0")           == other.DwellTime_3.ToString("0.0")           &&
-                                                      DwellTime_4.ToString("0.0")           == other.DwellTime_4.ToString("0.0")           &&
-                                                      DwellTime_5.ToString("0.0")           == other.DwellTime_5.ToString("0.0")           &&
-                                                      DwellTime_6.ToString("0.0")           == other.DwellTime_6.ToString("0.0")           &&
-                                                      DwellTime_7.ToString("0.0")           == other.DwellTime_7.ToString("0.0")           &&
-                                                      DwellTime_8.ToString("0.0")           == other.DwellTime_8.ToString("0.0")           &&
-                                                      DwellAlarm_1.ToString("0.0")          == other.DwellAlarm_1.ToString("0.0")          &&
-                                                      DwellAlarm_2.ToString("0.0")          == other.DwellAlarm_2.ToString("0.0")          &&
-                                                      DwellAlarm_3.ToString("0.0")          == other.DwellAlarm_3.ToString("0.0")          &&
-                                                      DwellAlarm_4.ToString("0.0")          == other.DwellAlarm_4.ToString("0.0")          &&
-                                                      DwellAlarm_5.ToString("0.0")          == other.DwellAlarm_5.ToString("0.0")          &&
-                                                      DwellAlarm_6.ToString("0.0")          == other.DwellAlarm_6.ToString("0.0")          &&
-                                                      DwellAlarm_7.ToString("0.0")          == other.DwellAlarm_7.ToString("0.0")          &&
-                                                      DwellAlarm_8.ToString("0.0")          == other.DwellAlarm_8.ToString("0.0")          &&
-                                                      DwellTimeOffset_1.ToString("0.0")     == other.DwellTimeOffset_1.ToString("0.0")     &&
-                                                      DwellTimeOffset_2.ToString("0.0")     == other.DwellTimeOffset_2.ToString("0.0")     &&
-                                                      DwellTimeOffset_3.ToString("0.0")     == other.DwellTimeOffset_3.ToString("0.0")     &&
-                                                      DwellTimeOffset_4.ToString("0.0")     == other.DwellTimeOffset_4.ToString("0.0")     &&
-                                                      DwellTimeOffset_5.ToString("0.0")     == other.DwellTimeOffset_5.ToString("0.0")     &&
-                                                      DwellTimeOffset_6.ToString("0.0")     == other.DwellTimeOffset_6.ToString("0.0")     &&
-                                                      DwellTimeOffset_7.ToString("0.0")     == other.DwellTimeOffset_7.ToString("0.0")     &&
-                                                      DwellTimeOffset_8.ToString("0.0")     == other.DwellTimeOffset_8.ToString("0.0")     &&
-                                                      CoolingTime.ToString("0.0")           == other.CoolingTime.ToString("0.0")           &&
-                                                      CoolingTemperature.ToString("0.0")    == other.CoolingTemperature.ToString("0.0")    &&
-                                                      RampTime_1.ToString("0.0")            == other.RampTime_1.ToString("0.0")            &&
-                                                      RampTime_2.ToString("0.0")            == other.RampTime_2.ToString("0.0")            &&
-                                                      RampTime_3.ToString("0.0")            == other.RampTime_3.ToString("0.0")            &&
-                                                      RampTime_4.ToString("0.0")            == other.RampTime_4.ToString("0.0")            &&
-                                                      RampTime_5.ToString("0.0")            == other.RampTime_5.ToString("0.0")            &&
-                                                      RampTime_6.ToString("0.0")            == other.RampTime_6.ToString("0.0")            &&
-                                                      RampTime_7.ToString("0.0")            == other.RampTime_7.ToString("0.0")            &&
-                                                      RampTime_8.ToString("0.0")            == other.RampTime_8.ToString("0.0")            &&
-                                                      RampAlarm_1.ToString("0.0")           == other.RampAlarm_1.ToString("0.0")           &&
-                                                      RampAlarm_2.ToString("0.0")           == other.RampAlarm_2.ToString("0.0")           &&
-                                                      RampAlarm_3.ToString("0.0")           == other.RampAlarm_3.ToString("0.0")           &&
-                                                      RampAlarm_4.ToString("0.0")           == other.RampAlarm_4.ToString("0.0")           &&
-                                                      RampAlarm_5.ToString("0.0")           == other.RampAlarm_5.ToString("0.0")           &&
-                                                      RampAlarm_6.ToString("0.0")           == other.RampAlarm_6.ToString("0.0")           &&
-                                                      RampAlarm_7.ToString("0.0")           == other.RampAlarm_7.ToString("0.0")           &&
-                                                      RampAlarm_8.ToString("0.0")           == other.RampAlarm_8.ToString("0.0")           &&
+    public override bool Equals(PLC_Recipe? other) => other != null &&
+                                                      RecipeName == other.RecipeName &&
+                                                      NitrogenMode == other.NitrogenMode &&
+                                                      OxygenContentSet.ToString("0.0") == other.OxygenContentSet.ToString("0.0") &&
+                                                      InflatingTime.ToString("0") == other.InflatingTime.ToString("0") &&
+                                                      DwellTemperature_1.ToString("0.0") == other.DwellTemperature_1.ToString("0.0") &&
+                                                      DwellTemperature_2.ToString("0.0") == other.DwellTemperature_2.ToString("0.0") &&
+                                                      DwellTemperature_3.ToString("0.0") == other.DwellTemperature_3.ToString("0.0") &&
+                                                      DwellTemperature_4.ToString("0.0") == other.DwellTemperature_4.ToString("0.0") &&
+                                                      DwellTemperature_5.ToString("0.0") == other.DwellTemperature_5.ToString("0.0") &&
+                                                      DwellTemperature_6.ToString("0.0") == other.DwellTemperature_6.ToString("0.0") &&
+                                                      DwellTemperature_7.ToString("0.0") == other.DwellTemperature_7.ToString("0.0") &&
+                                                      DwellTemperature_8.ToString("0.0") == other.DwellTemperature_8.ToString("0.0") &&
+                                                      DwellTime_1.ToString("0.0") == other.DwellTime_1.ToString("0.0") &&
+                                                      DwellTime_2.ToString("0.0") == other.DwellTime_2.ToString("0.0") &&
+                                                      DwellTime_3.ToString("0.0") == other.DwellTime_3.ToString("0.0") &&
+                                                      DwellTime_4.ToString("0.0") == other.DwellTime_4.ToString("0.0") &&
+                                                      DwellTime_5.ToString("0.0") == other.DwellTime_5.ToString("0.0") &&
+                                                      DwellTime_6.ToString("0.0") == other.DwellTime_6.ToString("0.0") &&
+                                                      DwellTime_7.ToString("0.0") == other.DwellTime_7.ToString("0.0") &&
+                                                      DwellTime_8.ToString("0.0") == other.DwellTime_8.ToString("0.0") &&
+                                                      DwellAlarm_1.ToString("0.0") == other.DwellAlarm_1.ToString("0.0") &&
+                                                      DwellAlarm_2.ToString("0.0") == other.DwellAlarm_2.ToString("0.0") &&
+                                                      DwellAlarm_3.ToString("0.0") == other.DwellAlarm_3.ToString("0.0") &&
+                                                      DwellAlarm_4.ToString("0.0") == other.DwellAlarm_4.ToString("0.0") &&
+                                                      DwellAlarm_5.ToString("0.0") == other.DwellAlarm_5.ToString("0.0") &&
+                                                      DwellAlarm_6.ToString("0.0") == other.DwellAlarm_6.ToString("0.0") &&
+                                                      DwellAlarm_7.ToString("0.0") == other.DwellAlarm_7.ToString("0.0") &&
+                                                      DwellAlarm_8.ToString("0.0") == other.DwellAlarm_8.ToString("0.0") &&
+                                                      DwellTimeOffset_1.ToString("0.0") == other.DwellTimeOffset_1.ToString("0.0") &&
+                                                      DwellTimeOffset_2.ToString("0.0") == other.DwellTimeOffset_2.ToString("0.0") &&
+                                                      DwellTimeOffset_3.ToString("0.0") == other.DwellTimeOffset_3.ToString("0.0") &&
+                                                      DwellTimeOffset_4.ToString("0.0") == other.DwellTimeOffset_4.ToString("0.0") &&
+                                                      DwellTimeOffset_5.ToString("0.0") == other.DwellTimeOffset_5.ToString("0.0") &&
+                                                      DwellTimeOffset_6.ToString("0.0") == other.DwellTimeOffset_6.ToString("0.0") &&
+                                                      DwellTimeOffset_7.ToString("0.0") == other.DwellTimeOffset_7.ToString("0.0") &&
+                                                      DwellTimeOffset_8.ToString("0.0") == other.DwellTimeOffset_8.ToString("0.0") &&
+                                                      CoolingTime.ToString("0.0") == other.CoolingTime.ToString("0.0") &&
+                                                      CoolingTemperature.ToString("0.0") == other.CoolingTemperature.ToString("0.0") &&
+                                                      RampTime_1.ToString("0.0") == other.RampTime_1.ToString("0.0") &&
+                                                      RampTime_2.ToString("0.0") == other.RampTime_2.ToString("0.0") &&
+                                                      RampTime_3.ToString("0.0") == other.RampTime_3.ToString("0.0") &&
+                                                      RampTime_4.ToString("0.0") == other.RampTime_4.ToString("0.0") &&
+                                                      RampTime_5.ToString("0.0") == other.RampTime_5.ToString("0.0") &&
+                                                      RampTime_6.ToString("0.0") == other.RampTime_6.ToString("0.0") &&
+                                                      RampTime_7.ToString("0.0") == other.RampTime_7.ToString("0.0") &&
+                                                      RampTime_8.ToString("0.0") == other.RampTime_8.ToString("0.0") &&
+                                                      RampAlarm_1.ToString("0.0") == other.RampAlarm_1.ToString("0.0") &&
+                                                      RampAlarm_2.ToString("0.0") == other.RampAlarm_2.ToString("0.0") &&
+                                                      RampAlarm_3.ToString("0.0") == other.RampAlarm_3.ToString("0.0") &&
+                                                      RampAlarm_4.ToString("0.0") == other.RampAlarm_4.ToString("0.0") &&
+                                                      RampAlarm_5.ToString("0.0") == other.RampAlarm_5.ToString("0.0") &&
+                                                      RampAlarm_6.ToString("0.0") == other.RampAlarm_6.ToString("0.0") &&
+                                                      RampAlarm_7.ToString("0.0") == other.RampAlarm_7.ToString("0.0") &&
+                                                      RampAlarm_8.ToString("0.0") == other.RampAlarm_8.ToString("0.0") &&
                                                       TemperatureSetpoint_1.ToString("0.0") == other.TemperatureSetpoint_1.ToString("0.0") &&
                                                       TemperatureSetpoint_2.ToString("0.0") == other.TemperatureSetpoint_2.ToString("0.0") &&
                                                       TemperatureSetpoint_3.ToString("0.0") == other.TemperatureSetpoint_3.ToString("0.0") &&
@@ -1604,126 +1604,126 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
                                                       TemperatureSetpoint_6.ToString("0.0") == other.TemperatureSetpoint_6.ToString("0.0") &&
                                                       TemperatureSetpoint_7.ToString("0.0") == other.TemperatureSetpoint_7.ToString("0.0") &&
                                                       TemperatureSetpoint_8.ToString("0.0") == other.TemperatureSetpoint_8.ToString("0.0") &&
-                                                      SegmentCounts                         == other.SegmentCounts;
+                                                      SegmentCounts == other.SegmentCounts;
 
     public override PLC_Recipe Copy(string user, UserLevel level) => new()
-                                                                     {
-                                                                         Updated               = DateTime.Now,
-                                                                         RecipeName            = RecipeName,
-                                                                         NitrogenMode          = NitrogenMode,
-                                                                         OxygenContentSet      = OxygenContentSet,
-                                                                         InflatingTime         = InflatingTime,
-                                                                         DwellTemperature_1    = DwellTemperature_1,
-                                                                         DwellTemperature_2    = DwellTemperature_2,
-                                                                         DwellTemperature_3    = DwellTemperature_3,
-                                                                         DwellTemperature_4    = DwellTemperature_4,
-                                                                         DwellTemperature_5    = DwellTemperature_5,
-                                                                         DwellTemperature_6    = DwellTemperature_6,
-                                                                         DwellTemperature_7    = DwellTemperature_7,
-                                                                         DwellTemperature_8    = DwellTemperature_8,
-                                                                         DwellTime_1           = DwellTime_1,
-                                                                         DwellTime_2           = DwellTime_2,
-                                                                         DwellTime_3           = DwellTime_3,
-                                                                         DwellTime_4           = DwellTime_4,
-                                                                         DwellTime_5           = DwellTime_5,
-                                                                         DwellTime_6           = DwellTime_6,
-                                                                         DwellTime_7           = DwellTime_7,
-                                                                         DwellTime_8           = DwellTime_8,
-                                                                         DwellAlarm_1          = DwellAlarm_1,
-                                                                         DwellAlarm_2          = DwellAlarm_2,
-                                                                         DwellAlarm_3          = DwellAlarm_3,
-                                                                         DwellAlarm_4          = DwellAlarm_4,
-                                                                         DwellAlarm_5          = DwellAlarm_5,
-                                                                         DwellAlarm_6          = DwellAlarm_6,
-                                                                         DwellAlarm_7          = DwellAlarm_7,
-                                                                         DwellAlarm_8          = DwellAlarm_8,
-                                                                         CoolingTime           = CoolingTime,
-                                                                         CoolingTemperature    = CoolingTemperature,
-                                                                         RampTime_1            = RampTime_1,
-                                                                         RampTime_2            = RampTime_2,
-                                                                         RampTime_3            = RampTime_3,
-                                                                         RampTime_4            = RampTime_4,
-                                                                         RampTime_5            = RampTime_5,
-                                                                         RampTime_6            = RampTime_6,
-                                                                         RampTime_7            = RampTime_7,
-                                                                         RampTime_8            = RampTime_8,
-                                                                         RampAlarm_1           = RampAlarm_1,
-                                                                         RampAlarm_2           = RampAlarm_2,
-                                                                         RampAlarm_3           = RampAlarm_3,
-                                                                         RampAlarm_4           = RampAlarm_4,
-                                                                         RampAlarm_5           = RampAlarm_5,
-                                                                         RampAlarm_6           = RampAlarm_6,
-                                                                         RampAlarm_7           = RampAlarm_7,
-                                                                         RampAlarm_8           = RampAlarm_8,
-                                                                         TemperatureSetpoint_1 = TemperatureSetpoint_1,
-                                                                         TemperatureSetpoint_2 = TemperatureSetpoint_2,
-                                                                         TemperatureSetpoint_3 = TemperatureSetpoint_3,
-                                                                         TemperatureSetpoint_4 = TemperatureSetpoint_4,
-                                                                         TemperatureSetpoint_5 = TemperatureSetpoint_5,
-                                                                         TemperatureSetpoint_6 = TemperatureSetpoint_6,
-                                                                         TemperatureSetpoint_7 = TemperatureSetpoint_7,
-                                                                         TemperatureSetpoint_8 = TemperatureSetpoint_8,
-                                                                         DwellTimeOffset_1     = DwellTimeOffset_1,
-                                                                         DwellTimeOffset_2     = DwellTimeOffset_2,
-                                                                         DwellTimeOffset_3     = DwellTimeOffset_3,
-                                                                         DwellTimeOffset_4     = DwellTimeOffset_4,
-                                                                         DwellTimeOffset_5     = DwellTimeOffset_5,
-                                                                         DwellTimeOffset_6     = DwellTimeOffset_6,
-                                                                         DwellTimeOffset_7     = DwellTimeOffset_7,
-                                                                         DwellTimeOffset_8     = DwellTimeOffset_8,
-                                                                         SegmentCounts         = SegmentCounts,
-                                                                         Editor                = user,
-                                                                         EditorLevel           = level
-                                                                     };
+    {
+        Updated = DateTime.Now,
+        RecipeName = RecipeName,
+        NitrogenMode = NitrogenMode,
+        OxygenContentSet = OxygenContentSet,
+        InflatingTime = InflatingTime,
+        DwellTemperature_1 = DwellTemperature_1,
+        DwellTemperature_2 = DwellTemperature_2,
+        DwellTemperature_3 = DwellTemperature_3,
+        DwellTemperature_4 = DwellTemperature_4,
+        DwellTemperature_5 = DwellTemperature_5,
+        DwellTemperature_6 = DwellTemperature_6,
+        DwellTemperature_7 = DwellTemperature_7,
+        DwellTemperature_8 = DwellTemperature_8,
+        DwellTime_1 = DwellTime_1,
+        DwellTime_2 = DwellTime_2,
+        DwellTime_3 = DwellTime_3,
+        DwellTime_4 = DwellTime_4,
+        DwellTime_5 = DwellTime_5,
+        DwellTime_6 = DwellTime_6,
+        DwellTime_7 = DwellTime_7,
+        DwellTime_8 = DwellTime_8,
+        DwellAlarm_1 = DwellAlarm_1,
+        DwellAlarm_2 = DwellAlarm_2,
+        DwellAlarm_3 = DwellAlarm_3,
+        DwellAlarm_4 = DwellAlarm_4,
+        DwellAlarm_5 = DwellAlarm_5,
+        DwellAlarm_6 = DwellAlarm_6,
+        DwellAlarm_7 = DwellAlarm_7,
+        DwellAlarm_8 = DwellAlarm_8,
+        CoolingTime = CoolingTime,
+        CoolingTemperature = CoolingTemperature,
+        RampTime_1 = RampTime_1,
+        RampTime_2 = RampTime_2,
+        RampTime_3 = RampTime_3,
+        RampTime_4 = RampTime_4,
+        RampTime_5 = RampTime_5,
+        RampTime_6 = RampTime_6,
+        RampTime_7 = RampTime_7,
+        RampTime_8 = RampTime_8,
+        RampAlarm_1 = RampAlarm_1,
+        RampAlarm_2 = RampAlarm_2,
+        RampAlarm_3 = RampAlarm_3,
+        RampAlarm_4 = RampAlarm_4,
+        RampAlarm_5 = RampAlarm_5,
+        RampAlarm_6 = RampAlarm_6,
+        RampAlarm_7 = RampAlarm_7,
+        RampAlarm_8 = RampAlarm_8,
+        TemperatureSetpoint_1 = TemperatureSetpoint_1,
+        TemperatureSetpoint_2 = TemperatureSetpoint_2,
+        TemperatureSetpoint_3 = TemperatureSetpoint_3,
+        TemperatureSetpoint_4 = TemperatureSetpoint_4,
+        TemperatureSetpoint_5 = TemperatureSetpoint_5,
+        TemperatureSetpoint_6 = TemperatureSetpoint_6,
+        TemperatureSetpoint_7 = TemperatureSetpoint_7,
+        TemperatureSetpoint_8 = TemperatureSetpoint_8,
+        DwellTimeOffset_1 = DwellTimeOffset_1,
+        DwellTimeOffset_2 = DwellTimeOffset_2,
+        DwellTimeOffset_3 = DwellTimeOffset_3,
+        DwellTimeOffset_4 = DwellTimeOffset_4,
+        DwellTimeOffset_5 = DwellTimeOffset_5,
+        DwellTimeOffset_6 = DwellTimeOffset_6,
+        DwellTimeOffset_7 = DwellTimeOffset_7,
+        DwellTimeOffset_8 = DwellTimeOffset_8,
+        SegmentCounts = SegmentCounts,
+        Editor = user,
+        EditorLevel = level
+    };
 
     public override void CopyValue(string user, UserLevel level, PLC_Recipe recipe)
     {
-        Updated               = DateTime.Now;
-        NitrogenMode          = recipe.NitrogenMode;
-        OxygenContentSet      = recipe.OxygenContentSet;
-        InflatingTime         = recipe.InflatingTime;
-        DwellTemperature_1    = recipe.DwellTemperature_1;
-        DwellTemperature_2    = recipe.DwellTemperature_2;
-        DwellTemperature_3    = recipe.DwellTemperature_3;
-        DwellTemperature_4    = recipe.DwellTemperature_4;
-        DwellTemperature_5    = recipe.DwellTemperature_5;
-        DwellTemperature_6    = recipe.DwellTemperature_6;
-        DwellTemperature_7    = recipe.DwellTemperature_7;
-        DwellTemperature_8    = recipe.DwellTemperature_8;
-        DwellTime_1           = recipe.DwellTime_1;
-        DwellTime_2           = recipe.DwellTime_2;
-        DwellTime_3           = recipe.DwellTime_3;
-        DwellTime_4           = recipe.DwellTime_4;
-        DwellTime_5           = recipe.DwellTime_5;
-        DwellTime_6           = recipe.DwellTime_6;
-        DwellTime_7           = recipe.DwellTime_7;
-        DwellTime_8           = recipe.DwellTime_8;
-        DwellAlarm_1          = recipe.DwellAlarm_1;
-        DwellAlarm_2          = recipe.DwellAlarm_2;
-        DwellAlarm_3          = recipe.DwellAlarm_3;
-        DwellAlarm_4          = recipe.DwellAlarm_4;
-        DwellAlarm_5          = recipe.DwellAlarm_5;
-        DwellAlarm_6          = recipe.DwellAlarm_6;
-        DwellAlarm_7          = recipe.DwellAlarm_7;
-        DwellAlarm_8          = recipe.DwellAlarm_8;
-        CoolingTime           = recipe.CoolingTime;
-        CoolingTemperature    = recipe.CoolingTemperature;
-        RampTime_1            = recipe.RampTime_1;
-        RampTime_2            = recipe.RampTime_2;
-        RampTime_3            = recipe.RampTime_3;
-        RampTime_4            = recipe.RampTime_4;
-        RampTime_5            = recipe.RampTime_5;
-        RampTime_6            = recipe.RampTime_6;
-        RampTime_7            = recipe.RampTime_7;
-        RampTime_8            = recipe.RampTime_8;
-        RampAlarm_1           = recipe.RampAlarm_1;
-        RampAlarm_2           = recipe.RampAlarm_2;
-        RampAlarm_3           = recipe.RampAlarm_3;
-        RampAlarm_4           = recipe.RampAlarm_4;
-        RampAlarm_5           = recipe.RampAlarm_5;
-        RampAlarm_6           = recipe.RampAlarm_6;
-        RampAlarm_7           = recipe.RampAlarm_7;
-        RampAlarm_8           = recipe.RampAlarm_8;
+        Updated = DateTime.Now;
+        NitrogenMode = recipe.NitrogenMode;
+        OxygenContentSet = recipe.OxygenContentSet;
+        InflatingTime = recipe.InflatingTime;
+        DwellTemperature_1 = recipe.DwellTemperature_1;
+        DwellTemperature_2 = recipe.DwellTemperature_2;
+        DwellTemperature_3 = recipe.DwellTemperature_3;
+        DwellTemperature_4 = recipe.DwellTemperature_4;
+        DwellTemperature_5 = recipe.DwellTemperature_5;
+        DwellTemperature_6 = recipe.DwellTemperature_6;
+        DwellTemperature_7 = recipe.DwellTemperature_7;
+        DwellTemperature_8 = recipe.DwellTemperature_8;
+        DwellTime_1 = recipe.DwellTime_1;
+        DwellTime_2 = recipe.DwellTime_2;
+        DwellTime_3 = recipe.DwellTime_3;
+        DwellTime_4 = recipe.DwellTime_4;
+        DwellTime_5 = recipe.DwellTime_5;
+        DwellTime_6 = recipe.DwellTime_6;
+        DwellTime_7 = recipe.DwellTime_7;
+        DwellTime_8 = recipe.DwellTime_8;
+        DwellAlarm_1 = recipe.DwellAlarm_1;
+        DwellAlarm_2 = recipe.DwellAlarm_2;
+        DwellAlarm_3 = recipe.DwellAlarm_3;
+        DwellAlarm_4 = recipe.DwellAlarm_4;
+        DwellAlarm_5 = recipe.DwellAlarm_5;
+        DwellAlarm_6 = recipe.DwellAlarm_6;
+        DwellAlarm_7 = recipe.DwellAlarm_7;
+        DwellAlarm_8 = recipe.DwellAlarm_8;
+        CoolingTime = recipe.CoolingTime;
+        CoolingTemperature = recipe.CoolingTemperature;
+        RampTime_1 = recipe.RampTime_1;
+        RampTime_2 = recipe.RampTime_2;
+        RampTime_3 = recipe.RampTime_3;
+        RampTime_4 = recipe.RampTime_4;
+        RampTime_5 = recipe.RampTime_5;
+        RampTime_6 = recipe.RampTime_6;
+        RampTime_7 = recipe.RampTime_7;
+        RampTime_8 = recipe.RampTime_8;
+        RampAlarm_1 = recipe.RampAlarm_1;
+        RampAlarm_2 = recipe.RampAlarm_2;
+        RampAlarm_3 = recipe.RampAlarm_3;
+        RampAlarm_4 = recipe.RampAlarm_4;
+        RampAlarm_5 = recipe.RampAlarm_5;
+        RampAlarm_6 = recipe.RampAlarm_6;
+        RampAlarm_7 = recipe.RampAlarm_7;
+        RampAlarm_8 = recipe.RampAlarm_8;
         TemperatureSetpoint_1 = recipe.TemperatureSetpoint_1;
         TemperatureSetpoint_2 = recipe.TemperatureSetpoint_2;
         TemperatureSetpoint_3 = recipe.TemperatureSetpoint_3;
@@ -1732,19 +1732,65 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         TemperatureSetpoint_6 = recipe.TemperatureSetpoint_6;
         TemperatureSetpoint_7 = recipe.TemperatureSetpoint_7;
         TemperatureSetpoint_8 = recipe.TemperatureSetpoint_8;
-        DwellTimeOffset_1     = recipe.DwellTimeOffset_1;
-        DwellTimeOffset_2     = recipe.DwellTimeOffset_2;
-        DwellTimeOffset_3     = recipe.DwellTimeOffset_3;
-        DwellTimeOffset_4     = recipe.DwellTimeOffset_4;
-        DwellTimeOffset_5     = recipe.DwellTimeOffset_5;
-        DwellTimeOffset_6     = recipe.DwellTimeOffset_6;
-        DwellTimeOffset_7     = recipe.DwellTimeOffset_7;
-        DwellTimeOffset_8     = recipe.DwellTimeOffset_8;
-        SegmentCounts         = recipe.SegmentCounts;
-        Editor                = user;
-        EditorLevel           = level;
+        DwellTimeOffset_1 = recipe.DwellTimeOffset_1;
+        DwellTimeOffset_2 = recipe.DwellTimeOffset_2;
+        DwellTimeOffset_3 = recipe.DwellTimeOffset_3;
+        DwellTimeOffset_4 = recipe.DwellTimeOffset_4;
+        DwellTimeOffset_5 = recipe.DwellTimeOffset_5;
+        DwellTimeOffset_6 = recipe.DwellTimeOffset_6;
+        DwellTimeOffset_7 = recipe.DwellTimeOffset_7;
+        DwellTimeOffset_8 = recipe.DwellTimeOffset_8;
+        SegmentCounts = recipe.SegmentCounts;
+        Editor = user;
+        EditorLevel = level;
     }
 
+    public Dictionary<string, object> ToTopDictionary() => new()
+                                                        {
+                                                            { nameof(RecipeName), RecipeName },
+                                                            { "Top"+nameof(NitrogenMode), NitrogenMode },
+                                                            { "Top"+nameof(OxygenContentSet), OxygenContentSet },
+                                                            { nameof(InflatingTime), InflatingTime },
+                                                            { "Top"+nameof(DwellTime_1),  DwellTime_1 },
+                                                            { "Top"+nameof(DwellTime_2),  DwellTime_2 },
+                                                            { "Top"+nameof(DwellTime_3),  DwellTime_3 },
+                                                            { "Top"+nameof(DwellTime_4),  DwellTime_4 },
+                                                            { "Top"+nameof(DwellTime_5),  DwellTime_5 },
+                                                            { "Top"+nameof(DwellTime_6),  DwellTime_6 },
+                                                            { "Top"+nameof(DwellAlarm_1), DwellAlarm_1 },
+                                                            { "Top"+nameof(DwellAlarm_2), DwellAlarm_2 },
+                                                            { "Top"+nameof(DwellAlarm_3), DwellAlarm_3 },
+                                                            { "Top"+nameof(DwellAlarm_4), DwellAlarm_4 },
+                                                            { "Top"+nameof(DwellAlarm_5), DwellAlarm_5 },
+                                                            { "Top"+nameof(DwellAlarm_6), DwellAlarm_6 },
+                                                            { "Top"+nameof(CoolingTime), CoolingTime },
+                                                            { "Top"+nameof(CoolingTemperature), CoolingTemperature },
+                                                            { "Top"+nameof(RampTime_1), RampTime_1 },
+                                                            { "Top"+nameof(RampTime_2), RampTime_2 },
+                                                            { "Top"+nameof(RampTime_3), RampTime_3 },
+                                                            { "Top"+nameof(RampTime_4), RampTime_4 },
+                                                            { "Top"+nameof(RampTime_5), RampTime_5 },
+                                                            { "Top"+nameof(RampTime_6), RampTime_6 },
+                                                            { "Top"+nameof(RampAlarm_1),RampAlarm_1 },
+                                                            { "Top"+nameof(RampAlarm_2),RampAlarm_2 },
+                                                            { "Top"+nameof(RampAlarm_3),RampAlarm_3 },
+                                                            { "Top"+nameof(RampAlarm_4),RampAlarm_4 },
+                                                            { "Top"+nameof(RampAlarm_5),RampAlarm_5 },
+                                                            { "Top"+nameof(RampAlarm_6),RampAlarm_6 },
+                                                            { "Top"+nameof(TemperatureSetpoint_1), TemperatureSetpoint_1 },
+                                                            { "Top"+nameof(TemperatureSetpoint_2), TemperatureSetpoint_2 },
+                                                            { "Top"+nameof(TemperatureSetpoint_3), TemperatureSetpoint_3 },
+                                                            { "Top"+nameof(TemperatureSetpoint_4), TemperatureSetpoint_4 },
+                                                            { "Top"+nameof(TemperatureSetpoint_5), TemperatureSetpoint_5 },
+                                                            { "Top"+nameof(TemperatureSetpoint_6), TemperatureSetpoint_6 },
+                                                            { "Top"+nameof(DwellTimeOffset_1), DwellTimeOffset_1 },
+                                                            { "Top"+nameof(DwellTimeOffset_2), DwellTimeOffset_2 },
+                                                            { "Top"+nameof(DwellTimeOffset_3), DwellTimeOffset_3 },
+                                                            { "Top"+nameof(DwellTimeOffset_4), DwellTimeOffset_4 },
+                                                            { "Top"+nameof(DwellTimeOffset_5), DwellTimeOffset_5 },
+                                                            { "Top"+nameof(DwellTimeOffset_6), DwellTimeOffset_6 },
+                                                            { "Top"+nameof(SegmentCounts), SegmentCounts }
+                                                        };
     public Dictionary<string, object> ToDictionary() => new()
                                                         {
                                                             { nameof(RecipeName), RecipeName },
