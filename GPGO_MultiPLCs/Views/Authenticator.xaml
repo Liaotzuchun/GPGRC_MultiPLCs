@@ -731,6 +731,7 @@
                  <TabItem Height="40"
                          FontSize="16"
                          Header="{DynamicResource 系統設定}"
+                         Visibility="Collapsed"
                          IsEnabled="{Binding NowUser.Level, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3, Mode=OneWay, FallbackValue=False}">
                     <Grid Height="240">
                         <Grid.RowDefinitions>

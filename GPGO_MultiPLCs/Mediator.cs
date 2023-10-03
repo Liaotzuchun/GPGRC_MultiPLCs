@@ -500,11 +500,9 @@ public sealed class Mediator : ObservableObject
             {
                 var methodInvoke = "AlarmUpload";
                 var macCode = AuthenticatorVM.Settings.EquipmentID;
-                var wipEntity = TotalVM.Barcode;
                 var alarmCode = logevent.TagCode;
                 var alarmDesc = logevent.Description;
 
-                //001 工單ID 002員工號
                 var input = $"""
                                      <?xml version="1.0" encoding="UTF-8"?>
                                         <AlarmUpload
@@ -514,8 +512,7 @@ public sealed class Mediator : ObservableObject
                                         alarmCode="{alarmCode}"
                                         alarmDesc="{alarmDesc}"
                                         timeStamp="{DateTime.Now:yyyy-MM-dd HH:mm:ss}">
-                                            <item tagCode="{macCode}_001" tagValue="{wipEntity}" timeStamp=""/>
-                                            <item tagCode="{macCode}_002" tagValue="{User.Name}" timeStamp=""/>
+                                            <item tagCode="{macCode}001_3000" tagValue="1" timeStamp="{DateTime.Now:yyyy-MM-dd HH:mm:ss}"/>
                                      </AlarmUpload> 
                                      """;
 
@@ -542,8 +539,9 @@ public sealed class Mediator : ObservableObject
         TotalVM.DeleteRecipe += recipe => RecipeVM.Delete(recipe).Result;
 
         #region WebService
+        #region ---------Top---------
         #region 叫料
-        TotalVM.AddAGVevent += async e =>
+        TotalVM.PLC_All[0].TopAddAGVevent += async () =>
         {
             await Task.Run(() =>
             {
@@ -554,15 +552,15 @@ public sealed class Mediator : ObservableObject
                     var berthCode = $"In_{AuthenticatorVM.Settings.CallCarrierID}" ;
                     var wipEntity = "";
                     var input = $"""
-                                         <?xml version="1.0" encoding="UTF-8"?>
-                                         <CallAgv
-                                         xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
-                                         xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
-                                         macCode = "{macCode}"
-                                         berthCode = "{berthCode}"
-                                         wipEntity = "{wipEntity}">
-                                         </CallAgv>
-                                         """;
+                                             <?xml version="1.0" encoding="UTF-8"?>
+                                             <CallAgv
+                                             xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                                             xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                                             macCode = "{macCode}"
+                                             berthCode = "{berthCode}"
+                                             wipEntity = "{wipEntity}">
+                                             </CallAgv>
+                                             """;
 
                     var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
                     {
@@ -577,31 +575,87 @@ public sealed class Mediator : ObservableObject
                     if (ErrorCode is "0")
                     {
                         //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK";
-                        TotalVM.MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.MESMessage;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
                         //開啟作業管控功能
-                        TotalVM.IngredientsButtonEnabled = true;
-                        TotalVM.BarcodeEnabled = true;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopIngredientsButtonEnabled = true;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopBarcodeEnabled = true;
                         Thread.Sleep(AuthenticatorVM.Settings.AVGTime * 1000);
                     }
                     else
                     {
                         //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  当前没有计划工单";
-                        TotalVM.MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  当前没有计划工单 {Environment.NewLine}" + TotalVM.MESMessage;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  当前没有计划工单 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
                     }
-                    TotalVM.AddEnabled = true;
+                    TotalVM.PLC_All[TotalVM.PLCIndex].TopAddEnabled = true;
 
                 }
                 catch (Exception ex)
                 {
-                    TotalVM.MESMessage = ex.Message;
+                    TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = ex.Message;
                     Log.Debug(ex.Message);
-                    TotalVM.AddEnabled = true;
+                    TotalVM.PLC_All[TotalVM.PLCIndex].TopAddEnabled = true;
+                }
+            });
+        };
+        TotalVM.PLC_All[1].TopAddAGVevent += async () =>
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    var methodInvoke = "CallAgv";
+                    var macCode = AuthenticatorVM.Settings.EquipmentID;
+                    var berthCode = $"In_{AuthenticatorVM.Settings.CallCarrierID}" ;
+                    var wipEntity = "";
+                    var input = $"""
+                                             <?xml version="1.0" encoding="UTF-8"?>
+                                             <CallAgv
+                                             xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                                             xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                                             macCode = "{macCode}"
+                                             berthCode = "{berthCode}"
+                                             wipEntity = "{wipEntity}">
+                                             </CallAgv>
+                                             """;
+
+                    var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+                    {
+                        methodInvoke = methodInvoke,
+                        input = input
+                    });
+                    var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
+                    var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
+                    var ResultData = Result.macIntfResult.resultDatak__BackingField;
+                    Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
+                    Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
+                    if (ErrorCode is "0")
+                    {
+                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK";
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
+                        //開啟作業管控功能
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopIngredientsButtonEnabled = true;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopBarcodeEnabled = true;
+                        Thread.Sleep(AuthenticatorVM.Settings.AVGTime * 1000);
+                    }
+                    else
+                    {
+                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  当前没有计划工单";
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  当前没有计划工单 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
+                    }
+                    TotalVM.PLC_All[TotalVM.PLCIndex].TopAddEnabled = true;
+
+                }
+                catch (Exception ex)
+                {
+                    TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = ex.Message;
+                    Log.Debug(ex.Message);
+                    TotalVM.PLC_All[TotalVM.PLCIndex].TopAddEnabled = true;
                 }
             });
         };
         #endregion
         #region 出料
-        TotalVM.OutAGVevent += async e =>
+        TotalVM.PLC_All[0].TopOutAGVevent += async () =>
         {
             await Task.Run(() =>
             {
@@ -610,7 +664,7 @@ public sealed class Mediator : ObservableObject
                     var methodInvoke = "CallAgv";
                     var macCode = AuthenticatorVM.Settings.EquipmentID;
                     var berthCode = $"Out_{AuthenticatorVM.Settings.OutCarrierID}";
-                    var wipEntity = TotalVM.Barcode; //板件2D??
+                    var wipEntity = TotalVM.PLC_All[TotalVM.PLCIndex].TopBarcode; //板件2D??
                     var input = $"""
                                     <?xml version="1.0" encoding="UTF-8"?>
                                            <CallAgv
@@ -635,31 +689,79 @@ public sealed class Mediator : ObservableObject
                     if (ErrorCode is "0")
                     {
                         //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:FFF")}  [{methodInvoke}]  OK";
-                        TotalVM.MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.MESMessage;
-
-                        TotalVM.NGOutEnabled = false;
-
-                        //在線模式，出料任務返回0，解鎖掃碼功能
-                        if (TotalVM.Mode == 2)
-                            TotalVM.BarcodeEnabled = true;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopNGOutEnabled = false;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].BarcodeEnabled = true;
                     }
                     else
                     {
                         //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:FFF")}  [{methodInvoke}]  没有空载位";
-                        TotalVM.MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  没有空载位 {Environment.NewLine}" + TotalVM.MESMessage;
-                        TotalVM.OutEnabled = true;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  没有空载位 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopOutEnabled = true;
                     }
                 }
                 catch (Exception ex)
                 {
-                    TotalVM.MESMessage = ex.ToString();
+                    TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = ex.ToString();
+                    Log.Debug(ex.Message);
+                }
+            });
+        };
+        TotalVM.PLC_All[1].TopOutAGVevent += async () =>
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    var methodInvoke = "CallAgv";
+                    var macCode = AuthenticatorVM.Settings.EquipmentID;
+                    var berthCode = $"Out_{AuthenticatorVM.Settings.OutCarrierID}";
+                    var wipEntity = TotalVM.PLC_All[TotalVM.PLCIndex].TopBarcode; //板件2D??
+                    var input = $"""
+                                    <?xml version="1.0" encoding="UTF-8"?>
+                                           <CallAgv
+                                           xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                                           xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                                           macCode = "{macCode}"
+                                           berthCode = "{berthCode}"
+                                           wipEntity = "{wipEntity}">
+                                           </CallAgv> 
+                                    """;
+
+                    var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+                    {
+                        methodInvoke = methodInvoke,
+                        input = input
+                    });
+                    var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
+                    var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
+                    var ResultData = Result.macIntfResult.resultDatak__BackingField;
+                    Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
+                    Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
+                    if (ErrorCode is "0")
+                    {
+                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:FFF")}  [{methodInvoke}]  OK";
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopNGOutEnabled = false;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].BarcodeEnabled = true;
+                    }
+                    else
+                    {
+                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:FFF")}  [{methodInvoke}]  没有空载位";
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  没有空载位 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopOutEnabled = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = ex.ToString();
                     Log.Debug(ex.Message);
                 }
             });
         };
         #endregion
         #region NG出料
-        TotalVM.NGOutAGVevent += async e =>
+        TotalVM.PLC_All[0].TopNGOutAGVevent += async () =>
         {
             await Task.Run(() =>
             {
@@ -668,7 +770,7 @@ public sealed class Mediator : ObservableObject
                     var methodInvoke = "CallAgv";
                     var macCode = AuthenticatorVM.Settings.EquipmentID;
                     var berthCode = $"NGOut_{AuthenticatorVM.Settings.NGCarrierID}";
-                    var wipEntity = TotalVM.Barcode; //板件2D??
+                    var wipEntity = TotalVM.PLC_All[TotalVM.PLCIndex].TopBarcode; //板件2D??
                     var input = $"""
                              <?xml version="1.0" encoding="UTF-8"?>
                                 <CallAgv
@@ -693,28 +795,81 @@ public sealed class Mediator : ObservableObject
                     if (ErrorCode is "0")
                     {
                         //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] OK";
-                        TotalVM.MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.MESMessage;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
 
-                        TotalVM.OutEnabled = false;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopOutEnabled = false;
                     }
                     else
                     {
                         //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] 没有空载位";
-                        TotalVM.MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  没有空载位 {Environment.NewLine}" + TotalVM.MESMessage;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  没有空载位 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
 
-                        TotalVM.NGOutEnabled = true;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopNGOutEnabled = true;
                     }
                 }
                 catch (Exception ex)
                 {
-                    TotalVM.MESMessage = ex.Message;
+                    TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = ex.Message;
+                    Log.Debug(ex.Message);
+                }
+            });
+        };
+        TotalVM.PLC_All[1].TopNGOutAGVevent += async () =>
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    var methodInvoke = "CallAgv";
+                    var macCode = AuthenticatorVM.Settings.EquipmentID;
+                    var berthCode = $"NGOut_{AuthenticatorVM.Settings.NGCarrierID}";
+                    var wipEntity = TotalVM.PLC_All[TotalVM.PLCIndex].TopBarcode; //板件2D??
+                    var input = $"""
+                             <?xml version="1.0" encoding="UTF-8"?>
+                                <CallAgv
+                                xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                                xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                                macCode = "{macCode}"
+                                berthCode = "{berthCode}"
+                                wipEntity = "{wipEntity}">
+                                </CallAgv> 
+                             """;
+
+                    var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+                    {
+                        methodInvoke = methodInvoke,
+                        input = input
+                    });
+                    var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
+                    var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
+                    var ResultData = Result.macIntfResult.resultDatak__BackingField;
+                    Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
+                    Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
+                    if (ErrorCode is "0")
+                    {
+                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] OK";
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
+
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopOutEnabled = false;
+                    }
+                    else
+                    {
+                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] 没有空载位";
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  没有空载位 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
+
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopNGOutEnabled = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = ex.Message;
                     Log.Debug(ex.Message);
                 }
             });
         };
         #endregion
         #region 退料
-        TotalVM.RetAGVevent += async e =>
+        TotalVM.PLC_All[0].TopRetAGVevent += async () =>
         {
             await Task.Run(() =>
             {
@@ -723,7 +878,7 @@ public sealed class Mediator : ObservableObject
                     var methodInvoke = "CallAgv";
                     var macCode = AuthenticatorVM.Settings.EquipmentID;
                     var berthCode = $"Ret_{AuthenticatorVM.Settings.CallCarrierID}";
-                    var wipEntity = TotalVM.Barcode;  //板件2D??
+                    var wipEntity = TotalVM.PLC_All[TotalVM.PLCIndex].TopBarcode;  //板件2D??
                     var input = $"""
                                  <?xml version="1.0" encoding="UTF-8"?>
                                     <CallAgv
@@ -748,20 +903,20 @@ public sealed class Mediator : ObservableObject
                     if (ErrorCode is "0")
                     {
                         //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] OK";
-                        TotalVM.MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.MESMessage;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
 
                     }
                     else if (ErrorCode is "-1")
                     {
                         //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] 没有空载位";
-                        TotalVM.MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  没有空载位 {Environment.NewLine}" + TotalVM.MESMessage;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  没有空载位 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
 
-                        TotalVM.RetEnabled = true;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopRetEnabled = true;
                     }
                     else
                     {
                         //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] {ErrorMsg}";
-                        TotalVM.MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  {ErrorMsg} {Environment.NewLine}" + TotalVM.MESMessage;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  {ErrorMsg} {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
 
                     }
                     Log.Debug($"methodInvoke:[{methodInvoke}], berthCode:[{input}]");
@@ -769,14 +924,74 @@ public sealed class Mediator : ObservableObject
                 }
                 catch (Exception ex)
                 {
-                    TotalVM.MESMessage = ex.Message;
+                    TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = ex.Message;
+                    Log.Debug(ex.Message);
+                }
+            });
+        };
+        TotalVM.PLC_All[1].TopRetAGVevent += async () =>
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    var methodInvoke = "CallAgv";
+                    var macCode = AuthenticatorVM.Settings.EquipmentID;
+                    var berthCode = $"Ret_{AuthenticatorVM.Settings.CallCarrierID}";
+                    var wipEntity = TotalVM.PLC_All[TotalVM.PLCIndex].TopBarcode;  //板件2D??
+                    var input = $"""
+                                 <?xml version="1.0" encoding="UTF-8"?>
+                                    <CallAgv
+                                    xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                                    xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                                    macCode = "{macCode}"
+                                    berthCode = "{berthCode}"
+                                    wipEntity = "{wipEntity}">
+                                    </CallAgv>
+                                 """;
+
+                    var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+                    {
+                        methodInvoke = methodInvoke,
+                        input = input
+                    });
+                    var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
+                    var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
+                    var ResultData = Result.macIntfResult.resultDatak__BackingField;
+                    Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
+                    Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
+                    if (ErrorCode is "0")
+                    {
+                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] OK";
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
+
+                    }
+                    else if (ErrorCode is "-1")
+                    {
+                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] 没有空载位";
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  没有空载位 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
+
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopRetEnabled = true;
+                    }
+                    else
+                    {
+                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] {ErrorMsg}";
+                        TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  {ErrorMsg} {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
+
+                    }
+                    Log.Debug($"methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+
+                }
+                catch (Exception ex)
+                {
+                    TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = ex.Message;
                     Log.Debug(ex.Message);
                 }
             });
         };
         #endregion
         #region 上傳加工紀錄
-        TotalVM.DataUploadevent += async e =>
+        TotalVM.PLC_All[0].TopDataUploadevent += async e =>
         {
             await Task.Run(() =>
             {
@@ -784,7 +999,62 @@ public sealed class Mediator : ObservableObject
                 {
                     var methodInvoke = "DataUpload";
                     var macCode = AuthenticatorVM.Settings.EquipmentID;
-                    var wipEntity = TotalVM.Barcode;  //工單ID
+                    var wipEntity = TotalVM.PLC_All[TotalVM.PLCIndex].TopBarcode;  //工單ID
+
+                    var input = $"""
+                                    <?xml version="1.0" encoding="UTF-8"?>
+                                    <DataUpload
+                                       xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                                       xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                                        macCode = "{macCode}">
+                                       <item tagCode="{macCode}_1001" tagValue="{TotalVM.PLC_All[TotalVM.PLCIndex].TopPartID}" timeStamp="" />
+                                       <item tagCode="{macCode}_1002" tagValue="{TotalVM.PLC_All[TotalVM.PLCIndex].TopProcessID}" timeStamp="" />
+                                       <item tagCode="{macCode}_1003" tagValue="{TotalVM.PLC_All[TotalVM.PLCIndex].TopPanelCount}" timeStamp="" />
+                                       <item tagCode="{macCode}_1004" tagValue="{TotalVM.PLC_All[TotalVM.PLCIndex].TopCheckin}" timeStamp="" />
+                                       <item tagCode="{macCode}_1005" tagValue="{DateTime.Now}" timeStamp="" />
+                                       <item tagCode="{macCode}_1006" tagValue="{User.Name}" timeStamp="" />
+                                    </DataUpload> 
+                                    """;
+
+                    var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+                    {
+                        methodInvoke = methodInvoke,
+                        input = input
+                    });
+                    var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
+                    var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
+                    var ResultData = Result.macIntfResult.resultDatak__BackingField;
+                    Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
+                    Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
+                    if (ErrorCode is "0")
+                    {
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopOutEnabled = true;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopNGOutEnabled = true;
+                    }
+                    else
+                    {
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  加工数据上传失败 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
+                        Thread.Sleep(AuthenticatorVM.Settings.AVGTime * 1000);
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopCheckButtonEnabled = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = ex.Message;
+                    Log.Debug(ex.Message);
+                }
+            });
+        };
+        TotalVM.PLC_All[1].TopDataUploadevent += async e =>
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    var methodInvoke = "DataUpload";
+                    var macCode = AuthenticatorVM.Settings.EquipmentID;
+                    var wipEntity = TotalVM.PLC_All[TotalVM.PLCIndex].TopBarcode;  //工單ID
 
                     var input = $"""
                                     <?xml version="1.0" encoding="UTF-8"?>
@@ -793,10 +1063,617 @@ public sealed class Mediator : ObservableObject
                                        xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
                                         macCode = "{macCode}"
                                         wipEntity = "{wipEntity}">
-                                       <item tagCode="{macCode}_1001" tagValue="{TotalVM.PartID}" timeStamp="" />
-                                       <item tagCode="{macCode}_1002" tagValue="{TotalVM.ProcessID}" timeStamp="" />
-                                       <item tagCode="{macCode}_1003" tagValue="{TotalVM.PanelCount}" timeStamp="" />
-                                       <item tagCode="{macCode}_1004" tagValue="請求配方時間" timeStamp="" />
+                                       <item tagCode="{macCode}_1001" tagValue="{TotalVM.PLC_All[TotalVM.PLCIndex].TopPartID}" timeStamp="" />
+                                       <item tagCode="{macCode}_1002" tagValue="{TotalVM.PLC_All[TotalVM.PLCIndex].TopProcessID}" timeStamp="" />
+                                       <item tagCode="{macCode}_1003" tagValue="{TotalVM.PLC_All[TotalVM.PLCIndex].TopPanelCount}" timeStamp="" />
+                                       <item tagCode="{macCode}_1004" tagValue="{TotalVM.PLC_All[TotalVM.PLCIndex].TopCheckin}" timeStamp="" />
+                                       <item tagCode="{macCode}_1005" tagValue="{DateTime.Now}" timeStamp="" />
+                                       <item tagCode="{macCode}_1006" tagValue="{User.Name}" timeStamp="" />
+                                    </DataUpload> 
+                                    """;
+
+                    var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+                    {
+                        methodInvoke = methodInvoke,
+                        input = input
+                    });
+                    var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
+                    var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
+                    var ResultData = Result.macIntfResult.resultDatak__BackingField;
+                    Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
+                    Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
+                    if (ErrorCode is "0")
+                    {
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopOutEnabled = true;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopNGOutEnabled = true;
+                    }
+                    else
+                    {
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  加工数据上传失败 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
+                        Thread.Sleep(AuthenticatorVM.Settings.AVGTime * 1000);
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopCheckButtonEnabled = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = ex.Message;
+                    Log.Debug(ex.Message);
+                }
+            });
+        };
+        #endregion        
+        #region 掃碼工單號
+        TotalVM.PLC_All[0].TopIngredientsevent += async () =>
+        {
+            var methodInvoke = "Ingredients";
+            var macCode = AuthenticatorVM.Settings.EquipmentID;
+            var wipEntity = TotalVM.PLC_All[TotalVM.PLCIndex].TopBarcode;
+            if (wipEntity == null)
+            {
+                TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  扫码不能为空 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
+                return;
+            }
+            var input = $"""
+                            <?xml version="1.0" encoding="UTF-8"?>
+                                <Ingredients
+                                xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                                xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                                macCode = "{macCode}"
+                                wipEntity = "{wipEntity}">                              
+                                </Ingredients>
+                            """;
+
+            var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+            {
+                methodInvoke = methodInvoke,
+                input = input
+            });
+            var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
+            var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
+            var ResultData = Result.macIntfResult.resultDatak__BackingField;
+            Log.Debug($"Request : methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+            Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
+            ////Test 之後要打開
+            //if (ErrorCode is "0")
+            //{
+            //    GetResultData(ResultData, TotalVM.PLCIndex, "Top");
+            //    TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  配方下发完成 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
+            //    TotalVM.PLC_All[TotalVM.PLCIndex].TopAddEnabled = false;
+            //    TotalVM.PLC_All[TotalVM.PLCIndex].TopIngredientsButtonEnabled = false;
+            //}
+            //else
+            //{
+            //    TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  配方下发失败 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
+
+            //}
+            GetResultData(ResultData, TotalVM.PLCIndex, "Top");
+            TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"單純測試用";
+            TotalVM.PLC_All[TotalVM.PLCIndex].TopIngredientsButtonEnabled = false;
+        };
+        TotalVM.PLC_All[1].TopIngredientsevent += async () =>
+        {
+            var methodInvoke = "Ingredients";
+            var macCode = AuthenticatorVM.Settings.EquipmentID;
+            var wipEntity = TotalVM.PLC_All[TotalVM.PLCIndex].TopBarcode;
+            if (wipEntity == null)
+            {
+                TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  扫码不能为空 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
+                return;
+            }
+            var input = $"""
+                            <?xml version="1.0" encoding="UTF-8"?>
+                                <Ingredients
+                                xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                                xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                                macCode = "{macCode}"
+                                wipEntity = "{wipEntity}">                              
+                                </Ingredients>
+                            """;
+
+            var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+            {
+                methodInvoke = methodInvoke,
+                input = input
+            });
+            var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
+            var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
+            var ResultData = Result.macIntfResult.resultDatak__BackingField;
+            Log.Debug($"Request : methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+            Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
+            ////Test 之後要打開
+            //if (ErrorCode is "0")
+            //{
+            //    GetResultData(ResultData, TotalVM.PLCIndex, "Top");
+            //    TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  配方下发完成 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.Index].TopMESMessage;
+            //    TotalVM.PLC_All[TotalVM.PLCIndex].TopAddEnabled = false;
+            //    TotalVM.PLC_All[TotalVM.PLCIndex].TopIngredientsButtonEnabled = false;
+            //}
+            //else
+            //{
+            //    TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  配方下发失败 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.Index].TopMESMessage;
+
+            //}
+            GetResultData(ResultData, TotalVM.PLCIndex, "Top");
+            TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"單純測試用";
+            TotalVM.PLC_All[TotalVM.PLCIndex].TopIngredientsButtonEnabled = false;
+        };
+
+        #endregion
+        #endregion
+        #region ---------Bottom---------
+        #region 叫料
+        TotalVM.PLC_All[0].AddAGVevent += async () =>
+            {
+                await Task.Run(() =>
+                {
+                    try
+                    {
+                        var methodInvoke = "CallAgv";
+                        var macCode = AuthenticatorVM.Settings.EquipmentID;
+                        var berthCode = $"In_{AuthenticatorVM.Settings.CallCarrierID}" ;
+                        var wipEntity = "";
+                        var input = $"""
+                                             <?xml version="1.0" encoding="UTF-8"?>
+                                             <CallAgv
+                                             xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                                             xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                                             macCode = "{macCode}"
+                                             berthCode = "{berthCode}"
+                                             wipEntity = "{wipEntity}">
+                                             </CallAgv>
+                                             """;
+
+                        var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+                        {
+                            methodInvoke = methodInvoke,
+                            input = input
+                        });
+                        var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
+                        var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
+                        var ResultData = Result.macIntfResult.resultDatak__BackingField;
+                        Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
+                        Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
+                        if (ErrorCode is "0")
+                        {
+                            //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK";
+                            TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
+                            //開啟作業管控功能
+                            TotalVM.PLC_All[TotalVM.PLCIndex].IngredientsButtonEnabled = true;
+                            TotalVM.PLC_All[TotalVM.PLCIndex].BarcodeEnabled = true;
+                            Thread.Sleep(AuthenticatorVM.Settings.AVGTime * 1000);
+                        }
+                        else
+                        {
+                            //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  当前没有计划工单";
+                            TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  当前没有计划工单 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
+                        }
+                        TotalVM.PLC_All[TotalVM.PLCIndex].AddEnabled = true;
+
+                    }
+                    catch (Exception ex)
+                    {
+                        TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = ex.Message;
+                        Log.Debug(ex.Message);
+                        TotalVM.PLC_All[TotalVM.PLCIndex].AddEnabled = true;
+                    }
+                });
+            };
+        TotalVM.PLC_All[1].AddAGVevent += async () =>
+                    {
+                        await Task.Run(() =>
+                        {
+                            try
+                            {
+                                var methodInvoke = "CallAgv";
+                                var macCode = AuthenticatorVM.Settings.EquipmentID;
+                                var berthCode = $"In_{AuthenticatorVM.Settings.CallCarrierID}" ;
+                                var wipEntity = "";
+                                var input = $"""
+                                             <?xml version="1.0" encoding="UTF-8"?>
+                                             <CallAgv
+                                             xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                                             xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                                             macCode = "{macCode}"
+                                             berthCode = "{berthCode}"
+                                             wipEntity = "{wipEntity}">
+                                             </CallAgv>
+                                             """;
+
+                                var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+                                {
+                                    methodInvoke = methodInvoke,
+                                    input = input
+                                });
+                                var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
+                                var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
+                                var ResultData = Result.macIntfResult.resultDatak__BackingField;
+                                Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
+                                Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
+                                if (ErrorCode is "0")
+                                {
+                                    //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK";
+                                    TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
+                                    //開啟作業管控功能
+                                    TotalVM.PLC_All[TotalVM.PLCIndex].IngredientsButtonEnabled = true;
+                                    TotalVM.PLC_All[TotalVM.PLCIndex].BarcodeEnabled = true;
+                                    Thread.Sleep(AuthenticatorVM.Settings.AVGTime * 1000);
+                                }
+                                else
+                                {
+                                    //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  当前没有计划工单";
+                                    TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  当前没有计划工单 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
+                                }
+                                TotalVM.PLC_All[TotalVM.PLCIndex].AddEnabled = true;
+
+                            }
+                            catch (Exception ex)
+                            {
+                                TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = ex.Message;
+                                Log.Debug(ex.Message);
+                                TotalVM.PLC_All[TotalVM.PLCIndex].AddEnabled = true;
+                            }
+                        });
+                    };
+        #endregion
+        #region 出料
+        TotalVM.PLC_All[0].OutAGVevent += async () =>
+            {
+                await Task.Run(() =>
+                {
+                    try
+                    {
+                        var methodInvoke = "CallAgv";
+                        var macCode = AuthenticatorVM.Settings.EquipmentID;
+                        var berthCode = $"Out_{AuthenticatorVM.Settings.OutCarrierID}";
+                        var wipEntity = TotalVM.PLC_All[TotalVM.PLCIndex].Barcode; //板件2D??
+                        var input = $"""
+                                    <?xml version="1.0" encoding="UTF-8"?>
+                                           <CallAgv
+                                           xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                                           xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                                           macCode = "{macCode}"
+                                           berthCode = "{berthCode}"
+                                           wipEntity = "{wipEntity}">
+                                           </CallAgv> 
+                                    """;
+
+                        var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+                        {
+                            methodInvoke = methodInvoke,
+                            input = input
+                        });
+                        var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
+                        var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
+                        var ResultData = Result.macIntfResult.resultDatak__BackingField;
+                        Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
+                        Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
+                        if (ErrorCode is "0")
+                        {
+                            //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:FFF")}  [{methodInvoke}]  OK";
+                            TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
+                            TotalVM.PLC_All[TotalVM.PLCIndex].NGOutEnabled = false;
+                            TotalVM.PLC_All[TotalVM.PLCIndex].BarcodeEnabled = true;
+                        }
+                        else
+                        {
+                            //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:FFF")}  [{methodInvoke}]  没有空载位";
+                            TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  没有空载位 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
+                            TotalVM.PLC_All[TotalVM.PLCIndex].OutEnabled = true;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = ex.ToString();
+                        Log.Debug(ex.Message);
+                    }
+                });
+            };
+        TotalVM.PLC_All[1].OutAGVevent += async () =>
+            {
+                await Task.Run(() =>
+                {
+                    try
+                    {
+                        var methodInvoke = "CallAgv";
+                        var macCode = AuthenticatorVM.Settings.EquipmentID;
+                        var berthCode = $"Out_{AuthenticatorVM.Settings.OutCarrierID}";
+                        var wipEntity = TotalVM.PLC_All[TotalVM.PLCIndex].Barcode; //板件2D??
+                        var input = $"""
+                                    <?xml version="1.0" encoding="UTF-8"?>
+                                           <CallAgv
+                                           xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                                           xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                                           macCode = "{macCode}"
+                                           berthCode = "{berthCode}"
+                                           wipEntity = "{wipEntity}">
+                                           </CallAgv> 
+                                    """;
+
+                        var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+                        {
+                            methodInvoke = methodInvoke,
+                            input = input
+                        });
+                        var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
+                        var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
+                        var ResultData = Result.macIntfResult.resultDatak__BackingField;
+                        Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
+                        Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
+                        if (ErrorCode is "0")
+                        {
+                            //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:FFF")}  [{methodInvoke}]  OK";
+                            TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
+                            TotalVM.PLC_All[TotalVM.PLCIndex].NGOutEnabled = false;
+                            TotalVM.PLC_All[TotalVM.PLCIndex].BarcodeEnabled = true;
+                        }
+                        else
+                        {
+                            //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:FFF")}  [{methodInvoke}]  没有空载位";
+                            TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  没有空载位 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
+                            TotalVM.PLC_All[TotalVM.PLCIndex].OutEnabled = true;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = ex.ToString();
+                        Log.Debug(ex.Message);
+                    }
+                });
+            };
+        #endregion
+        #region NG出料
+        TotalVM.PLC_All[0].NGOutAGVevent += async () =>
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    var methodInvoke = "CallAgv";
+                    var macCode = AuthenticatorVM.Settings.EquipmentID;
+                    var berthCode = $"NGOut_{AuthenticatorVM.Settings.NGCarrierID}";
+                    var wipEntity = TotalVM.PLC_All[TotalVM.PLCIndex].Barcode; //板件2D??
+                    var input = $"""
+                             <?xml version="1.0" encoding="UTF-8"?>
+                                <CallAgv
+                                xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                                xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                                macCode = "{macCode}"
+                                berthCode = "{berthCode}"
+                                wipEntity = "{wipEntity}">
+                                </CallAgv> 
+                             """;
+
+                    var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+                    {
+                        methodInvoke = methodInvoke,
+                        input = input
+                    });
+                    var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
+                    var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
+                    var ResultData = Result.macIntfResult.resultDatak__BackingField;
+                    Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
+                    Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
+                    if (ErrorCode is "0")
+                    {
+                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] OK";
+                        TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
+
+                        TotalVM.PLC_All[TotalVM.PLCIndex].OutEnabled = false;
+                    }
+                    else
+                    {
+                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] 没有空载位";
+                        TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  没有空载位 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
+
+                        TotalVM.PLC_All[TotalVM.PLCIndex].NGOutEnabled = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = ex.Message;
+                    Log.Debug(ex.Message);
+                }
+            });
+        };
+        TotalVM.PLC_All[1].NGOutAGVevent += async () =>
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    var methodInvoke = "CallAgv";
+                    var macCode = AuthenticatorVM.Settings.EquipmentID;
+                    var berthCode = $"NGOut_{AuthenticatorVM.Settings.NGCarrierID}";
+                    var wipEntity = TotalVM.PLC_All[TotalVM.PLCIndex].Barcode; //板件2D??
+                    var input = $"""
+                             <?xml version="1.0" encoding="UTF-8"?>
+                                <CallAgv
+                                xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                                xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                                macCode = "{macCode}"
+                                berthCode = "{berthCode}"
+                                wipEntity = "{wipEntity}">
+                                </CallAgv> 
+                             """;
+
+                    var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+                    {
+                        methodInvoke = methodInvoke,
+                        input = input
+                    });
+                    var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
+                    var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
+                    var ResultData = Result.macIntfResult.resultDatak__BackingField;
+                    Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
+                    Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
+                    if (ErrorCode is "0")
+                    {
+                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] OK";
+                        TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
+
+                        TotalVM.PLC_All[TotalVM.PLCIndex].OutEnabled = false;
+                    }
+                    else
+                    {
+                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] 没有空载位";
+                        TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  没有空载位 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
+
+                        TotalVM.PLC_All[TotalVM.PLCIndex].NGOutEnabled = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = ex.Message;
+                    Log.Debug(ex.Message);
+                }
+            });
+        };
+        #endregion
+        #region 退料
+        TotalVM.PLC_All[0].RetAGVevent += async () =>
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    var methodInvoke = "CallAgv";
+                    var macCode = AuthenticatorVM.Settings.EquipmentID;
+                    var berthCode = $"Ret_{AuthenticatorVM.Settings.CallCarrierID}";
+                    var wipEntity = TotalVM.PLC_All[TotalVM.PLCIndex].Barcode;  //板件2D??
+                    var input = $"""
+                                 <?xml version="1.0" encoding="UTF-8"?>
+                                    <CallAgv
+                                    xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                                    xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                                    macCode = "{macCode}"
+                                    berthCode = "{berthCode}"
+                                    wipEntity = "{wipEntity}">
+                                    </CallAgv>
+                                 """;
+
+                    var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+                    {
+                        methodInvoke = methodInvoke,
+                        input = input
+                    });
+                    var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
+                    var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
+                    var ResultData = Result.macIntfResult.resultDatak__BackingField;
+                    Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
+                    Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
+                    if (ErrorCode is "0")
+                    {
+                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] OK";
+                        TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
+
+                    }
+                    else if (ErrorCode is "-1")
+                    {
+                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] 没有空载位";
+                        TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  没有空载位 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
+
+                        TotalVM.PLC_All[TotalVM.PLCIndex].RetEnabled = true;
+                    }
+                    else
+                    {
+                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] {ErrorMsg}";
+                        TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  {ErrorMsg} {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
+
+                    }
+                    Log.Debug($"methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+
+                }
+                catch (Exception ex)
+                {
+                    TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = ex.Message;
+                    Log.Debug(ex.Message);
+                }
+            });
+        };
+        TotalVM.PLC_All[1].RetAGVevent += async () =>
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    var methodInvoke = "CallAgv";
+                    var macCode = AuthenticatorVM.Settings.EquipmentID;
+                    var berthCode = $"Ret_{AuthenticatorVM.Settings.CallCarrierID}";
+                    var wipEntity = TotalVM.PLC_All[TotalVM.PLCIndex].Barcode;  //板件2D??
+                    var input = $"""
+                                 <?xml version="1.0" encoding="UTF-8"?>
+                                    <CallAgv
+                                    xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                                    xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                                    macCode = "{macCode}"
+                                    berthCode = "{berthCode}"
+                                    wipEntity = "{wipEntity}">
+                                    </CallAgv>
+                                 """;
+
+                    var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+                    {
+                        methodInvoke = methodInvoke,
+                        input = input
+                    });
+                    var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
+                    var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
+                    var ResultData = Result.macIntfResult.resultDatak__BackingField;
+                    Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
+                    Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
+                    if (ErrorCode is "0")
+                    {
+                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] OK";
+                        TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
+
+                    }
+                    else if (ErrorCode is "-1")
+                    {
+                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] 没有空载位";
+                        TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  没有空载位 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
+
+                        TotalVM.PLC_All[TotalVM.PLCIndex].RetEnabled = true;
+                    }
+                    else
+                    {
+                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] {ErrorMsg}";
+                        TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  {ErrorMsg} {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
+
+                    }
+                    Log.Debug($"methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+
+                }
+                catch (Exception ex)
+                {
+                    TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = ex.Message;
+                    Log.Debug(ex.Message);
+                }
+            });
+        };
+        #endregion
+        #region 上傳加工紀錄
+        TotalVM.PLC_All[0].DataUploadevent += async e =>
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    var methodInvoke = "DataUpload";
+                    var macCode = AuthenticatorVM.Settings.EquipmentID;
+                    var wipEntity = TotalVM.PLC_All[TotalVM.PLCIndex].Barcode;  //工單ID
+
+                    var input = $"""
+                                    <?xml version="1.0" encoding="UTF-8"?>
+                                    <DataUpload
+                                       xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                                       xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                                        macCode = "{macCode}"
+                                        wipEntity = "{wipEntity}">
+                                       <item tagCode="{macCode}_1001" tagValue="{TotalVM.PLC_All[TotalVM.PLCIndex].PartID}" timeStamp="" />
+                                       <item tagCode="{macCode}_1002" tagValue="{TotalVM.PLC_All[TotalVM.PLCIndex].ProcessID}" timeStamp="" />
+                                       <item tagCode="{macCode}_1003" tagValue="{TotalVM.PLC_All[TotalVM.PLCIndex].PanelCount}" timeStamp="" />
+                                       <item tagCode="{macCode}_1004" tagValue="{TotalVM.PLC_All[TotalVM.PLCIndex].TopCheckin}" timeStamp="" />
                                        <item tagCode="{macCode}_1005" tagValue="{DateTime.Now}" timeStamp="" />
                                        <item tagCode="{macCode}_1006" tagValue="{User.Name}" timeStamp="" />
                                     </DataUpload> 
@@ -815,30 +1692,28 @@ public sealed class Mediator : ObservableObject
                     if (ErrorCode is "0")
                     {
                         //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] OK";
-                        TotalVM.MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.MESMessage;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
 
-                        TotalVM.OutEnabled = true;
-                        TotalVM.NGOutEnabled = true;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].OutEnabled = true;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].NGOutEnabled = true;
                     }
                     else
                     {
                         //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] 加工数据上传失败";
-                        TotalVM.MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  加工数据上传失败 {Environment.NewLine}" + TotalVM.MESMessage;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  加工数据上传失败 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
 
                         Thread.Sleep(AuthenticatorVM.Settings.AVGTime * 1000);
-                        TotalVM.CheckButtonEnabled = true;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].CheckButtonEnabled = true;
                     }
                 }
                 catch (Exception ex)
                 {
-                    TotalVM.MESMessage = ex.Message;
+                    TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = ex.Message;
                     Log.Debug(ex.Message);
                 }
             });
         };
-        #endregion
-        #region 智能單元狀態
-        TotalVM.ChangeStatusevent += async e =>
+        TotalVM.PLC_All[1].DataUploadevent += async e =>
         {
             await Task.Run(() =>
             {
@@ -846,7 +1721,7 @@ public sealed class Mediator : ObservableObject
                 {
                     var methodInvoke = "DataUpload";
                     var macCode = AuthenticatorVM.Settings.EquipmentID;
-                    var wipEntity = TotalVM.Barcode;  //工單ID
+                    var wipEntity = TotalVM.PLC_All[TotalVM.PLCIndex].Barcode;  //工單ID
 
                     var input = $"""
                                     <?xml version="1.0" encoding="UTF-8"?>
@@ -855,7 +1730,12 @@ public sealed class Mediator : ObservableObject
                                        xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
                                         macCode = "{macCode}"
                                         wipEntity = "{wipEntity}">
-                                       <item tagCode="{macCode}_030" tagValue="{e}" timeStamp="{DateTime.Now}" />
+                                       <item tagCode="{macCode}_1001" tagValue="{TotalVM.PLC_All[TotalVM.PLCIndex].PartID}" timeStamp="" />
+                                       <item tagCode="{macCode}_1002" tagValue="{TotalVM.PLC_All[TotalVM.PLCIndex].ProcessID}" timeStamp="" />
+                                       <item tagCode="{macCode}_1003" tagValue="{TotalVM.PLC_All[TotalVM.PLCIndex].PanelCount}" timeStamp="" />
+                                       <item tagCode="{macCode}_1004" tagValue="{TotalVM.PLC_All[TotalVM.PLCIndex].TopCheckin}" timeStamp="" />
+                                       <item tagCode="{macCode}_1005" tagValue="{DateTime.Now}" timeStamp="" />
+                                       <item tagCode="{macCode}_1006" tagValue="{User.Name}" timeStamp="" />
                                     </DataUpload> 
                                     """;
 
@@ -872,32 +1752,87 @@ public sealed class Mediator : ObservableObject
                     if (ErrorCode is "0")
                     {
                         //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] OK";
-                        TotalVM.MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.MESMessage;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
 
+                        TotalVM.PLC_All[TotalVM.PLCIndex].OutEnabled = true;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].NGOutEnabled = true;
                     }
                     else
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] 智能單元狀態数据上传失败";
-                        TotalVM.MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  智能單元狀態数据上传失败 {Environment.NewLine}" + TotalVM.MESMessage;
+                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] 加工数据上传失败";
+                        TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  加工数据上传失败 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
+
+                        Thread.Sleep(AuthenticatorVM.Settings.AVGTime * 1000);
+                        TotalVM.PLC_All[TotalVM.PLCIndex].CheckButtonEnabled = true;
                     }
                 }
                 catch (Exception ex)
                 {
-                    TotalVM.MESMessage = ex.Message;
+                    TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = ex.Message;
                     Log.Debug(ex.Message);
                 }
             });
         };
         #endregion
         #region 掃碼工單號
-        TotalVM.Ingredientsevent += async () =>
+        TotalVM.PLC_All[0].Ingredientsevent += async () =>
         {
             var methodInvoke = "Ingredients";
             var macCode = AuthenticatorVM.Settings.EquipmentID;
-            var wipEntity = TotalVM.Barcode;
+            var wipEntity = TotalVM.PLC_All[TotalVM.PLCIndex].Barcode;
             if (wipEntity == null)
             {
-                TotalVM.MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  扫码不能为空 {Environment.NewLine}" + TotalVM.MESMessage;
+                TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  扫码不能为空 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
+                return;
+            }
+            var input = $"""
+                            <?xml version="1.0" encoding="UTF-8"?>
+                                <Ingredients
+                                xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                                xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                                macCode = "{macCode}"
+                                wipEntity = "{wipEntity}">                              
+                                </Ingredients>
+                            """;
+
+            var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+            {
+                methodInvoke = methodInvoke,
+                input = input
+            });
+            var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
+            var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
+            var ResultData = Result.macIntfResult.resultDatak__BackingField;
+            Log.Debug($"Request : methodInvoke:[{methodInvoke}], berthCode:[{input}]");
+            Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
+            ////Test 之後要打開
+            //if (ErrorCode is "0")
+            //{
+            //    GetResultData(ResultData, TotalVM.Index, "Bottom");
+            //    TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  配方下发完成";
+            //    TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  配方下发完成 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
+            //    TotalVM.PLC_All[TotalVM.PLCIndex].AddEnabled = false;
+
+            //    TotalVM.PLC_All[TotalVM.PLCIndex].IngredientsButtonEnabled = false;
+            //}
+            //else
+            //{
+            //    TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  配方下发失败";
+            //    TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  配方下发失败 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
+
+            //}
+            GetResultData(ResultData, TotalVM.Index, "Bottom");
+            TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"單純測試用";
+            TotalVM.PLC_All[TotalVM.PLCIndex].IngredientsButtonEnabled = false;
+        };
+        TotalVM.PLC_All[1].Ingredientsevent += async () =>
+        {
+            var methodInvoke = "Ingredients";
+            var macCode = AuthenticatorVM.Settings.EquipmentID;
+            var wipEntity = TotalVM.PLC_All[TotalVM.PLCIndex].Barcode;
+            if (wipEntity == null)
+            {
+                TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  扫码不能为空 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
                 return;
             }
             var input = $"""
@@ -923,23 +1858,70 @@ public sealed class Mediator : ObservableObject
             //// Test 之後要打開
             //if (ErrorCode is "0")
             //{
-            //    GetResultData(ResultData);
-            //    //    TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  配方下发完成";
-            //    TotalVM.MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  配方下发完成 {Environment.NewLine}" + TotalVM.MESMessage;
-
-            //    TotalVM.IngredientsButtonEnabled = false;
+            //    GetResultData(ResultData, TotalVM.Index, "Bottom");
+            //    TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  配方下发完成 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
+            //    TotalVM.PLC_All[TotalVM.PLCIndex].AddEnabled = false;
+            //    TotalVM.PLC_All[TotalVM.PLCIndex].IngredientsButtonEnabled = false;
             //}
             //else
             //{
-            //    //    TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  配方下发失败";
-            //    TotalVM.MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  配方下发失败 {Environment.NewLine}" + TotalVM.MESMessage;
-
+            //    TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  配方下发失败 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
             //}
-            GetResultData(ResultData);
-            TotalVM.MESMessage = $"單純測試用";
-            TotalVM.IngredientsButtonEnabled = false;
+            GetResultData(ResultData, TotalVM.Index, "Bottom");
+            TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"單純測試用";
+            TotalVM.PLC_All[TotalVM.PLCIndex].IngredientsButtonEnabled = false;
         };
         #endregion
+        #endregion
+        #region 智能單元狀態
+        TotalVM.ChangeStatusevent += async e =>
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    var methodInvoke = "DataUpload";
+                    var macCode = AuthenticatorVM.Settings.EquipmentID;
+                    //var wipEntity = TotalVM.PLC_All[i].Barcode;  //工單ID
+
+                    var input = $"""
+                                    <?xml version="1.0" encoding="UTF-8"?>
+                                    <DataUpload
+                                       xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                                       xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+                                        macCode = "{macCode}">
+                                       <item tagCode="{macCode}_018" tagValue="{e}" timeStamp="{DateTime.Now}" />
+                                    </DataUpload> 
+                                    """;
+
+                    var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+                    {
+                        methodInvoke = methodInvoke,
+                        input = input
+                    });
+                    var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
+                    var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
+                    var ResultData = Result.macIntfResult.resultDatak__BackingField;
+                    Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
+                    Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
+                    //if (ErrorCode is "0")
+                    //{
+                    //    TotalVM.PLC_All[i].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[i].MESMessage;
+
+                    //}
+                    //else
+                    //{
+                    //    TotalVM.PLC_All[i].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  智能單元狀態数据上传失败 {Environment.NewLine}" + TotalVM.PLC_All[i].MESMessage;
+                    //}
+                }
+                catch (Exception ex)
+                {
+                    Log.Debug(ex.Message);
+                }
+            });
+        };
+        #endregion
+
         #endregion
 
         LogVM.WantInfo += e => TraceVM.FindInfo(e.station, e.time);
@@ -1018,6 +2000,7 @@ public sealed class Mediator : ObservableObject
         //                                    }),
         //              TimeSpan.FromMinutes(5));
         #endregion
+
         GPServiceHostFunc();
     }
 
@@ -1150,7 +2133,7 @@ public sealed class Mediator : ObservableObject
     }
 
 
-    public void GetResultData(string Data)
+    public void GetResultData(string Data, int PLCindex, string IsToporBottom)
     {
         //測試用
         Data = $"""
@@ -1164,37 +2147,72 @@ public sealed class Mediator : ObservableObject
                     <item tagCode = "MAC001_1001" tagValue = "Part1234" timeStamp = "" />
                     <item tagCode = "MAC001_1002" tagValue = "Process1234" timeStamp = "" />
                     <item tagCode = "MAC001_1003" tagValue = "1234" timeStamp = "" />
-                    <item tagCode = "MAC001_1004" tagValue = "Recipe1234" timeStamp = "" />
+                    <item tagCode = "MAC001_1004" tagValue = "{TotalVM.PLC_All[TotalVM.PLCIndex].Barcode}" timeStamp = "" />
            </Ingredients >         
            """;
 
         var reader = new StringReader(Data);
         var serializer = new XmlSerializer(typeof(Ingredients));
         var instance  = (Ingredients)serializer.Deserialize(reader);
-        TotalVM.OPID = User.Name;
-        foreach (var item in instance.item)
+        if (IsToporBottom == "Top")
         {
-            if (item.tagCode.Contains("1000"))
+            TotalVM.PLC_All[TotalVM.PLCIndex].TopOPID = User.Name;
+            TotalVM.PLC_All[TotalVM.PLCIndex].TopCheckin = DateTime.Now;
+
+            foreach (var item in instance.item)
             {
-                TotalVM.WorkOrder = item.tagValue;
-            }
-            else if (item.tagCode.Contains("1001"))
-            {
-                TotalVM.PartID = item.tagValue;
-            }
-            else if (item.tagCode.Contains("1002"))
-            {
-                TotalVM.ProcessID = item.tagValue;
-            }
-            else if (item.tagCode.Contains("1003"))
-            {
-                TotalVM.PanelCount = item.tagValue;
-            }
-            else if (item.tagCode.Contains("1004"))
-            {
-                TotalVM.RecipeID = item.tagValue;
+                if (item.tagCode.Contains("1000"))
+                {
+                    TotalVM.PLC_All[TotalVM.PLCIndex].TopWorkOrder = item.tagValue;
+                }
+                else if (item.tagCode.Contains("1001"))
+                {
+                    TotalVM.PLC_All[TotalVM.PLCIndex].TopPartID = item.tagValue;
+                }
+                else if (item.tagCode.Contains("1002"))
+                {
+                    TotalVM.PLC_All[TotalVM.PLCIndex].TopProcessID = item.tagValue;
+                }
+                else if (item.tagCode.Contains("1003"))
+                {
+                    TotalVM.PLC_All[TotalVM.PLCIndex].TopPanelCount = item.tagValue;
+                }
+                else if (item.tagCode.Contains("1004"))
+                {
+                    TotalVM.PLC_All[TotalVM.PLCIndex].TopRecipeID = item.tagValue;
+                }
             }
         }
+        else
+        {
+            TotalVM.PLC_All[TotalVM.PLCIndex].OPID = User.Name;
+            TotalVM.PLC_All[TotalVM.PLCIndex].Checkin = DateTime.Now;
+
+            foreach (var item in instance.item)
+            {
+                if (item.tagCode.Contains("1000"))
+                {
+                    TotalVM.PLC_All[TotalVM.PLCIndex].WorkOrder = item.tagValue;
+                }
+                else if (item.tagCode.Contains("1001"))
+                {
+                    TotalVM.PLC_All[TotalVM.PLCIndex].PartID = item.tagValue;
+                }
+                else if (item.tagCode.Contains("1002"))
+                {
+                    TotalVM.PLC_All[TotalVM.PLCIndex].ProcessID = item.tagValue;
+                }
+                else if (item.tagCode.Contains("1003"))
+                {
+                    TotalVM.PLC_All[TotalVM.PLCIndex].PanelCount = item.tagValue;
+                }
+                else if (item.tagCode.Contains("1004"))
+                {
+                    TotalVM.PLC_All[TotalVM.PLCIndex].RecipeID = item.tagValue;
+                }
+            }
+        }
+
     }
 
     #region 產生測試資料

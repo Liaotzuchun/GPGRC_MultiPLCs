@@ -776,12 +776,9 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="4*" />
+                            <RowDefinition Height="3*" />
                             <RowDefinition />
                             <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition Height="2*"/>
                         </Grid.RowDefinitions>
                         <Border Grid.Row="0"
                                 Grid.Column="0"
@@ -863,7 +860,7 @@
                                 <Run Text="%" />
                             </TextBlock>
                         </Border>
-                        <Border Grid.Row="3"
+                        <!--<Border Grid.Row="3"
                                 Grid.Column="0"
                                 Background="{StaticResource WindowBackgroundBrush2}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -871,8 +868,8 @@
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Text="{DynamicResource 風速}" />
-                        </Border>
-                        <Border Grid.Row="3"
+                        </Border>-->
+                        <!--<Border Grid.Row="3"
                                 Grid.Column="1"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,0,0,1">
@@ -883,8 +880,8 @@
                                 <Run Text="{Binding PV_WindSpeed, Mode=OneWay, Converter={StaticResource DoubleRound}, ConverterParameter=1, StringFormat=\{0:F1\}}" />
                                 <Run Text="m/s" />
                             </TextBlock>
-                        </Border>
-                        <Border Grid.Row="4"
+                        </Border>-->
+                        <!--<Border Grid.Row="4"
                                 Grid.Column="0"
                                 Background="{StaticResource WindowBackgroundBrush2}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -904,7 +901,7 @@
                                 <Run Text="{Binding PowerConsumption, Mode=OneWay, Converter={StaticResource DoubleRound}, ConverterParameter=1, StringFormat=\{0:F1\}}" />
                                 <Run Text="kWh" />
                             </TextBlock>
-                        </Border>
+                        </Border>-->
                         <Grid Grid.Column="0"
                               Grid.ColumnSpan="2"
                               Grid.Row="5">
@@ -912,11 +909,7 @@
                                 <ColumnDefinition Width="80" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <Border Grid.Row="0"
+                            <!--<Border Grid.Row="0"
                                     Grid.Column="0"
                                     Background="{StaticResource WindowBackgroundBrush2}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -924,8 +917,8 @@
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Text="{DynamicResource 設備模式}" />
-                            </Border>
-                            <Border Grid.Row="1"
+                            </Border>-->
+                            <!--<Border Grid.Row="1"
                                     Grid.Column="0"
                                     Background="{StaticResource WindowBackgroundBrush2}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -933,8 +926,8 @@
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Text="{DynamicResource 設備狀態}" />
-                            </Border>
-                            <Border Grid.Row="0"
+                            </Border>-->
+                            <!--<Border Grid.Row="0"
                                     Grid.Column="1"
                                     Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -1021,15 +1014,15 @@
                                         </TextBlock>
                                     </Border>
                                 </Grid>
-                            </Border>
-                            <Border Grid.Row="1"
+                            </Border>-->
+                            <!--<Border Grid.Row="1"
                                     Grid.Column="1"
                                     Background="{StaticResource WindowBackgroundBrush6}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="0,0,0,0">
                                 <ContentControl Content="{Binding Mode=OneWay}"
                                                 ContentTemplate="{StaticResource ProgressDataTemplate}" />
-                            </Border>
+                            </Border>-->
                         </Grid>
 
                     </Grid>
@@ -1744,12 +1737,9 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="4*" />
+                            <RowDefinition Height="3*" />
                             <RowDefinition />
                             <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition Height="2*" />
                         </Grid.RowDefinitions>
                         <Border Grid.Row="0"
                                 Grid.Column="0"
@@ -1772,19 +1762,19 @@
                                 <views:LevelsProgressBar.Steps>
                                     <MultiBinding Converter="{StaticResource DoublesTakeCount}">
                                         <Binding Mode="OneWay"
-                                                 Path="SV_TopSegmentCounts" />
+                                                 Path="SV_SegmentCounts" />
                                         <Binding Mode="OneWay"
-                                                 Path="SV_TopTemperatureSetpoint_1" />
+                                                 Path="SV_TemperatureSetpoint_1" />
                                         <Binding Mode="OneWay"
-                                                 Path="SV_TopTemperatureSetpoint_2" />
+                                                 Path="SV_TemperatureSetpoint_2" />
                                         <Binding Mode="OneWay"
-                                                 Path="SV_TopTemperatureSetpoint_3" />
+                                                 Path="SV_TemperatureSetpoint_3" />
                                         <Binding Mode="OneWay"
-                                                 Path="SV_TopTemperatureSetpoint_4" />
+                                                 Path="SV_TemperatureSetpoint_4" />
                                         <Binding Mode="OneWay"
-                                                 Path="SV_TopTemperatureSetpoint_5" />
+                                                 Path="SV_TemperatureSetpoint_5" />
                                         <Binding Mode="OneWay"
-                                                 Path="SV_TopTemperatureSetpoint_6" />
+                                                 Path="SV_TemperatureSetpoint_6" />
                                     </MultiBinding>
                                 </views:LevelsProgressBar.Steps>
                             </views:LevelsProgressBar>
@@ -1819,7 +1809,7 @@
                                        VerticalAlignment="Center"
                                        Text="{DynamicResource 含氧量}" />
                         </Border>
-                        <Border Grid.Row="2"
+                       <Border Grid.Row="2"
                                 Grid.Column="1"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,0,0,1">
@@ -1831,7 +1821,7 @@
                                 <Run Text="%" />
                             </TextBlock>
                         </Border>
-                        <Border Grid.Row="3"
+                        <!--<Border Grid.Row="3"
                                 Grid.Column="0"
                                 Background="{StaticResource WindowBackgroundBrush2}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -1851,8 +1841,8 @@
                                 <Run Text="{Binding PV_WindSpeed, Mode=OneWay, Converter={StaticResource DoubleRound}, ConverterParameter=1, StringFormat=\{0:F1\}}" />
                                 <Run Text="m/s" />
                             </TextBlock>
-                        </Border>
-                        <Border Grid.Row="4"
+                        </Border>-->
+                        <!--<Border Grid.Row="4"
                                 Grid.Column="0"
                                 Background="{StaticResource WindowBackgroundBrush2}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -1872,134 +1862,7 @@
                                 <Run Text="{Binding PowerConsumption, Mode=OneWay, Converter={StaticResource DoubleRound}, ConverterParameter=1, StringFormat=\{0:F1\}}" />
                                 <Run Text="kWh" />
                             </TextBlock>
-                        </Border>
-                        <Grid Grid.Column="0"
-                              Grid.ColumnSpan="2"
-                              Grid.Row="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="80" />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <Border Grid.Row="0"
-                                    Grid.Column="0"
-                                    Background="{StaticResource WindowBackgroundBrush2}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1,1,1,1">
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Text="{DynamicResource 設備模式}" />
-                            </Border>
-                            <Border Grid.Row="1"
-                                    Grid.Column="0"
-                                    Background="{StaticResource WindowBackgroundBrush2}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="1,0,1,0">
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Text="{DynamicResource 設備狀態}" />
-                            </Border>
-                            <Border Grid.Row="0"
-                                    Grid.Column="1"
-                                    Background="{StaticResource WindowBackgroundBrush6}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="0,1,0,1">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <Border BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                            BorderThickness="0,0,1,0">
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Setter Property="Background"
-                                                        Value="{StaticResource DisabledBackgroundBrush}" />
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding RemoteMode, Mode=OneWay}"
-                                                                 Value="True">
-                                                        <Setter Property="Background"
-                                                                Value="{StaticResource OKBrush}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   FontSize="16"
-                                                   FontWeight="Bold">
-                                            <TextBlock.Style>
-                                                <Style TargetType="TextBlock">
-                                                    <Setter Property="Foreground"
-                                                            Value="{StaticResource DisabledForegroundBrush}" />
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding RemoteMode, Mode=OneWay}"
-                                                                     Value="True">
-                                                            <Setter Property="Foreground"
-                                                                    Value="{StaticResource GlyphBrush}" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        <Run Text="PC" />
-                                        <Run Text="{DynamicResource 模式}" />
-                                        </TextBlock>
-                                    </Border>
-                                    <Border Grid.Column="1">
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Setter Property="Background"
-                                                        Value="Transparent" />
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding AutoMode_Start, Mode=OneWay}"
-                                                                 Value="True">
-                                                        <Setter Property="Background"
-                                                                Value="{StaticResource WorkingBrush}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                        <TextBlock HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   FontSize="16"
-                                                   FontWeight="Bold">
-                                            <TextBlock.Style>
-                                                <Style TargetType="TextBlock">
-                                                    <Setter Property="Foreground"
-                                                            Value="{StaticResource BaseForeground}" />
-                                                    <Setter Property="Text"
-                                                            Value="{DynamicResource 手動}" />
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding AutoMode_Start, Mode=OneWay}"
-                                                                     Value="True">
-                                                            <Setter Property="Foreground"
-                                                                    Value="{StaticResource ErrorBrush}" />
-                                                        </DataTrigger>
-                                                        <DataTrigger Binding="{Binding AutoMode, Mode=OneWay}"
-                                                                     Value="True">
-                                                            <Setter Property="Text"
-                                                                    Value="{DynamicResource 自動}" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
-                                    </Border>
-                                </Grid>
-                            </Border>
-                            <Border Grid.Row="1"
-                                    Grid.Column="1"
-                                    Background="{StaticResource WindowBackgroundBrush6}"
-                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                                    BorderThickness="0,0,0,0">
-                                <ContentControl Content="{Binding Mode=OneWay}"
-                                                ContentTemplate="{StaticResource ProgressDataTemplate}" />
-                            </Border>
-                        </Grid>
-
+                        </Border>-->
                     </Grid>
                 </Grid>
             </GroupBox>

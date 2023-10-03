@@ -48,22 +48,8 @@ public sealed class TotalView_ViewModel : ObservableObject
     public RelayCommand BackCommand { get; }
     public RelayCommand GoDetailCommand { get; }
     public RelayCommand LoadedCommand { get; }
-    public AsyncCommand SendTerminalMessageCommand { get; }
-    public RelayCommand SecsReStartCommand { get; }
-    public RelayCommand AddAGV { get; }
-    public RelayCommand OutAGV { get; }
-    public RelayCommand NGOutAGV { get; }
-    public RelayCommand RetAGV { get; }
-    public RelayCommand TaskControl { get; }
-    public RelayCommand Ingredients { get; }
-    public RelayCommand CleanWO { get; }
-    public RelayCommand CheckButton { get; }
-    public RelayCommand DataUpload { get; }
-    public RelayCommand Shutdown { get; }
-    public RelayCommand PM { get; }
-    public RelayCommand Standby { get; }
-    public RelayCommand Production { get; }
-    public RelayCommand Fault { get; }
+
+
     public RelayCommand DataUpload10Command { get; }
     public RelayCommand DataUpload20Command { get; }
     public RelayCommand DataUpload30Command { get; }
@@ -86,17 +72,10 @@ public sealed class TotalView_ViewModel : ObservableObject
     public RelayCommand DataUpload200Command { get; }
     public RelayCommand OvenTopBottomChangeCommand { get; }
 
-    public event Action<int> AddAGVevent;
-    public event Action<int> OutAGVevent;
-    public event Action<int> NGOutAGVevent;
-    public event Action<int> RetAGVevent;
-    public event Action<int> DataUploadevent;
+
     public event Action<int> ChangeStatusevent;
     public event Action<int> OvenTopBottomChangeevent;
 
-    public event Func<Task> Ingredientsevent;
-    public event Func<Task> CleanWOevent;
-    public event Func<Task> TaskControlevent;
 
     /// <summary>所有PLC</summary>
     public IList<PLC_ViewModel> PLC_All { get; }
@@ -116,6 +95,7 @@ public sealed class TotalView_ViewModel : ObservableObject
             {
                 return;
             }
+
             Set(value);
             NotifyPropertyChanged(nameof(PLC_All_View));
 
@@ -157,97 +137,12 @@ public sealed class TotalView_ViewModel : ObservableObject
         get => Get<int>();
         set => Set(value);
     }
-    public bool AddEnabled
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    public bool RetEnabled
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    public bool OutEnabled
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    public bool NGOutEnabled
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    public bool TaskControlButtonEnabled
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    public bool DataUploadButtonEnabled
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    public bool IngredientsButtonEnabled
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
     public int Status
     {
         get => Get<int>();
         set => Set(value);
     }
-    public string Barcode
-    {
-        get => Get<string>();
-        set => Set(value);
-    }
-    public bool BarcodeEnabled
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
 
-    public bool CheckButtonEnabled
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    public string OPID
-    {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
-    }
-    public string WorkOrder
-    {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
-    }
-    public string PartID
-    {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
-    }
-    public string ProcessID
-    {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
-    }
-    public string PanelCount
-    {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
-    }
-    public string RecipeID
-    {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
-    }
-    public string MESMessage
-    {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
-    }
     public int EditOvenChange
     {
         get => Get<int>();
@@ -266,14 +161,8 @@ public sealed class TotalView_ViewModel : ObservableObject
         PLC_All = new PLC_ViewModel[count];
         PLCIndex = 0;
         Mode = 0;
-        CarrierIndex = 0;
         EqpState = 1;
-        AddEnabled = true;
-        RetEnabled = false;
-        OutEnabled = false;
-        NGOutEnabled = false;
-        CheckButtonEnabled = true;
-        IngredientsButtonEnabled = false;
+
 
         Status = -1;
 
@@ -293,84 +182,6 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                  }
                                              }
                                          });
-
-        SendTerminalMessageCommand = new AsyncCommand(async _ =>
-                                                      {
-                                                          var (result1, input1) = await dialog.ShowWithInput(new Dictionary<Language, string>
-                                                                                                             {
-                                                                                                                 { Language.TW, "請輸入欲發送之訊息：" },
-                                                                                                                 { Language.CHS, "请输入欲发送之讯息：" },
-                                                                                                                 { Language.EN, "Please enter the message you want to send：" }
-                                                                                                             },
-                                                                                                             new Dictionary<Language, string>
-                                                                                                             {
-                                                                                                                 { Language.TW, "終端訊息" },
-                                                                                                                 { Language.CHS, "终端讯息" },
-                                                                                                                 { Language.EN, "Terminal Message" }
-                                                                                                             },
-                                                                                                             true);
-
-                                                          if (result1 && input1 is string msg)
-                                                          {
-                                                              //SecsGemEquipment.SendTerminalMessage(msg);
-                                                          }
-                                                      },
-                                                      null);
-
-        //SecsReStartCommand = new RelayCommand(_ =>
-        //                                      {
-        //                                          asyncOperation.Post(_ =>
-        //                                                              {
-        //                                                                  var tid = Thread.CurrentThread.ManagedThreadId;
-        //                                                                  if (threadid == tid)
-        //                                                                  {
-        //                                                                  }
-        //                                                              },
-        //                                                              null);
-        //                                      });
-
-        AddAGV = new RelayCommand(_ =>
-        {
-            AddEnabled = false;
-            AddAGVevent?.Invoke(CarrierIndex);
-        });
-        OutAGV = new RelayCommand(_ =>
-        {
-            OutEnabled = false;
-            OutAGVevent?.Invoke(CarrierIndex);
-        });
-        NGOutAGV = new RelayCommand(_ =>
-        {
-            NGOutEnabled = false;
-            NGOutAGVevent?.Invoke(CarrierIndex);
-        });
-        RetAGV = new RelayCommand(_ =>
-        {
-            RetEnabled = false;
-            RetAGVevent?.Invoke(CarrierIndex);
-        });
-
-        TaskControl = new RelayCommand(_ =>
-        {
-            TaskControlevent?.Invoke();
-        });
-
-        Ingredients = new RelayCommand(_ =>
-        {
-            Ingredientsevent?.Invoke();
-
-            PutResultToUI();
-        });
-
-        CleanWO = new RelayCommand(_ =>
-        {
-            Barcode = "";
-        });
-        CheckButton = new RelayCommand(_ =>
-        {
-            CheckButtonEnabled = false;
-            DataUploadevent?.Invoke(0);
-        });
 
         DataUpload10Command = new RelayCommand(_ =>
         {
@@ -530,35 +341,25 @@ public sealed class TotalView_ViewModel : ObservableObject
                                      {
                                          var product = new ProcessInfo(baseInfo);
 
-                                         //! 更新ProcessData以供上報
-                                         try
-                                         {
-                                             //DataUploadevent.Invoke(0);
-                                         }
-                                         catch
-                                         {
-                                             // ignored
-                                         }
-
                                          if (baseInfo.IsFinished)
                                          {
-                                             //SecsGemEquipment.InvokeEvent($"Oven{index + 1}_ProcessComplete");
                                              dialog.Show(new Dictionary<Language, string>
                                                          {
-                                                             { Language.TW, "已完成烘烤！" },
-                                                             { Language.CHS, "已完成烘烤！" },
-                                                             { Language.EN, "Finished!" }
-                                                         });
+                                                             { Language.TW, $"第{index       + 1}站已完成烘烤！" },
+                                                             { Language.CHS, $"第{index      + 1}站已完成烘烤！" },
+                                                             { Language.EN, $"Oven No{index + 1}has been finished!" }
+                                                         },
+                                             TimeSpan.FromSeconds(2));
                                          }
                                          else
                                          {
-                                             //SecsGemEquipment.InvokeEvent($"Oven{index + 1}_ProcessAborted");
                                              dialog.Show(new Dictionary<Language, string>
                                                          {
-                                                             { Language.TW, "已取消烘烤！" },
-                                                             { Language.CHS, "已取消烘烤！" },
-                                                             { Language.EN, "Canceled!" }
-                                                         });
+                                                             { Language.TW, $"第{index       + 1}站已取消烘烤！" },
+                                                             { Language.CHS, $"第{index      + 1}站已取消烘烤！" },
+                                                             { Language.EN, $"Oven No{index + 1}has been canceled!" }
+                                                         },
+                                              TimeSpan.FromSeconds(2));
                                          }
 
                                          if (AddRecordToDB != null)
@@ -591,32 +392,7 @@ public sealed class TotalView_ViewModel : ObservableObject
             //! PLC事件紀錄
             plc.EventHappened += e => EventHappened?.Invoke((index, e.type, e.time, e.note, e.tag, e.value));
 
-            //plc.InvokeSECSEvent += EventName => SecsGemEquipment.InvokeEvent($"Oven{index + 1}_{EventName}");
 
-            //plc.InvokeSECSAlarm += (AlarmName, val) => SecsGemEquipment.InvokeAlarm($"Oven{index + 1}_{AlarmName}", val);
-
-            plc.SV_Changed += (name, value) =>
-                              {
-                                  //if (name == nameof(PLC_ViewModel.TopEquipmentState))
-                                  //{
-                                  //    //     SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PROCESS_STATE, value);
-                                  //}
-                                  //else if (name == $"Previous{nameof(PLC_ViewModel.TopEquipmentState)}")
-                                  //{
-                                  //    //   SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PREVIOUS_PROCESS_STATE, value);
-                                  //}
-                                  //else if (name == nameof(PLC_ViewModel.SV_TopRecipeName))
-                                  //{
-                                  //    // SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PP_EXEC_NAME, value);
-                                  //}
-
-                                  //SecsGemEquipment.UpdateSV($"Oven{index + 1}_{name}", value);
-                              };
-
-            //plc.RecipeChangedbyPLC += recipe =>
-            //                          {
-            //                              UpsertRecipe?.Invoke(recipe);
-            //                          };
         }
         #region PLCGate事件通知
         Gate.GateStatus.ValueChanged += status =>
@@ -659,17 +435,6 @@ public sealed class TotalView_ViewModel : ObservableObject
                             Timeout.Infinite);
     }
 
-    private void PutResultToUI()
-    {
-        PLC_All[0].InputOperatorID = OPID;
-        PLC_All[0].InputPartID = PartID;
-        PLC_All[0].InputLotID = ProcessID;
-        PLC_All[0].InputRecipeName = RecipeID;
-        PLC_All[0].InputQuantity = Convert.ToInt32(PanelCount);
-        PLC_All[0].InputLayer = 2;
-        PLC_All[0].GetGo();
-    }
-
     /// <summary>讀取財產編號</summary>
     public void LoadAssetNumbers()
     {
@@ -693,10 +458,10 @@ public sealed class TotalView_ViewModel : ObservableObject
             }
         }
 
-        //foreach (var plc in PLC_All)
-        //{
-        //    plc.OvenInfo.AssetNumber = "";
-        //}
+        foreach (var plc in PLC_All)
+        {
+            plc.OvenInfo.AssetNumber = "";
+        }
     }
 
     /// <summary>讀取設備碼</summary>
@@ -751,29 +516,14 @@ public sealed class TotalView_ViewModel : ObservableObject
     {
         try
         {
-            using var MachineCodes = PLC_All.Select(x => x.OvenInfo.MachineCode).ToPooledList();
-            MachineCodes.WriteToJsonFile(path);
+            PLC_All.Select(x => x.OvenInfo.MachineCode).ToArray().WriteToJsonFile(path);
         }
         catch
         {
             // ignored
         }
     }
-
-    /// <summary>設定使用的PLC配方(透過配方名)</summary>
-    /// <param name="names">配方名列表</param>
-    public void SetRecipeNames(ICollection<string> names)
-    {
-        foreach (var plc in PLC_All)
-        {
-            if (plc.Recipe_Names == null || plc.Recipe_Names.Count != names.Count || plc.Recipe_Names.Except(names).Any())
-            {
-                plc.Recipe_Names = names;
-            }
-        }
-    }
-
-
+    public void StartPLCGate() => Checker.Change(0, Timeout.Infinite);
 
     public void InsertMessage(params LogEvent[] evs)
     {
@@ -833,5 +583,16 @@ public sealed class TotalView_ViewModel : ObservableObject
         }
     }
 
-    public void StartPLCGate() => Checker.Change(0, Timeout.Infinite);
+    /// <summary>設定使用的PLC配方(透過配方名)</summary>
+    /// <param name="names">配方名列表</param>
+    public void SetRecipeNames(ICollection<string> names)
+    {
+        foreach (var plc in PLC_All)
+        {
+            if (plc.Recipe_Names == null || plc.Recipe_Names.Count != names.Count || plc.Recipe_Names.Except(names).Any())
+            {
+                plc.Recipe_Names = names;
+            }
+        }
+    }
 }

@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using GPGO_MultiPLCs.Helpers;
 
 namespace GPGO_MultiPLCs.Views;
 
@@ -26,57 +25,25 @@ public partial class OvenEditView : UserControl
 
     private void OPTextBox_KeyDown(object sender, KeyEventArgs e)
     {
-        if (e.Key == Key.Enter)
-        {
-            Keyboard.Focus(PartTextBox);
-        }
+
     }
 
     private void PartTextBox_KeyDown(object sender, KeyEventArgs e)
     {
-        if (!Extensions.IsReaderInput)
-        {
-            e.Handled = true;
-        }
 
-        if (e.Key == Key.Enter)
-        {
-            Keyboard.Focus(LotTextBox);
-        }
     }
 
     private void LotTextBox_KeyDown(object sender, KeyEventArgs e)
     {
-        if (!Extensions.IsReaderInput)
-        {
-            e.Handled = true;
-        }
 
-        if (e.Key == Key.Enter)
-        {
-            Keyboard.Focus(RecipeTextBox.IsEnabled ? RecipeTextBox : NumericTextBox);
-        }
     }
 
     private void RecipeTextBox_KeyDown(object sender, KeyEventArgs e)
     {
-        if (!Extensions.IsReaderInput)
-        {
-            e.Handled = true;
-        }
 
-        if (e.Key == Key.Enter)
-        {
-            Keyboard.Focus(NumericTextBox);
-        }
     }
 
     private void Grid_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-        if (sender is Grid { IsEnabled: false } && CheckInTB.IsChecked == true && CheckInTB.TryFindResource("結帳") is string s)
-        {
-            CheckInTB.Content = s;
-            CheckInTB.Tag     = true;
-        }
     }
 }

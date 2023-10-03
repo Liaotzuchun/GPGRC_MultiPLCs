@@ -48,6 +48,229 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     private          DateTime                OfflineTime    = DateTime.MaxValue;
     private          TextBox?                inputFocusTB;
 
+
+    #region webservice 特別功能
+    #region Top
+    public RelayCommand TopAddAGV { get; }
+    public RelayCommand TopRetAGV { get; }
+    public RelayCommand TopOutAGV { get; }
+    public RelayCommand TopNGOutAGV { get; }
+    public RelayCommand TopCheckButton { get; }
+    public RelayCommand TopTaskControl { get; }
+    public RelayCommand TopIngredients { get; }
+    public RelayCommand TopCleanWO { get; }
+    public RelayCommand TopDataUpload { get; }
+
+
+    public event Func<Task> TopAddAGVevent;
+    public event Func<Task> TopOutAGVevent;
+    public event Func<Task> TopNGOutAGVevent;
+    public event Func<Task> TopRetAGVevent;
+    public event Action<int> TopDataUploadevent;
+    public event Func<Task> TopIngredientsevent;
+    public event Func<Task> TopCleanWOevent;
+    public event Func<Task> TopTaskControlevent;
+    public DateTime TopCheckin
+    {
+        get => Get<DateTime>();
+        set => Set(value);
+    }
+    public DateTime Checkin
+    {
+        get => Get<DateTime>();
+        set => Set(value);
+    }
+    public bool TopAddEnabled
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+    public bool TopRetEnabled
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+    public bool TopOutEnabled
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+    public bool TopNGOutEnabled
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+    public bool TopTaskControlButtonEnabled
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+    public bool TopDataUploadButtonEnabled
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+    public bool TopIngredientsButtonEnabled
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+    public string TopBarcode
+    {
+        get => Get<string>();
+        set => Set(value);
+    }
+    public bool TopBarcodeEnabled
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+
+    public bool TopCheckButtonEnabled
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+    public string TopOPID
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string TopWorkOrder
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string TopPartID
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string TopProcessID
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string TopPanelCount
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string TopRecipeID
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string TopMESMessage
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    #endregion
+    public RelayCommand AddAGV { get; }
+    public RelayCommand OutAGV { get; }
+    public RelayCommand NGOutAGV { get; }
+    public RelayCommand RetAGV { get; }
+    public RelayCommand TaskControl { get; }
+    public RelayCommand Ingredients { get; }
+    public RelayCommand CleanWO { get; }
+    public RelayCommand CheckButton { get; }
+    public RelayCommand DataUpload { get; }
+    public event Func<Task> AddAGVevent;
+    public event Func<Task> OutAGVevent;
+    public event Func<Task> NGOutAGVevent;
+    public event Func<Task> RetAGVevent;
+    public event Action<int> DataUploadevent;
+    public event Func<Task> Ingredientsevent;
+    public event Func<Task> CleanWOevent;
+    public event Func<Task> TaskControlevent;
+    public bool AddEnabled
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+    public bool RetEnabled
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+    public bool OutEnabled
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+    public bool NGOutEnabled
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+    public bool TaskControlButtonEnabled
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+    public bool DataUploadButtonEnabled
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+    public bool IngredientsButtonEnabled
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+    public string Barcode
+    {
+        get => Get<string>();
+        set => Set(value);
+    }
+    public bool BarcodeEnabled
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+
+    public bool CheckButtonEnabled
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+    public string OPID
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string WorkOrder
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string PartID
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string ProcessID
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string PanelCount
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string RecipeID
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string MESMessage
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    #endregion
     public int InputQuantityMin => 0;
     public int InputQuantityMax => 99999;
     public int InputLayerMin => 1;
@@ -344,6 +567,119 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                          string plctag,
                          (Dictionary<BitType, int> bits_shift, Dictionary<DataType, int> datas_shift) shift = new()) : base(gate, plcindex, plctag, shift)
     {
+        #region WebService特殊功能
+        #region Top
+        TopAddEnabled = true;
+        TopRetEnabled = false;
+        TopOutEnabled = false;
+        TopNGOutEnabled = false;
+        TopCheckButtonEnabled = true;
+        TopIngredientsButtonEnabled = false;
+        TopAddAGV = new RelayCommand(_ =>
+        {
+            TopAddEnabled = false;
+            TopAddAGVevent?.Invoke();
+        });
+        TopOutAGV = new RelayCommand(_ =>
+        {
+            TopOutEnabled = false;
+            TopOutAGVevent?.Invoke();
+        });
+        TopNGOutAGV = new RelayCommand(_ =>
+        {
+            TopNGOutEnabled = false;
+            TopNGOutAGVevent?.Invoke();
+        });
+        TopRetAGV = new RelayCommand(_ =>
+        {
+            TopRetEnabled = false;
+            TopRetAGVevent?.Invoke();
+        });
+
+        TopTaskControl = new RelayCommand(_ =>
+        {
+            TopTaskControlevent?.Invoke();
+        });
+
+        TopIngredients = new RelayCommand(_ =>
+        {
+            TopIngredientsevent?.Invoke();
+            var recipe = TopRecipeID;
+            var part = TopPartID;
+            var panelcount = Convert.ToInt32(TopPanelCount);
+            var lot = TopWorkOrder;
+            //var opid = TopOPID;          
+            TopWebRecipetoPLC(recipe, part, lot, panelcount);
+
+        });
+
+        TopCleanWO = new RelayCommand(_ =>
+        {
+            TopBarcode = "";
+        });
+        TopCheckButton = new RelayCommand(_ =>
+        {
+            TopCheckButtonEnabled = false;
+            TopDataUploadevent?.Invoke(0);
+        });
+        #endregion
+        #region Bottom
+
+        AddEnabled = true;
+        RetEnabled = false;
+        OutEnabled = false;
+        NGOutEnabled = false;
+        CheckButtonEnabled = true;
+        IngredientsButtonEnabled = false;
+        AddAGV = new RelayCommand(_ =>
+        {
+            AddEnabled = false;
+            AddAGVevent?.Invoke();
+        });
+        OutAGV = new RelayCommand(_ =>
+        {
+            OutEnabled = false;
+            OutAGVevent?.Invoke();
+        });
+        NGOutAGV = new RelayCommand(_ =>
+        {
+            NGOutEnabled = false;
+            NGOutAGVevent?.Invoke();
+        });
+        RetAGV = new RelayCommand(_ =>
+        {
+            RetEnabled = false;
+            RetAGVevent?.Invoke();
+        });
+
+        TaskControl = new RelayCommand(_ =>
+        {
+            TaskControlevent?.Invoke();
+        });
+
+        Ingredients = new RelayCommand(_ =>
+        {
+            Ingredientsevent?.Invoke();
+            var recipe = RecipeID;
+            var part = PartID;
+            var panelcount = Convert.ToInt32(PanelCount);
+            var lot = WorkOrder;
+            //var opid = OPID;
+            WebRecipetoPLC(recipe, part, lot, panelcount);
+        });
+
+        CleanWO = new RelayCommand(_ =>
+        {
+            Barcode = "";
+        });
+        CheckButton = new RelayCommand(_ =>
+        {
+            CheckButtonEnabled = false;
+            DataUploadevent?.Invoke(0);
+        });
+        #endregion
+        #endregion
+
         InputLayer = InputLayerMin;
         Dialog = dialog;
         EditOvenChange = 0;
@@ -389,7 +725,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                         {
                                                             name = name.Trim();
 
-                                                            if (OvenInfo.TempProducts.Count > 0 && name != TopRecipeName)
+                                                            if (OvenInfo.TempProducts.Count > 0 && name != RecipeName)
                                                             {
                                                                 //! 欣興要求比對配方不同跳出異常
 
@@ -452,28 +788,20 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                              OvenInfo.OperatorID = InputOperatorID;
 
                                              //! 當PartID、LotID和Layer都相等，數量則直接覆蓋
-                                             var same = OvenInfo.TempProducts.FirstOrDefault(x => x.PartID == InputPartID && x.LotID == InputLotID && x.Layer == InputLayer);
-                                             if (same != null)
-                                             {
-                                                 same.Quantity += InputQuantity;
-                                                 Quantity = (short)same.Quantity;
-                                             }
-                                             else
-                                             {
-                                                 PartID = InputPartID;
-                                                 LotID = InputLotID;
-                                                 Quantity = (short)InputQuantity;
 
-                                                 var info = new ProductInfo
-                                                 {
-                                                     PartID   = InputPartID,
-                                                     LotID    = InputLotID,
-                                                     Layer    = InputLayer,
-                                                     Quantity = InputQuantity
-                                                 };
+                                             PartID = InputPartID;
+                                             LotID = InputLotID;
+                                             Quantity = (short)InputQuantity;
 
-                                                 OvenInfo.TempProducts.Add(info);
-                                             }
+                                             var info = new ProductInfo
+                                             {
+                                                 PartID   = InputPartID,
+                                                 LotID    = InputLotID,
+                                                 Layer    = InputLayer,
+                                                 Quantity = InputQuantity
+                                             };
+
+                                             OvenInfo.TempProducts.Add(info);
 
                                              ClearInput2();
 
@@ -911,31 +1239,12 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             await Task.Delay(900).ConfigureAwait(false);
         }
 
-        if (IsTop())
+        if (RecipeCompare(recipe))
         {
-            if (TopRecipeCompare(recipe))
-            {
-                AutoMode = true;
-                return SetRecipeResult.無需變更;
-            }
+            AutoMode = true;
+            return SetRecipeResult.無需變更;
         }
-        else
-        {
-            if (BottomRecipeCompare(recipe))
-            {
-                AutoMode = true;
-                return SetRecipeResult.無需變更;
-            }
-        }
-        var errs = new Dictionary<string,object>();
-        if (IsTop())
-        {
-            var a = recipe.ToTopDictionary();
-            errs = await ManualSetByPropertiesWithCheck1(recipe.ToTopDictionary()).ConfigureAwait(false);
-
-        }
-        else
-            errs = await ManualSetByPropertiesWithCheck(recipe.ToDictionary()).ConfigureAwait(false);
+        var errs = await ManualSetByPropertiesWithCheck(recipe.ToDictionary()).ConfigureAwait(false);
 
         var result = errs.Count == 0 ? SetRecipeResult.成功 : SetRecipeResult.比對不相符;
         if (result == SetRecipeResult.成功)
@@ -944,108 +1253,103 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         }
         return result;
     }
-    public async Task<Dictionary<string, object>> ManualSetByPropertiesWithCheck1(Dictionary<string, object> properties)
+    public async Task<SetRecipeResult> BottomWriteRecipeToPlcAsync(PLC_Recipe recipe)
     {
-        if (!(await ManualSetByProperties(properties).ConfigureAwait(continueOnCapturedContext: false)))
+        if (AutoMode)
         {
-            return properties;
+            AutoMode = false;
+            await Task.Delay(900).ConfigureAwait(false);
         }
 
-        Dictionary<string, object> dictionary = await ManualGetByProperties(properties.Keys.ToArray()).ConfigureAwait(continueOnCapturedContext: false);
-        object source;
-        if (dictionary != null)
+        if (BottomRecipeCompare(recipe))
         {
-            source = dictionary.Except<KeyValuePair<string, object>>(properties);
+            AutoMode = true;
+            return SetRecipeResult.無需變更;
         }
-        else
-        {
-            source = properties;
-        }
+        var errs = await ManualSetByPropertiesWithCheck(recipe.ToBottomDictionary()).ConfigureAwait(false);
 
-        return ((IEnumerable<KeyValuePair<string, object>>)source).ToDictionary((KeyValuePair<string, object> x) => x.Key, (KeyValuePair<string, object> x) => x.Value);
+        var result = errs.Count == 0 ? SetRecipeResult.成功 : SetRecipeResult.比對不相符;
+        if (result == SetRecipeResult.成功)
+        {
+            AutoMode = true;
+        }
+        return result;
     }
-
-    private bool IsTop()
-    {
-        return true;
-    }
-
-    //上爐配方比對
-    private bool TopRecipeCompare(PLC_Recipe recipe) => TopNitrogenMode == recipe.NitrogenMode &&
-                                                     TopOxygenContentSet.ToString("0.0") == recipe.OxygenContentSet.ToString("0.0") &&
-                                                     (TopRecipeName.Length > 16 ? TopRecipeName.Substring(0, 16) : TopRecipeName) == (recipe.RecipeName.Length > 16 ? recipe.RecipeName.Substring(0, 16) : recipe.RecipeName) && //! 只最多比對16個字(PLC的配方名長度)
-                                                     TopDwellTime_1.ToString("0.0") == recipe.DwellTime_1.ToString("0.0") &&
-                                                     TopDwellTime_2.ToString("0.0") == recipe.DwellTime_2.ToString("0.0") &&
-                                                     TopDwellTime_3.ToString("0.0") == recipe.DwellTime_3.ToString("0.0") &&
-                                                     TopDwellTime_4.ToString("0.0") == recipe.DwellTime_4.ToString("0.0") &&
-                                                     TopDwellTime_5.ToString("0.0") == recipe.DwellTime_5.ToString("0.0") &&
-                                                     TopDwellTime_6.ToString("0.0") == recipe.DwellTime_6.ToString("0.0") &&
-                                                     TopDwellAlarm_1.ToString("0.0") == recipe.DwellAlarm_1.ToString("0.0") &&
-                                                     TopDwellAlarm_2.ToString("0.0") == recipe.DwellAlarm_2.ToString("0.0") &&
-                                                     TopDwellAlarm_3.ToString("0.0") == recipe.DwellAlarm_3.ToString("0.0") &&
-                                                     TopDwellAlarm_4.ToString("0.0") == recipe.DwellAlarm_4.ToString("0.0") &&
-                                                     TopDwellAlarm_5.ToString("0.0") == recipe.DwellAlarm_5.ToString("0.0") &&
-                                                     TopDwellAlarm_6.ToString("0.0") == recipe.DwellAlarm_6.ToString("0.0") &&
-                                                     TopCoolingTime.ToString("0.0") == recipe.CoolingTime.ToString("0.0") &&
-                                                     TopCoolingTemperature.ToString("0.0") == recipe.CoolingTemperature.ToString("0.0") &&
-                                                     TopRampTime_1.ToString("0.0") == recipe.RampTime_1.ToString("0.0") &&
-                                                     TopRampTime_2.ToString("0.0") == recipe.RampTime_2.ToString("0.0") &&
-                                                     TopRampTime_3.ToString("0.0") == recipe.RampTime_3.ToString("0.0") &&
-                                                     TopRampTime_4.ToString("0.0") == recipe.RampTime_4.ToString("0.0") &&
-                                                     TopRampTime_5.ToString("0.0") == recipe.RampTime_5.ToString("0.0") &&
-                                                     TopRampTime_6.ToString("0.0") == recipe.RampTime_6.ToString("0.0") &&
-                                                     TopRampAlarm_1.ToString("0.0") == recipe.RampAlarm_1.ToString("0.0") &&
-                                                     TopRampAlarm_2.ToString("0.0") == recipe.RampAlarm_2.ToString("0.0") &&
-                                                     TopRampAlarm_3.ToString("0.0") == recipe.RampAlarm_3.ToString("0.0") &&
-                                                     TopRampAlarm_4.ToString("0.0") == recipe.RampAlarm_4.ToString("0.0") &&
-                                                     TopRampAlarm_5.ToString("0.0") == recipe.RampAlarm_5.ToString("0.0") &&
-                                                     TopRampAlarm_6.ToString("0.0") == recipe.RampAlarm_6.ToString("0.0") &&
-                                                     //TopInflatingTime.ToString("0") == recipe.InflatingTime.ToString("0") &&
-                                                     TopTemperatureSetpoint_1.ToString("0.0") == recipe.TemperatureSetpoint_1.ToString("0.0") &&
-                                                     TopTemperatureSetpoint_2.ToString("0.0") == recipe.TemperatureSetpoint_2.ToString("0.0") &&
-                                                     TopTemperatureSetpoint_3.ToString("0.0") == recipe.TemperatureSetpoint_3.ToString("0.0") &&
-                                                     TopTemperatureSetpoint_4.ToString("0.0") == recipe.TemperatureSetpoint_4.ToString("0.0") &&
-                                                     TopTemperatureSetpoint_5.ToString("0.0") == recipe.TemperatureSetpoint_5.ToString("0.0") &&
-                                                     TopTemperatureSetpoint_6.ToString("0.0") == recipe.TemperatureSetpoint_6.ToString("0.0") &&
-                                                     TopSegmentCounts == recipe.SegmentCounts;
-    //下爐配方比對
-    private bool BottomRecipeCompare(PLC_Recipe recipe) => BottomNitrogenMode == recipe.NitrogenMode &&
-                                                           BottomOxygenContentSet.ToString("0.0") == recipe.OxygenContentSet.ToString("0.0") &&
-                                                           (BottomRecipeName.Length > 16 ? BottomRecipeName.Substring(0, 16) : BottomRecipeName) == (recipe.RecipeName.Length > 16 ? recipe.RecipeName.Substring(0, 16) : recipe.RecipeName) && //! 只最多比對16個字(PLC的配方名長度)
-                                                           BottomDwellTime_1.ToString("0.0") == recipe.DwellTime_1.ToString("0.0") &&
-                                                           BottomDwellTime_2.ToString("0.0") == recipe.DwellTime_2.ToString("0.0") &&
-                                                           BottomDwellTime_3.ToString("0.0") == recipe.DwellTime_3.ToString("0.0") &&
-                                                           BottomDwellTime_4.ToString("0.0") == recipe.DwellTime_4.ToString("0.0") &&
-                                                           BottomDwellTime_5.ToString("0.0") == recipe.DwellTime_5.ToString("0.0") &&
-                                                           BottomDwellTime_6.ToString("0.0") == recipe.DwellTime_6.ToString("0.0") &&
-                                                           BottomDwellAlarm_1.ToString("0.0") == recipe.DwellAlarm_1.ToString("0.0") &&
-                                                           BottomDwellAlarm_2.ToString("0.0") == recipe.DwellAlarm_2.ToString("0.0") &&
-                                                           BottomDwellAlarm_3.ToString("0.0") == recipe.DwellAlarm_3.ToString("0.0") &&
-                                                           BottomDwellAlarm_4.ToString("0.0") == recipe.DwellAlarm_4.ToString("0.0") &&
-                                                           BottomDwellAlarm_5.ToString("0.0") == recipe.DwellAlarm_5.ToString("0.0") &&
-                                                           BottomDwellAlarm_6.ToString("0.0") == recipe.DwellAlarm_6.ToString("0.0") &&
-                                                           BottomCoolingTime.ToString("0.0") == recipe.CoolingTime.ToString("0.0") &&
-                                                           BottomCoolingTemperature.ToString("0.0") == recipe.CoolingTemperature.ToString("0.0") &&
-                                                           BottomRampTime_1.ToString("0.0") == recipe.RampTime_1.ToString("0.0") &&
-                                                           BottomRampTime_2.ToString("0.0") == recipe.RampTime_2.ToString("0.0") &&
-                                                           BottomRampTime_3.ToString("0.0") == recipe.RampTime_3.ToString("0.0") &&
-                                                           BottomRampTime_4.ToString("0.0") == recipe.RampTime_4.ToString("0.0") &&
-                                                           BottomRampTime_5.ToString("0.0") == recipe.RampTime_5.ToString("0.0") &&
-                                                           BottomRampTime_6.ToString("0.0") == recipe.RampTime_6.ToString("0.0") &&
-                                                           BottomRampAlarm_1.ToString("0.0") == recipe.RampAlarm_1.ToString("0.0") &&
-                                                           BottomRampAlarm_2.ToString("0.0") == recipe.RampAlarm_2.ToString("0.0") &&
-                                                           BottomRampAlarm_3.ToString("0.0") == recipe.RampAlarm_3.ToString("0.0") &&
-                                                           BottomRampAlarm_4.ToString("0.0") == recipe.RampAlarm_4.ToString("0.0") &&
-                                                           BottomRampAlarm_5.ToString("0.0") == recipe.RampAlarm_5.ToString("0.0") &&
-                                                           BottomRampAlarm_6.ToString("0.0") == recipe.RampAlarm_6.ToString("0.0") &&
-                                                           //BottomInflatingTime.ToString("0") == recipe.InflatingTime.ToString("0") &&
-                                                           BottomTemperatureSetpoint_1.ToString("0.0") == recipe.TemperatureSetpoint_1.ToString("0.0") &&
-                                                           BottomTemperatureSetpoint_2.ToString("0.0") == recipe.TemperatureSetpoint_2.ToString("0.0") &&
-                                                           BottomTemperatureSetpoint_3.ToString("0.0") == recipe.TemperatureSetpoint_3.ToString("0.0") &&
-                                                           BottomTemperatureSetpoint_4.ToString("0.0") == recipe.TemperatureSetpoint_4.ToString("0.0") &&
-                                                           BottomTemperatureSetpoint_5.ToString("0.0") == recipe.TemperatureSetpoint_5.ToString("0.0") &&
-                                                           BottomTemperatureSetpoint_6.ToString("0.0") == recipe.TemperatureSetpoint_6.ToString("0.0") &&
-                                                           BottomSegmentCounts == recipe.SegmentCounts;
+    private bool RecipeCompare(PLC_Recipe recipe) => NitrogenMode == recipe.NitrogenMode &&
+                                                     OxygenContentSet.ToString("0.0") == recipe.OxygenContentSet.ToString("0.0") &&
+                                                     (RecipeName.Length > 16 ? RecipeName.Substring(0, 16) : RecipeName) == (recipe.RecipeName.Length > 16 ? recipe.RecipeName.Substring(0, 16) : recipe.RecipeName) && //! 只最多比對16個字(PLC的配方名長度)
+                                                     DwellTime_1.ToString("0.0") == recipe.DwellTime_1.ToString("0.0") &&
+                                                     DwellTime_2.ToString("0.0") == recipe.DwellTime_2.ToString("0.0") &&
+                                                     DwellTime_3.ToString("0.0") == recipe.DwellTime_3.ToString("0.0") &&
+                                                     DwellTime_4.ToString("0.0") == recipe.DwellTime_4.ToString("0.0") &&
+                                                     DwellTime_5.ToString("0.0") == recipe.DwellTime_5.ToString("0.0") &&
+                                                     DwellTime_6.ToString("0.0") == recipe.DwellTime_6.ToString("0.0") &&
+                                                     DwellAlarm_1.ToString("0.0") == recipe.DwellAlarm_1.ToString("0.0") &&
+                                                     DwellAlarm_2.ToString("0.0") == recipe.DwellAlarm_2.ToString("0.0") &&
+                                                     DwellAlarm_3.ToString("0.0") == recipe.DwellAlarm_3.ToString("0.0") &&
+                                                     DwellAlarm_4.ToString("0.0") == recipe.DwellAlarm_4.ToString("0.0") &&
+                                                     DwellAlarm_5.ToString("0.0") == recipe.DwellAlarm_5.ToString("0.0") &&
+                                                     DwellAlarm_6.ToString("0.0") == recipe.DwellAlarm_6.ToString("0.0") &&
+                                                     CoolingTime.ToString("0.0") == recipe.CoolingTime.ToString("0.0") &&
+                                                     CoolingTemperature.ToString("0.0") == recipe.CoolingTemperature.ToString("0.0") &&
+                                                     RampTime_1.ToString("0.0") == recipe.RampTime_1.ToString("0.0") &&
+                                                     RampTime_2.ToString("0.0") == recipe.RampTime_2.ToString("0.0") &&
+                                                     RampTime_3.ToString("0.0") == recipe.RampTime_3.ToString("0.0") &&
+                                                     RampTime_4.ToString("0.0") == recipe.RampTime_4.ToString("0.0") &&
+                                                     RampTime_5.ToString("0.0") == recipe.RampTime_5.ToString("0.0") &&
+                                                     RampTime_6.ToString("0.0") == recipe.RampTime_6.ToString("0.0") &&
+                                                     RampAlarm_1.ToString("0.0") == recipe.RampAlarm_1.ToString("0.0") &&
+                                                     RampAlarm_2.ToString("0.0") == recipe.RampAlarm_2.ToString("0.0") &&
+                                                     RampAlarm_3.ToString("0.0") == recipe.RampAlarm_3.ToString("0.0") &&
+                                                     RampAlarm_4.ToString("0.0") == recipe.RampAlarm_4.ToString("0.0") &&
+                                                     RampAlarm_5.ToString("0.0") == recipe.RampAlarm_5.ToString("0.0") &&
+                                                     RampAlarm_6.ToString("0.0") == recipe.RampAlarm_6.ToString("0.0") &&
+                                                     InflatingTime.ToString("0") == recipe.InflatingTime.ToString("0") &&
+                                                     TemperatureSetpoint_1.ToString("0.0") == recipe.TemperatureSetpoint_1.ToString("0.0") &&
+                                                     TemperatureSetpoint_2.ToString("0.0") == recipe.TemperatureSetpoint_2.ToString("0.0") &&
+                                                     TemperatureSetpoint_3.ToString("0.0") == recipe.TemperatureSetpoint_3.ToString("0.0") &&
+                                                     TemperatureSetpoint_4.ToString("0.0") == recipe.TemperatureSetpoint_4.ToString("0.0") &&
+                                                     TemperatureSetpoint_5.ToString("0.0") == recipe.TemperatureSetpoint_5.ToString("0.0") &&
+                                                     TemperatureSetpoint_6.ToString("0.0") == recipe.TemperatureSetpoint_6.ToString("0.0") &&
+                                                     SegmentCounts == recipe.SegmentCounts;
+    private bool BottomRecipeCompare(PLC_Recipe recipe) =>
+                                                     BottomNitrogenMode == recipe.NitrogenMode &&
+                                                     BottomOxygenContentSet.ToString("0.0") == recipe.OxygenContentSet.ToString("0.0") &&
+                                                     (BottomRecipeName.Length > 16 ? BottomRecipeName.Substring(0, 16) : BottomRecipeName) == (recipe.RecipeName.Length > 16 ? recipe.RecipeName.Substring(0, 16) : recipe.RecipeName) && //! 只最多比對16個字(PLC的配方名長度)
+                                                     BottomDwellTime_1.ToString("0.0") == recipe.DwellTime_1.ToString("0.0") &&
+                                                     BottomDwellTime_2.ToString("0.0") == recipe.DwellTime_2.ToString("0.0") &&
+                                                     BottomDwellTime_3.ToString("0.0") == recipe.DwellTime_3.ToString("0.0") &&
+                                                     BottomDwellTime_4.ToString("0.0") == recipe.DwellTime_4.ToString("0.0") &&
+                                                     BottomDwellTime_5.ToString("0.0") == recipe.DwellTime_5.ToString("0.0") &&
+                                                     BottomDwellTime_6.ToString("0.0") == recipe.DwellTime_6.ToString("0.0") &&
+                                                     BottomDwellAlarm_1.ToString("0.0") == recipe.DwellAlarm_1.ToString("0.0") &&
+                                                     BottomDwellAlarm_2.ToString("0.0") == recipe.DwellAlarm_2.ToString("0.0") &&
+                                                     BottomDwellAlarm_3.ToString("0.0") == recipe.DwellAlarm_3.ToString("0.0") &&
+                                                     BottomDwellAlarm_4.ToString("0.0") == recipe.DwellAlarm_4.ToString("0.0") &&
+                                                     BottomDwellAlarm_5.ToString("0.0") == recipe.DwellAlarm_5.ToString("0.0") &&
+                                                     BottomDwellAlarm_6.ToString("0.0") == recipe.DwellAlarm_6.ToString("0.0") &&
+                                                     BottomCoolingTime.ToString("0.0") == recipe.CoolingTime.ToString("0.0") &&
+                                                     BottomCoolingTemperature.ToString("0.0") == recipe.CoolingTemperature.ToString("0.0") &&
+                                                     BottomRampTime_1.ToString("0.0") == recipe.RampTime_1.ToString("0.0") &&
+                                                     BottomRampTime_2.ToString("0.0") == recipe.RampTime_2.ToString("0.0") &&
+                                                     BottomRampTime_3.ToString("0.0") == recipe.RampTime_3.ToString("0.0") &&
+                                                     BottomRampTime_4.ToString("0.0") == recipe.RampTime_4.ToString("0.0") &&
+                                                     BottomRampTime_5.ToString("0.0") == recipe.RampTime_5.ToString("0.0") &&
+                                                     BottomRampTime_6.ToString("0.0") == recipe.RampTime_6.ToString("0.0") &&
+                                                     BottomRampAlarm_1.ToString("0.0") == recipe.RampAlarm_1.ToString("0.0") &&
+                                                     BottomRampAlarm_2.ToString("0.0") == recipe.RampAlarm_2.ToString("0.0") &&
+                                                     BottomRampAlarm_3.ToString("0.0") == recipe.RampAlarm_3.ToString("0.0") &&
+                                                     BottomRampAlarm_4.ToString("0.0") == recipe.RampAlarm_4.ToString("0.0") &&
+                                                     BottomRampAlarm_5.ToString("0.0") == recipe.RampAlarm_5.ToString("0.0") &&
+                                                     BottomRampAlarm_6.ToString("0.0") == recipe.RampAlarm_6.ToString("0.0") &&
+                                                     BottomInflatingTime.ToString("0") == recipe.InflatingTime.ToString("0") &&
+                                                     BottomTemperatureSetpoint_1.ToString("0.0") == recipe.TemperatureSetpoint_1.ToString("0.0") &&
+                                                     BottomTemperatureSetpoint_2.ToString("0.0") == recipe.TemperatureSetpoint_2.ToString("0.0") &&
+                                                     BottomTemperatureSetpoint_3.ToString("0.0") == recipe.TemperatureSetpoint_3.ToString("0.0") &&
+                                                     BottomTemperatureSetpoint_4.ToString("0.0") == recipe.TemperatureSetpoint_4.ToString("0.0") &&
+                                                     BottomTemperatureSetpoint_5.ToString("0.0") == recipe.TemperatureSetpoint_5.ToString("0.0") &&
+                                                     BottomTemperatureSetpoint_6.ToString("0.0") == recipe.TemperatureSetpoint_6.ToString("0.0") &&
+                                                     BottomSegmentCounts == recipe.SegmentCounts;
 
     private void AddProcessEvent((EventType type, DateTime addtime, string note, string tag, object value) eventdata)
     {
@@ -1117,51 +1421,20 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
         //    return SetRecipeResult.條件不允許;
         //}
-        if (IsTop())
+
+        if (RecipeCompare(recipe)) //! 配方相同就不再確認
         {
-            if (TopRecipeCompare(recipe)) //! 配方相同就不再確認
+            if (AutoMode)
             {
-                if (AutoMode)
-                {
-                    AutoMode = false;
-                    await Task.Delay(900).ConfigureAwait(false);
-                }
-
-                AutoMode = true;
-                return SetRecipeResult.無需變更;
+                AutoMode = false;
+                await Task.Delay(900).ConfigureAwait(false);
             }
-        }
-        else
-        {
-            if (BottomRecipeCompare(recipe)) //! 配方相同就不再確認
-            {
-                if (AutoMode)
-                {
-                    AutoMode = false;
-                    await Task.Delay(900).ConfigureAwait(false);
-                }
 
-                AutoMode = true;
-                return SetRecipeResult.無需變更;
-            }
+            AutoMode = true;
+            return SetRecipeResult.無需變更;
         }
 
-        CheckRecipeCTS.Dispose();
-        CheckRecipeCTS = new CancellationTokenSource();
-        if (!await Dialog.Show(new Dictionary<Language, string>
-                               {
-                                   { Language.TW, "請確認配方內容：" },
-                                   { Language.CHS, "请确认配方内容：" },
-                                   { Language.EN, "Please confirm this recipe:" }
-                               },
-                               recipe,
-                               true,
-                               TimeSpan.FromMilliseconds(int.MaxValue),
-                               DialogMsgType.Alert,
-                               CheckRecipeCTS.Token))
-        {
-            return SetRecipeResult.條件不允許;
-        }
+
 
         if (await WriteRecipeToPlcAsync(recipe) == SetRecipeResult.比對不相符)
         {
@@ -1342,6 +1615,36 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                     ct);
     }
 
+    public void WebRecipetoPLC(string RecipeName, string part, string lot, int panelcount)
+    {
+        var recipe = GetRecipe(RecipeName);
+        if (recipe is null)
+        {
+            Dialog.Show(new Dictionary<Language, string>
+                        {
+                            { Language.TW, "找不到配方，請確認是否創建該配方" },
+                            { Language.CHS, "找不到配方，请确认是否创建该配方" }
+                        });
+            return;
+        }
+        _ = SetRecipeAsync(recipe, "Bottom");
+        AddLOT(part, lot, panelcount);
+    }
+    public void TopWebRecipetoPLC(string RecipeName, string part, string lot, int panelcount)
+    {
+        var recipe = GetRecipe(RecipeName);
+        if (recipe is null)
+        {
+            Dialog.Show(new Dictionary<Language, string>
+                        {
+                            { Language.TW, "找不到配方，請確認是否創建該配方" },
+                            { Language.CHS, "找不到配方，请确认是否创建该配方" }
+                        });
+            return;
+        }
+        _ = SetRecipeAsync(recipe, "Top");
+        TopAddLOT(part, lot, panelcount);
+    }
     private async Task StartPP()
     {
         await StopPP(); //! 需先確認PP已停止
@@ -1356,7 +1659,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                            BeepSilince = false;
                                            //! 結束生產，填入資料
                                            OvenInfo.EndTime = DateTime.Now;
-                                           //OvenInfo.Recipe = GetRecipeSV();
+                                           OvenInfo.Recipe = GetRecipeSV();
                                            OvenInfo.TotalRampTime = (OvenInfo.EndTime - OvenInfo.StartTime).Minutes;
 
                                            if (!isCheckin)
@@ -1383,73 +1686,102 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         }
     }
 
-    //public bool RecipeCompareSV() 
-    //{
-    //    if (IsTop())
-    //    {
-    //        TopRecipeCompare(GetRecipeSV());
-    //    }
-    //    else
-    //    {
-    //        BottomRecipeCompare(GetRecipeSV());
-    //    }
-
-    //}
-
-    //public PLC_Recipe GetRecipeSV() => new PLC_Recipe
-    //{
-    //    NitrogenMode = SV_NitrogenMode,
-    //    OxygenContentSet = SV_OxygenContentSet,
-    //    RecipeName = SV_RecipeName,
-    //    DwellTime_1 = SV_DwellTime_1,
-    //    DwellTime_2 = SV_DwellTime_2,
-    //    DwellTime_3 = SV_DwellTime_3,
-    //    DwellTime_4 = SV_DwellTime_4,
-    //    DwellTime_5 = SV_DwellTime_5,
-    //    DwellTime_6 = SV_DwellTime_6,
-    //    DwellAlarm_1 = SV_TopDwellAlarm_1,
-    //    DwellAlarm_2 = SV_TopDwellAlarm_2,
-    //    DwellAlarm_3 = SV_TopDwellAlarm_3,
-    //    DwellAlarm_4 = SV_TopDwellAlarm_4,
-    //    DwellAlarm_5 = SV_TopDwellAlarm_5,
-    //    DwellAlarm_6 = SV_TopDwellAlarm_6,
-    //    CoolingTime = SV_TopCoolingTime,
-    //    CoolingTemperature = SV_TopCoolingTemperature,
-    //    RampTime_1 = SV_TopRampTime_1,
-    //    RampTime_2 = SV_TopRampTime_2,
-    //    RampTime_3 = SV_TopRampTime_3,
-    //    RampTime_4 = SV_TopRampTime_4,
-    //    RampTime_5 = SV_TopRampTime_5,
-    //    RampTime_6 = SV_TopRampTime_6,
-    //    RampAlarm_1 = SV_TopRampAlarm_1,
-    //    RampAlarm_2 = SV_TopRampAlarm_2,
-    //    RampAlarm_3 = SV_TopRampAlarm_3,
-    //    RampAlarm_4 = SV_TopRampAlarm_4,
-    //    RampAlarm_5 = SV_TopRampAlarm_5,
-    //    RampAlarm_6 = SV_TopRampAlarm_6,
-    //    InflatingTime = SV_TopInflatingTime,
-    //    TemperatureSetpoint_1 = SV_TopTemperatureSetpoint_1,
-    //    TemperatureSetpoint_2 = SV_TopTemperatureSetpoint_2,
-    //    TemperatureSetpoint_3 = SV_TopTemperatureSetpoint_3,
-    //    TemperatureSetpoint_4 = SV_TopTemperatureSetpoint_4,
-    //    TemperatureSetpoint_5 = SV_TopTemperatureSetpoint_5,
-    //    TemperatureSetpoint_6 = SV_TopTemperatureSetpoint_6,
-    //    SegmentCounts = SV_TopSegmentCounts
-    //};
-
-    public async Task<SetRecipeResult> SetRecipeAsync(PLC_Recipe? recipe)
+    public PLC_Recipe GetRecipeSV() => new PLC_Recipe
     {
-        if (recipe == null || IsExecuting)
+        NitrogenMode = SV_NitrogenMode,
+        OxygenContentSet = SV_OxygenContentSet,
+        RecipeName = SV_RecipeName,
+        DwellTime_1 = SV_DwellTime_1,
+        DwellTime_2 = SV_DwellTime_2,
+        DwellTime_3 = SV_DwellTime_3,
+        DwellTime_4 = SV_DwellTime_4,
+        DwellTime_5 = SV_DwellTime_5,
+        DwellTime_6 = SV_DwellTime_6,
+        DwellAlarm_1 = SV_DwellAlarm_1,
+        DwellAlarm_2 = SV_DwellAlarm_2,
+        DwellAlarm_3 = SV_DwellAlarm_3,
+        DwellAlarm_4 = SV_DwellAlarm_4,
+        DwellAlarm_5 = SV_DwellAlarm_5,
+        DwellAlarm_6 = SV_DwellAlarm_6,
+        CoolingTime = SV_CoolingTime,
+        CoolingTemperature = SV_CoolingTemperature,
+        RampTime_1 = SV_RampTime_1,
+        RampTime_2 = SV_RampTime_2,
+        RampTime_3 = SV_RampTime_3,
+        RampTime_4 = SV_RampTime_4,
+        RampTime_5 = SV_RampTime_5,
+        RampTime_6 = SV_RampTime_6,
+        RampAlarm_1 = SV_RampAlarm_1,
+        RampAlarm_2 = SV_RampAlarm_2,
+        RampAlarm_3 = SV_RampAlarm_3,
+        RampAlarm_4 = SV_RampAlarm_4,
+        RampAlarm_5 = SV_RampAlarm_5,
+        RampAlarm_6 = SV_RampAlarm_6,
+        InflatingTime = SV_InflatingTime,
+        TemperatureSetpoint_1 = SV_TemperatureSetpoint_1,
+        TemperatureSetpoint_2 = SV_TemperatureSetpoint_2,
+        TemperatureSetpoint_3 = SV_TemperatureSetpoint_3,
+        TemperatureSetpoint_4 = SV_TemperatureSetpoint_4,
+        TemperatureSetpoint_5 = SV_TemperatureSetpoint_5,
+        TemperatureSetpoint_6 = SV_TemperatureSetpoint_6,
+        SegmentCounts = SV_SegmentCounts
+    };
+
+    public async Task<SetRecipeResult> SetRecipeAsync(PLC_Recipe? recipe, string IsTopOrBottom)
+    {
+        if (recipe == null)
         {
+            Dialog.Show(new Dictionary<Language, string>
+                        {
+                            { Language.TW, "配方讀取錯誤" },
+                            { Language.CHS, "配方读取错误" },
+                            { Language.EN, "Recipe loaded Fail" }
+                        });
+
             return SetRecipeResult.條件不允許;
         }
-
-        if (await WriteRecipeToPlcAsync(recipe).ConfigureAwait(false) == SetRecipeResult.比對不相符)
+        if (IsExecuting)
         {
-            RecipeChangeError = true;
-            return SetRecipeResult.比對不相符;
-        }
+            Dialog.Show(new Dictionary<Language, string>
+                        {
+                            { Language.TW, "烤箱仍在烘烤`" },
+                            { Language.CHS, "烤箱仍在烘烤" },
+                            { Language.EN, "Oven is still executing" }
+                        });
 
+            return SetRecipeResult.條件不允許;
+        }
+        if (IsTopOrBottom == "Top")
+        {
+            if (await WriteRecipeToPlcAsync(recipe).ConfigureAwait(false) == SetRecipeResult.比對不相符)
+            {
+                RecipeChangeError = true;
+                Dialog.Show(new Dictionary<Language, string>
+                        {
+                            { Language.TW, "配方比對不相符" },
+                            { Language.CHS, "配方比对不相符" }
+                        });
+                return SetRecipeResult.比對不相符;
+            }
+        }
+        else
+        {
+            if (await BottomWriteRecipeToPlcAsync(recipe).ConfigureAwait(false) == SetRecipeResult.比對不相符)
+            {
+                RecipeChangeError = true;
+                Dialog.Show(new Dictionary<Language, string>
+                        {
+                            { Language.TW, "配方比對不相符" },
+                            { Language.CHS, "配方比对不相符" }
+                        });
+                return SetRecipeResult.比對不相符;
+            }
+        }
+        Dialog.Show(new Dictionary<Language, string>
+                        {
+                            { Language.TW, "配方切換完成" },
+                            { Language.CHS, "配方切换完成" }
+                        });
         return SetRecipeResult.成功;
     }
 
@@ -1470,33 +1802,32 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         Set(InputLayerMin, nameof(InputLayer));
     }
 
-    public void AddLOT(string PartID, string LotID, int layer, int quantity)
+    public void AddLOT(string PartID, string LotID, int quantity)
     {
-        if (OvenInfo.TempProducts.FirstOrDefault(x => x.PartID == PartID.Trim() && x.LotID == LotID.Trim() && x.Layer == layer) is { } product)
+        var info = new ProductInfo
         {
-            product.Quantity += quantity;
-        }
-        else
-        {
-            var info = new ProductInfo
-            {
-                PartID   = PartID.Trim(),
-                LotID    = LotID.Trim(),
-                Layer    = layer,
-                Quantity = quantity
-            };
+            PartID   = PartID.Trim(),
+            LotID    = LotID.Trim(),
+            Quantity = quantity
+        };
 
-            OvenInfo.TempProducts.Add(info);
-        }
+        OvenInfo.TempProducts.Add(info);
+    }
+
+    public void TopAddLOT(string PartID, string LotID, int quantity)
+    {
+        var info = new ProductInfo
+        {
+            PartID   = PartID.Trim(),
+            LotID    = LotID.Trim(),
+            Quantity = quantity
+        };
+
+        OvenInfo.TopTempProducts.Add(info);
     }
 
     #region Interface Implementations
     public void Dispose() => ppCTS.Dispose();
     #endregion
 
-
-    public void GetGo()
-    {
-        SetRecipeDialogAsync("A");
-    }
 }

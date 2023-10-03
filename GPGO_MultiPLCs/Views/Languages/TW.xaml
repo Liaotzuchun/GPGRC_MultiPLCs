@@ -294,6 +294,7 @@
     <sys:String x:Key="上爐">上爐</sys:String>
     <sys:String x:Key="下爐">下爐</sys:String>
     <sys:String x:Key="iMES設置">iMES設置</sys:String>
+    <sys:String x:Key="智能单元状态">智能单元状态</sys:String>
 
     <sys:String x:Key="M230">上爐緊急停止(X00_OFF)</sys:String>
     <sys:String x:Key="M1230">下爐緊急停止(X20_OFF)</sys:String>
@@ -370,5 +371,6 @@
     <sys:String x:Key="M1268">下爐PLC電池不足異常</sys:String>
     <sys:String x:Key="M1269">下爐溫控器(TC2)通訊異常</sys:String>
     <sys:String x:Key="OPID">操作員</sys:String>
+    <sys:String x:Key="列表">列表</sys:String>
 
 </ResourceDictionary>

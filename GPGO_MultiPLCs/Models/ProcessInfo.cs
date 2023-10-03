@@ -93,6 +93,12 @@ public class BaseInfo : ObservableObject
     }
 
     [GPIgnore]
+    public ObservableConcurrentCollection<ProductInfo> TopTempProducts
+    {
+        get => Get<ObservableConcurrentCollection<ProductInfo>>()!;
+        set => Set(value);
+    }
+    [GPIgnore]
     public ObservableConcurrentCollection<ProductInfo> TempProducts
     {
         get => Get<ObservableConcurrentCollection<ProductInfo>>()!;
@@ -107,7 +113,8 @@ public class BaseInfo : ObservableObject
     }
 
     public int TempQuantity => TempProducts.Sum(x => x.Quantity);
-    public int Quantity     => Products.Sum(x => x.Quantity);
+    public int TopTempQuantity => TopTempProducts.Sum(x => x.Quantity);
+    public int Quantity => Products.Sum(x => x.Quantity);
 
     [GPIgnore]
     [LanguageTranslator("Total Time", "總烘烤時間", "总烘烤时间")]
@@ -119,11 +126,12 @@ public class BaseInfo : ObservableObject
 
     public BaseInfo()
     {
-        Recipe             = new PLC_Recipe();
-        EventList          = new ObservableConcurrentCollection<LogEvent>();
+        Recipe = new PLC_Recipe();
+        EventList = new ObservableConcurrentCollection<LogEvent>();
         RecordTemperatures = new List<RecordTemperatures>();
-        Products           = new ObservableConcurrentCollection<ProductInfo>();
-        TempProducts       = new ObservableConcurrentCollection<ProductInfo>();
+        Products = new ObservableConcurrentCollection<ProductInfo>();
+        TempProducts = new ObservableConcurrentCollection<ProductInfo>();
+        TopTempProducts = new ObservableConcurrentCollection<ProductInfo>();
 
         Products.CollectionChanged += (_, _) =>
                                       {
@@ -132,6 +140,10 @@ public class BaseInfo : ObservableObject
         TempProducts.CollectionChanged += (_, _) =>
                                           {
                                               NotifyPropertyChanged(nameof(TempQuantity));
+                                          };
+        TopTempProducts.CollectionChanged += (_, _) =>
+                                          {
+                                              NotifyPropertyChanged(nameof(TopTempQuantity));
                                           };
     }
 
@@ -142,10 +154,10 @@ public class BaseInfo : ObservableObject
         RecordTemperatures.Clear();
         Products.Clear();
 
-        StartTime     = new DateTime();
-        EndTime       = new DateTime();
+        StartTime = new DateTime();
+        EndTime = new DateTime();
         TotalRampTime = 0.0;
-        IsFinished    = false;
+        IsFinished = false;
     }
 }
 
