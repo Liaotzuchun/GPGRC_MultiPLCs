@@ -19,10 +19,10 @@ public partial class LogView
 
     private void dg2_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
     {
-        if (dg2.SelectedItem != null)
-        {
-            dg2.ScrollIntoView(dg2.SelectedItem);
-        }
+        //if (dg2.SelectedItem != null)
+        //{
+        //    dg2.ScrollIntoView(dg2.SelectedItem);
+        //}
     }
 
     private void MenuItem_SubmenuClosed(object sender, RoutedEventArgs e) => Keyboard.ClearFocus();

@@ -279,9 +279,9 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public int RecordDelay { get; set; } = 1;
     public int ClearInputDelay { get; set; } = 60;
     public RelayCommand InputFocusCommand { get; }
-    public AsyncCommand StartCommand { get; }
-    public AsyncCommand StopCommand { get; }
-    public RelayCommand SilinceCommand { get; }
+    //public AsyncCommand StartCommand { get; }
+    //public AsyncCommand StopCommand { get; }
+    //public RelayCommand SilinceCommand { get; }
     /// <summary>取消投產</summary>
     public RelayCommand CancelCheckInCommand { get; }
     /// <summary>投產</summary>
@@ -679,7 +679,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         });
         #endregion
         #endregion
-
         InputLayer = InputLayerMin;
         Dialog = dialog;
         EditOvenChange = 0;
@@ -716,6 +715,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                             }
                                         }
                                     };
+
 
         InputFocusCommand = new RelayCommand(e => inputFocusTB = e as TextBox);
 
@@ -882,100 +882,100 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                        }
                                                    });
 
-        SilinceCommand = new RelayCommand(_ => BeepSilince = true);
+        //SilinceCommand = new RelayCommand(_ => BeepSilince = true);
 
-        StartCommand = new AsyncCommand(async _ =>
-                                        {
-                                            if (CheckUser != null && !CheckUser.Invoke(InputOperatorID))
-                                            {
-                                                dialog.Show(new Dictionary<Language, string>
-                                                            {
-                                                                { Language.TW, "OP權限不符" },
-                                                                { Language.CHS, "OP权限不符" },
-                                                                { Language.EN, "OP permissions error." }
-                                                            },
-                                                            DialogMsgType.Alert);
+        //StartCommand = new AsyncCommand(async _ =>
+        //                                {
+        //                                    if (CheckUser != null && !CheckUser.Invoke(InputOperatorID))
+        //                                    {
+        //                                        dialog.Show(new Dictionary<Language, string>
+        //                                                    {
+        //                                                        { Language.TW, "OP權限不符" },
+        //                                                        { Language.CHS, "OP权限不符" },
+        //                                                        { Language.EN, "OP permissions error." }
+        //                                                    },
+        //                                                    DialogMsgType.Alert);
 
-                                                return;
-                                            }
+        //                                        return;
+        //                                    }
 
-                                            if (!AutoMode)
-                                            {
-                                                AutoMode = true;
-                                            }
+        //                                    if (!AutoMode)
+        //                                    {
+        //                                        AutoMode = true;
+        //                                    }
 
-                                            OvenInfo.OperatorID = InputOperatorID;
-                                            RackID = OvenInfo.TempProducts.FirstOrDefault()?.LotID ?? string.Empty;
-                                            DoorLock = true;
+        //                                    OvenInfo.OperatorID = InputOperatorID;
+        //                                    RackID = OvenInfo.TempProducts.FirstOrDefault()?.LotID ?? string.Empty;
+        //                                    DoorLock = true;
 
-                                            //if (!RecipeCompareSV())
-                                            //{
-                                            //    if (!await dialog.Show(new Dictionary<Language, string>
-                                            //                           {
-                                            //                               { Language.TW, "執行配方比對異常！\n確定啟動烘烤？" },
-                                            //                               { Language.CHS, "执行配方比对异常！\n确定启动烘烤？" },
-                                            //                               { Language.EN, "Executing recipe is abnormal!\nAre you sure you want to start baking?" }
-                                            //                           },
-                                            //                           true,
-                                            //                           TimeSpan.FromSeconds(15),
-                                            //                           DialogMsgType.Alarm))
-                                            //    {
-                                            //        AutoMode = false;
-                                            //        return;
-                                            //    }
-                                            //}
-                                            //else
-                                            if (!await dialog.Show(new Dictionary<Language, string>
-                                                                        {
-                                                                            { Language.TW, "確定啟動烘烤？" },
-                                                                            { Language.CHS, "确定启动烘烤？" },
-                                                                            { Language.EN, "Are you sure you want to start baking?" }
-                                                                        },
-                                                                        true,
-                                                                        TimeSpan.FromSeconds(15),
-                                                                        DialogMsgType.Alert))
-                                            {
-                                                AutoMode = false;
-                                                return;
-                                            }
+        //                                    if (!RecipeCompareSV())
+        //                                    {
+        //                                        if (!await dialog.Show(new Dictionary<Language, string>
+        //                                                               {
+        //                                                                   { Language.TW, "執行配方比對異常！\n確定啟動烘烤？" },
+        //                                                                   { Language.CHS, "执行配方比对异常！\n确定启动烘烤？" },
+        //                                                                   { Language.EN, "Executing recipe is abnormal!\nAre you sure you want to start baking?" }
+        //                                                               },
+        //                                                               true,
+        //                                                               TimeSpan.FromSeconds(15),
+        //                                                               DialogMsgType.Alarm))
+        //                                        {
+        //                                            AutoMode = false;
+        //                                            return;
+        //                                        }
+        //                                    }
+        //                                    else
+        //                                    if (!await dialog.Show(new Dictionary<Language, string>
+        //                                                                {
+        //                                                                    { Language.TW, "確定啟動烘烤？" },
+        //                                                                    { Language.CHS, "确定启动烘烤？" },
+        //                                                                    { Language.EN, "Are you sure you want to start baking?" }
+        //                                                                },
+        //                                                                true,
+        //                                                                TimeSpan.FromSeconds(15),
+        //                                                                DialogMsgType.Alert))
+        //                                    {
+        //                                        AutoMode = false;
+        //                                        return;
+        //                                    }
 
-                                            AutoMode_Stop = false;
-                                            AutoMode_Start = true;
-                                        },
-                                        null);
+        //                                    AutoMode_Stop = false;
+        //                                    AutoMode_Start = true;
+        //                                },
+        //                                null);
 
-        StopCommand = new AsyncCommand(async _ =>
-                                       {
-                                           if (!AllowStop)
-                                           {
-                                               dialog.Show(new Dictionary<Language, string>
-                                                           {
-                                                               { Language.TW, "不允許停止" },
-                                                               { Language.CHS, "不允许停止" },
-                                                               { Language.EN, "Not allowed to stop." }
-                                                           },
-                                                           DialogMsgType.Alert);
+        //StopCommand = new AsyncCommand(async _ =>
+        //                               {
+        //                                   if (!AllowStop)
+        //                                   {
+        //                                       dialog.Show(new Dictionary<Language, string>
+        //                                                   {
+        //                                                       { Language.TW, "不允許停止" },
+        //                                                       { Language.CHS, "不允许停止" },
+        //                                                       { Language.EN, "Not allowed to stop." }
+        //                                                   },
+        //                                                   DialogMsgType.Alert);
 
-                                               return;
-                                           }
+        //                                       return;
+        //                                   }
 
-                                           if (!await dialog.Show(new Dictionary<Language, string>
-                                                                  {
-                                                                      { Language.TW, "確定停止烘烤？" },
-                                                                      { Language.CHS, "确定停止烘烤？" },
-                                                                      { Language.EN, "Are you sure you want to stop baking?" }
-                                                                  },
-                                                                  true,
-                                                                  TimeSpan.FromSeconds(15),
-                                                                  DialogMsgType.Alert))
-                                           {
-                                               return;
-                                           }
+        //                                   if (!await dialog.Show(new Dictionary<Language, string>
+        //                                                          {
+        //                                                              { Language.TW, "確定停止烘烤？" },
+        //                                                              { Language.CHS, "确定停止烘烤？" },
+        //                                                              { Language.EN, "Are you sure you want to stop baking?" }
+        //                                                          },
+        //                                                          true,
+        //                                                          TimeSpan.FromSeconds(15),
+        //                                                          DialogMsgType.Alert))
+        //                                   {
+        //                                       return;
+        //                                   }
 
-                                           AutoMode_Start = false;
-                                           AutoMode_Stop = true;
-                                       },
-                                       null);
+        //                                   AutoMode_Start = false;
+        //                                   AutoMode_Stop = true;
+        //                               },
+        //                               null);
 
         GoDetailCommand = new RelayCommand(_ => WantDetail?.Invoke());
 
@@ -1647,7 +1647,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     }
     private async Task StartPP()
     {
-        await StopPP(); //! 需先確認PP已停止
+        //await StopPP(); //! 需先確認PP已停止
 
         ResetStopTokenSource();
         ExecutingTask = StartRecoder(ppCTS.Token);

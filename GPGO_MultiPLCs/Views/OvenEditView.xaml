@@ -157,6 +157,8 @@
                 </GroupBox>
                 <GroupBox Grid.Row="4"
                           Grid.RowSpan="2"
+                          FontSize="16"
+                          FontWeight="Bold"
                           Margin="0,0,0,2">
                     <GroupBox.Header>
                         <TextBlock HorizontalAlignment="Center"
@@ -193,7 +195,7 @@
                                         Grid.Column="0"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
-                                        FontSize="22"
+                                        FontSize="18"
                                         FontWeight="Bold"
                                         Foreground="black"
                                         Text="{DynamicResource 配方項}" />
@@ -201,97 +203,116 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
-                                        FontSize="22"
+                                        FontSize="18"
                                         FontWeight="Bold"
                                         Foreground="black"
                                         Text="{DynamicResource 配方值}" />
                         </Grid>
-                        <TextBlock  Grid.Row="1"
-                                    Grid.Column="0"
+                        <Border Grid.Row="1"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                Style="{StaticResource ValueBorder}">
+                        <TextBlock  
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    FontSize="20"
                                     FontWeight="Bold"
                                     Foreground="black"
                                     Text="{DynamicResource 工單ID}" />
-                        <TextBlock  Grid.Row="1"
-                                    Grid.Column="1"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontSize="20"
-                                    FontWeight="Bold"
-                                    Foreground="black"
-                                    Text="{Binding TopWorkOrder , Mode=OneWay}" />
-                        <TextBlock  Grid.Row="2"
-                                    Grid.Column="0"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontSize="20"
-                                    FontWeight="Bold"
-                                    Foreground="black"
-                                    Text="{DynamicResource  物资编码}" />
-                        <TextBlock  Grid.Row="2"
-                                    Grid.Column="1"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontSize="20"
-                                    FontWeight="Bold"
-                                    Foreground="black"
-                                    Text="{Binding TopPartID , Mode=OneWay}" />
-                        <TextBlock  Grid.Row="3"
-                                    Grid.Column="0"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontSize="20"
-                                    FontWeight="Bold"
-                                    Foreground="black"
-                                    Text="{DynamicResource  工序代碼}" />
-                        <TextBlock  Grid.Row="3"
-                                    Grid.Column="1"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontSize="20"
-                                    FontWeight="Bold"
-                                    Foreground="black"
-                                    Text="{Binding TopProcessID , Mode=OneWay}" />
-                        <TextBlock  Grid.Row="4"
-                                    Grid.Column="0"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontSize="20"
-                                    FontWeight="Bold"
-                                    Foreground="black"
-                                    Text="{DynamicResource  計畫加工板數}" />
-                        <TextBlock  Grid.Row="4"
-                                    Grid.Column="1"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontSize="20"
-                                    FontWeight="Bold"
-                                    Foreground="black"
-                                    Text="{Binding TopPanelCount , Mode=OneWay}" />
-                        <TextBlock  Grid.Row="5"
-                                    Grid.Column="0"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontSize="20"
-                                    FontWeight="Bold"
-                                    Foreground="black"
-                                    Text="{DynamicResource  配方名稱}" />
-                        <TextBlock  Grid.Row="5"
-                                    Grid.Column="1"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontSize="20"
-                                    FontWeight="Bold"
-                                    Foreground="black"
-                                    Text="{Binding TopRecipeID , Mode=OneWay}" /> 
+                        </Border>
+                        <Border Grid.Row="1"
+                                Grid.Column="1"
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                Style="{StaticResource ValueBorder}">
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontWeight="Bold"
+                                       Foreground="black"
+                                       Text="{Binding TopWorkOrder , Mode=OneWay}" />
+                        </Border>
+                        <Border Grid.Row="2"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                Style="{StaticResource ValueBorder}">
+                            <TextBlock  Grid.Row="2"
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Foreground="black"
+                                        Text="{DynamicResource  物资编码}" />
+                        </Border>
+                        <Border Grid.Row="2"
+                                Grid.Column="1"
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                Style="{StaticResource ValueBorder}">
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Foreground="black"
+                                       Text="{Binding TopPartID , Mode=OneWay}" />
+                        </Border>
+                        <Border Grid.Row="3"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                Style="{StaticResource ValueBorder}">
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Foreground="black"
+                                       Text="{DynamicResource  工序代碼}" />
+                        </Border>
+                        <Border Grid.Row="3"
+                                Grid.Column="1"
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                Style="{StaticResource ValueBorder}">
+                            <TextBlock  Grid.Row="3"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Foreground="black"
+                                        Text="{Binding TopProcessID , Mode=OneWay}" />
+                        </Border>
+                        <Border Grid.Row="4"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                Style="{StaticResource ValueBorder}">
+                            <TextBlock  HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Foreground="black"
+                                        Text="{DynamicResource  計畫加工板數}" />
+                        </Border>
+                        <Border Grid.Row="4"
+                                Grid.Column="1"
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                Style="{StaticResource ValueBorder}">
+                            <TextBlock  HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Foreground="black"
+                                        Text="{Binding TopPanelCount , Mode=OneWay}" />
+                        </Border>
+                        <Border Grid.Row="5"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                Style="{StaticResource ValueBorder}">
+                            <TextBlock  Grid.Row="5"
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Foreground="black"
+                                        Text="{DynamicResource  配方名稱}" />
+                        </Border>
+                        <Border Grid.Row="5"
+                                Grid.Column="1"
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                Style="{StaticResource ValueBorder}">
+                            <TextBlock  Grid.Row="5"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Foreground="black"
+                                        Text="{Binding TopRecipeID , Mode=OneWay}" />
+                        </Border>
                         <TextBlock  Grid.Row="6"
                                     Grid.Column="0"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    FontSize="20"
-                                    FontWeight="Bold"
                                     Foreground="black"
                                     Visibility="Hidden"
                                     Text="Check in" />
@@ -299,8 +320,6 @@
                                     Grid.Column="1"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    FontSize="20"
-                                    FontWeight="Bold"
                                     Foreground="black"
                                     Visibility="Hidden"
                                     Text="{Binding TopCheckin , Mode=OneWay}" />
@@ -323,8 +342,6 @@
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <TextBlock  Grid.Row="0"
                                     Grid.Column="0"
-                                    FontSize="20"
-                                    FontWeight="Bold"
                                     Foreground="black"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Top">
@@ -1094,6 +1111,8 @@
                 </GroupBox>
                 <GroupBox Grid.Row="4"
                           Grid.RowSpan="2"
+                          FontSize="16"
+                          FontWeight="Bold"
                           Margin="0,0,0,2">
                     <GroupBox.Header>
                         <TextBlock HorizontalAlignment="Center"
@@ -1130,7 +1149,7 @@
                                         Grid.Column="0"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
-                                        FontSize="22"
+                                        FontSize="18"
                                         FontWeight="Bold"
                                         Foreground="black"
                                         Text="{DynamicResource 配方項}" />
@@ -1138,91 +1157,119 @@
                                         Grid.Column="1"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
-                                        FontSize="22"
+                                        FontSize="18"
                                         FontWeight="Bold"
                                         Foreground="black"
                                         Text="{DynamicResource 配方值}" />
                         </Grid>
-                        <TextBlock  Grid.Row="1"
-                                    Grid.Column="0"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontSize="20"
-                                    FontWeight="Bold"
-                                    Foreground="black"
-                                    Text="{DynamicResource 工單ID}" />
-                        <TextBlock  Grid.Row="1"
-                                    Grid.Column="1"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontSize="20"
-                                    FontWeight="Bold"
-                                    Foreground="black"
-                                    Text="{Binding WorkOrder , Mode=OneWay}" />
-                        <TextBlock  Grid.Row="2"
-                                    Grid.Column="0"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontSize="20"
-                                    FontWeight="Bold"
-                                    Foreground="black"
-                                    Text="{DynamicResource  物资编码}" />
-                        <TextBlock  Grid.Row="2"
-                                    Grid.Column="1"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontSize="20"
-                                    FontWeight="Bold"
-                                    Foreground="black"
-                                    Text="{Binding PartID , Mode=OneWay}" />
+                        <Border Grid.Row="1"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                Style="{StaticResource ValueBorder}">
+                            <TextBlock  HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Foreground="black"
+                                        Text="{DynamicResource 工單ID}" />
+                        </Border>
+                        <Border Grid.Row="1"
+                                Grid.Column="1"
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                Style="{StaticResource ValueBorder}">
+                            <TextBlock  Grid.Row="1"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Foreground="black"
+                                        Text="{Binding WorkOrder , Mode=OneWay}" />
+                        </Border>
+                        <Border Grid.Row="2"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                Style="{StaticResource ValueBorder}">
+                            <TextBlock  Grid.Row="2"
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Foreground="black"
+                                        Text="{DynamicResource  物资编码}" />
+                        </Border>
+                        <Border Grid.Row="2"
+                                Grid.Column="1"
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                Style="{StaticResource ValueBorder}">
+                            <TextBlock  Grid.Row="2"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Foreground="black"
+                                        Text="{Binding PartID , Mode=OneWay}" />
+                        </Border>
+                        <Border Grid.Row="3"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                Style="{StaticResource ValueBorder}">
+                            <TextBlock  Grid.Row="3"
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Foreground="black"
+                                        Text="{DynamicResource  工序代碼}" />
+                        </Border>
+                        <Border Grid.Row="3"
+                                Grid.Column="1"
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                Style="{StaticResource ValueBorder}">
                         <TextBlock  Grid.Row="3"
-                                    Grid.Column="0"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontSize="20"
-                                    FontWeight="Bold"
-                                    Foreground="black"
-                                    Text="{DynamicResource  工序代碼}" />
-                        <TextBlock  Grid.Row="3"
                                     Grid.Column="1"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    FontSize="20"
-                                    FontWeight="Bold"
                                     Foreground="black"
                                     Text="{Binding ProcessID , Mode=OneWay}" />
-                        <TextBlock  Grid.Row="4"
-                                    Grid.Column="0"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontSize="20"
-                                    FontWeight="Bold"
-                                    Foreground="black"
-                                    Text="{DynamicResource  計畫加工板數}" />
-                        <TextBlock  Grid.Row="4"
-                                    Grid.Column="1"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontSize="20"
-                                    FontWeight="Bold"
-                                    Foreground="black"
-                                    Text="{Binding PanelCount , Mode=OneWay}" />
-                        <TextBlock  Grid.Row="5"
-                                    Grid.Column="0"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontSize="20"
-                                    FontWeight="Bold"
-                                    Foreground="black"
-                                    Text="{DynamicResource  配方名稱}" />
-                        <TextBlock  Grid.Row="5"
-                                    Grid.Column="1"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontSize="20"
-                                    FontWeight="Bold"
-                                    Foreground="black"
-                                    Text="{Binding RecipeID , Mode=OneWay}" />
+                        </Border>
+                        <Border Grid.Row="4"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                Style="{StaticResource ValueBorder}">
+                            <TextBlock  Grid.Row="4"
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Foreground="black"
+                                        Text="{DynamicResource  計畫加工板數}" />
+                        </Border>
+                        <Border Grid.Row="4"
+                                Grid.Column="1"
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                Style="{StaticResource ValueBorder}">
+                            <TextBlock  Grid.Row="4"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Foreground="black"
+                                        Text="{Binding PanelCount , Mode=OneWay}" />
+                        </Border>
+                        <Border Grid.Row="5"
+                                Grid.Column="0"
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                Style="{StaticResource ValueBorder}">
+                            <TextBlock  Grid.Row="5"
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Foreground="black"
+                                        Text="{DynamicResource  配方名稱}" />
+                        </Border>
+                        <Border Grid.Row="5"
+                                Grid.Column="1"
+                                Background="{StaticResource WindowBackgroundBrush2}"
+                                Style="{StaticResource ValueBorder}">
+                            <TextBlock  Grid.Row="5"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Foreground="black"
+                                        Text="{Binding RecipeID , Mode=OneWay}" />
+                        </Border>
                         <TextBlock  Grid.Row="6"
                                     Grid.Column="0"
                                     HorizontalAlignment="Center"

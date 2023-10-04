@@ -23,10 +23,10 @@ public partial class TraceabilityView
 
     private void SelectedCellsChanged2(object sender, SelectedCellsChangedEventArgs e)
     {
-        if (dg2.SelectedItem != null)
-        {
-            dg2.ScrollIntoView(dg2.SelectedItem);
-        }
+        //if (dg2.SelectedItem != null)
+        //{
+        //    dg2.ScrollIntoView(dg2.SelectedItem);
+        //}
     }
 
     private void DataGrid_Loaded(object sender, RoutedEventArgs e)

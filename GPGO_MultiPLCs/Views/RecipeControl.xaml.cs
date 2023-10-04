@@ -9,7 +9,7 @@ namespace GPGO_MultiPLCs.Views;
 public partial class RecipeControl
 {
     public RecipeControl() => InitializeComponent();
-    private void DataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e) => TC.SelectedIndex = 0;
+    private void DataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e) { }
 
     private async void TextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
     {

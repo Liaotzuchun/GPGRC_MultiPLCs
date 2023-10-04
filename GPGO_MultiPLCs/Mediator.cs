@@ -481,29 +481,31 @@ public sealed class Mediator : ObservableObject
         TotalVM.EventHappened += e =>
         {
             var (stationIndex, type, time, note, tag, value) = e;
-            var logevent = new LogEvent
+            if (type == EventType.Alarm)
             {
-                StationNumber = stationIndex + 1,
-                AddedTime     = time,
-                Type          = type,
-                Description   = note,
-                TagCode       = tag,
-                Value         = value
-            };
-            _ = LogVM.AddToDBAsync(logevent);
+                var logevent = new LogEvent
+                {
+                    StationNumber = stationIndex + 1,
+                    AddedTime     = time,
+                    Type          = type,
+                    Description   = note,
+                    TagCode       = tag,
+                    Value         = value
+                };
+                _ = LogVM.AddToDBAsync(logevent);
 
-            //! 輸出欣興CSV紀錄
-            _ = CsvCreator.AddEvent(logevent, AuthenticatorVM.Settings.DataOutputPath);
+                //! 輸出欣興CSV紀錄
+                _ = CsvCreator.AddEvent(logevent, AuthenticatorVM.Settings.DataOutputPath);
 
-            #region 發生事件 傳送AlarmUpload
-            try
-            {
-                var methodInvoke = "AlarmUpload";
-                var macCode = AuthenticatorVM.Settings.EquipmentID;
-                var alarmCode = logevent.TagCode;
-                var alarmDesc = logevent.Description;
+                #region 發生事件 傳送AlarmUpload
+                try
+                {
+                    var methodInvoke = "AlarmUpload";
+                    var macCode = AuthenticatorVM.Settings.EquipmentID;
+                    var alarmCode = logevent.TagCode;
+                    var alarmDesc = logevent.Description;
 
-                var input = $"""
+                    var input = $"""
                                      <?xml version="1.0" encoding="UTF-8"?>
                                         <AlarmUpload
                                         xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
@@ -516,22 +518,24 @@ public sealed class Mediator : ObservableObject
                                      </AlarmUpload> 
                                      """;
 
-                var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+                    var Result = Web.macIntf(new SCC_ServerSideRef.macIntfRequest()
+                    {
+                        methodInvoke = methodInvoke,
+                        input = input
+                    });
+                    var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
+                    var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
+                    var ResultData = Result.macIntfResult.resultDatak__BackingField;
+                    Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
+                    Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] ,ResultData:[{ResultData}] ");
+                }
+                catch (Exception ex)
                 {
-                    methodInvoke = methodInvoke,
-                    input = input
-                });
-                var ErrorCode = Result.macIntfResult.errorCodek__BackingField;
-                var ErrorMsg = Result.macIntfResult.errorMsgk__BackingField;
-                var ResultData = Result.macIntfResult.resultDatak__BackingField;
-                Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
-                Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] ,ResultData:[{ResultData}] ");
+                    Log.Debug(ex.Message);
+                }
+                #endregion
             }
-            catch (Exception ex)
-            {
-                Log.Debug(ex.Message);
-            }
-            #endregion
+
         };
 
         TotalVM.UpsertRecipe += recipe => RecipeVM.Upsert(recipe).Result;
@@ -1995,7 +1999,7 @@ public sealed class Mediator : ObservableObject
         //                                        }
         //                                        catch
         //                                        {
-        //                                            // ignored
+        //                                            ignored
         //                                        }
         //                                    }),
         //              TimeSpan.FromMinutes(5));

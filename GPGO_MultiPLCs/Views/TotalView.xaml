@@ -266,8 +266,16 @@
                                     <UniformGrid Rows="2" />
                                 </ItemsPanelTemplate>
                             </ListBox.ItemsPanel>
-                            <TextBlock Text="{DynamicResource 上爐}" />
-                            <TextBlock Text="{DynamicResource 下爐}" />
+                            <TextBlock FontSize="40">
+                                <Run Text="上"></Run>
+                                <LineBreak></LineBreak>
+                                <Run Text="炉"></Run>
+                            </TextBlock>
+                            <TextBlock FontSize="40">
+                                <Run Text="下"></Run>
+                                <LineBreak></LineBreak>
+                                <Run Text="炉"></Run>
+                            </TextBlock>
                         </ListBox>
                     </Grid>
                 </Grid>
@@ -549,7 +557,7 @@
                                           <LineBreak />
                                      <Run Text="(200)" />
                             </TextBlock>
-                        </RadioButton>
+                        </RadioButton> 
                         <RadioButton Grid.Column="1"
                                      Grid.Row="3"
                                      Command="{Binding  DataUpload160Command}">

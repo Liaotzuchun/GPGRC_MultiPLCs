@@ -127,7 +127,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
-            <RowDefinition />
         </Grid.RowDefinitions>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -1279,7 +1278,7 @@
                     </Style>
                 </DataGrid.RowStyle>
             </DataGrid>
-            <Grid Grid.Row="1"
+            <!--<Grid Grid.Row="1"
                   Height="222"
                   Visibility="{Binding SelectedIndex, Mode=OneWay, Converter={StaticResource IsMoreThanValueVis}, ConverterParameter=0}">
                 <Grid.ColumnDefinitions>
@@ -1516,9 +1515,9 @@
                         </ControlTemplate>
                     </oxyWpf:PlotView.DefaultTrackerTemplate>
                 </oxyWpf:PlotView>
-            </Grid>
+            </Grid>-->
         </Grid>
-        <Grid Grid.Row="2"
+        <!--<Grid Grid.Row="2"
               Margin="0,4,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40" />
@@ -1589,6 +1588,6 @@
                     </oxyWpf:PlotView.DefaultTrackerTemplate>
                 </oxyWpf:PlotView>
             </Border>
-        </Grid>
+        </Grid>-->
     </Grid>
 </UserControl>
