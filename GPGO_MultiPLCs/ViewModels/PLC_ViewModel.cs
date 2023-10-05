@@ -603,14 +603,21 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
         TopIngredients = new RelayCommand(_ =>
         {
+            if (TopBarcode is null)
+            {
+                dialog.Show(new Dictionary<Language, string>
+                                                                            {
+                                                                                { Language.TW,  "請刷入工單號！" },
+                                                                                { Language.CHS, "请刷入工单号！" }
+                                                                            });
+                return;
+            }
             TopIngredientsevent?.Invoke();
             var recipe = TopRecipeID;
             var part = TopPartID;
             var panelcount = Convert.ToInt32(TopPanelCount);
             var lot = TopWorkOrder;
-            //var opid = TopOPID;          
             TopWebRecipetoPLC(recipe, part, lot, panelcount);
-
         });
 
         TopCleanWO = new RelayCommand(_ =>
@@ -1659,7 +1666,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                            BeepSilince = false;
                                            //! 結束生產，填入資料
                                            OvenInfo.EndTime = DateTime.Now;
-                                           OvenInfo.Recipe = GetRecipeSV();
+                                           //OvenInfo.Recipe = GetRecipeSV();
                                            OvenInfo.TotalRampTime = (OvenInfo.EndTime - OvenInfo.StartTime).Minutes;
 
                                            if (!isCheckin)
@@ -1686,46 +1693,46 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         }
     }
 
-    public PLC_Recipe GetRecipeSV() => new PLC_Recipe
-    {
-        NitrogenMode = SV_NitrogenMode,
-        OxygenContentSet = SV_OxygenContentSet,
-        RecipeName = SV_RecipeName,
-        DwellTime_1 = SV_DwellTime_1,
-        DwellTime_2 = SV_DwellTime_2,
-        DwellTime_3 = SV_DwellTime_3,
-        DwellTime_4 = SV_DwellTime_4,
-        DwellTime_5 = SV_DwellTime_5,
-        DwellTime_6 = SV_DwellTime_6,
-        DwellAlarm_1 = SV_DwellAlarm_1,
-        DwellAlarm_2 = SV_DwellAlarm_2,
-        DwellAlarm_3 = SV_DwellAlarm_3,
-        DwellAlarm_4 = SV_DwellAlarm_4,
-        DwellAlarm_5 = SV_DwellAlarm_5,
-        DwellAlarm_6 = SV_DwellAlarm_6,
-        CoolingTime = SV_CoolingTime,
-        CoolingTemperature = SV_CoolingTemperature,
-        RampTime_1 = SV_RampTime_1,
-        RampTime_2 = SV_RampTime_2,
-        RampTime_3 = SV_RampTime_3,
-        RampTime_4 = SV_RampTime_4,
-        RampTime_5 = SV_RampTime_5,
-        RampTime_6 = SV_RampTime_6,
-        RampAlarm_1 = SV_RampAlarm_1,
-        RampAlarm_2 = SV_RampAlarm_2,
-        RampAlarm_3 = SV_RampAlarm_3,
-        RampAlarm_4 = SV_RampAlarm_4,
-        RampAlarm_5 = SV_RampAlarm_5,
-        RampAlarm_6 = SV_RampAlarm_6,
-        InflatingTime = SV_InflatingTime,
-        TemperatureSetpoint_1 = SV_TemperatureSetpoint_1,
-        TemperatureSetpoint_2 = SV_TemperatureSetpoint_2,
-        TemperatureSetpoint_3 = SV_TemperatureSetpoint_3,
-        TemperatureSetpoint_4 = SV_TemperatureSetpoint_4,
-        TemperatureSetpoint_5 = SV_TemperatureSetpoint_5,
-        TemperatureSetpoint_6 = SV_TemperatureSetpoint_6,
-        SegmentCounts = SV_SegmentCounts
-    };
+    //public PLC_Recipe GetRecipeSV() => new PLC_Recipe
+    //{
+    //    NitrogenMode = SV_NitrogenMode,
+    //    OxygenContentSet = SV_OxygenContentSet,
+    //    RecipeName = SV_RecipeName,
+    //    DwellTime_1 = SV_DwellTime_1,
+    //    DwellTime_2 = SV_DwellTime_2,
+    //    DwellTime_3 = SV_DwellTime_3,
+    //    DwellTime_4 = SV_DwellTime_4,
+    //    DwellTime_5 = SV_DwellTime_5,
+    //    DwellTime_6 = SV_DwellTime_6,
+    //    DwellAlarm_1 = SV_DwellAlarm_1,
+    //    DwellAlarm_2 = SV_DwellAlarm_2,
+    //    DwellAlarm_3 = SV_DwellAlarm_3,
+    //    DwellAlarm_4 = SV_DwellAlarm_4,
+    //    DwellAlarm_5 = SV_DwellAlarm_5,
+    //    DwellAlarm_6 = SV_DwellAlarm_6,
+    //    CoolingTime = SV_CoolingTime,
+    //    CoolingTemperature = SV_CoolingTemperature,
+    //    RampTime_1 = SV_RampTime_1,
+    //    RampTime_2 = SV_RampTime_2,
+    //    RampTime_3 = SV_RampTime_3,
+    //    RampTime_4 = SV_RampTime_4,
+    //    RampTime_5 = SV_RampTime_5,
+    //    RampTime_6 = SV_RampTime_6,
+    //    RampAlarm_1 = SV_RampAlarm_1,
+    //    RampAlarm_2 = SV_RampAlarm_2,
+    //    RampAlarm_3 = SV_RampAlarm_3,
+    //    RampAlarm_4 = SV_RampAlarm_4,
+    //    RampAlarm_5 = SV_RampAlarm_5,
+    //    RampAlarm_6 = SV_RampAlarm_6,
+    //    InflatingTime = SV_InflatingTime,
+    //    TemperatureSetpoint_1 = SV_TemperatureSetpoint_1,
+    //    TemperatureSetpoint_2 = SV_TemperatureSetpoint_2,
+    //    TemperatureSetpoint_3 = SV_TemperatureSetpoint_3,
+    //    TemperatureSetpoint_4 = SV_TemperatureSetpoint_4,
+    //    TemperatureSetpoint_5 = SV_TemperatureSetpoint_5,
+    //    TemperatureSetpoint_6 = SV_TemperatureSetpoint_6,
+    //    SegmentCounts = SV_SegmentCounts
+    //};
 
     public async Task<SetRecipeResult> SetRecipeAsync(PLC_Recipe? recipe, string IsTopOrBottom)
     {
@@ -1756,11 +1763,11 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             if (await WriteRecipeToPlcAsync(recipe).ConfigureAwait(false) == SetRecipeResult.比對不相符)
             {
                 RecipeChangeError = true;
-                Dialog.Show(new Dictionary<Language, string>
-                        {
-                            { Language.TW, "配方比對不相符" },
-                            { Language.CHS, "配方比对不相符" }
-                        });
+                //Dialog.Show(new Dictionary<Language, string>
+                //        {
+                //            { Language.TW, "配方比對不相符" },
+                //            { Language.CHS, "配方比对不相符" }
+                //        });
                 return SetRecipeResult.比對不相符;
             }
         }
@@ -1769,11 +1776,11 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             if (await BottomWriteRecipeToPlcAsync(recipe).ConfigureAwait(false) == SetRecipeResult.比對不相符)
             {
                 RecipeChangeError = true;
-                Dialog.Show(new Dictionary<Language, string>
-                        {
-                            { Language.TW, "配方比對不相符" },
-                            { Language.CHS, "配方比对不相符" }
-                        });
+                //Dialog.Show(new Dictionary<Language, string>
+                //        {
+                //            { Language.TW, "配方比對不相符" },
+                //            { Language.CHS, "配方比对不相符" }
+                //        });
                 return SetRecipeResult.比對不相符;
             }
         }

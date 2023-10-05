@@ -332,8 +332,8 @@ public sealed class TotalView_ViewModel : ObservableObject
 
             plc.ExecutingStarted += () =>
                                     {
-                                        PLCIndex = index;
-                                        Index = 1;
+                                        //PLCIndex = index;
+                                        Index = 0;
                                     };
 
             //! 烘烤流程結束時
