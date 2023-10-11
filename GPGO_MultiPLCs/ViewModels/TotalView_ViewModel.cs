@@ -341,12 +341,22 @@ public sealed class TotalView_ViewModel : ObservableObject
                                      {
                                          var product = new ProcessInfo(baseInfo);
 
-                                         if (baseInfo.IsFinished)
+                                         if (baseInfo.TopIsFinished)
                                          {
                                              dialog.Show(new Dictionary<Language, string>
                                                          {
-                                                             { Language.TW, $"第{index       + 1}站已完成烘烤！" },
-                                                             { Language.CHS, $"第{index      + 1}站已完成烘烤！" },
+                                                             { Language.TW, $"第{index      + 1}站上爐已完成烘烤！" },
+                                                             { Language.CHS, $"第{index     + 1}站上爐已完成烘烤！" },
+                                                             { Language.EN, $"Oven No{index + 1}has been finished!" }
+                                                         },
+                                             TimeSpan.FromSeconds(2));
+                                         }
+                                         else if (baseInfo.BottomIsFinished)
+                                         {
+                                             dialog.Show(new Dictionary<Language, string>
+                                                         {
+                                                             { Language.TW, $"第{index      + 1}站下爐已完成烘烤！" },
+                                                             { Language.CHS, $"第{index     + 1}站下爐已完成烘烤！" },
                                                              { Language.EN, $"Oven No{index + 1}has been finished!" }
                                                          },
                                              TimeSpan.FromSeconds(2));
@@ -355,8 +365,8 @@ public sealed class TotalView_ViewModel : ObservableObject
                                          {
                                              dialog.Show(new Dictionary<Language, string>
                                                          {
-                                                             { Language.TW, $"第{index       + 1}站已取消烘烤！" },
-                                                             { Language.CHS, $"第{index      + 1}站已取消烘烤！" },
+                                                             { Language.TW, $"第{index      + 1}站已取消烘烤！" },
+                                                             { Language.CHS, $"第{index     + 1}站已取消烘烤！" },
                                                              { Language.EN, $"Oven No{index + 1}has been canceled!" }
                                                          },
                                               TimeSpan.FromSeconds(2));
@@ -391,8 +401,6 @@ public sealed class TotalView_ViewModel : ObservableObject
 
             //! PLC事件紀錄
             plc.EventHappened += e => EventHappened?.Invoke((index, e.type, e.time, e.note, e.tag, e.value));
-
-
         }
         #region PLCGate事件通知
         Gate.GateStatus.ValueChanged += status =>

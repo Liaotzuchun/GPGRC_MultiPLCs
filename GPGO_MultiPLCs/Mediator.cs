@@ -443,7 +443,7 @@ public sealed class Mediator : ObservableObject
             {
                 foreach (var update in updated)
                 {
-                    //TotalVM.InvokeRecipe(update.RecipeName, PPStatus.Change);
+                    //TotalVM.InvokeRecipe(update.RecipeName, PPStatus.Change); 
                 }
             }
         };
@@ -2147,11 +2147,11 @@ public sealed class Mediator : ObservableObject
                     xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
                     macCode = "MAC001"
                     wipEntity = "12345678" >
-                    <item tagCode = "MAC001_1000" tagValue = "Test1234" timeStamp = "" />
+                    <item tagCode = "MAC001_1000" tagValue = "Test4321" timeStamp = "" />
                     <item tagCode = "MAC001_1001" tagValue = "Part1234" timeStamp = "" />
                     <item tagCode = "MAC001_1002" tagValue = "Process1234" timeStamp = "" />
                     <item tagCode = "MAC001_1003" tagValue = "1234" timeStamp = "" />
-                    <item tagCode = "MAC001_1004" tagValue = "{TotalVM.PLC_All[TotalVM.PLCIndex].Barcode}" timeStamp = "" />
+                    <item tagCode = "MAC001_1004" tagValue = "OMG" timeStamp = "" />
            </Ingredients >         
            """;
 

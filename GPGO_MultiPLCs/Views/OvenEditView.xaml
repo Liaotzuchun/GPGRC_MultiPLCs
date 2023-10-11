@@ -22,7 +22,6 @@
         <Grid Grid.Row="0"
               Grid.Column="1"
               Margin="0,0,5,5"
-              IsEnabled="{Binding IsExecuting, Mode=OneWay, Converter={StaticResource BoolNot}}"
               IsEnabledChanged="Grid_IsEnabledChanged"
               TextElement.FontWeight="Bold"
               Visibility="{Binding EditTopVisibility, Source={StaticResource Mediator},Mode=OneWay}">
@@ -342,6 +341,7 @@
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <TextBlock  Grid.Row="0"
                                     Grid.Column="0"
+                                    FontSize="20"
                                     Foreground="black"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Top">
@@ -975,7 +975,6 @@
         <Grid Grid.Row="0"
               Grid.Column="1"
               Margin="0,0,5,5"
-              IsEnabled="{Binding IsExecuting, Mode=OneWay, Converter={StaticResource BoolNot}}"
               IsEnabledChanged="Grid_IsEnabledChanged"
               TextElement.FontWeight="Bold"
               Visibility="{Binding EditBottomVisibility , Source={StaticResource Mediator}, Mode=TwoWay}">
@@ -999,8 +998,7 @@
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <Grid Grid.Row="0"
-                              IsEnabled="{Binding Mode, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}">
+                        <Grid Grid.Row="0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition />
@@ -1064,8 +1062,7 @@
                             </Button>
                         </Grid>
                         <Grid Grid.Row="1"
-                              Grid.ColumnSpan="2"
-                              IsEnabled="{Binding Mode, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}">
+                              Grid.ColumnSpan="2">
                             <Grid Grid.Row="1"
                                   Grid.Column="0">
                                 <Grid.ColumnDefinitions>

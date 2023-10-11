@@ -1379,21 +1379,6 @@ public class GOL_DataModel : PLCDataProvider
         set => Set(value);
     }
 
-    /// <summary>允許啟動</summary>
-    [PLCBit(BitType.M, 50, LogType.StatusVariables)]
-    public bool AllowStart
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-
-    /// <summary>允許停止</summary>
-    [PLCBit(BitType.M, 209, LogType.StatusVariables)]
-    public bool AllowStop
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
 
     /// <summary>綠燈</summary>
     [PLCBit(BitType.Y, 40, LogType.None)]
@@ -1448,6 +1433,13 @@ public class GOL_DataModel : PLCDataProvider
         set => Set(value);
     }
 
+    /// <summary>充氣中</summary>
+    public bool Inflating
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+
     /// <summary>自動模式</summary>
     [PLCBit(BitType.M, 50, LogType.StatusVariables)]
     public bool AutoMode
@@ -1464,15 +1456,21 @@ public class GOL_DataModel : PLCDataProvider
         set => Set(value);
     }
 
-    /// <summary>充氣中</summary>
-    public bool Inflating
+    [PLCBit(BitType.M, 51, LogType.StatusVariables)]
+    public bool TopAutoMode_Start
     {
         get => Get<bool>();
-        set => Set(value);
+        set
+        {
+            if (AutoMode)
+            {
+                Set(value);
+            }
+        }
     }
 
-    [PLCBit(BitType.M, 51, LogType.StatusVariables)]
-    public bool AutoMode_Start
+    [PLCBit(BitType.M, 1051, LogType.StatusVariables)]
+    public bool BottomAutoMode_Start
     {
         get => Get<bool>();
         set
@@ -1486,7 +1484,15 @@ public class GOL_DataModel : PLCDataProvider
 
     /// <summary>程式結束(程式結束會早於AutoMode_Stop)</summary>
     [PLCBit(BitType.M, 209, LogType.StatusVariables)]
-    public bool ProcessComplete
+    public bool TopProcessComplete
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+
+    /// <summary>程式結束(程式結束會早於AutoMode_Stop)</summary>
+    [PLCBit(BitType.M, 1209, LogType.StatusVariables)]
+    public bool BottomProcessComplete
     {
         get => Get<bool>();
         set => Set(value);
@@ -1494,7 +1500,15 @@ public class GOL_DataModel : PLCDataProvider
 
     /// <summary>自動模式停止(需要手動按)</summary>
     [PLCBit(BitType.M, 52, LogType.StatusVariables)]
-    public bool AutoMode_Stop
+    public bool TopAutoMode_Stop
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+
+    /// <summary>自動模式停止(需要手動按)</summary>
+    [PLCBit(BitType.M, 1052, LogType.StatusVariables)]
+    public bool BottomAutoMode_Stop
     {
         get => Get<bool>();
         set => Set(value);
@@ -1574,28 +1588,28 @@ public class GOL_DataModel : PLCDataProvider
         set => Set(value);
     }
 
-    /// <summary>現在風速(m/s)</summary>
-    [PLCData(DataType.D, 212, 0.1, LogType.StatusVariables)]
-    public double PV_WindSpeed
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
+    ///// <summary>現在風速(m/s)</summary>
+    //[PLCData(DataType.D, 212, 0.1, LogType.StatusVariables)]
+    //public double PV_WindSpeed
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
 
-    /// <summary>設定風速(m/s)</summary>
-    public double WindSpeed
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
+    ///// <summary>設定風速(m/s)</summary>
+    //public double WindSpeed
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
 
-    /// <summary>耗電量(kWh)</summary>
-    [PLCData(DataType.D, 212, 0.1, LogType.StatusVariables)]
-    public double PowerConsumption
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
+    ///// <summary>耗電量(kWh)</summary>
+    //[PLCData(DataType.D, 212, 0.1, LogType.StatusVariables)]
+    //public double PowerConsumption
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
 
     /// <summary>爐內溫度1</summary>
     [PLCData(DataType.D, 700, 0.1, LogType.StatusVariables)]
@@ -1645,13 +1659,13 @@ public class GOL_DataModel : PLCDataProvider
         set => Set(value);
     }
 
-    /// <summary>目前段數</summary>
-    [PLCData(DataType.D, 22, LogType.StatusVariables)]
-    public short CurrentSegment
-    {
-        get => Get<short>();
-        set => Set(value);
-    }
+    ///// <summary>目前段數</summary>
+    //[PLCData(DataType.D, 22, LogType.StatusVariables)]
+    //public short CurrentSegment
+    //{
+    //    get => Get<short>();
+    //    set => Set(value);
+    //}
 
     /// <summary>RackID</summary>
     public string RackID
@@ -1660,13 +1674,13 @@ public class GOL_DataModel : PLCDataProvider
         set => Set(value);
     }
 
-    /// <summary>設備狀態，0:停機(STOP)、1:自動(IDLE)、2:自動啟動(RUN)、3:異常(DOWN)、4:保養(PM))</summary>
-    [PLCData(DataType.D, 28, LogType.StatusVariables)]
-    public short EquipmentState
-    {
-        get => Get<short>();
-        set => Set(value);
-    }
+    ///// <summary>設備狀態，0:停機(STOP)、1:自動(IDLE)、2:自動啟動(RUN)、3:異常(DOWN)、4:保養(PM))</summary>
+    //[PLCData(DataType.D, 28, LogType.StatusVariables)]
+    //public short EquipmentState
+    //{
+    //    get => Get<short>();
+    //    set => Set(value);
+    //}
 
     /// <summary>設備狀態，0:停機(STOP)、1:自動(IDLE)、2:自動啟動(RUN)、3:異常(DOWN)、4:保養(PM))</summary>
     [PLCData(DataType.D, 28, LogType.StatusVariables)]
@@ -1719,5 +1733,21 @@ public class GOL_DataModel : PLCDataProvider
         get => Get<float>();
         set => Set(value);
     }
+
+    [PLCBit(BitType.M, 10, LogType.StatusVariables)]
+    public bool TopDoorOpen
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+
+    [PLCBit(BitType.M, 1010, LogType.StatusVariables)]
+    public bool BottomDoorOpen
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+
+
     #endregion
 }

@@ -48,6 +48,7 @@ public class DataoutputCSV
                         fi.Delete();
                     }
                     catch
+
                     {
                         // ignored
                     }
@@ -77,7 +78,7 @@ public class DataoutputCSV
                                  info.OvenCode,
                                  product.Layer.ToString(),
                                  info.OperatorID,
-                                 info.IsFinished.ToString()
+                                 info.TopIsFinished.ToString()
                              }.Concat(recipe.Values)
                               .ToPooledList();
 
@@ -353,11 +354,11 @@ public class DataoutputCSV
                                      type.GetProperty(nameof(ProcessInfo.OvenCode))?.GetName(Language)   ?? nameof(ProcessInfo.OvenCode),
                                      type.GetProperty(nameof(ProductInfo.Layer))?.GetName(Language)      ?? nameof(ProductInfo.Layer),
                                      type.GetProperty(nameof(ProcessInfo.OperatorID))?.GetName(Language) ?? nameof(ProcessInfo.OperatorID),
-                                     type.GetProperty(nameof(ProcessInfo.IsFinished))?.GetName(Language) ?? nameof(ProcessInfo.IsFinished)
+                                     type.GetProperty(nameof(ProcessInfo.TopIsFinished))?.GetName(Language) ?? nameof(ProcessInfo.TopIsFinished)
                                  }.Concat(recipe.Keys));
 
         RecordTitles = $"{string.Join(",", record.Keys)}";
         RecipeTitles = $"{string.Join(",", recipe.Keys)}";
-        AlarmTitles  = $"{string.Join(",", logevent.Keys)}";
+        AlarmTitles = $"{string.Join(",", logevent.Keys)}";
     }
 }

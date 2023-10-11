@@ -370,5 +370,7 @@
     <sys:String x:Key="M1269">下炉温控器(TC2)通讯异常</sys:String>
     <sys:String x:Key="OPID">操作員</sys:String>
     <sys:String x:Key="列表">列表</sys:String>
+    <sys:String x:Key="Lot">批号</sys:String>
+    <sys:String x:Key="Part">料号</sys:String>
 
 </ResourceDictionary>

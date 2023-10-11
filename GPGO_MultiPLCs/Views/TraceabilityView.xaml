@@ -385,7 +385,7 @@
                                Text="{Binding ViewResults.Count, Mode=OneWay, FallbackValue=0}" />
                 </Border>
             </Grid>
-            <Button Grid.Row="0"
+            <!--<Button Grid.Row="0"
                     Grid.Column="5">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
@@ -399,8 +399,9 @@
                         <ScaleTransform ScaleX="0.8" ScaleY="0.8" />
                     </Path.RenderTransform>
                 </Path>
-            </Button>
-            <Button Grid.Row="1"
+            </Button>-->
+            <Button Grid.Row="0"
+                    Grid.RowSpan="2"
                     Grid.Column="5"
                     BorderThickness="1,0,1,1"
                     Content="{DynamicResource 報表匯出}"
@@ -439,7 +440,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="Auto"
+                    <!--<DataGridTemplateColumn Width="Auto"
                                             MinWidth="30"
                                             HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
@@ -467,7 +468,7 @@
                                 </DataTemplate.Triggers>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    </DataGridTemplateColumn>-->
                     <DataGridTemplateColumn Width="Auto"
                                             HeaderStyle="{StaticResource ColumnFilterStyle}"
                                             Visibility="{Binding OvenCount, Source={StaticResource Mediator}, Mode=OneWay, Converter={StaticResource IsMoreThanValueVis}, ConverterParameter={StaticResource two}}">
@@ -479,6 +480,31 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="models:ProcessInfo">
                                 <TextBlock Text="{Binding StationNumber, Mode=OneWay}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!--這裡加一個料號-->
+                    <DataGridTemplateColumn Width="Auto"
+                                            MinWidth="40">
+                        <DataGridTemplateColumn.Header>
+                            <TextBlock Text="{DynamicResource Part}" />
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="models:ProcessInfo">
+                                <TextBlock Text="{Binding Part, Mode=OneWay}"
+                                           TextTrimming="CharacterEllipsis" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="Auto"
+                                            MinWidth="40">
+                        <DataGridTemplateColumn.Header>
+                            <TextBlock Text="{DynamicResource Lot}" />
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="models:ProcessInfo">
+                                <TextBlock Text="{Binding LotID, Mode=OneWay}"
+                                           TextTrimming="CharacterEllipsis" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -1228,7 +1254,7 @@
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="models:ProcessInfo">
-                                <TextBlock Text="{Binding Quantity, Mode=OneWay}"
+                                <TextBlock Text="{Binding Qty, Mode=OneWay}"
                                            TextTrimming="CharacterEllipsis" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

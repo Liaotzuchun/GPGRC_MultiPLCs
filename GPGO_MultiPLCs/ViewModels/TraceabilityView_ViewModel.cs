@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -13,7 +12,6 @@ using GPMVVM.Helpers;
 using GPMVVM.Models;
 using GPMVVM.PooledCollections;
 using OfficeOpenXml;
-using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Style;
 using OxyPlot;
 using OxyPlot.Axes;
@@ -183,7 +181,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
     public TraceabilityView_ViewModel(IDataBase<ProcessInfo> db, IDialogService dialog) : base(db)
     {
         ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-        ChartModel                  = new ProcessChartModel();
+        ChartModel = new ProcessChartModel();
 
         LoadedCommand = new RelayCommand(e =>
                                          {
@@ -258,134 +256,105 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
         ToExcelCommand = new RelayCommand(async _ =>
                                           {
                                               var path = $"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\\Reports";
-                                              var (result, choose) = await dialog.ChooseOne(new Dictionary<Language, string>
-                                                                                            {
-                                                                                                { Language.TW, "選擇輸出類型" },
-                                                                                                { Language.CHS, "选择输出类型" },
-                                                                                                { Language.EN, "Select output type" }
-                                                                                            },
-                                                                                            new[]
-                                                                                            {
-                                                                                                new Dictionary<Language, string>
-                                                                                                {
-                                                                                                    { Language.TW, "EXCEL" },
-                                                                                                    { Language.CHS, "EXCEL" },
-                                                                                                    { Language.EN, "EXCEL" }
-                                                                                                },
-                                                                                                new Dictionary<Language, string>
-                                                                                                {
-                                                                                                    { Language.TW, "CSV" },
-                                                                                                    { Language.CHS, "CSV" },
-                                                                                                    { Language.EN, "CSV" }
-                                                                                                }
-                                                                                            },
-                                                                                            new Dictionary<Language, string>
-                                                                                            {
-                                                                                                { Language.TW, "輸出類型" },
-                                                                                                { Language.CHS, "输出类型" },
-                                                                                                { Language.EN, "Select output type" }
-                                                                                            },
-                                                                                            true);
-
-                                              if (result && ((int)choose == 0 ? await SaveToExcel(path) : await SaveToCSV(path)))
+                                              if (await SaveToCSV(path))
                                               {
-                                                  dialog.Show(new Dictionary<Language, string>
+                                                  dialog?.Show(new Dictionary<Language, string>
                                                               {
                                                                   { Language.TW, $"檔案已輸出至\n{path}" },
                                                                   { Language.CHS, $"档案已输出至\n{path}" },
                                                                   { Language.EN, $"The file has been output to\n{path}" }
                                                               },
-                                                              TimeSpan.FromSeconds(6));
+                                                               TimeSpan.FromSeconds(6));
                                               }
                                           });
 
         linearAxis = new LinearAxis
-                     {
-                         IsPanEnabled       = false,
-                         IsZoomEnabled      = false,
-                         FontSize           = 12,
-                         TitleColor         = fontcolor,
-                         TickStyle          = TickStyle.Inside,
-                         MajorGridlineStyle = LineStyle.Dot,
-                         //MajorStep = 100,
-                         MinorGridlineStyle = LineStyle.None,
-                         MajorTickSize      = 0,
-                         MinorTickSize      = 0,
-                         //MinorStep = 10,
-                         AxislineStyle      = LineStyle.Solid,
-                         AxislineColor      = bordercolor,
-                         MajorGridlineColor = bordercolor,
-                         MinorGridlineColor = bordercolor,
-                         TicklineColor      = bordercolor,
-                         ExtraGridlineColor = bordercolor,
-                         ExtraGridlineStyle = LineStyle.None,
-                         TextColor          = fontcolor,
-                         Minimum            = 0,
-                         MaximumPadding     = 0.15,
-                         Position           = AxisPosition.Left,
-                         Key                = "0"
-                         //Maximum = 1000
-                     };
+        {
+            IsPanEnabled = false,
+            IsZoomEnabled = false,
+            FontSize = 12,
+            TitleColor = fontcolor,
+            TickStyle = TickStyle.Inside,
+            MajorGridlineStyle = LineStyle.Dot,
+            //MajorStep = 100,
+            MinorGridlineStyle = LineStyle.None,
+            MajorTickSize = 0,
+            MinorTickSize = 0,
+            //MinorStep = 10,
+            AxislineStyle = LineStyle.Solid,
+            AxislineColor = bordercolor,
+            MajorGridlineColor = bordercolor,
+            MinorGridlineColor = bordercolor,
+            TicklineColor = bordercolor,
+            ExtraGridlineColor = bordercolor,
+            ExtraGridlineStyle = LineStyle.None,
+            TextColor = fontcolor,
+            Minimum = 0,
+            MaximumPadding = 0.15,
+            Position = AxisPosition.Left,
+            Key = "0"
+            //Maximum = 1000
+        };
 
         categoryAxis1 = new CategoryAxis
-                        {
-                            IsPanEnabled       = false,
-                            IsZoomEnabled      = false,
-                            FontSize           = 12,
-                            TitleColor         = fontcolor,
-                            MajorGridlineColor = bordercolor,
-                            MinorGridlineColor = bordercolor,
-                            TicklineColor      = bordercolor,
-                            ExtraGridlineColor = bordercolor,
-                            TextColor          = fontcolor,
-                            TickStyle          = TickStyle.Inside,
-                            MajorTickSize      = 0,
-                            MinorTickSize      = 0,
-                            AxislineStyle      = LineStyle.Solid,
-                            ExtraGridlineStyle = LineStyle.None,
-                            AxislineColor      = bordercolor,
-                            GapWidth           = 1,
-                            MinorStep          = 1,
-                            MajorStep          = 1,
-                            Position           = AxisPosition.Bottom,
-                            Key                = "1"
-                        };
+        {
+            IsPanEnabled = false,
+            IsZoomEnabled = false,
+            FontSize = 12,
+            TitleColor = fontcolor,
+            MajorGridlineColor = bordercolor,
+            MinorGridlineColor = bordercolor,
+            TicklineColor = bordercolor,
+            ExtraGridlineColor = bordercolor,
+            TextColor = fontcolor,
+            TickStyle = TickStyle.Inside,
+            MajorTickSize = 0,
+            MinorTickSize = 0,
+            AxislineStyle = LineStyle.Solid,
+            ExtraGridlineStyle = LineStyle.None,
+            AxislineColor = bordercolor,
+            GapWidth = 1,
+            MinorStep = 1,
+            MajorStep = 1,
+            Position = AxisPosition.Bottom,
+            Key = "1"
+        };
 
         categoryAxis2 = new CategoryAxis
-                        {
-                            IsPanEnabled  = false,
-                            IsZoomEnabled = false,
-                            IsAxisVisible = false,
-                            Position      = AxisPosition.Bottom,
-                            Key           = "2"
-                        };
+        {
+            IsPanEnabled = false,
+            IsZoomEnabled = false,
+            IsAxisVisible = false,
+            Position = AxisPosition.Bottom,
+            Key = "2"
+        };
 
         ResultView = new PlotModel
-                     {
-                         DefaultFont             = "Microsoft JhengHei",
-                         PlotAreaBackground      = chartbg,
-                         PlotAreaBorderColor     = bordercolor,
-                         PlotAreaBorderThickness = new OxyThickness(0,  1, 1, 1),
-                         PlotMargins             = new OxyThickness(35, 0, 0, 20),
-                         TextColor               = fontcolor
-                     };
+        {
+            DefaultFont = "Microsoft JhengHei",
+            PlotAreaBackground = chartbg,
+            PlotAreaBorderColor = bordercolor,
+            PlotAreaBorderThickness = new OxyThickness(0, 1, 1, 1),
+            PlotMargins = new OxyThickness(35, 0, 0, 20),
+            TextColor = fontcolor
+        };
 
         ResultView.Legends.Add(new Legend
-                               {
-                                   LegendTitle         = ProductInfoProperties[nameof(ProductInfo.PartID)].GetName(Language),
-                                   LegendTitleColor    = fontcolor,
-                                   LegendTextColor     = fontcolor,
-                                   LegendBorder        = bordercolor,
-                                   LegendBackground    = bgcolor,
-                                   LegendPlacement     = LegendPlacement.Outside,
-                                   LegendPosition      = LegendPosition.RightTop,
-                                   LegendOrientation   = LegendOrientation.Vertical,
-                                   LegendFontSize      = 12,
-                                   LegendTitleFontSize = 12,
-                                   //LegendItemOrder = LegendItemOrder.Reverse,
-                                   LegendMargin  = 4,
-                                   LegendPadding = 5
-                               });
+        {
+            LegendTitle = ProductInfoProperties[nameof(ProductInfo.PartID)].GetName(Language),
+            LegendTitleColor = fontcolor,
+            LegendTextColor = fontcolor,
+            LegendBorder = bordercolor,
+            LegendBackground = bgcolor,
+            LegendPlacement = LegendPlacement.Outside,
+            LegendPosition = LegendPosition.RightTop,
+            LegendOrientation = LegendOrientation.Vertical,
+            LegendFontSize = 12,
+            LegendTitleFontSize = 12,
+            //LegendItemOrder = LegendItemOrder.Reverse,
+            LegendMargin = 4,
+            LegendPadding = 5
+        });
 
         ResultView.Axes.Add(linearAxis);
         ResultView.Axes.Add(categoryAxis2);
@@ -397,29 +366,29 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
             UpdateChart(Date1, Date2);
         }
 
-        SelectedIndex  = -1;
-        OvenFilter     = new FilterGroup(UpdateAct);
-        RecipeFilter   = new FilterGroup(UpdateAct);
-        PartIDFilter   = new FilterGroup(UpdateAct);
-        OpFilter       = new FilterGroup(UpdateAct);
-        LayerFilter    = new FilterGroup(UpdateAct);
+        SelectedIndex = -1;
+        OvenFilter = new FilterGroup(UpdateAct);
+        RecipeFilter = new FilterGroup(UpdateAct);
+        PartIDFilter = new FilterGroup(UpdateAct);
+        OpFilter = new FilterGroup(UpdateAct);
+        LayerFilter = new FilterGroup(UpdateAct);
         FinishedFilter = new FilterGroup(UpdateAct);
 
         ResultsChanged += async e =>
                           {
-                              OvenFilter.Filter     = e?.Select(x => x.StationNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList()                      ?? new List<EqualFilter>();
-                              RecipeFilter.Filter   = e?.Select(x => x.Recipe.RecipeName).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList()                  ?? new List<EqualFilter>();
-                              OpFilter.Filter       = e?.Select(x => x.OperatorID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList()                         ?? new List<EqualFilter>();
-                              PartIDFilter.Filter   = e?.SelectMany(x => x.Products.Select(y => y.PartID)).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList() ?? new List<EqualFilter>();
-                              LayerFilter.Filter    = e?.SelectMany(x => x.Products.Select(y => y.Layer)).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList()  ?? new List<EqualFilter>();
-                              FinishedFilter.Filter = e?.Select(x => x.IsFinished).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList()                         ?? new List<EqualFilter>();
+                              OvenFilter.Filter = e?.Select(x => x.StationNumber).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList() ?? new List<EqualFilter>();
+                              RecipeFilter.Filter = e?.Select(x => x.Recipe.RecipeName).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList() ?? new List<EqualFilter>();
+                              OpFilter.Filter = e?.Select(x => x.OperatorID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList() ?? new List<EqualFilter>();
+                              PartIDFilter.Filter = e?.SelectMany(x => x.Products.Select(y => y.PartID)).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList() ?? new List<EqualFilter>();
+                              LayerFilter.Filter = e?.SelectMany(x => x.Products.Select(y => y.Layer)).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList() ?? new List<EqualFilter>();
+                              FinishedFilter.Filter = e?.Select(x => x.TopIsFinished).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList() ?? new List<EqualFilter>();
 
                               await Task.Delay(150);
 
                               if (SearchResult != null)
                               {
                                   SelectedIndex = ViewResults?.Count > 0 ? ViewResults.FindIndex(x => x.StationNumber == SearchResult.StationNumber && x.AddedTime == SearchResult.AddedTime) : -1;
-                                  SearchResult  = null;
+                                  SearchResult = null;
 
                                   if (SelectedIndex == -1)
                                   {
@@ -472,8 +441,8 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                 .Select((x, i) => (index: i, value: x))
                                                 .OrderBy(x => x.value.Layer)
                                                 .FirstOrDefault(x => x.value.PartID == SearchProduct.PartID &&
-                                                                     x.value.LotID  == SearchProduct.LotID  &&
-                                                                     x.value.Layer  == SearchProduct.Layer)
+                                                                     x.value.LotID == SearchProduct.LotID &&
+                                                                     x.value.Layer == SearchProduct.Layer)
                                                 .index;
 
                                   SearchProduct = null;
@@ -487,7 +456,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                           };
 
         BeginIndexChanged += _ => UpdateAct();
-        EndIndexChanged   += _ => UpdateAct();
+        EndIndexChanged += _ => UpdateAct();
     }
 
     private void CellLink(ExcelRangeBase cells)
@@ -501,562 +470,67 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
         cells.Style.Fill.PatternType = ExcelFillStyle.Solid;
         cells.Style.Fill.BackgroundColor.SetColor(Color.GreenYellow);
         cells.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-        cells.Style.Border.Left.Style   = ExcelBorderStyle.Thin;
-        cells.Style.Border.Right.Style  = ExcelBorderStyle.Thin;
-        cells.Style.Border.Top.Style    = ExcelBorderStyle.Thin;
+        cells.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+        cells.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+        cells.Style.Border.Top.Style = ExcelBorderStyle.Thin;
     }
 
     private void CellBorder(ExcelRangeBase cells)
     {
         cells.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-        cells.Style.Border.Left.Style   = ExcelBorderStyle.Thin;
-        cells.Style.Border.Right.Style  = ExcelBorderStyle.Thin;
-        cells.Style.Border.Top.Style    = ExcelBorderStyle.Thin;
-    }
-
-    /// <summary>將目前顯示資料輸出至Excel OpenXML格式檔案</summary>
-    /// <param name="path">資料夾路徑</param>
-    private async Task<bool> SaveToExcel(string path)
-    {
-        Standby = false;
-
-        var result = false;
-
-        if (ViewResults?.Count > 0)
-        {
-            await Task.Factory.StartNew(() =>
-                                        {
-                                            if (!Directory.Exists(path))
-                                            {
-                                                try
-                                                {
-                                                    Directory.CreateDirectory(path);
-                                                }
-                                                catch (Exception ex)
-                                                {
-                                                    Log.Error(ex, "EXCEL輸出資料夾無法創建");
-                                                    return;
-                                                }
-                                            }
-
-                                            var created = DateTime.Now;
-                                            var x       = ViewResults.Count / 500;     //! 檔案數
-                                            var y       = ViewResults.Count - 500 * x; //! 剩餘數
-
-                                            if (x > 0 && y <= 100)
-                                            {
-                                                y += 500;
-                                            }
-                                            else
-                                            {
-                                                x += 1;
-                                            }
-
-                                            Parallel.For(0,
-                                                         x,
-                                                         index =>
-                                                         {
-                                                             var fi    = new FileInfo($"{path}\\{created:yyyy-MM-dd-HH-mm-ss-fff}({index + 1}).xlsm");
-                                                             var datas = ViewResults.GetRange(500 * index, index == x                    - 1 ? y : 500);
-                                                             var n     = datas.Count;
-                                                             var xlwb  = new ExcelPackage();
-                                                             xlwb.Workbook.CreateVBAProject();
-                                                             var wsht = xlwb.Workbook.Worksheets.Add($"{n}{(n <= 1 ? " result" : " results")}");
-                                                             wsht.View.ShowGridLines = false;
-                                                             wsht.View.FreezePanes(main_value_row, 1);
-                                                             wsht.Row(main_chart_row).Height = 225;
-
-                                                             using var  keys      = datas[0].ToDic(Language).Keys.ToPooledList();
-                                                             using var  temp_keys = new PooledList<string>();
-                                                             var        max_count = 0;
-                                                             ExcelRange cells;
-
-                                                             //! 生產紀錄各屬性名稱
-                                                             for (var i = 0; i < keys.Count; i++)
-                                                             {
-                                                                 cells       = wsht.Cells[main_name_row, i + 1];
-                                                                 cells.Value = keys[i];
-                                                                 CellHeader(cells);
-                                                             }
-
-                                                             //! 加入每筆生產紀錄
-                                                             for (var i = 0; i < n; i++)
-                                                             {
-                                                                 using var values     = datas[i].ToDic(Language).Values.ToPooledList();                            //! 生產資訊（時間、人員、機台資訊）
-                                                                 using var temps      = datas[i].RecordTemperatures.Select(o => o.ToDic(Language)).ToPooledList(); //! 溫度紀錄
-                                                                 using var logs       = datas[i].EventList.Select(o => o.ToDictionary(Language)).ToPooledList();   //! 事件紀錄
-                                                                 using var recipe     = datas[i].Recipe.ToDictionary(Language).ToPooledList();                     //! 配方
-                                                                 using var products   = datas[i].Products.Select(o => o.ToDic(Language)).ToPooledList();           //! 產品資訊
-                                                                 var       sheet_name = $"Records {i + 1}";                                                        //! 每筆紀錄另開一張表
-
-                                                                 if (i == 0)
-                                                                 {
-                                                                     temp_keys.AddRange(temps[0].Keys);
-                                                                 }
-
-                                                                 if (temps.Count > max_count)
-                                                                 {
-                                                                     max_count = temps.Count;
-                                                                 }
-
-                                                                 var ev_col = temp_keys.Count + 2;
-
-                                                                 //! 每個屬性值填入
-                                                                 for (var j = 0; j < values.Count; j++)
-                                                                 {
-                                                                     cells = wsht.Cells[i + main_value_row, j + 1];
-                                                                     if (values[j] is DateTime date)
-                                                                     {
-                                                                         cells.Value                     = date.ToOADate();
-                                                                         cells.Style.Numberformat.Format = "yyyy/MM/dd HH:mm:ss";
-                                                                     }
-                                                                     else if (values[j] is TimeSpan timeSpan)
-                                                                     {
-                                                                         cells.Value                     = timeSpan;
-                                                                         cells.Style.Numberformat.Format = "[h]:mm:ss";
-                                                                     }
-                                                                     else if (values[j] is PLC_Recipe _recipe)
-                                                                     {
-                                                                         cells.Value   = _recipe.RecipeName;
-                                                                         cells.Formula = $"HYPERLINK(\"#'{sheet_name}'!$A${recipe_value_row}\",\"{cells.Value}\")";
-                                                                         CellLink(cells);
-                                                                     }
-                                                                     else if (values[j] is IEnumerable<ProductInfo> ps)
-                                                                     {
-                                                                         var count = ps.Sum(o => o.Quantity);
-                                                                         var unit = Language switch
-                                                                                    {
-                                                                                        Language.EN => count > 1 ? "pcs" : "pc",
-                                                                                        _           => "片"
-                                                                                    };
-
-                                                                         cells.Value   = $"{count}{unit}";
-                                                                         cells.Formula = $"HYPERLINK(\"#'{sheet_name}'!$A${product_value_row}\",\"{cells.Value}\")";
-                                                                         CellLink(cells);
-                                                                     }
-                                                                     else if (values[j] is IEnumerable<LogEvent> evs)
-                                                                     {
-                                                                         var count = evs.Count();
-                                                                         var unit = Language switch
-                                                                                    {
-                                                                                        Language.EN  => count > 1 ? "logs" : "log",
-                                                                                        Language.CHS => "笔",
-                                                                                        _            => "筆"
-                                                                                    };
-
-                                                                         cells.Value   = $"{count}{unit}";
-                                                                         cells.Formula = $"HYPERLINK(\"#'{sheet_name}'!${ev_col.GetExcelColumnName()}${log_value_row}\",\"{cells.Value}\")";
-                                                                         CellLink(cells);
-                                                                     }
-                                                                     else if (values[j] is IEnumerable<RecordTemperatures> ts)
-                                                                     {
-                                                                         var count = ts.Count();
-                                                                         var unit = Language switch
-                                                                                    {
-                                                                                        Language.EN  => count > 1 ? "records" : "record",
-                                                                                        Language.CHS => "笔",
-                                                                                        _            => "筆"
-                                                                                    };
-
-                                                                         cells.Value   = $"{count}{unit}";
-                                                                         cells.Formula = $"HYPERLINK(\"#'{sheet_name}'!$A${log_value_row}\",\"{cells.Value}\")";
-                                                                         CellLink(cells);
-                                                                     }
-                                                                     else
-                                                                     {
-                                                                         cells.Value = values[j];
-                                                                     }
-
-                                                                     CellBorder(cells);
-                                                                 }
-
-                                                                 var record_sht = xlwb.Workbook.Worksheets.Add(sheet_name);
-                                                                 record_sht.View.ShowGridLines = false;
-                                                                 record_sht.View.FreezePanes(log_value_row, 1);
-                                                                 //record_sht.Row(chart_row).Height = 225;
-
-                                                                 cells         = record_sht.Cells[back_row, 1];
-                                                                 cells.Formula = $"HYPERLINK(\"#'{wsht.Name}'!$A${i + main_value_row}\",\"<<<<<<Back\")";
-                                                                 CellLink(cells);
-
-                                                                 //! 加入配方
-                                                                 for (var j = 0; j < recipe.Count; j++)
-                                                                 {
-                                                                     cells       = record_sht.Cells[recipe_name_row, j + 1];
-                                                                     cells.Value = recipe[j].Key;
-                                                                     CellHeader(cells);
-                                                                     cells       = record_sht.Cells[recipe_value_row, j + 1];
-                                                                     cells.Value = recipe[j].Value;
-                                                                     CellBorder(cells);
-                                                                 }
-
-                                                                 //! 加入產品屬性名稱
-                                                                 for (var j = 0; j < products[0].Count; j++)
-                                                                 {
-                                                                     cells       = record_sht.Cells[product_name_row, j + 1];
-                                                                     cells.Value = products[0].ElementAt(j).Key;
-                                                                     CellHeader(cells);
-                                                                 }
-
-                                                                 //! 加入產品資料
-                                                                 for (var j = 0; j < products.Count; j++)
-                                                                 {
-                                                                     for (var k = 0; k < products[0].Count; k++)
-                                                                     {
-                                                                         cells       = record_sht.Cells[product_value_row + j, k + 1];
-                                                                         cells.Value = products[j].ElementAt(k).Value;
-                                                                         CellBorder(cells);
-                                                                     }
-                                                                 }
-
-                                                                 //! 加入事件屬性名稱
-                                                                 for (var j = 0; j < logs[0].Count; j++)
-                                                                 {
-                                                                     cells       = record_sht.Cells[log_name_row, j + ev_col];
-                                                                     cells.Value = logs[0].ElementAt(j).Key;
-                                                                     CellHeader(cells);
-                                                                 }
-
-                                                                 //! 加入事件資料
-                                                                 for (var j = 0; j < logs.Count; j++)
-                                                                 {
-                                                                     for (var k = 0; k < logs[0].Count; k++)
-                                                                     {
-                                                                         var val = logs[j].ElementAt(k).Value;
-                                                                         cells = record_sht.Cells[log_value_row + j, k + ev_col];
-
-                                                                         if (val is DateTime date)
-                                                                         {
-                                                                             cells.Value                     = date.ToOADate();
-                                                                             cells.Style.Numberformat.Format = "yyyy/MM/dd HH:mm:ss";
-                                                                         }
-                                                                         else if (val is TimeSpan)
-                                                                         {
-                                                                             cells.Value                     = val;
-                                                                             cells.Style.Numberformat.Format = "[h]:mm:ss";
-                                                                         }
-                                                                         else
-                                                                         {
-                                                                             cells.Value = val;
-                                                                         }
-
-                                                                         CellBorder(cells);
-                                                                     }
-                                                                 }
-
-                                                                 //! 加入溫度屬性名稱
-                                                                 for (var j = 0; j < temp_keys.Count; j++)
-                                                                 {
-                                                                     cells       = record_sht.Cells[log_name_row, j + 1];
-                                                                     cells.Value = temp_keys[j];
-                                                                     CellHeader(cells);
-                                                                 }
-
-                                                                 //! 加入溫度數值
-                                                                 for (var j = 0; j < temps.Count; j++)
-                                                                 {
-                                                                     for (var k = 0; k < temp_keys.Count; k++)
-                                                                     {
-                                                                         var val = temps[j].Values.ElementAt(k);
-                                                                         cells = record_sht.Cells[log_value_row + j, k + 1];
-
-                                                                         if (val is DateTime date)
-                                                                         {
-                                                                             cells.Value                     = date.ToOADate();
-                                                                             cells.Style.Numberformat.Format = DateTimeFormatInfo.CurrentInfo.LongTimePattern;
-                                                                         }
-                                                                         else if (val is TimeSpan)
-                                                                         {
-                                                                             cells.Value                     = val;
-                                                                             cells.Style.Numberformat.Format = "[h]:mm:ss";
-                                                                         }
-                                                                         else
-                                                                         {
-                                                                             cells.Value = val;
-                                                                         }
-
-                                                                         CellBorder(cells);
-                                                                     }
-                                                                 }
-
-                                                                 var record_code = new StringBuilder();
-                                                                 record_code.AppendLine("Private Sub Worksheet_SelectionChange(ByVal Target As Range)");
-                                                                 record_code.AppendLine("Dim num As Integer");
-                                                                 record_code.AppendLine($"num = ActiveCell.Row - {log_name_row}");
-                                                                 record_code.AppendLine("If num < 1 Then");
-                                                                 record_code.AppendLine("num = 1");
-                                                                 record_code.AppendLine("End If");
-                                                                 record_code.AppendLine($"Range(\"{(products[0].Count + 1).GetExcelColumnName()}{chart_row}\").Value = num");
-                                                                 record_code.AppendLine("End Sub");
-                                                                 record_sht.CodeModule.Code = record_code.ToString();
-
-                                                                 //! 高亮顯示所選的行列
-                                                                 var exp_address        = new ExcelAddress(record_sht.Cells[log_value_row, 1, temps.Count + log_name_row, temp_keys.Count].Address);
-                                                                 var record_condition_h = record_sht.ConditionalFormatting.AddExpression(exp_address);
-                                                                 record_condition_h.Formula                          = "ROW()=CELL(\"row\")";
-                                                                 record_condition_h.Style.Fill.PatternType           = ExcelFillStyle.Solid;
-                                                                 record_condition_h.Style.Fill.BackgroundColor.Color = Color.LemonChiffon;
-                                                                 var record_condition_v = record_sht.ConditionalFormatting.AddExpression(exp_address);
-                                                                 record_condition_v.Formula                          = "COLUMN()=CELL(\"col\")";
-                                                                 record_condition_v.Style.Fill.PatternType           = ExcelFillStyle.Solid;
-                                                                 record_condition_v.Style.Fill.BackgroundColor.Color = Color.Honeydew;
-
-                                                                 var record_chart = (ExcelLineChart)record_sht.Drawings.AddChart("", eChartType.Line);
-                                                                 record_chart.SetSize(500, 200);
-
-                                                                 var jj = temps.Count + log_name_row;
-                                                                 for (var j = 2; j <= 8; j++) //! 插入繪圖溫度資料點
-                                                                 {
-                                                                     var record_s = record_chart.Series.Add(record_sht.Cells[log_value_row, j, jj, j],  //! 溫度資料 
-                                                                                                            record_sht.Cells[log_value_row, 1, jj, 1]); //! 紀錄時間
-                                                                     record_s.Header            = temp_keys[j  - 1];
-                                                                     record_s.Border.Fill.Color = ColorArray[j - 2];
-                                                                 }
-
-                                                                 record_chart.XAxis.Title.Text = "Time";
-                                                                 record_chart.XAxis.Title.Font.SetFromFont("Segoe UI", 11, true);
-                                                                 record_chart.XAxis.MajorTickMark = eAxisTickMark.In;
-                                                                 record_chart.XAxis.MinorTickMark = eAxisTickMark.None;
-                                                                 record_chart.XAxis.Font.SetFromFont("Calibri", 10);
-                                                                 record_chart.XAxis.TickLabelPosition = eTickLabelPosition.NextTo;
-                                                                 record_chart.XAxis.Format            = "HH:mm:ss";
-                                                                 record_chart.YAxis.Title.Text        = "Temperature (°C)";
-                                                                 record_chart.YAxis.Title.Font.SetFromFont("Segoe UI", 11, true);
-                                                                 record_chart.YAxis.Title.Rotation = 270;
-                                                                 record_chart.YAxis.MajorTickMark  = eAxisTickMark.In;
-                                                                 record_chart.YAxis.MinorTickMark  = eAxisTickMark.None;
-                                                                 record_chart.YAxis.Font.SetFromFont("Calibri", 10);
-                                                                 record_chart.RoundedCorners    = false;
-                                                                 record_chart.Border.Fill.Color = Color.Black;
-                                                                 record_chart.SetPosition(chart_row - 1, 0, products[0].Count, 0);
-
-                                                                 record_sht.Cells.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                                                                 record_sht.Cells.Style.Font.SetFromFont("Segoe UI", 11);
-                                                                 record_sht.Cells[back_row, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-
-                                                                 record_sht.Cells.AutoFitColumns();
-                                                                 //for (var j = 1; j <= ev_col + logs[0].Count; j++)
-                                                                 //{
-                                                                 //    record_sht.Column(j).Width += 2;
-                                                                 //}
-
-                                                                 //for (var j = 0; j < temp_keys; j++)
-                                                                 //{
-                                                                 //    record_sht.Cells[3, j + 1].Value = temps[0].Keys.ElementAt(j);
-                                                                 //}
-                                                             }
-
-                                                             wsht.Cells.AutoFitColumns();
-                                                             wsht.Cells.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                                                             wsht.Cells.Style.Font.SetFromFont("Segoe UI", 11);
-                                                             for (var i = 1; i <= keys.Count; i++)
-                                                             {
-                                                                 wsht.Column(i).Width += 2;
-                                                             }
-
-                                                             wsht.Cells[1, 1].Formula = $"IF((CELL(\"row\")-{main_name_row})<1,1,CELL(\"row\")-{main_name_row})";
-
-                                                             var code = new StringBuilder();
-                                                             code.AppendLine("Private Sub Worksheet_SelectionChange(ByVal Target As Range)");
-                                                             code.AppendLine("Dim num As Integer");
-                                                             code.AppendLine($"num = ActiveCell.Row - {main_name_row}");
-                                                             code.AppendLine("If num < 1 Then");
-                                                             code.AppendLine("num = 1");
-                                                             code.AppendLine("End If");
-                                                             code.AppendLine("Range(\"A1\").Value = num");
-                                                             code.AppendLine("End Sub");
-                                                             wsht.CodeModule.Code = code.ToString();
-
-                                                             //! 高亮顯示所選的行列
-                                                             var exp_address2 = new ExcelAddress(wsht.Cells[main_value_row, 1, n + main_name_row, keys.Count].Address);
-                                                             var condition_h  = wsht.ConditionalFormatting.AddExpression(exp_address2);
-                                                             condition_h.Formula                          = "ROW()=CELL(\"row\")";
-                                                             condition_h.Style.Fill.PatternType           = ExcelFillStyle.Solid;
-                                                             condition_h.Style.Fill.BackgroundColor.Color = Color.LemonChiffon;
-                                                             var condition_v = wsht.ConditionalFormatting.AddExpression(exp_address2);
-                                                             condition_v.Formula                          = "COLUMN()=CELL(\"col\")";
-                                                             condition_v.Style.Fill.PatternType           = ExcelFillStyle.Solid;
-                                                             condition_v.Style.Fill.BackgroundColor.Color = Color.Honeydew;
-
-                                                             xlwb.Workbook.Names.Add("GPGO", wsht.Cells[1, 1]);
-
-                                                             //! 首頁溫度曲線所需的分頁
-                                                             var data_sht = xlwb.Workbook.Worksheets.Add("Data");
-                                                             data_sht.Hidden = eWorkSheetHidden.VeryHidden;
-
-                                                             for (var i = 1; i <= max_count; i++)
-                                                             {
-                                                                 for (var j = 1; j <= temp_keys.Count; j++)
-                                                                 {
-                                                                     data_sht.Cells[i, j].Formula = $"INDIRECT(\"'\" & \"Records \" & GPGO & \"'\" & \"!${j.GetExcelColumnName()}${i + log_name_row}\")";
-                                                                 }
-
-                                                                 data_sht.Cells[i, 1].Style.Numberformat.Format = DateTimeFormatInfo.CurrentInfo.LongTimePattern;
-                                                             }
-
-                                                             var chart = (ExcelLineChart)wsht.Drawings.AddChart("", eChartType.Line);
-                                                             chart.SetSize(900, 300);
-
-                                                             for (var j = 2; j <= 8; j++)
-                                                             {
-                                                                 var record_s = chart.Series.Add(data_sht.Cells[1, j, max_count, j],
-                                                                                                 data_sht.Cells[1, 1, max_count, 1]);
-                                                                 record_s.Header            = temp_keys[j  - 1];
-                                                                 record_s.Border.Fill.Color = ColorArray[j - 2];
-                                                             }
-
-                                                             chart.XAxis.Title.Text = "Time";
-                                                             chart.XAxis.Title.Font.SetFromFont("Segoe UI", 11, true);
-                                                             chart.XAxis.MajorTickMark = eAxisTickMark.In;
-                                                             chart.XAxis.MinorTickMark = eAxisTickMark.None;
-                                                             chart.XAxis.Font.SetFromFont("Calibri", 10);
-                                                             chart.XAxis.TickLabelPosition = eTickLabelPosition.NextTo;
-                                                             chart.XAxis.Format            = "HH:mm:ss";
-                                                             chart.YAxis.Title.Text        = "Temperature (°C)";
-                                                             chart.YAxis.Title.Font.SetFromFont("Segoe UI", 11, true);
-                                                             chart.YAxis.Title.Rotation = 270;
-                                                             chart.YAxis.MajorTickMark  = eAxisTickMark.In;
-                                                             chart.YAxis.MinorTickMark  = eAxisTickMark.None;
-                                                             chart.YAxis.Font.SetFromFont("Calibri", 10);
-                                                             chart.RoundedCorners    = false;
-                                                             chart.Border.Fill.Color = Color.Black;
-                                                             chart.SetPosition(0, 0, 0, 0);
-
-                                                             //foreach (var sheet in xlwb.Workbook.Worksheets)
-                                                             //{
-                                                             //    sheet.Protection.IsProtected              = true;
-                                                             //    sheet.Protection.AllowAutoFilter          = true;
-                                                             //    sheet.Protection.AllowSelectLockedCells   = true;
-                                                             //    sheet.Protection.AllowSelectUnlockedCells = true;
-                                                             //    sheet.Protection.AllowSort                = true;
-                                                             //    sheet.Protection.SetPassword("23555277");
-                                                             //    sheet.Cells[1, 1].Style.Locked = false;
-                                                             //}
-
-                                                             xlwb.Workbook.Properties.Author   = "Luo Wunmao";
-                                                             xlwb.Workbook.Properties.Company  = "Group Up Industrial Co., Ltd.";
-                                                             xlwb.Workbook.Properties.Comments = "Made by the Program of GP";
-                                                             xlwb.Workbook.Properties.Created  = created;
-                                                             //! 活頁簿保護不受web瀏覽支援(會無法開啟)
-                                                             // xlwb.Workbook.Protection.LockRevision = true;
-                                                             // xlwb.Workbook.Protection.LockStructure = true;
-                                                             // xlwb.Workbook.Protection.SetPassword("23555277");
-
-                                                             try
-                                                             {
-                                                                 xlwb.SaveAs(fi);
-                                                                 result = true;
-                                                             }
-                                                             catch (Exception ex)
-                                                             {
-                                                                 Log.Error(ex, "EXCEL儲存失敗");
-                                                                 return;
-                                                             }
-
-                                                             xlwb.Dispose();
-                                                         });
-                                        }, TaskCreationOptions.LongRunning);
-        }
-
-        Standby = true;
-
-        return result;
+        cells.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+        cells.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+        cells.Style.Border.Top.Style = ExcelBorderStyle.Thin;
     }
 
     private async Task<bool> SaveToCSV(string path)
     {
         Standby = false;
 
-        var result = false;
-
-        if (ViewResults?.Count > 0)
+        if (!Directory.Exists(path))
         {
-            await Task.Factory.StartNew(() =>
-                                        {
-                                            path = path.Trim().TrimEnd('\\');
+            try
+            {
+                Directory.CreateDirectory(path);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "CSV輸出資料夾無法創建");
 
-                                            if (!Directory.Exists(path))
-                                            {
-                                                try
-                                                {
-                                                    Directory.CreateDirectory(path);
-                                                }
-                                                catch (Exception ex)
-                                                {
-                                                    Log.Error(ex, "CSV輸出資料夾無法創建");
-                                                    return;
-                                                }
-                                            }
+                return false;
+            }
+        }
 
-                                            using var datas = ViewResults.Where(x => x.IsFinished).ToPooledList();
-                                            if (datas.Count <= 0)
-                                            {
-                                                return;
-                                            }
+        if (ViewResults != null &&
+            typeof(LogEvent).GetProperty(nameof(LogEvent.AddedTime)) is { } addedTime &&
+            typeof(LogEvent).GetProperty(nameof(LogEvent.StationNumber)) is { } stationNumber &&
+            typeof(LogEvent).GetProperty(nameof(LogEvent.Type)) is { } type &&
+            typeof(LogEvent).GetProperty(nameof(LogEvent.Description2)) is { } description2 &&
+            typeof(LogEvent).GetProperty(nameof(LogEvent.Value)) is { } value)
+        {
+            var csv = ViewResults.ToCSV(Language,
+                                        addedTime,
+                                        stationNumber,
+                                        type,
+                                        description2,
+                                        value);
 
-                                            try
-                                            {
-                                                var recipe = datas[0].Recipe.ToDictionary(Language);
-                                                var type   = typeof(ProcessInfo);
+            try
+            {
+                using var outputFile = new StreamWriter($"{path}\\{DateTime.Now:yyyy-MM-dd-HH-mm-ss-fff}.csv", false, Encoding.UTF8);
+                await outputFile.WriteAsync(csv);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "輸出CSV失敗");
 
-                                                using var titles = new[]
-                                                                   {
-                                                                       type.GetProperty(nameof(ProcessInfo.AddedTime))?.GetName(Language)  ?? nameof(ProcessInfo.AddedTime),
-                                                                       type.GetProperty(nameof(ProcessInfo.StartTime))?.GetName(Language)  ?? nameof(ProcessInfo.StartTime),
-                                                                       type.GetProperty(nameof(ProcessInfo.EndTime))?.GetName(Language)    ?? nameof(ProcessInfo.EndTime),
-                                                                       type.GetProperty(nameof(ProductInfo.PartID))?.GetName(Language)     ?? nameof(ProductInfo.PartID),
-                                                                       type.GetProperty(nameof(ProductInfo.LotID))?.GetName(Language)      ?? nameof(ProductInfo.LotID),
-                                                                       type.GetProperty(nameof(ProductInfo.Quantity))?.GetName(Language)   ?? nameof(ProductInfo.Quantity),
-                                                                       type.GetProperty(nameof(ProcessInfo.OvenCode))?.GetName(Language)   ?? nameof(ProcessInfo.OvenCode),
-                                                                       type.GetProperty(nameof(ProductInfo.Layer))?.GetName(Language)      ?? nameof(ProductInfo.Layer),
-                                                                       type.GetProperty(nameof(ProcessInfo.OperatorID))?.GetName(Language) ?? nameof(ProcessInfo.OperatorID),
-                                                                       type.GetProperty(nameof(ProcessInfo.IsFinished))?.GetName(Language) ?? nameof(ProcessInfo.IsFinished)
-                                                                   }.Concat(recipe.Keys)
-                                                                    .ToPooledList();
-
-                                                var sb = new StringBuilder();
-                                                sb.AppendLine(string.Join(",", titles));
-
-                                                foreach (var info in datas)
-                                                {
-                                                    recipe = info.Recipe.ToDictionary(Language);
-
-                                                    foreach (var product in info.Products)
-                                                    {
-                                                        using var vals = new[]
-                                                                         {
-                                                                             info.AddedTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                                                                             info.StartTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                                                                             info.EndTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                                                                             product.PartID,
-                                                                             product.LotID,
-                                                                             product.Quantity.ToString(),
-                                                                             info.OvenCode,
-                                                                             product.Layer.ToString(),
-                                                                             info.OperatorID,
-                                                                             info.IsFinished.ToString()
-                                                                         }.Concat(recipe.Values)
-                                                                          .ToPooledList();
-
-                                                        sb.AppendLine(string.Join(",", vals));
-                                                    }
-                                                }
-
-                                                using var outputFile = new StreamWriter($"{path}\\{DateTime.Now:yyyy-MM-dd-HH-mm-ss-fff}.csv", false, Encoding.UTF8);
-                                                outputFile.Write(sb.ToString());
-
-                                                result = true;
-                                            }
-                                            catch (Exception ex)
-                                            {
-                                                Log.Error(ex, "CSV儲存失敗");
-                                            }
-                                        }, TaskCreationOptions.LongRunning);
+                return false;
+            }
         }
 
         Standby = true;
 
-        return result;
+        return true;
     }
 
     /// <summary>更新統計圖</summary>
@@ -1086,25 +560,25 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                 fontcolor = OxyColor.FromRgb(bf.R, bf.G, bf.B);
             }
 
-            linearAxis.TitleColor                  = fontcolor;
-            linearAxis.AxislineColor               = bordercolor;
-            linearAxis.MajorGridlineColor          = bordercolor;
-            linearAxis.MinorGridlineColor          = bordercolor;
-            linearAxis.TicklineColor               = bordercolor;
-            linearAxis.ExtraGridlineColor          = bordercolor;
-            linearAxis.TextColor                   = fontcolor;
-            categoryAxis1.TitleColor               = fontcolor;
-            categoryAxis1.MajorGridlineColor       = bordercolor;
-            categoryAxis1.MinorGridlineColor       = bordercolor;
-            categoryAxis1.TicklineColor            = bordercolor;
-            categoryAxis1.ExtraGridlineColor       = bordercolor;
-            categoryAxis1.TextColor                = fontcolor;
-            categoryAxis1.AxislineColor            = bordercolor;
-            ResultView.PlotAreaBackground          = chartbg;
-            ResultView.PlotAreaBorderColor         = bordercolor;
+            linearAxis.TitleColor = fontcolor;
+            linearAxis.AxislineColor = bordercolor;
+            linearAxis.MajorGridlineColor = bordercolor;
+            linearAxis.MinorGridlineColor = bordercolor;
+            linearAxis.TicklineColor = bordercolor;
+            linearAxis.ExtraGridlineColor = bordercolor;
+            linearAxis.TextColor = fontcolor;
+            categoryAxis1.TitleColor = fontcolor;
+            categoryAxis1.MajorGridlineColor = bordercolor;
+            categoryAxis1.MinorGridlineColor = bordercolor;
+            categoryAxis1.TicklineColor = bordercolor;
+            categoryAxis1.ExtraGridlineColor = bordercolor;
+            categoryAxis1.TextColor = fontcolor;
+            categoryAxis1.AxislineColor = bordercolor;
+            ResultView.PlotAreaBackground = chartbg;
+            ResultView.PlotAreaBorderColor = bordercolor;
             ResultView.Legends[0].LegendTitleColor = fontcolor;
-            ResultView.Legends[0].LegendTextColor  = fontcolor;
-            ResultView.Legends[0].LegendBorder     = bordercolor;
+            ResultView.Legends[0].LegendTextColor = fontcolor;
+            ResultView.Legends[0].LegendBorder = bordercolor;
             ResultView.Legends[0].LegendBackground = bgcolor;
         }
 
@@ -1140,13 +614,13 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
             using var result1 = finishedResults.GroupBy(x =>
                                                         {
                                                             return Mode switch
-                                                                   {
-                                                                       ChartMode.ByPLC   => x.StationNumber.ToString(),
-                                                                       ChartMode.ByPart  => x.Product.PartID,
-                                                                       ChartMode.ByLot   => x.Product.LotID,
-                                                                       ChartMode.ByLayer => x.Product.Layer.ToString(),
-                                                                       _                 => ByDate ? x.AddedTime.Date.ToString("MM/dd") : $"{x.AddedTime.Hour:00}:00"
-                                                                   };
+                                                            {
+                                                                ChartMode.ByPLC   => x.StationNumber.ToString(),
+                                                                ChartMode.ByPart  => x.Product.PartID,
+                                                                ChartMode.ByLot   => x.Product.LotID,
+                                                                ChartMode.ByLayer => x.Product.Layer.ToString(),
+                                                                _                 => ByDate ? x.AddedTime.Date.ToString("MM/dd") : $"{x.AddedTime.Hour:00}:00"
+                                                            };
                                                         })
                                                .OrderBy(x => x.Key)
                                                .Select(x => (x.Key, x.Sum(y => y.Product.Quantity)))
@@ -1164,17 +638,17 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                 categoryAxis2.Labels.Add(result);
 
                 var cs = new BarSeries
-                         {
-                             FontSize          = result1.Count > 20 ? 8 : 10,
-                             LabelFormatString = "{0}",
-                             TextColor         = fontcolor,
-                             IsStacked         = true,
-                             StrokeThickness   = 0,
-                             StrokeColor       = NoLayer2 ? bordercolor : OxyColors.Transparent,
-                             FillColor         = NoLayer2 ? OxyColor.FromHsv(i * color_step_1, 0.9, 0.9) : OxyColors.Transparent,
-                             YAxisKey          = "2",
-                             XAxisKey          = "0"
-                         };
+                {
+                    FontSize          = result1.Count > 20 ? 8 : 10,
+                    LabelFormatString = "{0}",
+                    TextColor         = fontcolor,
+                    IsStacked         = true,
+                    StrokeThickness   = 0,
+                    StrokeColor       = NoLayer2 ? bordercolor : OxyColors.Transparent,
+                    FillColor         = NoLayer2 ? OxyColor.FromHsv(i * color_step_1, 0.9, 0.9) : OxyColors.Transparent,
+                    YAxisKey          = "2",
+                    XAxisKey          = "0"
+                };
 
                 cs.Items.Add(new BarItem(count, i));
                 ResultView.Series.Add(cs);
@@ -1194,19 +668,19 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                     var (cat, info) = result2[i];
 
                     var ccs = new BarSeries
-                              {
-                                  FontSize          = 10,
-                                  LabelFormatString = result2.Count > 10 || categories.Count > 20 ? "" : "{0}",
-                                  LabelPlacement    = LabelPlacement.Middle,
-                                  TextColor         = OxyColors.White,
-                                  Title             = cat,
-                                  IsStacked         = true,
-                                  StrokeThickness   = 0,
-                                  StrokeColor       = bordercolor,
-                                  FillColor         = OxyColor.FromHsv(i * color_step_2, 0.9, 0.9),
-                                  YAxisKey          = "1",
-                                  XAxisKey          = "0"
-                              };
+                    {
+                        FontSize          = 10,
+                        LabelFormatString = result2.Count > 10 || categories.Count > 20 ? "" : "{0}",
+                        LabelPlacement    = LabelPlacement.Middle,
+                        TextColor         = OxyColors.White,
+                        Title             = cat,
+                        IsStacked         = true,
+                        StrokeThickness   = 0,
+                        StrokeColor       = bordercolor,
+                        FillColor         = OxyColor.FromHsv(i * color_step_2, 0.9, 0.9),
+                        YAxisKey          = "1",
+                        XAxisKey          = "0"
+                    };
 
                     for (var j = 0; j < categories.Count; j++)
                     {
@@ -1248,12 +722,11 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
             var max = Math.Min(Results.Count - 1, EndIndex);
 
             ViewResults = Results.GetRange(min, max - min + 1)
-                                 .Where(x => OvenFilter.Check(x.StationNumber)                        &&
+                                 .Where(x => OvenFilter.Check(x.StationNumber) &&
                                              RecipeFilter.Check(x.Recipe?.RecipeName ?? string.Empty) &&
-                                             OpFilter.Check(x.OperatorID)                             &&
-                                             FinishedFilter.Check(x.IsFinished)                       &&
-                                             x.Products.Any(y => PartIDFilter.Check(y.PartID))        &&
-                                             x.Products.Any(y => LayerFilter.Check(y.Layer)))
+                                             OpFilter.Check(x.OperatorID) &&
+                                             FinishedFilter.Check(x.TopIsFinished) || FinishedFilter.Check(x.BottomIsFinished) &&
+                                             x.Products.Any(y => PartIDFilter.Check(y.PartID)))
                                  .OrderByDescending(x => x.AddedTime)
                                  .ToList();
         }
@@ -1269,7 +742,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
     public async Task<bool> AddToDBAsync(int index, ProcessInfo info, DateTime dateTime = default, bool UpdateResult = false)
     {
         info.StationNumber = index + 1;
-        info.AddedTime     = dateTime == default ? DateTime.Now : dateTime;
+        info.AddedTime = dateTime == default ? DateTime.Now : dateTime;
 
         try
         {
@@ -1295,7 +768,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
     public bool AddToDB(int index, ProcessInfo info, DateTime dateTime = default, bool UpdateResult = false)
     {
         info.StationNumber = index + 1;
-        info.AddedTime     = dateTime == default ? DateTime.Now : dateTime;
+        info.AddedTime = dateTime == default ? DateTime.Now : dateTime;
 
         try
         {
@@ -1330,7 +803,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
         foreach (var info in infos)
         {
             info.StationNumber = index + 1;
-            info.AddedTime     = dt;
+            info.AddedTime = dt;
         }
 
         try
@@ -1361,7 +834,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
         foreach (var info in infos)
         {
             info.StationNumber = index + 1;
-            info.AddedTime     = dt;
+            info.AddedTime = dt;
         }
 
         try
@@ -1393,7 +866,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
             var date2  = date1.AddDays(1);
             var result = await DataCollection.FindAsync(x => x.StationNumber == index + 1 && x.AddedTime >= date1 && x.AddedTime < date2);
 
-            return result.Where(x => x.IsFinished).Sum(x => x.Quantity);
+            return result.Where(x => x.TopIsFinished).Sum(x => x.Quantity);
         }
         catch (Exception ex)
         {

@@ -42,6 +42,20 @@ public class BaseInfo : ObservableObject
         set => Set(value);
     }
 
+    [LanguageTranslator("Lot", "Lot", "Lot")]
+    public string LotID
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+
+    [LanguageTranslator("Part", "Part", "Part")]
+    public string Part
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+
     [LanguageTranslator("Recipe", "配方", "配方")]
     public PLC_Recipe? Recipe
     {
@@ -72,7 +86,14 @@ public class BaseInfo : ObservableObject
     }
 
     [LanguageTranslator("Finished", "完成烘烤", "完成烘烤")]
-    public bool IsFinished
+    public bool TopIsFinished
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+
+    [LanguageTranslator("Finished", "完成烘烤", "完成烘烤")]
+    public bool BottomIsFinished
     {
         get => Get<bool>();
         set => Set(value);
@@ -109,6 +130,13 @@ public class BaseInfo : ObservableObject
     public ObservableConcurrentCollection<ProductInfo> Products
     {
         get => Get<ObservableConcurrentCollection<ProductInfo>>()!;
+        set => Set(value);
+    }
+
+    [LanguageTranslator("Qty", "數量", "數量")]
+    public int Qty
+    {
+        get => Get<int>();
         set => Set(value);
     }
 
@@ -157,7 +185,8 @@ public class BaseInfo : ObservableObject
         StartTime = new DateTime();
         EndTime = new DateTime();
         TotalRampTime = 0.0;
-        IsFinished = false;
+        TopIsFinished = false;
+        BottomIsFinished = false;
     }
 }
 
@@ -194,11 +223,11 @@ public class ProcessInfo : BaseInfo, ILogData
                    { type.GetProperty(nameof(StartTime))?.GetName(lng)          ?? nameof(StartTime), StartTime },
                    { type.GetProperty(nameof(EndTime))?.GetName(lng)            ?? nameof(EndTime), EndTime },
                    { type.GetProperty(nameof(OperatorID))?.GetName(lng)         ?? nameof(OperatorID), OperatorID },
+                   { type.GetProperty(nameof(LotID))?.GetName(lng)              ?? nameof(LotID), LotID },
                    { type.GetProperty(nameof(Recipe))?.GetName(lng)             ?? nameof(Recipe), Recipe },
                    { type.GetProperty(nameof(Products))?.GetName(lng)           ?? nameof(Products), Products },
                    { type.GetProperty(nameof(RecordTemperatures))?.GetName(lng) ?? nameof(RecordTemperatures), RecordTemperatures },
-                   { type.GetProperty(nameof(EventList))?.GetName(lng)          ?? nameof(EventList), EventList },
-                   { type.GetProperty(nameof(IsFinished))?.GetName(lng)         ?? nameof(IsFinished), IsFinished }
+                   { type.GetProperty(nameof(EventList))?.GetName(lng)          ?? nameof(EventList), EventList }
                };
     }
 
