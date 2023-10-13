@@ -48,8 +48,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     private          DateTime                OfflineTime    = DateTime.MaxValue;
     private          TextBox?                inputFocusTB;
 
-
-    #region webservice 特別功能
+    #region webservice 功能
     #region Top
     public RelayCommand TopAddAGV { get; }
     public RelayCommand TopRetAGV { get; }
@@ -60,7 +59,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public RelayCommand TopIngredients { get; }
     public RelayCommand TopCleanWO { get; }
     public RelayCommand TopDataUpload { get; }
-
 
     public event Func<Task> TopAddAGVevent;
     public event Func<Task> TopOutAGVevent;
@@ -166,6 +164,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         set => Set(value);
     }
     #endregion
+    #region Bottom
     public RelayCommand AddAGV { get; }
     public RelayCommand OutAGV { get; }
     public RelayCommand NGOutAGV { get; }
@@ -268,6 +267,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         get => Get<string>() ?? string.Empty;
         set => Set(value);
     }
+    #endregion
     #endregion
     public int InputQuantityMin => 0;
     public int InputQuantityMax => 99999;
@@ -599,7 +599,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
         TopIngredients = new RelayCommand(_ =>
         {
-            if (TopBarcode is null)
+            if (TopBarcode is null or "")
             {
                 dialog.Show(new Dictionary<Language, string>
                                                                             {
@@ -622,6 +622,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             var part = TopPartID;
             var panelcount = Convert.ToInt32(TopPanelCount);
             var lot = TopWorkOrder;
+            //寫入配方就開門
             TopWebRecipetoPLC(recipe, part, lot, panelcount);
         });
 
@@ -673,7 +674,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
         Ingredients = new RelayCommand(_ =>
         {
-            if (Barcode is null || Barcode == "")
+            if (Barcode is null or "")
             {
                 dialog.Show(new Dictionary<Language, string>
                                                                             {
