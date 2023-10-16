@@ -373,6 +373,9 @@
     <sys:String x:Key="OPID">操作員</sys:String>
     <sys:String x:Key="列表">列表</sys:String>
     <sys:String x:Key="Lot">批號</sys:String>
+    <sys:String x:Key="LotID">批號</sys:String>
     <sys:String x:Key="Part">料號</sys:String>
+    <sys:String x:Key="PartID">料號</sys:String>
+    <sys:String x:Key="Quantity">數量</sys:String>
 
 </ResourceDictionary>

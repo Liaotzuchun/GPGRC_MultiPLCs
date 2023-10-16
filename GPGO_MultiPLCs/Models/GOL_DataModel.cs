@@ -39,17 +39,31 @@ public class GOL_DataModel : PLCDataProvider
         set => Set(value);
     }
 
-    [PLCData(DataType.D, 4120, 16, LogType.None)]
-    public string? LotID
+    [PLCData(DataType.D, 120, 16, LogType.None)]
+    public string? TopLotID
     {
         get => Get<string>();
         set => Set(value);
     }
 
-    [PLCData(DataType.D, 4140, LogType.None)]
-    public short Quantity
+    [PLCData(DataType.D, 4120, 16, LogType.None)]
+    public string? BottomLotID
     {
-        get => Get<short>();
+        get => Get<string>();
+        set => Set(value);
+    }
+
+    [PLCData(DataType.D, 140, LogType.None)]
+    public int TopQuantity
+    {
+        get => Get<int>();
+        set => Set(value);
+    }
+
+    [PLCData(DataType.D, 4140, LogType.None)]
+    public int BottomQuantity
+    {
+        get => Get<int>();
         set => Set(value);
     }
     #endregion
@@ -1448,14 +1462,6 @@ public class GOL_DataModel : PLCDataProvider
         set => Set(value);
     }
 
-    /// <summary>手動模式</summary>
-    [PLCBit(BitType.M, 60, LogType.StatusVariables)]
-    public bool ManualMode
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-
     [PLCBit(BitType.M, 51, LogType.StatusVariables)]
     public bool TopAutoMode_Start
     {
@@ -1611,53 +1617,53 @@ public class GOL_DataModel : PLCDataProvider
     //    set => Set(value);
     //}
 
-    /// <summary>爐內溫度1</summary>
-    [PLCData(DataType.D, 700, 0.1, LogType.StatusVariables)]
-    public double OvenTemperature_1
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
+    ///// <summary>爐內溫度1</summary>
+    //[PLCData(DataType.D, 700, 0.1, LogType.StatusVariables)]
+    //public double OvenTemperature_1
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
 
-    /// <summary>爐內溫度2</summary>
-    [PLCData(DataType.D, 701, 0.1, LogType.StatusVariables)]
-    public double OvenTemperature_2
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
+    ///// <summary>爐內溫度2</summary>
+    //[PLCData(DataType.D, 701, 0.1, LogType.StatusVariables)]
+    //public double OvenTemperature_2
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
 
-    /// <summary>爐內溫度3</summary>
-    [PLCData(DataType.D, 702, 0.1, LogType.StatusVariables)]
-    public double OvenTemperature_3
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
+    ///// <summary>爐內溫度3</summary>
+    //[PLCData(DataType.D, 702, 0.1, LogType.StatusVariables)]
+    //public double OvenTemperature_3
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
 
-    /// <summary>爐內溫度4</summary>
-    [PLCData(DataType.D, 703, 0.1, LogType.StatusVariables)]
-    public double OvenTemperature_4
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
+    ///// <summary>爐內溫度4</summary>
+    //[PLCData(DataType.D, 703, 0.1, LogType.StatusVariables)]
+    //public double OvenTemperature_4
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
 
-    /// <summary>爐內溫度5</summary>
-    [PLCData(DataType.D, 704, 0.1, LogType.StatusVariables)]
-    public double OvenTemperature_5
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
+    ///// <summary>爐內溫度5</summary>
+    //[PLCData(DataType.D, 704, 0.1, LogType.StatusVariables)]
+    //public double OvenTemperature_5
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
 
-    /// <summary>爐內溫度6</summary>
-    [PLCData(DataType.D, 705, 0.1, LogType.StatusVariables)]
-    public double OvenTemperature_6
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
+    ///// <summary>爐內溫度6</summary>
+    //[PLCData(DataType.D, 705, 0.1, LogType.StatusVariables)]
+    //public double OvenTemperature_6
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
 
     ///// <summary>目前段數</summary>
     //[PLCData(DataType.D, 22, LogType.StatusVariables)]

@@ -48,7 +48,6 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
     private readonly CategoryAxis categoryAxis1;
     private readonly CategoryAxis categoryAxis2;
 
-    private readonly Dictionary<string, PropertyInfo> ProcessInfoProperties = typeof(ProcessInfo).GetProperties(BindingFlags.Instance | BindingFlags.Public).ToDictionary(x => x.Name, x => x);
     private readonly Dictionary<string, PropertyInfo> ProductInfoProperties = typeof(ProductInfo).GetProperties(BindingFlags.Instance | BindingFlags.Public).ToDictionary(x => x.Name, x => x);
     private readonly LinearAxis                       linearAxis;
     private Color[] ColorArray =
@@ -487,50 +486,86 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
     {
         Standby = false;
 
-        if (!Directory.Exists(path))
+        var result = false;
+
+        if (ViewResults?.Count > 0)
         {
-            try
+            await Task.Factory.StartNew(() =>
             {
-                Directory.CreateDirectory(path);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "CSV輸出資料夾無法創建");
+                path = path.Trim().TrimEnd('\\');
 
-                return false;
-            }
-        }
+                if (!Directory.Exists(path))
+                {
+                    try
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error(ex, "CSV輸出資料夾無法創建");
+                        return;
+                    }
+                }
 
-        if (ViewResults != null &&
-            typeof(LogEvent).GetProperty(nameof(LogEvent.AddedTime)) is { } addedTime &&
-            typeof(LogEvent).GetProperty(nameof(LogEvent.StationNumber)) is { } stationNumber &&
-            typeof(LogEvent).GetProperty(nameof(LogEvent.Type)) is { } type &&
-            typeof(LogEvent).GetProperty(nameof(LogEvent.Description2)) is { } description2 &&
-            typeof(LogEvent).GetProperty(nameof(LogEvent.Value)) is { } value)
-        {
-            var csv = ViewResults.ToCSV(Language,
-                                        addedTime,
-                                        stationNumber,
-                                        type,
-                                        description2,
-                                        value);
+                using var datas = ViewResults.Where(x => x.TopIsFinished || x.BottomIsFinished).ToPooledList();
+                if (datas.Count <= 0)
+                {
+                    return;
+                }
 
-            try
-            {
-                using var outputFile = new StreamWriter($"{path}\\{DateTime.Now:yyyy-MM-dd-HH-mm-ss-fff}.csv", false, Encoding.UTF8);
-                await outputFile.WriteAsync(csv);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "輸出CSV失敗");
+                try
+                {
+                    var type   = typeof(ProcessInfo);
 
-                return false;
-            }
+                    using var titles = new[]
+                                                                   {
+                                                                       type.GetProperty(nameof(ProcessInfo.AddedTime))?.GetName(Language) ,
+                                                                       type.GetProperty(nameof(ProcessInfo.OvenCode))?.GetName(Language)  ,
+                                                                       type.GetProperty(nameof(ProcessInfo.StartTime))?.GetName(Language) ,
+                                                                       type.GetProperty(nameof(ProcessInfo.EndTime))?.GetName(Language)   ,
+                                                                       "料号",
+                                                                       "批号",
+                                                                       "数量",
+                                                                       type.GetProperty(nameof(ProcessInfo.OperatorID))?.GetName(Language),
+                                                                   }
+                                                                    .ToPooledList();
+
+                    var sb = new StringBuilder();
+                    sb.AppendLine(string.Join(",", titles));
+
+                    foreach (var info in datas)
+                    {
+                        using var vals = new[]
+                                                                         {
+                                                                             info.AddedTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                                                                             info.OvenCode,
+                                                                             info.StartTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                                                                             info.EndTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                                                                             info.Part,
+                                                                             info.LotID,
+                                                                             info.Qty.ToString(),
+                                                                             info.OperatorID,
+                                                                         }
+                                                                          .ToPooledList();
+
+                        sb.AppendLine(string.Join(",", vals));
+                    }
+
+                    using var outputFile = new StreamWriter($"{path}\\{DateTime.Now:yyyy-MM-dd-HH-mm-ss-fff}.csv", false, Encoding.UTF8);
+                    outputFile.Write(sb.ToString());
+
+                    result = true;
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "CSV儲存失敗");
+                }
+            }, TaskCreationOptions.LongRunning);
         }
 
         Standby = true;
 
-        return true;
+        return result;
     }
 
     /// <summary>更新統計圖</summary>

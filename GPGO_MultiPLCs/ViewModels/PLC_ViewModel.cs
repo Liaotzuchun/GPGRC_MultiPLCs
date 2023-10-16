@@ -14,6 +14,7 @@ using GPMVVM.Helpers;
 using GPMVVM.Models;
 using GPMVVM.PooledCollections;
 using PLCService;
+using Serilog;
 #pragma warning disable VSTHRD110
 
 namespace GPGO_MultiPLCs.ViewModels;
@@ -1567,12 +1568,12 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         void AddTemperatures(bool keypoint,
                              DateTime addtime,
                              double t0,
-                             double t1,
-                             double t2,
-                             double t3,
-                             double t4,
-                             double t5,
-                             double t6,
+                             //double t1,
+                             //double t2,
+                             //double t3,
+                             //double t4,
+                             //double t5,
+                             //double t6,
                              //double t7,
                              //double t8,
                              double oxy)
@@ -1582,12 +1583,12 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                 KeyPoint                 = keypoint,
                 AddedTime                = addtime,
                 PV_ThermostatTemperature = t0,
-                OvenTemperatures_1       = t1,
-                OvenTemperatures_2       = t2,
-                OvenTemperatures_3       = t3,
-                OvenTemperatures_4       = t4,
-                OvenTemperatures_5       = t5,
-                OvenTemperatures_6       = t6,
+                //OvenTemperatures_1       = t1,
+                //OvenTemperatures_2       = t2,
+                //OvenTemperatures_3       = t3,
+                //OvenTemperatures_4       = t4,
+                //OvenTemperatures_5       = t5,
+                //OvenTemperatures_6       = t6,
                 //OvenTemperatures_7       = t7,
                 //OvenTemperatures_8       = t8,
                 OxygenContent            = oxy
@@ -1601,12 +1602,12 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         var nt                     = OvenInfo.StartTime;
         var n                      = TimeSpan.FromSeconds(RecordDelay); //! 每delay週期紀錄一次
         var _ThermostatTemperature = PV_TopThermostatTemperature;
-        var _OvenTemperature_1     = OvenTemperature_1;
-        var _OvenTemperature_2     = OvenTemperature_2;
-        var _OvenTemperature_3     = OvenTemperature_3;
-        var _OvenTemperature_4     = OvenTemperature_4;
-        var _OvenTemperature_5     = OvenTemperature_5;
-        var _OvenTemperature_6     = OvenTemperature_6;
+        //var _OvenTemperature_1     = OvenTemperature_1;
+        //var _OvenTemperature_2     = OvenTemperature_2;
+        //var _OvenTemperature_3     = OvenTemperature_3;
+        //var _OvenTemperature_4     = OvenTemperature_4;
+        //var _OvenTemperature_5     = OvenTemperature_5;
+        //var _OvenTemperature_6     = OvenTemperature_6;
         //var _OvenTemperature_7     = OvenTemperature_7;
         //var _OvenTemperature_8     = OvenTemperature_8;
         var _OxygenContent         = OxygenContent;
@@ -1614,12 +1615,12 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         AddTemperatures(true,
                         OvenInfo.StartTime,
                         _ThermostatTemperature,
-                        _OvenTemperature_1,
-                        _OvenTemperature_2,
-                        _OvenTemperature_3,
-                        _OvenTemperature_4,
-                        _OvenTemperature_5,
-                        _OvenTemperature_6,
+                        //_OvenTemperature_1,
+                        //_OvenTemperature_2,
+                        //_OvenTemperature_3,
+                        //_OvenTemperature_4,
+                        //_OvenTemperature_5,
+                        //_OvenTemperature_6,
                         //_OvenTemperature_7,
                         //_OvenTemperature_8,
                         OxygenContent);
@@ -1637,12 +1638,12 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                             }
 
                                             _ThermostatTemperature = PV_TopThermostatTemperature <= 0 ? _ThermostatTemperature : PV_TopThermostatTemperature;
-                                            _OvenTemperature_1 = OvenTemperature_1 <= 0 ? _OvenTemperature_1 : OvenTemperature_1;
-                                            _OvenTemperature_2 = OvenTemperature_2 <= 0 ? _OvenTemperature_2 : OvenTemperature_2;
-                                            _OvenTemperature_3 = OvenTemperature_3 <= 0 ? _OvenTemperature_3 : OvenTemperature_3;
-                                            _OvenTemperature_4 = OvenTemperature_4 <= 0 ? _OvenTemperature_4 : OvenTemperature_4;
-                                            _OvenTemperature_5 = OvenTemperature_5 <= 0 ? _OvenTemperature_5 : OvenTemperature_5;
-                                            _OvenTemperature_6 = OvenTemperature_6 <= 0 ? _OvenTemperature_6 : OvenTemperature_6;
+                                            //_OvenTemperature_1 = OvenTemperature_1 <= 0 ? _OvenTemperature_1 : OvenTemperature_1;
+                                            //_OvenTemperature_2 = OvenTemperature_2 <= 0 ? _OvenTemperature_2 : OvenTemperature_2;
+                                            //_OvenTemperature_3 = OvenTemperature_3 <= 0 ? _OvenTemperature_3 : OvenTemperature_3;
+                                            //_OvenTemperature_4 = OvenTemperature_4 <= 0 ? _OvenTemperature_4 : OvenTemperature_4;
+                                            //_OvenTemperature_5 = OvenTemperature_5 <= 0 ? _OvenTemperature_5 : OvenTemperature_5;
+                                            //_OvenTemperature_6 = OvenTemperature_6 <= 0 ? _OvenTemperature_6 : OvenTemperature_6;
                                             //_OvenTemperature_7 = OvenTemperature_7 <= 0 ? _OvenTemperature_7 : OvenTemperature_7;
                                             //_OvenTemperature_8 = OvenTemperature_8 <= 0 ? _OvenTemperature_8 : OvenTemperature_8;
                                             _OxygenContent = OxygenContent <= 0 ? _OxygenContent : OxygenContent;
@@ -1653,12 +1654,12 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                 AddTemperatures(false,
                                                                 nt,
                                                                 _ThermostatTemperature,
-                                                                _OvenTemperature_1,
-                                                                _OvenTemperature_2,
-                                                                _OvenTemperature_3,
-                                                                _OvenTemperature_4,
-                                                                _OvenTemperature_5,
-                                                                _OvenTemperature_6,
+                                                                //_OvenTemperature_1,
+                                                                //_OvenTemperature_2,
+                                                                //_OvenTemperature_3,
+                                                                //_OvenTemperature_4,
+                                                                //_OvenTemperature_5,
+                                                                //_OvenTemperature_6,
                                                                 //_OvenTemperature_7,
                                                                 //_OvenTemperature_8,
                                                                 _OxygenContent);
@@ -1669,12 +1670,12 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                 AddTemperatures(true,
                                                                 DateTime.Now,
                                                                 _ThermostatTemperature,
-                                                                _OvenTemperature_1,
-                                                                _OvenTemperature_2,
-                                                                _OvenTemperature_3,
-                                                                _OvenTemperature_4,
-                                                                _OvenTemperature_5,
-                                                                _OvenTemperature_6,
+                                                                //_OvenTemperature_1,
+                                                                //_OvenTemperature_2,
+                                                                //_OvenTemperature_3,
+                                                                //_OvenTemperature_4,
+                                                                //_OvenTemperature_5,
+                                                                //_OvenTemperature_6,
                                                                 //_OvenTemperature_7,
                                                                 //_OvenTemperature_8,
                                                                 _OxygenContent);
@@ -1686,12 +1687,12 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                         }
 
                                         _ThermostatTemperature = PV_TopThermostatTemperature <= 0 ? _ThermostatTemperature : PV_TopThermostatTemperature;
-                                        _OvenTemperature_1 = OvenTemperature_1 <= 0 ? _OvenTemperature_1 : OvenTemperature_1;
-                                        _OvenTemperature_2 = OvenTemperature_2 <= 0 ? _OvenTemperature_2 : OvenTemperature_2;
-                                        _OvenTemperature_3 = OvenTemperature_3 <= 0 ? _OvenTemperature_3 : OvenTemperature_3;
-                                        _OvenTemperature_4 = OvenTemperature_4 <= 0 ? _OvenTemperature_4 : OvenTemperature_4;
-                                        _OvenTemperature_5 = OvenTemperature_5 <= 0 ? _OvenTemperature_5 : OvenTemperature_5;
-                                        _OvenTemperature_6 = OvenTemperature_6 <= 0 ? _OvenTemperature_6 : OvenTemperature_6;
+                                        //_OvenTemperature_1 = OvenTemperature_1 <= 0 ? _OvenTemperature_1 : OvenTemperature_1;
+                                        //_OvenTemperature_2 = OvenTemperature_2 <= 0 ? _OvenTemperature_2 : OvenTemperature_2;
+                                        //_OvenTemperature_3 = OvenTemperature_3 <= 0 ? _OvenTemperature_3 : OvenTemperature_3;
+                                        //_OvenTemperature_4 = OvenTemperature_4 <= 0 ? _OvenTemperature_4 : OvenTemperature_4;
+                                        //_OvenTemperature_5 = OvenTemperature_5 <= 0 ? _OvenTemperature_5 : OvenTemperature_5;
+                                        //_OvenTemperature_6 = OvenTemperature_6 <= 0 ? _OvenTemperature_6 : OvenTemperature_6;
                                         //_OvenTemperature_7 = OvenTemperature_7 <= 0 ? _OvenTemperature_7 : OvenTemperature_7;
                                         //_OvenTemperature_8 = OvenTemperature_8 <= 0 ? _OvenTemperature_8 : OvenTemperature_8;
                                         _OxygenContent = OxygenContent <= 0 ? _OxygenContent : OxygenContent;
@@ -1699,12 +1700,12 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                         AddTemperatures(true,
                                                         DateTime.Now,
                                                         _ThermostatTemperature,
-                                                        _OvenTemperature_1,
-                                                        _OvenTemperature_2,
-                                                        _OvenTemperature_3,
-                                                        _OvenTemperature_4,
-                                                        _OvenTemperature_5,
-                                                        _OvenTemperature_6,
+                                                        //_OvenTemperature_1,
+                                                        //_OvenTemperature_2,
+                                                        //_OvenTemperature_3,
+                                                        //_OvenTemperature_4,
+                                                        //_OvenTemperature_5,
+                                                        //_OvenTemperature_6,
                                                         //_OvenTemperature_7,
                                                         //_OvenTemperature_8,
                                                         _OxygenContent);
@@ -1730,10 +1731,17 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             AddLOT(part, lot, panelcount);
             //開門
             Set(true, nameof(BottomDoorOpen));
+            Set(lot, nameof(BottomLotID));
+            Set(panelcount, nameof(BottomQuantity));
         }
         catch (Exception ex)
         {
-            MessageBox.Show(ex.Message);
+            Dialog.Show(new Dictionary<Language, string>
+                        {
+                            { Language.TW, ex.Message },
+                            { Language.CHS, ex.Message }
+                        });
+            Log.Debug(ex.Message);
         }
     }
     public void TopWebRecipetoPLC(string RecipeName, string part, string lot, int panelcount)
@@ -1754,10 +1762,17 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             TopAddLOT(part, lot, panelcount);
             //開門
             Set(true, nameof(TopDoorOpen));
+            Set(lot, nameof(TopLotID));
+            Set(panelcount, nameof(TopQuantity));
         }
         catch (Exception ex)
         {
-            MessageBox.Show(ex.Message);
+            Dialog.Show(new Dictionary<Language, string>
+                        {
+                            { Language.TW, ex.Message },
+                            { Language.CHS, ex.Message }
+                        });
+            Log.Debug(ex.Message);
         }
     }
     private async Task StartPP(string isToporBottom)

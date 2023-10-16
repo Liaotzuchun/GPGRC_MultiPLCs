@@ -372,5 +372,7 @@
     <sys:String x:Key="列表">列表</sys:String>
     <sys:String x:Key="Lot">批号</sys:String>
     <sys:String x:Key="Part">料号</sys:String>
-
+    <sys:String x:Key="LotID">批号</sys:String>
+    <sys:String x:Key="PartID">料号</sys:String>
+    <sys:String x:Key="Quantity">数量</sys:String>
 </ResourceDictionary>
