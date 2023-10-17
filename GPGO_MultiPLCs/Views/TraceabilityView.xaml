@@ -486,6 +486,18 @@
                     <DataGridTemplateColumn Width="Auto"
                                             MinWidth="40">
                         <DataGridTemplateColumn.Header>
+                            <TextBlock Text="{DynamicResource TopOrBottom}" />
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="models:ProcessInfo">
+                                <TextBlock Text="{Binding TopOrBottom, Mode=OneWay, Converter={views:StringToResource}}"
+                                           TextTrimming="CharacterEllipsis" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="Auto"
+                                            MinWidth="40">
+                        <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource Part}" />
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
@@ -568,6 +580,17 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate DataType="models:ProcessInfo">
                                 <TextBlock Text="{Binding EndTime, Mode=OneWay, StringFormat=\{0:yy/MM/dd HH:mm:ss\}}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn> 
+                    <DataGridTemplateColumn Width="Auto"
+                                            MinWidth="60">
+                        <DataGridTemplateColumn.Header>
+                            <TextBlock Text="{DynamicResource 總烘烤時間}" />
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="models:ProcessInfo">
+                                <TextBlock Text="{Binding TotalRampTime, Mode=OneWay}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

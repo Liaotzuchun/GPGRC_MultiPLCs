@@ -56,6 +56,13 @@ public class BaseInfo : ObservableObject
         set => Set(value);
     }
 
+    [LanguageTranslator("TopOrBottom", "上下爐", "上下爐")]
+    public string TopOrBottom
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+
     [LanguageTranslator("Recipe", "配方", "配方")]
     public PLC_Recipe? Recipe
     {

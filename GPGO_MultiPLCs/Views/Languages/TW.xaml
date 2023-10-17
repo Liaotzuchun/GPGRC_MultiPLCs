@@ -377,5 +377,9 @@
     <sys:String x:Key="Part">料號</sys:String>
     <sys:String x:Key="PartID">料號</sys:String>
     <sys:String x:Key="Quantity">數量</sys:String>
+    <sys:String x:Key="TopOrBottom">上下爐</sys:String>
+    <sys:String x:Key="Top">上爐</sys:String>
+    <sys:String x:Key="Bottom">下爐</sys:String>
+    <sys:String x:Key="總烘烤時間">總烘烤時間(分鐘)</sys:String>
 
 </ResourceDictionary>

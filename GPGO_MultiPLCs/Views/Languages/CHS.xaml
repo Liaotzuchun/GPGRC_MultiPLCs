@@ -55,6 +55,7 @@
     <sys:String x:Key="開始時間">开始时间</sys:String>
     <sys:String x:Key="結束時間">结束时间</sys:String>
     <sys:String x:Key="剩餘時間">剩余时间</sys:String>
+    <sys:String x:Key="總烘烤時間">总烘烤时间(分钟)</sys:String>
     <sys:String x:Key="時間">时间</sys:String>
     <sys:String x:Key="事件">事件</sys:String>
     <sys:String x:Key="返回總覽">返回总览</sys:String>
@@ -375,4 +376,8 @@
     <sys:String x:Key="LotID">批号</sys:String>
     <sys:String x:Key="PartID">料号</sys:String>
     <sys:String x:Key="Quantity">数量</sys:String>
+    <sys:String x:Key="TopOrBottom">上下炉</sys:String>
+    <sys:String x:Key="Top">上炉</sys:String>
+    <sys:String x:Key="Bottom">下炉</sys:String>
+
 </ResourceDictionary>

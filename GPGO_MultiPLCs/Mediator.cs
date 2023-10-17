@@ -280,11 +280,7 @@ public sealed class Mediator : ObservableObject
         //! 當回到主頁時，也將生產總覽回到總覽頁
         MainVM.IndexChangedEvent += i =>
         {
-            if (i == 0 && !TotalVM.PLC_All[0].IsExecuting)
-            {
-                TotalVM.Index = 0;
-            }
-
+            TotalVM.Index = 0;
             TraceVM.SelectedIndex = -1;
             TraceVM.ShowProducts = false;
         };
