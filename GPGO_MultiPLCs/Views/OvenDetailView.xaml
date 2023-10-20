@@ -819,7 +819,7 @@
                             </views:LevelsProgressBar>
                         </Border>
                         <Border Grid.Row="1"
-                                Grid.Column="0"
+                                Grid.Column="0" 
                                 Background="{StaticResource WindowBackgroundBrush2}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                 BorderThickness="0,0,1,1">

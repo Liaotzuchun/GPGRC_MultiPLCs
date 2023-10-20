@@ -341,7 +341,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                      {
                                          var product = new ProcessInfo(baseInfo);
 
-                                         if (baseInfo.TopIsFinished)
+                                         if (baseInfo.TopIsFinished && baseInfo.TopOrBottom == "Top")
                                          {
                                              dialog.Show(new Dictionary<Language, string>
                                                          {
@@ -351,7 +351,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                          },
                                              TimeSpan.FromSeconds(2));
                                          }
-                                         else if (baseInfo.BottomIsFinished)
+                                         else if (baseInfo.BottomIsFinished && baseInfo.TopOrBottom == "Bottom")
                                          {
                                              dialog.Show(new Dictionary<Language, string>
                                                          {

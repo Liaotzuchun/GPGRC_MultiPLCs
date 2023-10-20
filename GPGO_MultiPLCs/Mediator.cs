@@ -552,7 +552,6 @@ public sealed class Mediator : ObservableObject
                     Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                     if (ErrorCode is "0")
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK";
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
                         //開啟作業管控功能
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopIngredientsButtonEnabled = true;
@@ -561,7 +560,6 @@ public sealed class Mediator : ObservableObject
                     }
                     else
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  当前没有计划工单";
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  当前没有计划工单 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
                     }
                     TotalVM.PLC_All[TotalVM.PLCIndex].TopAddEnabled = true;
@@ -598,7 +596,6 @@ public sealed class Mediator : ObservableObject
                     Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                     if (ErrorCode is "0")
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK";
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
                         //開啟作業管控功能
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopIngredientsButtonEnabled = true;
@@ -607,7 +604,6 @@ public sealed class Mediator : ObservableObject
                     }
                     else
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  当前没有计划工单";
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  当前没有计划工单 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
                     }
                     TotalVM.PLC_All[TotalVM.PLCIndex].TopAddEnabled = true;
@@ -646,14 +642,12 @@ public sealed class Mediator : ObservableObject
                     Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                     if (ErrorCode is "0")
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:FFF")}  [{methodInvoke}]  OK";
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopNGOutEnabled = false;
                         TotalVM.PLC_All[TotalVM.PLCIndex].BarcodeEnabled = true;
                     }
                     else
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:FFF")}  [{methodInvoke}]  没有空载位";
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  没有空载位 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopOutEnabled = true;
                     }
@@ -688,14 +682,12 @@ public sealed class Mediator : ObservableObject
                     Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                     if (ErrorCode is "0")
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:FFF")}  [{methodInvoke}]  OK";
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopNGOutEnabled = false;
                         TotalVM.PLC_All[TotalVM.PLCIndex].BarcodeEnabled = true;
                     }
                     else
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:FFF")}  [{methodInvoke}]  没有空载位";
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  没有空载位 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopOutEnabled = true;
                     }
@@ -732,16 +724,12 @@ public sealed class Mediator : ObservableObject
                     Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                     if (ErrorCode is "0")
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] OK";
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
-
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopOutEnabled = false;
                     }
                     else
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] 没有空载位";
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  没有空载位 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
-
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopNGOutEnabled = true;
                     }
                 }
@@ -775,16 +763,12 @@ public sealed class Mediator : ObservableObject
                     Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                     if (ErrorCode is "0")
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] OK";
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
-
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopOutEnabled = false;
                     }
                     else
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] 没有空载位";
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  没有空载位 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
-
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopNGOutEnabled = true;
                     }
                 }
@@ -820,25 +804,18 @@ public sealed class Mediator : ObservableObject
                     Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                     if (ErrorCode is "0")
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] OK";
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
-
                     }
                     else if (ErrorCode is "-1")
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] 没有空载位";
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  没有空载位 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
-
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopRetEnabled = true;
                     }
                     else
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] {ErrorMsg}";
                         TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  {ErrorMsg} {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
-
                     }
                     Log.Debug($"methodInvoke:[{methodInvoke}], berthCode:[{input}]");
-
                 }
                 catch (Exception ex)
                 {
@@ -870,25 +847,18 @@ public sealed class Mediator : ObservableObject
                     Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                     if (ErrorCode is "0")
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] OK";
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
-
                     }
                     else if (ErrorCode is "-1")
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] 没有空载位";
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  没有空载位 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
-
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopRetEnabled = true;
                     }
                     else
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] {ErrorMsg}";
                         TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  {ErrorMsg} {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
-
                     }
                     Log.Debug($"methodInvoke:[{methodInvoke}], berthCode:[{input}]");
-
                 }
                 catch (Exception ex)
                 {
@@ -1103,7 +1073,6 @@ public sealed class Mediator : ObservableObject
                         Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                         if (ErrorCode is "0")
                         {
-                            //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK";
                             TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
                             //開啟作業管控功能
                             TotalVM.PLC_All[TotalVM.PLCIndex].IngredientsButtonEnabled = true;
@@ -1112,11 +1081,9 @@ public sealed class Mediator : ObservableObject
                         }
                         else
                         {
-                            //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  当前没有计划工单";
                             TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  当前没有计划工单 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
                         }
                         TotalVM.PLC_All[TotalVM.PLCIndex].AddEnabled = true;
-
                     }
                     catch (Exception ex)
                     {
@@ -1149,7 +1116,6 @@ public sealed class Mediator : ObservableObject
                                 Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                                 if (ErrorCode is "0")
                                 {
-                                    //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK";
                                     TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
                                     //開啟作業管控功能
                                     TotalVM.PLC_All[TotalVM.PLCIndex].IngredientsButtonEnabled = true;
@@ -1158,11 +1124,9 @@ public sealed class Mediator : ObservableObject
                                 }
                                 else
                                 {
-                                    //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  当前没有计划工单";
                                     TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  当前没有计划工单 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
                                 }
                                 TotalVM.PLC_All[TotalVM.PLCIndex].AddEnabled = true;
-
                             }
                             catch (Exception ex)
                             {
@@ -1197,14 +1161,12 @@ public sealed class Mediator : ObservableObject
                         Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                         if (ErrorCode is "0")
                         {
-                            //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:FFF")}  [{methodInvoke}]  OK";
                             TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
                             TotalVM.PLC_All[TotalVM.PLCIndex].NGOutEnabled = false;
                             TotalVM.PLC_All[TotalVM.PLCIndex].BarcodeEnabled = true;
                         }
                         else
                         {
-                            //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:FFF")}  [{methodInvoke}]  没有空载位";
                             TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  没有空载位 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
                             TotalVM.PLC_All[TotalVM.PLCIndex].OutEnabled = true;
                         }
@@ -1239,14 +1201,12 @@ public sealed class Mediator : ObservableObject
                         Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                         if (ErrorCode is "0")
                         {
-                            //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:FFF")}  [{methodInvoke}]  OK";
                             TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
                             TotalVM.PLC_All[TotalVM.PLCIndex].NGOutEnabled = false;
                             TotalVM.PLC_All[TotalVM.PLCIndex].BarcodeEnabled = true;
                         }
                         else
                         {
-                            //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss:FFF")}  [{methodInvoke}]  没有空载位";
                             TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  没有空载位 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
                             TotalVM.PLC_All[TotalVM.PLCIndex].OutEnabled = true;
                         }
@@ -1283,16 +1243,12 @@ public sealed class Mediator : ObservableObject
                     Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                     if (ErrorCode is "0")
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] OK";
                         TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
-
                         TotalVM.PLC_All[TotalVM.PLCIndex].OutEnabled = false;
                     }
                     else
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] 没有空载位";
                         TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  没有空载位 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
-
                         TotalVM.PLC_All[TotalVM.PLCIndex].NGOutEnabled = true;
                     }
                 }
@@ -1326,16 +1282,12 @@ public sealed class Mediator : ObservableObject
                     Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                     if (ErrorCode is "0")
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] OK";
                         TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
-
                         TotalVM.PLC_All[TotalVM.PLCIndex].OutEnabled = false;
                     }
                     else
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] 没有空载位";
                         TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  没有空载位 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
-
                         TotalVM.PLC_All[TotalVM.PLCIndex].NGOutEnabled = true;
                     }
                 }
@@ -1371,25 +1323,18 @@ public sealed class Mediator : ObservableObject
                     Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                     if (ErrorCode is "0")
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] OK";
                         TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
-
                     }
                     else if (ErrorCode is "-1")
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] 没有空载位";
                         TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  没有空载位 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
-
                         TotalVM.PLC_All[TotalVM.PLCIndex].RetEnabled = true;
                     }
                     else
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] {ErrorMsg}";
                         TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  {ErrorMsg} {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
-
                     }
                     Log.Debug($"methodInvoke:[{methodInvoke}], berthCode:[{input}]");
-
                 }
                 catch (Exception ex)
                 {
@@ -1421,25 +1366,18 @@ public sealed class Mediator : ObservableObject
                     Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                     if (ErrorCode is "0")
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] OK";
                         TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
-
                     }
                     else if (ErrorCode is "-1")
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] 没有空载位";
                         TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  没有空载位 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
-
                         TotalVM.PLC_All[TotalVM.PLCIndex].RetEnabled = true;
                     }
                     else
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] {ErrorMsg}";
                         TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  {ErrorMsg} {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
-
                     }
                     Log.Debug($"methodInvoke:[{methodInvoke}], berthCode:[{input}]");
-
                 }
                 catch (Exception ex)
                 {
@@ -1481,17 +1419,13 @@ public sealed class Mediator : ObservableObject
                     Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                     if (ErrorCode is "0")
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] OK";
                         TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
-
                         TotalVM.PLC_All[TotalVM.PLCIndex].OutEnabled = true;
                         TotalVM.PLC_All[TotalVM.PLCIndex].NGOutEnabled = true;
                     }
                     else
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] 加工数据上传失败";
                         TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  加工数据上传失败 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
-
                         Thread.Sleep(AuthenticatorVM.Settings.AVGTime * 1000);
                         TotalVM.PLC_All[TotalVM.PLCIndex].CheckButtonEnabled = true;
                     }
@@ -1534,17 +1468,13 @@ public sealed class Mediator : ObservableObject
                     Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
                     if (ErrorCode is "0")
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] OK";
                         TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
-
                         TotalVM.PLC_All[TotalVM.PLCIndex].OutEnabled = true;
                         TotalVM.PLC_All[TotalVM.PLCIndex].NGOutEnabled = true;
                     }
                     else
                     {
-                        //TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}] 加工数据上传失败";
                         TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  加工数据上传失败 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
-
                         Thread.Sleep(AuthenticatorVM.Settings.AVGTime * 1000);
                         TotalVM.PLC_All[TotalVM.PLCIndex].CheckButtonEnabled = true;
                     }
@@ -1583,17 +1513,13 @@ public sealed class Mediator : ObservableObject
             //if (ErrorCode is "0")
             //{
             //    GetResultData(ResultData, TotalVM.Index, "Bottom");
-            //    TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  配方下发完成";
             //    TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  配方下发完成 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
             //    TotalVM.PLC_All[TotalVM.PLCIndex].AddEnabled = false;
-
             //    TotalVM.PLC_All[TotalVM.PLCIndex].IngredientsButtonEnabled = false;
             //}
             //else
             //{
-            //    TotalVM.MESMessage += $"{Environment.NewLine} {DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  配方下发失败";
             //    TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  配方下发失败 {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage;
-
             //}
             GetResultData(ResultData, TotalVM.Index, "Bottom");
             TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"單純測試用";
@@ -1659,15 +1585,6 @@ public sealed class Mediator : ObservableObject
                     var ResultData = Result.macIntfResult.resultDatak__BackingField;
                     Log.Debug($"Request : methodInvoke:[{methodInvoke}], input:[{input}]");
                     Log.Debug($"Resqponse : ErrorCode:[{ErrorCode}], ErrorMsg:[{ErrorMsg}] , ResultData:[{ResultData}]");
-                    //if (ErrorCode is "0")
-                    //{
-                    //    TotalVM.PLC_All[i].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[i].MESMessage;
-
-                    //}
-                    //else
-                    //{
-                    //    TotalVM.PLC_All[i].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  智能單元狀態数据上传失败 {Environment.NewLine}" + TotalVM.PLC_All[i].MESMessage;
-                    //}
                 }
                 catch (Exception ex)
                 {
@@ -1700,10 +1617,7 @@ public sealed class Mediator : ObservableObject
             }
         };
 
-        LogVM.LogAdded += log =>
-        {
-            TotalVM.InsertMessage(log);
-        };
+        LogVM.LogAdded += log => TotalVM.InsertMessage(log);
 
         _ = Task.Run(() =>
         {
@@ -1716,17 +1630,13 @@ public sealed class Mediator : ObservableObject
         {
             if (e is 0)
             {
-                DetailTopVisibility = Visibility.Visible;
-                DetailBottomVisibility = Visibility.Hidden;
-                EditTopVisibility = Visibility.Visible;
-                EditBottomVisibility = Visibility.Hidden;
+                DetailTopVisibility = EditTopVisibility = Visibility.Visible;
+                DetailBottomVisibility = EditBottomVisibility = Visibility.Hidden;
             }
             else if (e is 1)
             {
-                DetailTopVisibility = Visibility.Hidden;
-                DetailBottomVisibility = Visibility.Visible;
-                EditTopVisibility = Visibility.Hidden;
-                EditBottomVisibility = Visibility.Visible;
+                DetailTopVisibility = EditTopVisibility = Visibility.Hidden;
+                DetailBottomVisibility = EditBottomVisibility = Visibility.Visible;
             }
         };
 
@@ -1937,7 +1847,6 @@ public sealed class Mediator : ObservableObject
                 {
                     UseHeartbeat = IsHeartbeat = false;
                 }
-
             }
         }
         catch (Exception e)

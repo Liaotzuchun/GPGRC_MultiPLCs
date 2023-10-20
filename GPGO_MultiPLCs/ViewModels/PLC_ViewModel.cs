@@ -731,11 +731,11 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                              NotifyPropertyChanged(nameof(EquipmentStatus));
                                              NotifyPropertyChanged(nameof(Progress));
 
-                                             EventHappened?.Invoke((status ? EventType.StatusChanged : EventType.Alarm, DateTime.Now, "Connection Status", string.Empty, status));
-                                             if (IsExecuting)
-                                             {
-                                                 AddProcessEvent((status ? EventType.StatusChanged : EventType.Alarm, DateTime.Now, "Connection Status", string.Empty, status));
-                                             }
+                                             //EventHappened?.Invoke((status ? EventType.StatusChanged : EventType.Alarm, DateTime.Now, "Connection Status", string.Empty, status));
+                                             //if (IsExecuting)
+                                             //{
+                                             //    AddProcessEvent((status ? EventType.StatusChanged : EventType.Alarm, DateTime.Now, "Connection Status", string.Empty, status));
+                                             //}
 
                                              SV_Changed?.Invoke("OnlineStatus", status);
                                              InvokeSECSEvent?.Invoke("OnlineStatusChanged");
@@ -1767,11 +1767,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             {
                 ClearInput("Bottom");
             }
-
             _ = ExecutingFinished?.Invoke(OvenInfo.Copy()!);
-
             NotifyPropertyChanged(nameof(BottomIsExecuting));
-
             await BottomExecutingTask;
         }
     }
