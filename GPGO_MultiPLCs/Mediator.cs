@@ -134,6 +134,11 @@ public sealed class Mediator : ObservableObject
         get => Get<bool>();
         set => Set(value);
     }
+    public bool IsNotHeartbeat
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
     public bool UseHeartbeat
     {
         get => Get<bool>();
@@ -202,6 +207,7 @@ public sealed class Mediator : ObservableObject
         OvenCount = AuthenticatorVM.Settings.OvenCount;
         EditBottomVisibility = Visibility.Hidden;
         DetailBottomVisibility = Visibility.Hidden;
+        IsNotHeartbeat = true;
         Task.Factory.StartNew(ReadMessage, TaskCreationOptions.LongRunning);
         Task.Factory.StartNew(HeartbeatRun);
 
@@ -267,6 +273,15 @@ public sealed class Mediator : ObservableObject
         AuthenticatorVM.BtnHeartBeatEvent += async (e) =>
         {
             IsHeartbeat = UseHeartbeat = e;
+            if (e)
+            {
+                GPServiceHostFunc();
+                IsNotHeartbeat = false;
+            }
+            else
+            {
+                IsNotHeartbeat = true;
+            }
         };
 
         AuthenticatorVM.BtnSaveEvent += async () =>
@@ -644,7 +659,7 @@ public sealed class Mediator : ObservableObject
                     {
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopNGOutEnabled = false;
-                        TotalVM.PLC_All[TotalVM.PLCIndex].BarcodeEnabled = true;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopBarcodeEnabled = true;
                     }
                     else
                     {
@@ -684,7 +699,7 @@ public sealed class Mediator : ObservableObject
                     {
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  OK {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
                         TotalVM.PLC_All[TotalVM.PLCIndex].TopNGOutEnabled = false;
-                        TotalVM.PLC_All[TotalVM.PLCIndex].BarcodeEnabled = true;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopBarcodeEnabled = true;
                     }
                     else
                     {
@@ -813,7 +828,7 @@ public sealed class Mediator : ObservableObject
                     }
                     else
                     {
-                        TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  {ErrorMsg} {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  {ErrorMsg} {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
                     }
                     Log.Debug($"methodInvoke:[{methodInvoke}], berthCode:[{input}]");
                 }
@@ -856,7 +871,7 @@ public sealed class Mediator : ObservableObject
                     }
                     else
                     {
-                        TotalVM.PLC_All[TotalVM.PLCIndex].MESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  {ErrorMsg} {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
+                        TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage = $"{DateTime.Now:yyyy/MM/dd HH:mm:ss:FFF}  [{methodInvoke}]  {ErrorMsg} {Environment.NewLine}" + TotalVM.PLC_All[TotalVM.PLCIndex].TopMESMessage;
                     }
                     Log.Debug($"methodInvoke:[{methodInvoke}], berthCode:[{input}]");
                 }
@@ -967,7 +982,25 @@ public sealed class Mediator : ObservableObject
                 }
             });
         };
-        #endregion        
+        #endregion
+        #region Local
+        TotalVM.PLC_All[0].TopLocalIngredientsevent += async () =>
+        {
+            TotalVM.PLC_All[TotalVM.PLCIndex].TopWorkOrder = TotalVM.PLC_All[TotalVM.PLCIndex].TopLocalLot;
+            TotalVM.PLC_All[TotalVM.PLCIndex].TopPartID = TotalVM.PLC_All[TotalVM.PLCIndex].TopLocalPartID;
+            TotalVM.PLC_All[TotalVM.PLCIndex].TopProcessID = TotalVM.PLC_All[TotalVM.PLCIndex].TopLocalProcessID;
+            TotalVM.PLC_All[TotalVM.PLCIndex].TopPanelCount = TotalVM.PLC_All[TotalVM.PLCIndex].TopLocalPanelCount;
+            TotalVM.PLC_All[TotalVM.PLCIndex].TopRecipeID = TotalVM.PLC_All[TotalVM.PLCIndex].TopLocalRecipe;
+        };
+        TotalVM.PLC_All[1].TopLocalIngredientsevent += async () =>
+        {
+            TotalVM.PLC_All[TotalVM.PLCIndex].TopWorkOrder = TotalVM.PLC_All[TotalVM.PLCIndex].TopLocalLot;
+            TotalVM.PLC_All[TotalVM.PLCIndex].TopPartID = TotalVM.PLC_All[TotalVM.PLCIndex].TopLocalPartID;
+            TotalVM.PLC_All[TotalVM.PLCIndex].TopProcessID = TotalVM.PLC_All[TotalVM.PLCIndex].TopLocalProcessID;
+            TotalVM.PLC_All[TotalVM.PLCIndex].TopPanelCount = TotalVM.PLC_All[TotalVM.PLCIndex].TopLocalPanelCount;
+            TotalVM.PLC_All[TotalVM.PLCIndex].TopRecipeID = TotalVM.PLC_All[TotalVM.PLCIndex].TopLocalRecipe;
+        };
+        #endregion
         #region 掃碼工單號
         TotalVM.PLC_All[0].TopIngredientsevent += async () =>
         {
@@ -1487,6 +1520,24 @@ public sealed class Mediator : ObservableObject
             });
         };
         #endregion
+        #region Local
+        TotalVM.PLC_All[0].LocalIngredientsevent += async () =>
+        {
+            TotalVM.PLC_All[TotalVM.PLCIndex].WorkOrder = TotalVM.PLC_All[TotalVM.PLCIndex].BottomLocalLot;
+            TotalVM.PLC_All[TotalVM.PLCIndex].PartID = TotalVM.PLC_All[TotalVM.PLCIndex].BottomLocalPartID;
+            TotalVM.PLC_All[TotalVM.PLCIndex].ProcessID = TotalVM.PLC_All[TotalVM.PLCIndex].BottomLocalProcessID;
+            TotalVM.PLC_All[TotalVM.PLCIndex].PanelCount = TotalVM.PLC_All[TotalVM.PLCIndex].BottomLocalPanelCount;
+            TotalVM.PLC_All[TotalVM.PLCIndex].RecipeID = TotalVM.PLC_All[TotalVM.PLCIndex].BottomLocalRecipe;
+        };
+        TotalVM.PLC_All[1].LocalIngredientsevent += async () =>
+        {
+            TotalVM.PLC_All[TotalVM.PLCIndex].WorkOrder = TotalVM.PLC_All[TotalVM.PLCIndex].BottomLocalLot;
+            TotalVM.PLC_All[TotalVM.PLCIndex].PartID = TotalVM.PLC_All[TotalVM.PLCIndex].BottomLocalPartID;
+            TotalVM.PLC_All[TotalVM.PLCIndex].ProcessID = TotalVM.PLC_All[TotalVM.PLCIndex].BottomLocalProcessID;
+            TotalVM.PLC_All[TotalVM.PLCIndex].PanelCount = TotalVM.PLC_All[TotalVM.PLCIndex].BottomLocalPanelCount;
+            TotalVM.PLC_All[TotalVM.PLCIndex].RecipeID = TotalVM.PLC_All[TotalVM.PLCIndex].BottomLocalRecipe;
+        };
+        #endregion
         #region 掃碼工單號
         TotalVM.PLC_All[0].Ingredientsevent += async () =>
         {
@@ -1828,7 +1879,6 @@ public sealed class Mediator : ObservableObject
         return doc.InnerXml.ToString();
     }
 
-
     private void HeartbeatRun()
     {
         try
@@ -1884,8 +1934,8 @@ public sealed class Mediator : ObservableObject
         mTcpClient.ReceiveTimeout = 1000;
         mTcpClient.SendTimeout = 1000;
         mTcpClient.BeginConnect(IPAddress.Parse(hostIP), port, mCallBackMsgFun, null);
-
     }
+
     private void ReadMessage()
     {
         var testingByte = new byte[1];
@@ -1956,7 +2006,6 @@ public sealed class Mediator : ObservableObject
         _streamFromServer.WriteAsync(dataOutStream, 0, dataOutStream.Length);
         _streamFromServer.Flush();
     }
-
 
     public void GetResultData(string Data, int PLCindex, string IsToporBottom)
     {
@@ -2037,7 +2086,6 @@ public sealed class Mediator : ObservableObject
                 }
             }
         }
-
     }
 
     #region 產生測試資料

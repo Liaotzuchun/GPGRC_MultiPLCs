@@ -76,9 +76,9 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
 
     [OrderIndex(3)]
     [LanguageTranslator("Used Step Counts", "使用段數", "使用段数")]
-    public short SegmentCounts
+    public int SegmentCounts
     {
-        get => Get<short>();
+        get => Get<int>();
         set
         {
             if (value > SegmentCounts_Max)
@@ -3083,24 +3083,18 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
                                                             { nameof(DwellTemperature_4), DwellTemperature_4 },
                                                             { nameof(DwellTemperature_5), DwellTemperature_5 },
                                                             { nameof(DwellTemperature_6), DwellTemperature_6 },
-                                                            { nameof(DwellTemperature_7), DwellTemperature_7 },
-                                                            { nameof(DwellTemperature_8), DwellTemperature_8 },
                                                             { nameof(DwellTime_1),  DwellTime_1 },
                                                             { nameof(DwellTime_2),  DwellTime_2 },
                                                             { nameof(DwellTime_3),  DwellTime_3 },
                                                             { nameof(DwellTime_4),  DwellTime_4 },
                                                             { nameof(DwellTime_5),  DwellTime_5 },
                                                             { nameof(DwellTime_6),  DwellTime_6 },
-                                                            { nameof(DwellTime_7),  DwellTime_7 },
-                                                            { nameof(DwellTime_8),  DwellTime_8 },
                                                             { nameof(DwellAlarm_1), DwellAlarm_1 },
                                                             { nameof(DwellAlarm_2), DwellAlarm_2 },
                                                             { nameof(DwellAlarm_3), DwellAlarm_3 },
                                                             { nameof(DwellAlarm_4), DwellAlarm_4 },
                                                             { nameof(DwellAlarm_5), DwellAlarm_5 },
                                                             { nameof(DwellAlarm_6), DwellAlarm_6 },
-                                                            { nameof(DwellAlarm_7), DwellAlarm_7 },
-                                                            { nameof(DwellAlarm_8), DwellAlarm_8 },
                                                             { nameof(CoolingTime), CoolingTime },
                                                             { nameof(CoolingTemperature), CoolingTemperature },
                                                             { nameof(RampTime_1), RampTime_1 },
@@ -3109,24 +3103,18 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
                                                             { nameof(RampTime_4), RampTime_4 },
                                                             { nameof(RampTime_5), RampTime_5 },
                                                             { nameof(RampTime_6), RampTime_6 },
-                                                            { nameof(RampTime_7), RampTime_7 },
-                                                            { nameof(RampTime_8), RampTime_8 },
                                                             { nameof(RampAlarm_1), RampAlarm_1 },
                                                             { nameof(RampAlarm_2), RampAlarm_2 },
                                                             { nameof(RampAlarm_3), RampAlarm_3 },
                                                             { nameof(RampAlarm_4), RampAlarm_4 },
                                                             { nameof(RampAlarm_5), RampAlarm_5 },
                                                             { nameof(RampAlarm_6), RampAlarm_6 },
-                                                            { nameof(RampAlarm_7), RampAlarm_7 },
-                                                            { nameof(RampAlarm_8), RampAlarm_8 },
                                                             { nameof(TemperatureSetpoint_1), TemperatureSetpoint_1 },
                                                             { nameof(TemperatureSetpoint_2), TemperatureSetpoint_2 },
                                                             { nameof(TemperatureSetpoint_3), TemperatureSetpoint_3 },
                                                             { nameof(TemperatureSetpoint_4), TemperatureSetpoint_4 },
                                                             { nameof(TemperatureSetpoint_5), TemperatureSetpoint_5 },
                                                             { nameof(TemperatureSetpoint_6), TemperatureSetpoint_6 },
-                                                            { nameof(TemperatureSetpoint_7), TemperatureSetpoint_7 },
-                                                            { nameof(TemperatureSetpoint_8), TemperatureSetpoint_8 },
                                                             { nameof(DwellTimeOffset_1), DwellTimeOffset_1 },
                                                             { nameof(DwellTimeOffset_2), DwellTimeOffset_2 },
                                                             { nameof(DwellTimeOffset_3), DwellTimeOffset_3 },

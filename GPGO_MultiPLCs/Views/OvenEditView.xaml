@@ -17,7 +17,7 @@
     <UserControl.Resources>
         <local:EqualBrush x:Key="EqualBrush" />
     </UserControl.Resources>
-    <Grid>
+    <Grid IsEnabled="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=1, Mode=OneWay}">
         <!--上-->
         <Grid Grid.Row="0"
               Grid.Column="1"
@@ -38,10 +38,16 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
                 <GroupBox Header="MES"
+                          Margin="6,6,6,6"
                           IsEnabled="{Binding IsHeartbeat , Source={StaticResource Mediator},Mode=OneWay}">
                     <Grid>
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
@@ -116,8 +122,6 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="0.5*" />
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="0.5*" />
-                                    <ColumnDefinition Width="0.5*" />
                                 </Grid.ColumnDefinitions>
                                 <Border Grid.Column="0"
                                         Background="{StaticResource WindowBackgroundBrush2}"
@@ -132,29 +136,169 @@
                                          FontSize="22"
                                          IsEnabled="{Binding TopBarcodeEnabled , Mode=TwoWay}"
                                          Text="{Binding TopBarcode , Mode=TwoWay}" />
-                                <Button Grid.Column="2"
-                                        IsEnabled="{Binding TopIngredientsButtonEnabled}">
-                                    <TextBlock Text="{DynamicResource 確認}"></TextBlock>
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding TopIngredients, Mode=OneTime}" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Button>
-                                <Button Grid.Column="3"
-                                        IsEnabled="{Binding TopIngredientsButtonEnabled}">
-                                    <TextBlock Text="{DynamicResource 清除}"></TextBlock>
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding TopCleanWO, Mode=OneTime}" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Button>
+                                
                             </Grid>
+                        </Grid>
+                        <Grid Grid.Row="2"
+                              Grid.ColumnSpan="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0"
+                                    IsEnabled="{Binding TopIngredientsButtonEnabled}">
+                                <TextBlock Text="{DynamicResource 確認}"></TextBlock>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding TopIngredients, Mode=OneTime}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                            <Button Grid.Column="1"
+                                    IsEnabled="{Binding TopIngredientsButtonEnabled}">
+                                <TextBlock Text="{DynamicResource 清除}"></TextBlock>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding TopCleanWO, Mode=OneTime}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="離線模式"
+                          Grid.Column="1"
+                          Margin="6,6,6,6"
+                          IsEnabled="{Binding IsNotHeartbeat , Source={StaticResource Mediator},Mode=OneWay}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0"
+                              Grid.ColumnSpan="2">
+                            <Grid Grid.Row="1"
+                                  Grid.Column="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.5*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0"
+                                        Background="{StaticResource WindowBackgroundBrush2}"
+                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                        BorderThickness="1,1,0,1">
+                                    <TextBlock HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Text="{DynamicResource 工單ID}" />
+                                </Border>
+                                <TextBox Grid.Column="1"
+                                         BorderThickness="1,0,1,1"
+                                         FontSize="22"
+                                         Text="{Binding TopLocalLot , Mode=TwoWay}" />
+                            </Grid>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.5*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                    BorderThickness="1,1,0,1">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="{DynamicResource 物资编码}" />
+                            </Border>
+                            <TextBox Grid.Column="1"
+                                     BorderThickness="1,0,1,1"
+                                     FontSize="22"
+                                     Text="{Binding TopLocalPartID , Mode=TwoWay}" />
+                        </Grid> 
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.5*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                    BorderThickness="1,1,0,1">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="{DynamicResource 工序代碼}" />
+                            </Border>
+                            <TextBox Grid.Column="1"
+                                     BorderThickness="1,0,1,1"
+                                     FontSize="22"
+                                     Text="{Binding TopLocalProcessID , Mode=TwoWay}" />
+                        </Grid>
+                         <Grid Grid.Row="3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.5*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                    BorderThickness="1,1,0,1">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="{DynamicResource 計畫加工板數}" />
+                            </Border>
+                            <TextBox Grid.Column="1"
+                                     BorderThickness="1,0,1,1"
+                                     FontSize="22"
+                                     Text="{Binding TopLocalPanelCount , Mode=TwoWay}" />
+                        </Grid>
+                         <Grid Grid.Row="4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.5*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                    BorderThickness="1,1,0,1">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="{DynamicResource 配方}" />
+                            </Border>
+                            <TextBox Grid.Column="1"
+                                     BorderThickness="1,0,1,1"
+                                     FontSize="22"
+                                     Text="{Binding TopLocalRecipe , Mode=TwoWay}" />
+                        </Grid>
+                        <Grid Grid.Row="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0">
+                                <TextBlock Text="{DynamicResource 確認}"></TextBlock>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding TopLocalIngredients, Mode=OneTime}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                            <Button Grid.Column="1">
+                                <TextBlock Text="{DynamicResource 清除}"></TextBlock>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding TopLocalCleanWO, Mode=OneTime}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
                         </Grid>
                     </Grid>
                 </GroupBox>
                 <GroupBox Grid.Row="4"
+                          Grid.ColumnSpan="2"
                           Grid.RowSpan="2"
                           FontSize="16"
                           FontWeight="Bold"
@@ -987,14 +1131,20 @@
                 <RowDefinition Height="1.2*" />
             </Grid.RowDefinitions>
             <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <GroupBox Header="MES"
+                          Margin="6,6,6,6"
                           IsEnabled="{Binding IsHeartbeat , Source={StaticResource Mediator},Mode=OneWay}">
                     <Grid>
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
@@ -1068,10 +1218,9 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="0.5*" />
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="0.5*" />
-                                    <ColumnDefinition Width="0.5*" />
                                 </Grid.ColumnDefinitions>
                                 <Border Grid.Column="0"
+
                                         Background="{StaticResource WindowBackgroundBrush2}"
                                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                         BorderThickness="1,1,0,1">
@@ -1084,30 +1233,168 @@
                                          FontSize="22"
                                          IsEnabled="{Binding BarcodeEnabled , Mode=TwoWay}"
                                          Text="{Binding Barcode , Mode=TwoWay}" />
-                                <Button Grid.Column="2"
-                                        IsEnabled="{Binding IngredientsButtonEnabled}">
-                                    <TextBlock Text="{DynamicResource 確認}"></TextBlock>
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding Ingredients, Mode=OneTime}" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Button>
-                                <Button Grid.Column="3"
-                                        IsEnabled="{Binding IngredientsButtonEnabled}">
-                                    <TextBlock Text="{DynamicResource 清除}"></TextBlock>
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding CleanWO, Mode=OneTime}" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Button>
                             </Grid>
+                        </Grid>
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0"
+                                    IsEnabled="{Binding IngredientsButtonEnabled}">
+                                <TextBlock Text="{DynamicResource 確認}"></TextBlock>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding Ingredients, Mode=OneTime}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                            <Button Grid.Column="1"
+                                    IsEnabled="{Binding IngredientsButtonEnabled}">
+                                <TextBlock Text="{DynamicResource 清除}"></TextBlock>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding CleanWO, Mode=OneTime}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="離線模式"
+                          Grid.Column="1"
+                          Margin="6,6,6,6"
+                          IsEnabled="{Binding IsNotHeartbeat , Source={StaticResource Mediator},Mode=OneWay}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0"
+                              Grid.ColumnSpan="2">
+                            <Grid Grid.Row="1"
+                                  Grid.Column="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.5*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0"
+                                        Background="{StaticResource WindowBackgroundBrush2}"
+                                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                        BorderThickness="1,1,0,1">
+                                    <TextBlock HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Text="{DynamicResource 工單ID}" />
+                                </Border>
+                                <TextBox Grid.Column="1"
+                                         BorderThickness="1,0,1,1"
+                                         FontSize="22"
+                                         Text="{Binding BottomLocalLot , Mode=TwoWay}" />
+                            </Grid>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.5*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                    BorderThickness="1,1,0,1">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="{DynamicResource 物资编码}" />
+                            </Border>
+                            <TextBox Grid.Column="1"
+                                     BorderThickness="1,0,1,1"
+                                     FontSize="22"
+                                     Text="{Binding BottomLocalPartID , Mode=TwoWay}" />
+                        </Grid>
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.5*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                    BorderThickness="1,1,0,1">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="{DynamicResource 工序代碼}" />
+                            </Border>
+                            <TextBox Grid.Column="1"
+                                     BorderThickness="1,0,1,1"
+                                     FontSize="22"
+                                     Text="{Binding BottomLocalProcessID , Mode=TwoWay}" />
+                        </Grid>
+                        <Grid Grid.Row="3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.5*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                    BorderThickness="1,1,0,1">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="{DynamicResource 計畫加工板數}" />
+                            </Border>
+                            <TextBox Grid.Column="1"
+                                     BorderThickness="1,0,1,1"
+                                     FontSize="22"
+                                     Text="{Binding BottomLocalPanelCount , Mode=TwoWay}" />
+                        </Grid>
+                        <Grid Grid.Row="4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.5*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                    BorderThickness="1,1,0,1">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="{DynamicResource 配方}" />
+                            </Border>
+                            <TextBox Grid.Column="1"
+                                     BorderThickness="1,0,1,1"
+                                     FontSize="22"
+                                     Text="{Binding BottomLocalRecipe , Mode=TwoWay}" />
+                        </Grid>
+                        <Grid Grid.Row="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0">
+                                <TextBlock Text="{DynamicResource 確認}"></TextBlock>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding BottomLocalIngredients, Mode=OneTime}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                            <Button Grid.Column="1">
+                                <TextBlock Text="{DynamicResource 清除}"></TextBlock>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding BottomLocalCleanWO, Mode=OneTime}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
                         </Grid>
                     </Grid>
                 </GroupBox>
                 <GroupBox Grid.Row="4"
                           Grid.RowSpan="2"
+                          Grid.ColumnSpan="2"
                           FontSize="16"
                           FontWeight="Bold"
                           Margin="0,0,0,2">

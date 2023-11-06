@@ -59,6 +59,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public RelayCommand TopCheckButton { get; }
     public RelayCommand TopTaskControl { get; }
     public RelayCommand TopIngredients { get; }
+    public RelayCommand TopLocalIngredients { get; }
+    public RelayCommand TopLocalCleanWO { get; }
     public RelayCommand TopCleanWO { get; }
     public RelayCommand TopDataUpload { get; }
 
@@ -66,6 +68,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public event Func<Task> TopOutAGVevent;
     public event Func<Task> TopNGOutAGVevent;
     public event Func<Task> TopRetAGVevent;
+    public event Func<Task> TopLocalIngredientsevent;
     public event Action<int> TopDataUploadevent;
     public event Func<Task> TopIngredientsevent;
     public event Func<Task> TopTaskControlevent;
@@ -145,12 +148,27 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         get => Get<string>() ?? string.Empty;
         set => Set(value);
     }
+    public string TopLocalPartID
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string TopLocalProcessID
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
     public string TopProcessID
     {
         get => Get<string>() ?? string.Empty;
         set => Set(value);
     }
     public string TopPanelCount
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string TopLocalPanelCount
     {
         get => Get<string>() ?? string.Empty;
         set => Set(value);
@@ -165,6 +183,41 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         get => Get<string>() ?? string.Empty;
         set => Set(value);
     }
+    public string TopLocalLot
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string TopLocalRecipe
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string BottomLocalLot
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string BottomLocalPartID
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string BottomLocalProcessID
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string BottomLocalPanelCount
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string BottomLocalRecipe
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
     #endregion
     #region Bottom
     public RelayCommand AddAGV { get; }
@@ -174,6 +227,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public RelayCommand TaskControl { get; }
     public RelayCommand Ingredients { get; }
     public RelayCommand CleanWO { get; }
+    public RelayCommand BottomLocalIngredients { get; }
+    public RelayCommand BottomLocalCleanWO { get; }
     public RelayCommand CheckButton { get; }
     public RelayCommand DataUpload { get; }
     public event Func<Task> AddAGVevent;
@@ -182,6 +237,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public event Func<Task> RetAGVevent;
     public event Action<int> DataUploadevent;
     public event Func<Task> Ingredientsevent;
+    public event Func<Task> LocalIngredientsevent;
     public event Func<Task> TaskControlevent;
     public bool AddEnabled
     {
@@ -606,8 +662,9 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             TopTaskControlevent?.Invoke();
         });
 
-        TopIngredients = new RelayCommand(_ =>
+        TopIngredients = new RelayCommand(async _ =>
         {
+
             if (TopBarcode is null or "")
             {
                 dialog.Show(new Dictionary<Language, string>
@@ -626,12 +683,110 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                                             });
                 return;
             }
+            if (IsRbRun == 1)
+            {
+                dialog.Show(new Dictionary<Language, string>
+                                                                            {
+                                                                                { Language.TW,  "機器人搬運中，請稍後" },
+                                                                                { Language.CHS, "机器人搬运中，请稍后" }
+                                                                            });
+                return;
+            }
+            var a = await dialog.Show(new Dictionary<Language, string>
+                                                                            {
+                                                                                { Language.TW, "請確認是否執行" },
+                                                                                { Language.CHS, "请确认是否执行" }
+                                                                            },
+                                                                            true);
+            if (!a)
+            {
+                return;
+            }
+
             TopIngredientsevent?.Invoke();
             var recipe = TopRecipeID;
             var part = TopPartID;
             var panelcount = Convert.ToInt32(TopPanelCount);
             var lot = TopWorkOrder;
-            //寫入配方就開門
+            TopWebRecipetoPLC(recipe, part, lot, panelcount);
+        });
+
+        TopLocalIngredients = new RelayCommand(async _ =>
+        {
+            if (TopLocalLot is null or "")
+            {
+                dialog.Show(new Dictionary<Language, string>
+                                                                            {
+                                                                                { Language.TW,  "請刷入工單號！" },
+                                                                                { Language.CHS, "请刷入工单号！" }
+                                                                            });
+                return;
+            }
+            if (TopLocalRecipe is null or "")
+            {
+                dialog.Show(new Dictionary<Language, string>
+                                                                            {
+                                                                                { Language.TW,  "請輸入配方！" },
+                                                                                { Language.CHS, "请输入配方！" }
+                                                                            });
+                return;
+            }
+            if (TopLocalPartID is null or "")
+            {
+                dialog.Show(new Dictionary<Language, string>
+                                                                            {
+                                                                                { Language.TW,  "請輸入物资编码！" },
+                                                                                { Language.CHS, "请输入物资编码！" }
+                                                                            });
+                return;
+            }
+            if (TopLocalPanelCount is null or "")
+            {
+                dialog.Show(new Dictionary<Language, string>
+                                                                            {
+                                                                                { Language.TW,  "請輸入計畫加工板數！" },
+                                                                                { Language.CHS, "请输入計畫加工板數！" }
+                                                                            });
+                return;
+            }
+            try
+            {
+                var check = Convert.ToInt32(TopLocalPanelCount);
+            }
+            catch
+            {
+                dialog.Show(new Dictionary<Language, string>
+                                                                            {
+                                                                                { Language.TW,  "板數輸入錯誤！" },
+                                                                                { Language.CHS, "板数输入错误！" }
+                                                                            });
+                return;
+            }
+            if (OvenInfo.TopTempProducts.Count > 0)
+            {
+                dialog.Show(new Dictionary<Language, string>
+                                                                            {
+                                                                               { Language.TW, "列表已有刷入工單" },
+                                                                                 { Language.CHS, "列表已有刷入工单" }
+                                                                            });
+                return;
+            }
+
+            var a = await dialog.Show(new Dictionary<Language, string>
+                                                                            {
+                                                                                { Language.TW, "請確認是否執行" },
+                                                                                { Language.CHS, "请确认是否执行" }
+                                                                            },
+                                                                            true);
+            if (!a)
+            {
+                return;
+            }
+            TopLocalIngredientsevent?.Invoke();
+            var recipe = TopLocalRecipe;
+            var lot = TopLocalLot;
+            var part = TopLocalPartID;
+            var panelcount = Convert.ToInt32(TopLocalPanelCount);
             TopWebRecipetoPLC(recipe, part, lot, panelcount);
         });
 
@@ -641,6 +796,16 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             TopAddEnabled = true;
             OvenInfo.TopTempProducts.Remove(1);
         });
+
+        TopLocalCleanWO = new RelayCommand(_ =>
+        {
+            TopLocalLot = "";
+            TopLocalRecipe = "";
+            TopLocalProcessID = "";
+            TopLocalPartID = "";
+            TopLocalPanelCount = "";
+        });
+
         TopCheckButton = new RelayCommand(_ =>
         {
             TopCheckButtonEnabled = false;
@@ -681,7 +846,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             TaskControlevent?.Invoke();
         });
 
-        Ingredients = new RelayCommand(_ =>
+        Ingredients = new RelayCommand(async _ =>
         {
             if (Barcode is null or "")
             {
@@ -701,11 +866,112 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                                             });
                 return;
             }
+
+            if (IsRbRun == 1)
+            {
+                dialog.Show(new Dictionary<Language, string>
+                                                                            {
+                                                                                { Language.TW,  "機器人搬運中，請稍後" },
+                                                                                { Language.CHS, "机器人搬运中，请稍后" }
+                                                                            });
+                return;
+            }
+            var a = await dialog.Show(new Dictionary<Language, string>
+                                                                            {
+                                                                                { Language.TW, "請確認是否執行" },
+                                                                                { Language.CHS, "请确认是否执行" }
+                                                                            },
+                                                                            true);
+            if (!a)
+            {
+                return;
+            }
             Ingredientsevent?.Invoke();
             var recipe = RecipeID;
             var part = PartID;
             var panelcount = Convert.ToInt32(PanelCount);
             var lot = WorkOrder;
+            WebRecipetoPLC(recipe, part, lot, panelcount);
+        });
+
+        BottomLocalIngredients = new RelayCommand(async _ =>
+        {
+            if (BottomLocalLot is null or "")
+            {
+                dialog.Show(new Dictionary<Language, string>
+                                                                            {
+                                                                                { Language.TW,  "請刷入工單號！" },
+                                                                                { Language.CHS, "请刷入工单号！" }
+                                                                            });
+                return;
+            }
+            if (BottomLocalRecipe is null or "")
+            {
+                dialog.Show(new Dictionary<Language, string>
+                                                                            {
+                                                                                { Language.TW,  "請輸入配方！" },
+                                                                                { Language.CHS, "请输入配方！" }
+                                                                            });
+                return;
+            }
+            if (BottomLocalPartID is null or "")
+            {
+                dialog.Show(new Dictionary<Language, string>
+                                                                            {
+                                                                                { Language.TW,  "請輸入物资编码！" },
+                                                                                { Language.CHS, "请输入物资编码！" }
+                                                                            });
+                return;
+            }
+            if (BottomLocalPanelCount is null or "")
+            {
+                dialog.Show(new Dictionary<Language, string>
+                                                                            {
+                                                                                { Language.TW,  "請輸入計畫加工板數！" },
+                                                                                { Language.CHS, "请输入計畫加工板數！" }
+                                                                            });
+                return;
+            }
+            try
+            {
+                var check = Convert.ToInt32(BottomLocalPanelCount);
+            }
+            catch
+            {
+                dialog.Show(new Dictionary<Language, string>
+                                                                            {
+                                                                                { Language.TW,  "板數輸入錯誤！" },
+                                                                                { Language.CHS, "板数输入错误！" }
+                                                                            });
+                return;
+            }
+            if (OvenInfo.TempProducts.Count > 0)
+            {
+                dialog.Show(new Dictionary<Language, string>
+                                                                            {
+                                                                               { Language.TW, "列表已有刷入工單" },
+                                                                                 { Language.CHS, "列表已有刷入工单" }
+                                                                            });
+                return;
+            }
+
+            var a = await dialog.Show(new Dictionary<Language, string>
+                                                                            {
+                                                                                { Language.TW, "請確認是否執行" },
+                                                                                { Language.CHS, "请确认是否执行" }
+                                                                            },
+                                                                            true);
+            if (!a)
+            {
+                return;
+            }
+
+            LocalIngredientsevent?.Invoke();
+
+            var recipe = BottomLocalRecipe;
+            var lot = BottomLocalLot;
+            var part = BottomLocalPartID;
+            var panelcount = Convert.ToInt32(BottomLocalPanelCount);
             WebRecipetoPLC(recipe, part, lot, panelcount);
         });
 
@@ -715,6 +981,15 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             AddEnabled = true;
             OvenInfo.TempProducts.Remove(1);
         });
+        BottomLocalCleanWO = new RelayCommand(_ =>
+        {
+            BottomLocalLot = "";
+            BottomLocalRecipe = "";
+            BottomLocalProcessID = "";
+            BottomLocalPartID = "";
+            BottomLocalPanelCount = "";
+        });
+
         CheckButton = new RelayCommand(_ =>
         {
             CheckButtonEnabled = false;
@@ -977,6 +1252,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                         BottomAutoMode_Start = false;
                                         _ = BottomStopPP();
                                     }
+
                                 }
                                 else if (value is short sv)
                                 {
@@ -1043,6 +1319,19 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                         SetWithOutNotifyWhenEquals(sv == 8, nameof(ProgramStop));
                                         //SetWithOutNotifyWhenEquals(sv == 9, nameof(AutoMode));
                                         SetWithOutNotifyWhenEquals(sv == 10, nameof(Inflating));
+                                    }
+                                }
+                                else
+                                {
+                                    if (name == nameof(IsRbRun))
+                                    {
+                                        if (value.ToString() == "0")
+                                        {
+                                            if (nameof(OvenNum).ToString() == "1" || nameof(OvenNum).ToString() == "3")
+                                                Set(true, nameof(TopAutoMode_Start));
+                                            else
+                                                Set(true, nameof(BottomAutoMode_Start));
+                                        }
                                     }
                                 }
                             }
@@ -1143,7 +1432,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         {
             AutoMode = true;
         }
-        return result;
+        return SetRecipeResult.成功;
     }
     public async Task<SetRecipeResult> BottomWriteRecipeToPlcAsync(PLC_Recipe recipe)
     {
@@ -1619,12 +1908,20 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                         });
                 return;
             }
-            _ = SetRecipeAsync(recipe, "Bottom");
+            var a   = SetRecipeAsync(recipe, "Bottom");
+
             AddLOT(part, lot, panelcount);
-            //開門
-            Set(true, nameof(BottomDoorOpen));
+
             Set(lot, nameof(BottomLotID));
             Set(panelcount, nameof(BottomQuantity));
+
+            //手臂需填入資料
+            double sOvenNum = PLCIndex == 0 ? 2 : 4;
+            double RbRunOn = 1;
+
+            Set(lot, nameof(RbLotID));
+            Set(sOvenNum, nameof(OvenNum));
+            Set(RbRunOn, nameof(RbRun));
         }
         catch (Exception ex)
         {
@@ -1652,10 +1949,17 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             }
             _ = SetRecipeAsync(recipe, "Top");
             TopAddLOT(part, lot, panelcount);
-            //開門
-            Set(true, nameof(TopDoorOpen));
+
             Set(lot, nameof(TopLotID));
             Set(panelcount, nameof(TopQuantity));
+
+            //手臂需填入資料
+            double sOvenNum = PLCIndex == 0 ? 1 : 3;
+            double RbRunOn = 1;
+
+            Set(lot, nameof(RbLotID));
+            Set(sOvenNum, nameof(OvenNum));
+            Set(RbRunOn, nameof(RbRun));
         }
         catch (Exception ex)
         {
@@ -1869,6 +2173,15 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             {
                 RecipeChangeError = true;
             }
+        }
+        if (RecipeChangeError)
+        {
+            Dialog.Show(new Dictionary<Language, string>
+                        {
+                            { Language.TW, "配方切換失敗" },
+                            { Language.CHS, "配方切换失敗" }
+                        });
+            return SetRecipeResult.比對不相符;
         }
         Dialog.Show(new Dictionary<Language, string>
                         {
