@@ -40,8 +40,9 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="0" />
                             <RowDefinition />
-                            <RowDefinition />
+                            <RowDefinition Height="0"/>
                             <RowDefinition />
                             <RowDefinition />
                             <RowDefinition />
@@ -50,14 +51,13 @@
                             <RowDefinition />
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <ToggleButton Grid.Row="0"
-                                      Grid.Column="0"
-                                      Grid.ColumnSpan="2"
+                        <!--<ToggleButton Grid.Row="1"
+                                      Grid.Column="7"
                                       Content="{DynamicResource 氮氣模式}"
                                       FontSize="18"
                                       IsChecked="{Binding NitrogenMode, Mode=TwoWay}"
-                                      Style="{StaticResource ToggleSwitch}" />
-                        <Border Grid.Row="0"
+                                      Style="{StaticResource ToggleSwitch}" />-->
+                        <!--<Border Grid.Row="0"
                                 Grid.Column="2"
                                 Background="{StaticResource WindowBackgroundBrush2}"
                                 BorderThickness="0,1,1,1"
@@ -111,7 +111,7 @@
                                                       Min="0.1"
                                                       Text="{Binding OxygenContentSet, Mode=TwoWay}" />
                             </views:SpinControl>
-                        </Border>
+                        </Border>-->
                         <Border Grid.Row="1"
                                 Grid.Column="0"
                                 Background="{StaticResource WindowBackgroundBrush2}"
@@ -157,7 +157,7 @@
                                                Minimum="{Binding CoolingTemperature_Min, Mode=OneWay}"
                                                Value="{Binding CoolingTemperature, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                                    <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding CoolingTemperature_Max, Mode=OneWay}"
@@ -198,12 +198,18 @@
                                 Background="Transparent"
                                 BorderThickness="0,1,1,1"
                                 Style="{StaticResource ValueBorder}" />
+                        <Border Grid.Row="3"
+                                Grid.RowSpan="2"
+                                Grid.Column="0"
+                                Background="Transparent"
+                                BorderThickness="0,1,1,1"
+                                Style="{StaticResource ValueBorder}" />
                         <Border Grid.Row="2"
                                 Grid.Column="0"
                                 Background="{StaticResource WindowBackgroundBrush2}"
                                 BorderThickness="1,0,1,1"
                                 Style="{StaticResource ValueBorder}" />
-                        <Border Grid.Row="2"
+                        <Border Grid.Row="3"
                                 Grid.Column="1"
                                 Background="{StaticResource WindowBackgroundBrush2}"
                                 BorderThickness="0,0,1,1"
@@ -214,7 +220,7 @@
                                 <Run Text="(°C)" />
                             </TextBlock>
                         </Border>
-                        <Border Grid.Row="2"
+                        <Border Grid.Row="3"
                                 Grid.Column="2"
                                 Background="{StaticResource WindowBackgroundBrush2}"
                                 BorderThickness="0,0,1,1"
@@ -225,7 +231,7 @@
                                 <Run Text="(" /><Run Text="{DynamicResource 分}" /><Run Text=")" />
                             </TextBlock>
                         </Border>
-                        <Border Grid.Row="2"
+                        <Border Grid.Row="3"
                                 Grid.Column="3"
                                 Background="{StaticResource WindowBackgroundBrush2}"
                                 BorderThickness="0,0,1,1"
@@ -236,7 +242,7 @@
                                 <Run Text="(" /><Run Text="{DynamicResource 分}" /><Run Text=")" />
                             </TextBlock>
                         </Border>
-                        <Border Grid.Row="2"
+                        <Border Grid.Row="3"
                                 Grid.Column="4"
                                 Background="{StaticResource WindowBackgroundBrush2}"
                                 BorderThickness="0,0,1,1"
@@ -247,7 +253,7 @@
                                 <Run Text="(" /><Run Text="{DynamicResource 分}" /><Run Text=")" />
                             </TextBlock>
                         </Border>
-                        <Border Grid.Row="2"
+                        <Border Grid.Row="3"
                                 Grid.Column="5"
                                 Background="{StaticResource WindowBackgroundBrush2}"
                                 BorderThickness="0,0,1,1"
@@ -258,7 +264,7 @@
                                 <Run Text="(" /><Run Text="{DynamicResource 分}" /><Run Text=")" />
                             </TextBlock>
                         </Border>
-                        <Border Grid.Row="2"
+                        <Border Grid.Row="3"
                                 Grid.Column="6"
                                 Background="{StaticResource WindowBackgroundBrush2}"
                                 BorderThickness="0,0,1,1"
@@ -269,7 +275,7 @@
                                 <Run Text="(" /><Run Text="{DynamicResource 分}" /><Run Text=")" />
                             </TextBlock>
                         </Border>
-                        <Border Grid.Row="3"
+                        <Border Grid.Row="4"
                                 Grid.Column="0"
                                 BorderThickness="1,0,1,1"
                                 Style="{StaticResource ValueBorder}">
@@ -278,7 +284,7 @@
                                        Text="1" />
                         </Border>
                         <Border x:Name="Border2"
-                                Grid.Row="4"
+                                Grid.Row="5"
                                 Grid.Column="0"
                                 BorderThickness="1,0,1,1"
                                 IsEnabled="{Binding SegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2}"
@@ -288,7 +294,7 @@
                                        Text="2" />
                         </Border>
                         <Border x:Name="Border3"
-                                Grid.Row="5"
+                                Grid.Row="6"
                                 Grid.Column="0"
                                 BorderThickness="1,0,1,1"
                                 IsEnabled="{Binding SegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=3}"
@@ -298,7 +304,7 @@
                                        Text="3" />
                         </Border>
                         <Border x:Name="Border4"
-                                Grid.Row="6"
+                                Grid.Row="7"
                                 Grid.Column="0"
                                 BorderThickness="1,0,1,1"
                                 IsEnabled="{Binding SegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=4}"
@@ -308,7 +314,7 @@
                                        Text="4" />
                         </Border>
                         <Border x:Name="Border5"
-                                Grid.Row="7"
+                                Grid.Row="8"
                                 Grid.Column="0"
                                 BorderThickness="1,0,1,1"
                                 IsEnabled="{Binding SegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=5}"
@@ -318,7 +324,7 @@
                                        Text="5" />
                         </Border>
                         <Border x:Name="Border6"
-                                Grid.Row="8"
+                                Grid.Row="9"
                                 Grid.Column="0"
                                 BorderThickness="1,0,1,1"
                                 IsEnabled="{Binding SegmentCounts, Mode=OneWay, Converter={StaticResource IsMoreThanValue}, ConverterParameter=6}"
@@ -327,7 +333,7 @@
                                        VerticalAlignment="Center"
                                        Text="6" />
                         </Border>
-                        <Border Grid.Row="3"
+                        <Border Grid.Row="4"
                                 Grid.Column="1"
                                 BorderThickness="0,0,1,1"
                                 Style="{StaticResource ValueBorder}">
@@ -335,7 +341,7 @@
                                                Minimum="{Binding Temperature_Min, Mode=OneWay}"
                                                Value="{Binding TemperatureSetpoint_1, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                                    <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding Temperature_Max, Mode=OneWay}"
@@ -343,7 +349,7 @@
                                                       Text="{Binding TemperatureSetpoint_1, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="4"
+                        <Border Grid.Row="5"
                                 Grid.Column="1"
                                 BorderThickness="0,0,1,1"
                                 IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
@@ -352,7 +358,7 @@
                                                Minimum="{Binding Temperature_Min, Mode=OneWay}"
                                                Value="{Binding TemperatureSetpoint_2, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                                    <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding Temperature_Max, Mode=OneWay}"
@@ -360,7 +366,7 @@
                                                       Text="{Binding TemperatureSetpoint_2, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="5"
+                        <Border Grid.Row="6"
                                 Grid.Column="1"
                                 BorderThickness="0,0,1,1"
                                 IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
@@ -369,7 +375,7 @@
                                                Minimum="{Binding Temperature_Min, Mode=OneWay}"
                                                Value="{Binding TemperatureSetpoint_3, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                                    <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding Temperature_Max, Mode=OneWay}"
@@ -377,7 +383,7 @@
                                                       Text="{Binding TemperatureSetpoint_3, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="6"
+                        <Border Grid.Row="7"
                                 Grid.Column="1"
                                 BorderThickness="0,0,1,1"
                                 IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
@@ -386,7 +392,7 @@
                                                Minimum="{Binding Temperature_Min, Mode=OneWay}"
                                                Value="{Binding TemperatureSetpoint_4, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                                     <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding Temperature_Max, Mode=OneWay}"
@@ -394,7 +400,7 @@
                                                       Text="{Binding TemperatureSetpoint_4, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="7"
+                        <Border Grid.Row="8"
                                 Grid.Column="1"
                                 BorderThickness="0,0,1,1"
                                 IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
@@ -403,7 +409,7 @@
                                                Minimum="{Binding Temperature_Min, Mode=OneWay}"
                                                Value="{Binding TemperatureSetpoint_5, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                                    <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding Temperature_Max, Mode=OneWay}"
@@ -411,7 +417,7 @@
                                                       Text="{Binding TemperatureSetpoint_5, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="8"
+                        <Border Grid.Row="9"
                                 Grid.Column="1"
                                 BorderThickness="0,0,1,1"
                                 IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
@@ -420,7 +426,7 @@
                                                Minimum="{Binding Temperature_Min, Mode=OneWay}"
                                                Value="{Binding TemperatureSetpoint_6, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding Temperature_Max, Mode=OneWay}"
@@ -428,7 +434,7 @@
                                                       Text="{Binding TemperatureSetpoint_6, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="3"
+                        <Border Grid.Row="4"
                                 Grid.Column="2"
                                 BorderThickness="0,0,1,1"
                                 Style="{StaticResource ValueBorder}">
@@ -444,7 +450,7 @@
                                                       Text="{Binding RampTime_1, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="4"
+                        <Border Grid.Row="5"
                                 Grid.Column="2"
                                 BorderThickness="0,0,1,1"
                                 IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
@@ -461,7 +467,7 @@
                                                       Text="{Binding RampTime_2, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="5"
+                        <Border Grid.Row="6"
                                 Grid.Column="2"
                                 BorderThickness="0,0,1,1"
                                 IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
@@ -478,7 +484,7 @@
                                                       Text="{Binding RampTime_3, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="6"
+                        <Border Grid.Row="7"
                                 Grid.Column="2"
                                 BorderThickness="0,0,1,1"
                                 IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
@@ -495,7 +501,7 @@
                                                       Text="{Binding RampTime_4, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="7"
+                        <Border Grid.Row="8"
                                 Grid.Column="2"
                                 BorderThickness="0,0,1,1"
                                 IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
@@ -512,7 +518,7 @@
                                                       Text="{Binding RampTime_5, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="8"
+                        <Border Grid.Row="9"
                                 Grid.Column="2"
                                 BorderThickness="0,0,1,1"
                                 IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
@@ -529,7 +535,7 @@
                                                       Text="{Binding RampTime_6, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="3"
+                        <Border Grid.Row="4"
                                 Grid.Column="3"
                                 BorderThickness="0,0,1,1"
                                 Style="{StaticResource ValueBorder}">
@@ -545,7 +551,7 @@
                                                       Text="{Binding RampAlarm_1, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="4"
+                        <Border Grid.Row="5"
                                 Grid.Column="3"
                                 BorderThickness="0,0,1,1"
                                 IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
@@ -562,7 +568,7 @@
                                                       Text="{Binding RampAlarm_2, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="5"
+                        <Border Grid.Row="6"
                                 Grid.Column="3"
                                 BorderThickness="0,0,1,1"
                                 IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
@@ -579,7 +585,7 @@
                                                       Text="{Binding RampAlarm_3, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="6"
+                        <Border Grid.Row="7"
                                 Grid.Column="3"
                                 BorderThickness="0,0,1,1"
                                 IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
@@ -596,7 +602,7 @@
                                                       Text="{Binding RampAlarm_4, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="7"
+                        <Border Grid.Row="8"
                                 Grid.Column="3"
                                 BorderThickness="0,0,1,1"
                                 IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
@@ -613,7 +619,7 @@
                                                       Text="{Binding RampAlarm_5, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="8"
+                        <Border Grid.Row="9"
                                 Grid.Column="3"
                                 BorderThickness="0,0,1,1"
                                 IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
@@ -630,7 +636,7 @@
                                                       Text="{Binding RampAlarm_6, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="3"
+                        <Border Grid.Row="4"
                                 Grid.Column="4"
                                 BorderThickness="0,0,1,1"
                                 Style="{StaticResource ValueBorder}">
@@ -646,7 +652,7 @@
                                                       Text="{Binding DwellTime_1, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="4"
+                        <Border Grid.Row="5"
                                 Grid.Column="4"
                                 BorderThickness="0,0,1,1"
                                 IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
@@ -663,7 +669,7 @@
                                                       Text="{Binding DwellTime_2, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="5"
+                        <Border Grid.Row="6"
                                 Grid.Column="4"
                                 BorderThickness="0,0,1,1"
                                 IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
@@ -680,7 +686,7 @@
                                                       Text="{Binding DwellTime_3, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="6"
+                        <Border Grid.Row="7"
                                 Grid.Column="4"
                                 BorderThickness="0,0,1,1"
                                 IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
@@ -697,7 +703,7 @@
                                                       Text="{Binding DwellTime_4, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="7"
+                        <Border Grid.Row="8"
                                 Grid.Column="4"
                                 BorderThickness="0,0,1,1"
                                 IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
@@ -714,7 +720,7 @@
                                                       Text="{Binding DwellTime_5, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="8"
+                        <Border Grid.Row="9"
                                 Grid.Column="4"
                                 BorderThickness="0,0,1,1"
                                 IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
@@ -731,7 +737,7 @@
                                                       Text="{Binding DwellTime_6, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="3"
+                        <Border Grid.Row="4"
                                 Grid.Column="5"
                                 BorderThickness="0,0,1,1"
                                 Style="{StaticResource ValueBorder}">
@@ -747,7 +753,7 @@
                                                       Text="{Binding DwellAlarm_1, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="4"
+                        <Border Grid.Row="5"
                                 Grid.Column="5"
                                 BorderThickness="0,0,1,1"
                                 IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
@@ -764,7 +770,7 @@
                                                       Text="{Binding DwellAlarm_2, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="5"
+                        <Border Grid.Row="6"
                                 Grid.Column="5"
                                 BorderThickness="0,0,1,1"
                                 IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
@@ -781,7 +787,7 @@
                                                       Text="{Binding DwellAlarm_3, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="6"
+                        <Border Grid.Row="7"
                                 Grid.Column="5"
                                 BorderThickness="0,0,1,1"
                                 IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
@@ -798,7 +804,7 @@
                                                       Text="{Binding DwellAlarm_4, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="7"
+                        <Border Grid.Row="8"
                                 Grid.Column="5"
                                 BorderThickness="0,0,1,1"
                                 IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
@@ -815,7 +821,7 @@
                                                       Text="{Binding DwellAlarm_5, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="8"
+                        <Border Grid.Row="9"
                                 Grid.Column="5"
                                 BorderThickness="0,0,1,1"
                                 IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"
@@ -832,7 +838,7 @@
                                                       Text="{Binding DwellAlarm_6, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="3"
+                        <Border Grid.Row="4"
                                 Grid.Column="6"
                                 BorderThickness="0,0,1,1"
                                 Style="{StaticResource ValueBorder}">
@@ -848,7 +854,7 @@
                                                       Text="{Binding DwellTimeOffset_1, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="4"
+                        <Border Grid.Row="5"
                                 Grid.Column="6"
                                 BorderThickness="0,0,1,1"
                                 IsEnabled="{Binding IsEnabled, ElementName=Border2, Mode=OneWay}"
@@ -865,7 +871,7 @@
                                                       Text="{Binding DwellTimeOffset_2, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="5"
+                        <Border Grid.Row="6"
                                 Grid.Column="6"
                                 BorderThickness="0,0,1,1"
                                 IsEnabled="{Binding IsEnabled, ElementName=Border3, Mode=OneWay}"
@@ -882,7 +888,7 @@
                                                       Text="{Binding DwellTimeOffset_3, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="6"
+                        <Border Grid.Row="7"
                                 Grid.Column="6"
                                 BorderThickness="0,0,1,1"
                                 IsEnabled="{Binding IsEnabled, ElementName=Border4, Mode=OneWay}"
@@ -899,7 +905,7 @@
                                                       Text="{Binding DwellTimeOffset_4, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="7"
+                        <Border Grid.Row="8"
                                 Grid.Column="6"
                                 BorderThickness="0,0,1,1"
                                 IsEnabled="{Binding IsEnabled, ElementName=Border5, Mode=OneWay}"
@@ -916,7 +922,7 @@
                                                       Text="{Binding DwellTimeOffset_5, Mode=TwoWay}" />
                             </views:SpinControl>
                         </Border>
-                        <Border Grid.Row="8"
+                        <Border Grid.Row="9"
                                 Grid.Column="6"
                                 BorderThickness="0,0,1,1"
                                 IsEnabled="{Binding IsEnabled, ElementName=Border6, Mode=OneWay}"

@@ -76,26 +76,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
 
     [OrderIndex(3)]
     [LanguageTranslator("Used Step Counts", "使用段數", "使用段数")]
-    public int SegmentCounts
-    {
-        get => Get<int>();
-        set
-        {
-            if (value > SegmentCounts_Max)
-            {
-                value = SegmentCounts_Max;
-            }
-            else if (value < SegmentCounts_Min)
-            {
-                value = SegmentCounts_Min;
-            }
-
-            Set(value);
-        }
-    }
-    [OrderIndex(3)]
-    [LanguageTranslator("Used Step Counts", "使用段數", "使用段数")]
-    public short BottomSegmentCounts
+    public short SegmentCounts
     {
         get => Get<short>();
         set
@@ -120,12 +101,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         set => Set(value);
     }
 
-    [LanguageTranslator("Nitrogen Mode", "氮氣模式", "氮气模式")]
-    public bool BottomNitrogenMode
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
 
     [LanguageTranslator("Oxygen Content", "氧含量", "氧含量")]
     public double OxygenContentSet
@@ -133,28 +108,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > 21)
-            {
-                value = 21;
-            }
-            else if (value < 0.1)
-            {
-                value = 0.1;
-            }
-
-            Set(value);
-        }
-    }
-
-    [LanguageTranslator("Oxygen Content", "氧含量", "氧含量")]
-    public double BottomOxygenContentSet
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
             if (value > 21)
             {
@@ -175,28 +129,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > CoolingTemperature_Max)
-            {
-                value = CoolingTemperature_Max;
-            }
-            else if (value < CoolingTemperature_Min)
-            {
-                value = CoolingTemperature_Min;
-            }
-
-            Set(value);
-        }
-    }
-
-    [LanguageTranslator("Cooling Temp.", "降溫溫度", "降温温度")]
-    public double BottomCoolingTemperature
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
             if (value > CoolingTemperature_Max)
             {
@@ -232,36 +165,10 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
-    [LanguageTranslator("Cooling Time", "降溫時間", "降温时间")]
-    public double BottomCoolingTime
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > CoolingTime_Max)
-            {
-                value = CoolingTime_Max;
-            }
-            else if (value < CoolingTime_Min)
-            {
-                value = CoolingTime_Min;
-            }
-
-            Set(value);
-        }
-    }
-
     [JsonIgnore] //匯出時檔名已是名稱，此處用JsonIgnore是用來做配方比較需忽略此項
     [OrderIndex(-1)]
     [LanguageTranslator("Recipe Name", "配方名稱", "配方名称")]
     public override string RecipeName { get; set; } = string.Empty;
-
-    [JsonIgnore] //匯出時檔名已是名稱，此處用JsonIgnore是用來做配方比較需忽略此項
-    [OrderIndex(-1)]
-    [LanguageTranslator("Recipe Name", "配方名稱", "配方名称")]
-    public string BottomRecipeName { get; set; } = string.Empty;
 
     [JsonIgnore]
     [OrderIndex(0)]
@@ -285,7 +192,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
             if (value > InflatingTime_Max)
             {
@@ -306,7 +213,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits0, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
             if (value > InflatingTime_Max)
             {
@@ -328,29 +235,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > Temperature_Max)
-            {
-                value = Temperature_Max;
-            }
-            else if (value < Temperature_Min)
-            {
-                value = Temperature_Min;
-            }
-
-            Set(value);
-        }
-    }
-
-    [OrderIndex(5)]
-    [LanguageTranslator("Temp. SP 1", "目標溫度 1", "目标温度 1")]
-    public double BottomTemperatureSetpoint_1
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
             if (value > Temperature_Max)
             {
@@ -372,29 +257,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > Temperature_Max)
-            {
-                value = Temperature_Max;
-            }
-            else if (value < Temperature_Min)
-            {
-                value = Temperature_Min;
-            }
-
-            Set(value);
-        }
-    }
-
-    [OrderIndex(6)]
-    [LanguageTranslator("Temp. SP 2", "目標溫度 2", "目标温度 2")]
-    public double BottomTemperatureSetpoint_2
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
             if (value > Temperature_Max)
             {
@@ -416,29 +279,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > Temperature_Max)
-            {
-                value = Temperature_Max;
-            }
-            else if (value < Temperature_Min)
-            {
-                value = Temperature_Min;
-            }
-
-            Set(value);
-        }
-    }
-
-    [OrderIndex(7)]
-    [LanguageTranslator("Temp. SP 3", "目標溫度 3", "目标温度 3")]
-    public double BottomTemperatureSetpoint_3
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
             if (value > Temperature_Max)
             {
@@ -460,29 +301,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > Temperature_Max)
-            {
-                value = Temperature_Max;
-            }
-            else if (value < Temperature_Min)
-            {
-                value = Temperature_Min;
-            }
-
-            Set(value);
-        }
-    }
-
-    [OrderIndex(8)]
-    [LanguageTranslator("Temp. SP 4", "目標溫度 4", "目标温度 4")]
-    public double BottomTemperatureSetpoint_4
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
             if (value > Temperature_Max)
             {
@@ -504,29 +323,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > Temperature_Max)
-            {
-                value = Temperature_Max;
-            }
-            else if (value < Temperature_Min)
-            {
-                value = Temperature_Min;
-            }
-
-            Set(value);
-        }
-    }
-
-    [OrderIndex(9)]
-    [LanguageTranslator("Temp. SP 5", "目標溫度 5", "目标温度 5")]
-    public double BottomTemperatureSetpoint_5
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
             if (value > Temperature_Max)
             {
@@ -548,29 +345,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > Temperature_Max)
-            {
-                value = Temperature_Max;
-            }
-            else if (value < Temperature_Min)
-            {
-                value = Temperature_Min;
-            }
-
-            Set(value);
-        }
-    }
-
-    [OrderIndex(10)]
-    [LanguageTranslator("Temp. SP 6", "目標溫度 6", "目标温度 6")]
-    public double BottomTemperatureSetpoint_6
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
             if (value > Temperature_Max)
             {
@@ -593,30 +368,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > Temperature_Max)
-            {
-                value = Temperature_Max;
-            }
-            else if (value < Temperature_Min)
-            {
-                value = Temperature_Min;
-            }
-
-            Set(value);
-        }
-    }
-
-    [GPIgnore]
-    [OrderIndex(11)]
-    [LanguageTranslator("Temp. SP 7", "目標溫度 7", "目标温度 7")]
-    public double BottomTemperatureSetpoint_7
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
             if (value > Temperature_Max)
             {
@@ -639,7 +391,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
             if (value > Temperature_Max)
             {
@@ -654,27 +406,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
     [GPIgnore]
-    [OrderIndex(12)]
-    [LanguageTranslator("Temp. SP 8", "目標溫度 8", "目标温度 8")]
-    public double BottomTemperatureSetpoint_8
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
-            if (value > Temperature_Max)
-            {
-                value = Temperature_Max;
-            }
-            else if (value < Temperature_Min)
-            {
-                value = Temperature_Min;
-            }
-
-            Set(value);
-        }
-    }
 
     [OrderIndex(13)]
     [LanguageTranslator("Ramp Time 1", "升溫時間 1", "升温时间 1")]
@@ -696,29 +428,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
 
             Set(value);
             RampAlarm_1 = RampAlarm_1;
-        }
-    }
-
-    [OrderIndex(13)]
-    [LanguageTranslator("Ramp Time 1", "升溫時間 1", "升温时间 1")]
-    public double BottomRampTime_1
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > RampTime_Max)
-            {
-                value = RampTime_Max;
-            }
-            else if (value < RampTime_Min)
-            {
-                value = RampTime_Min;
-            }
-
-            Set(value);
-            BottomRampAlarm_1 = BottomRampAlarm_1;
         }
     }
 
@@ -745,29 +454,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
-    [OrderIndex(14)]
-    [LanguageTranslator("Ramp Time 2", "升溫時間 2", "升温时间 2")]
-    public double BottomRampTime_2
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > RampTime_Max)
-            {
-                value = RampTime_Max;
-            }
-            else if (value < RampTime_Min)
-            {
-                value = RampTime_Min;
-            }
-
-            Set(value);
-            BottomRampAlarm_2 = BottomRampAlarm_2;
-        }
-    }
-
     [OrderIndex(15)]
     [LanguageTranslator("Ramp Time 3", "升溫時間 3", "升温时间 3")]
     public double RampTime_3
@@ -788,29 +474,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
 
             Set(value);
             RampAlarm_3 = RampAlarm_3;
-        }
-    }
-
-    [OrderIndex(15)]
-    [LanguageTranslator("Ramp Time 3", "升溫時間 3", "升温时间 3")]
-    public double BottomRampTime_3
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > RampTime_Max)
-            {
-                value = RampTime_Max;
-            }
-            else if (value < RampTime_Min)
-            {
-                value = RampTime_Min;
-            }
-
-            Set(value);
-            BottomRampAlarm_3 = BottomRampAlarm_3;
         }
     }
 
@@ -837,29 +500,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
-    [OrderIndex(16)]
-    [LanguageTranslator("Ramp Time 4", "升溫時間 4", "升温时间 4")]
-    public double BottomRampTime_4
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > RampTime_Max)
-            {
-                value = RampTime_Max;
-            }
-            else if (value < RampTime_Min)
-            {
-                value = RampTime_Min;
-            }
-
-            Set(value);
-            BottomRampAlarm_4 = BottomRampAlarm_4;
-        }
-    }
-
     [OrderIndex(17)]
     [LanguageTranslator("Ramp Time 5", "升溫時間 5", "升温时间 5")]
     public double RampTime_5
@@ -883,29 +523,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
-    [OrderIndex(17)]
-    [LanguageTranslator("Ramp Time 5", "升溫時間 5", "升温时间 5")]
-    public double BottomRampTime_5
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > RampTime_Max)
-            {
-                value = RampTime_Max;
-            }
-            else if (value < RampTime_Min)
-            {
-                value = RampTime_Min;
-            }
-
-            Set(value);
-            BottomRampAlarm_5 = BottomRampAlarm_5;
-        }
-    }
-
     [OrderIndex(18)]
     [LanguageTranslator("Ramp Time 6", "升溫時間 6", "升温时间 6")]
     public double RampTime_6
@@ -926,29 +543,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
 
             Set(value);
             RampAlarm_6 = RampAlarm_6;
-        }
-    }
-
-    [OrderIndex(18)]
-    [LanguageTranslator("Ramp Time 6", "升溫時間 6", "升温时间 6")]
-    public double BottomRampTime_6
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > RampTime_Max)
-            {
-                value = RampTime_Max;
-            }
-            else if (value < RampTime_Min)
-            {
-                value = RampTime_Min;
-            }
-
-            Set(value);
-            BottomRampAlarm_6 = BottomRampAlarm_6;
         }
     }
 
@@ -977,30 +571,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     }
 
     [GPIgnore]
-    [OrderIndex(19)]
-    [LanguageTranslator("Ramp Time 7", "升溫時間 7", "升温时间 7")]
-    public double BottomRampTime_7
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > RampTime_Max)
-            {
-                value = RampTime_Max;
-            }
-            else if (value < RampTime_Min)
-            {
-                value = RampTime_Min;
-            }
-
-            Set(value);
-            BottomRampAlarm_7 = BottomRampAlarm_7;
-        }
-    }
-
-    [GPIgnore]
     [OrderIndex(20)]
     [LanguageTranslator("Ramp Time 8", "升溫時間 8", "升温时间 8")]
     public double RampTime_8
@@ -1024,55 +594,10 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
-    [GPIgnore]
-    [OrderIndex(20)]
-    [LanguageTranslator("Ramp Time 8", "升溫時間 8", "升温时间 8")]
-    public double BottomRampTime_8
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > RampTime_Max)
-            {
-                value = RampTime_Max;
-            }
-            else if (value < RampTime_Min)
-            {
-                value = RampTime_Min;
-            }
-
-            Set(value);
-            BottomRampAlarm_8 = BottomRampAlarm_8;
-        }
-    }
 
     [OrderIndex(21)]
     [LanguageTranslator("Ramp Alarm 1", "升溫警報 1", "升温警报 1")]
     public double RampAlarm_1
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > RampAlarm_Max)
-            {
-                value = RampAlarm_Max;
-            }
-            else if (value <= RampTime_1)
-            {
-                value = RampTime_1 + 0.1;
-            }
-
-            Set(value);
-        }
-    }
-
-    [OrderIndex(21)]
-    [LanguageTranslator("Ramp Alarm 1", "升溫警報 1", "升温警报 1")]
-    public double BottomRampAlarm_1
     {
         get => Get<double>();
         set
@@ -1114,53 +639,9 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
-    [OrderIndex(22)]
-    [LanguageTranslator("Ramp Alarm 2", "升溫警報 2", "升温警报 2")]
-    public double BottomRampAlarm_2
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > RampAlarm_Max)
-            {
-                value = RampAlarm_Max;
-            }
-            else if (value <= RampTime_2)
-            {
-                value = RampTime_2 + 0.1;
-            }
-
-            Set(value);
-        }
-    }
-
     [OrderIndex(23)]
     [LanguageTranslator("Ramp Alarm 3", "升溫警報 3", "升温警报 3")]
     public double RampAlarm_3
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > RampAlarm_Max)
-            {
-                value = RampAlarm_Max;
-            }
-            else if (value <= RampTime_3)
-            {
-                value = RampTime_3 + 0.1;
-            }
-
-            Set(value);
-        }
-    }
-
-    [OrderIndex(23)]
-    [LanguageTranslator("Ramp Alarm 3", "升溫警報 3", "升温警报 3")]
-    public double BottomRampAlarm_3
     {
         get => Get<double>();
         set
@@ -1202,28 +683,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
-    [OrderIndex(24)]
-    [LanguageTranslator("Ramp Alarm 4", "升溫警報 4", "升温警报 4")]
-    public double BottomRampAlarm_4
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > RampAlarm_Max)
-            {
-                value = RampAlarm_Max;
-            }
-            else if (value <= RampTime_4)
-            {
-                value = RampTime_4 + 0.1;
-            }
-
-            Set(value);
-        }
-    }
-
     [OrderIndex(25)]
     [LanguageTranslator("Ramp Alarm 5", "升溫警報 5", "升温警报 5")]
     public double RampAlarm_5
@@ -1246,53 +705,9 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
-    [OrderIndex(25)]
-    [LanguageTranslator("Ramp Alarm 5", "升溫警報 5", "升温警报 5")]
-    public double BottomRampAlarm_5
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > RampAlarm_Max)
-            {
-                value = RampAlarm_Max;
-            }
-            else if (value <= RampTime_5)
-            {
-                value = RampTime_5 + 0.1;
-            }
-
-            Set(value);
-        }
-    }
-
     [OrderIndex(26)]
     [LanguageTranslator("Ramp Alarm 6", "升溫警報 6", "升温警报 6")]
     public double RampAlarm_6
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > RampAlarm_Max)
-            {
-                value = RampAlarm_Max;
-            }
-            else if (value <= RampTime_6)
-            {
-                value = RampTime_6 + 0.1;
-            }
-
-            Set(value);
-        }
-    }
-
-    [OrderIndex(26)]
-    [LanguageTranslator("Ramp Alarm 6", "升溫警報 6", "升温警报 6")]
-    public double BottomRampAlarm_6
     {
         get => Get<double>();
         set
@@ -1335,56 +750,11 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
-    [GPIgnore]
-    [OrderIndex(27)]
-    [LanguageTranslator("Ramp Alarm 7", "升溫警報 7", "升温警报 7")]
-    public double BottomRampAlarm_7
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > RampAlarm_Max)
-            {
-                value = RampAlarm_Max;
-            }
-            else if (value <= RampTime_7)
-            {
-                value = RampTime_7 + 0.1;
-            }
-
-            Set(value);
-        }
-    }
 
     [GPIgnore]
     [OrderIndex(28)]
     [LanguageTranslator("Ramp Alarm 8", "升溫警報 8", "升温警报 8")]
     public double RampAlarm_8
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > RampAlarm_Max)
-            {
-                value = RampAlarm_Max;
-            }
-            else if (value <= RampTime_8)
-            {
-                value = RampTime_8 + 0.1;
-            }
-
-            Set(value);
-        }
-    }
-
-    [GPIgnore]
-    [OrderIndex(28)]
-    [LanguageTranslator("Ramp Alarm 8", "升溫警報 8", "升温警报 8")]
-    public double BottomRampAlarm_8
     {
         get => Get<double>();
         set
@@ -1428,29 +798,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     }
 
     [GPIgnore]
-    [OrderIndex(29)]
-    [LanguageTranslator("Dwell Temp. 1", "恆溫溫度 1", "恒温温度 1")]
-    public double BottomDwellTemperature_1
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > Temperature_Max)
-            {
-                value = Temperature_Max;
-            }
-            else if (value < Temperature_Min)
-            {
-                value = Temperature_Min;
-            }
-
-            Set(value);
-        }
-    }
-
-    [GPIgnore]
     [OrderIndex(30)]
     [LanguageTranslator("Dwell Temp. 2", "恆溫溫度 2", "恒温温度 2")]
     public double DwellTemperature_2
@@ -1473,28 +820,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
-    [GPIgnore]
-    [OrderIndex(30)]
-    [LanguageTranslator("Dwell Temp. 2", "恆溫溫度 2", "恒温温度 2")]
-    public double BottomDwellTemperature_2
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > Temperature_Max)
-            {
-                value = Temperature_Max;
-            }
-            else if (value < Temperature_Min)
-            {
-                value = Temperature_Min;
-            }
-
-            Set(value);
-        }
-    }
 
     [GPIgnore]
     [OrderIndex(31)]
@@ -1520,56 +845,11 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     }
 
 
-    [GPIgnore]
-    [OrderIndex(31)]
-    [LanguageTranslator("Dwell Temp. 3", "恆溫溫度 3", "恒温温度 3")]
-    public double BottomDwellTemperature_3
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > Temperature_Max)
-            {
-                value = Temperature_Max;
-            }
-            else if (value < Temperature_Min)
-            {
-                value = Temperature_Min;
-            }
-
-            Set(value);
-        }
-    }
 
     [GPIgnore]
     [OrderIndex(32)]
     [LanguageTranslator("Dwell Temp. 4", "恆溫溫度 4", "恒温温度 4")]
     public double DwellTemperature_4
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > Temperature_Max)
-            {
-                value = Temperature_Max;
-            }
-            else if (value < Temperature_Min)
-            {
-                value = Temperature_Min;
-            }
-
-            Set(value);
-        }
-    }
-
-    [GPIgnore]
-    [OrderIndex(32)]
-    [LanguageTranslator("Dwell Temp. 4", "恆溫溫度 4", "恒温温度 4")]
-    public double BottomDwellTemperature_4
     {
         get => Get<double>();
         set
@@ -1613,54 +893,9 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     }
 
     [GPIgnore]
-    [OrderIndex(33)]
-    [LanguageTranslator("Dwell Temp. 5", "恆溫溫度 5", "恒温温度 5")]
-    public double BottomDwellTemperature_5
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > Temperature_Max)
-            {
-                value = Temperature_Max;
-            }
-            else if (value < Temperature_Min)
-            {
-                value = Temperature_Min;
-            }
-
-            Set(value);
-        }
-    }
-
-    [GPIgnore]
     [OrderIndex(34)]
     [LanguageTranslator("Dwell Temp. 6", "恆溫溫度 6", "恒温温度 6")]
     public double DwellTemperature_6
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > Temperature_Max)
-            {
-                value = Temperature_Max;
-            }
-            else if (value < Temperature_Min)
-            {
-                value = Temperature_Min;
-            }
-
-            Set(value);
-        }
-    }
-    [GPIgnore]
-    [OrderIndex(34)]
-    [LanguageTranslator("Dwell Temp. 6", "恆溫溫度 6", "恒温温度 6")]
-    public double BottomDwellTemperature_6
     {
         get => Get<double>();
         set
@@ -1704,29 +939,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     }
 
     [GPIgnore]
-    [OrderIndex(35)]
-    [LanguageTranslator("Dwell Temp. 7", "恆溫溫度 7", "恒温温度 7")]
-    public double BottomDwellTemperature_7
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > Temperature_Max)
-            {
-                value = Temperature_Max;
-            }
-            else if (value < Temperature_Min)
-            {
-                value = Temperature_Min;
-            }
-
-            Set(value);
-        }
-    }
-
-    [GPIgnore]
     [OrderIndex(36)]
     [LanguageTranslator("Dwell Temp. 8", "恆溫溫度 8", "恒温温度 8")]
     public double DwellTemperature_8
@@ -1749,28 +961,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
-    [GPIgnore]
-    [OrderIndex(36)]
-    [LanguageTranslator("Dwell Temp. 8", "恆溫溫度 8", "恒温温度 8")]
-    public double BottomDwellTemperature_8
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > Temperature_Max)
-            {
-                value = Temperature_Max;
-            }
-            else if (value < Temperature_Min)
-            {
-                value = Temperature_Min;
-            }
-
-            Set(value);
-        }
-    }
 
     [OrderIndex(37)]
     [LanguageTranslator("Warning Time 1", "恆溫時間 1", "恒温时间 1")]
@@ -1795,28 +985,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
-    [OrderIndex(37)]
-    [LanguageTranslator("Warning Time 1", "恆溫時間 1", "恒温时间 1")]
-    public double BottomDwellTime_1
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > DwellTime_Max)
-            {
-                value = DwellTime_Max;
-            }
-            else if (value < DwellTime_Min)
-            {
-                value = DwellTime_Min;
-            }
-
-            Set(value);
-            BottomDwellAlarm_1 = BottomDwellAlarm_1;
-        }
-    }
 
     [OrderIndex(38)]
     [LanguageTranslator("Warning Time 2", "恆溫時間 2", "恒温时间 2")]
@@ -1841,28 +1009,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
-    [OrderIndex(38)]
-    [LanguageTranslator("Warning Time 2", "恆溫時間 2", "恒温时间 2")]
-    public double BottomDwellTime_2
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
-            if (value > DwellTime_Max)
-            {
-                value = DwellTime_Max;
-            }
-            else if (value < DwellTime_Min)
-            {
-                value = DwellTime_Min;
-            }
-
-            Set(value);
-            BottomDwellAlarm_2 = BottomDwellAlarm_2;
-        }
-    }
 
     [OrderIndex(39)]
     [LanguageTranslator("Warning Time 3", "恆溫時間 3", "恒温时间 3")]
@@ -1887,28 +1034,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
-    [OrderIndex(39)]
-    [LanguageTranslator("Warning Time 3", "恆溫時間 3", "恒温时间 3")]
-    public double BottomDwellTime_3
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > DwellTime_Max)
-            {
-                value = DwellTime_Max;
-            }
-            else if (value < DwellTime_Min)
-            {
-                value = DwellTime_Min;
-            }
-
-            Set(value);
-            BottomDwellAlarm_3 = BottomDwellAlarm_3;
-        }
-    }
 
     [OrderIndex(40)]
     [LanguageTranslator("Warning Time 4", "恆溫時間 4", "恒温时间 4")]
@@ -1933,28 +1058,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
-    [OrderIndex(40)]
-    [LanguageTranslator("Warning Time 4", "恆溫時間 4", "恒温时间 4")]
-    public double BottomDwellTime_4
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > DwellTime_Max)
-            {
-                value = DwellTime_Max;
-            }
-            else if (value < DwellTime_Min)
-            {
-                value = DwellTime_Min;
-            }
-
-            Set(value);
-            BottomDwellAlarm_4 = BottomDwellAlarm_4;
-        }
-    }
 
     [OrderIndex(41)]
     [LanguageTranslator("Warning Time 5", "恆溫時間 5", "恒温时间 5")]
@@ -1979,28 +1082,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
-    [OrderIndex(41)]
-    [LanguageTranslator("Warning Time 5", "恆溫時間 5", "恒温时间 5")]
-    public double BottomDwellTime_5
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
-            if (value > DwellTime_Max)
-            {
-                value = DwellTime_Max;
-            }
-            else if (value < DwellTime_Min)
-            {
-                value = DwellTime_Min;
-            }
-
-            Set(value);
-            BottomDwellAlarm_5 = BottomDwellAlarm_5;
-        }
-    }
 
     [OrderIndex(42)]
     [LanguageTranslator("Warning Time 6", "恆溫時間 6", "恒温时间 6")]
@@ -2025,28 +1107,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
-    [OrderIndex(42)]
-    [LanguageTranslator("Warning Time 6", "恆溫時間 6", "恒温时间 6")]
-    public double BottomDwellTime_6
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > DwellTime_Max)
-            {
-                value = DwellTime_Max;
-            }
-            else if (value < DwellTime_Min)
-            {
-                value = DwellTime_Min;
-            }
-
-            Set(value);
-            BottomDwellAlarm_6 = BottomDwellAlarm_6;
-        }
-    }
 
     [GPIgnore]
     [OrderIndex(43)]
@@ -2069,29 +1129,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
 
             Set(value);
             DwellAlarm_7 = DwellAlarm_7;
-        }
-    }
-    [GPIgnore]
-    [OrderIndex(43)]
-    [LanguageTranslator("Warning Time 7", "恆溫時間 7", "恒温时间 7")]
-    public double BottomDwellTime_7
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > DwellTime_Max)
-            {
-                value = DwellTime_Max;
-            }
-            else if (value < DwellTime_Min)
-            {
-                value = DwellTime_Min;
-            }
-
-            Set(value);
-            BottomDwellAlarm_7 = BottomDwellAlarm_7;
         }
     }
 
@@ -2119,55 +1156,10 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
-    [GPIgnore]
-    [OrderIndex(44)]
-    [LanguageTranslator("Warning Time 8", "恆溫時間 8", "恒温时间 8")]
-    public double BottomDwellTime_8
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > DwellTime_Max)
-            {
-                value = DwellTime_Max;
-            }
-            else if (value < DwellTime_Min)
-            {
-                value = DwellTime_Min;
-            }
-
-            Set(value);
-            BottomDwellAlarm_8 = BottomDwellAlarm_8;
-        }
-    }
 
     [OrderIndex(45)]
     [LanguageTranslator("Dwell Alarm 1", "恆溫警報 1", "恒温警报 1")]
     public double DwellAlarm_1
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > DwellAlarm_Max)
-            {
-                value = DwellAlarm_Max;
-            }
-            else if (value <= DwellTime_1)
-            {
-                value = DwellTime_1 + 0.1;
-            }
-
-            Set(value);
-        }
-    }
-
-    [OrderIndex(45)]
-    [LanguageTranslator("Dwell Alarm 1", "恆溫警報 1", "恒温警报 1")]
-    public double BottomDwellAlarm_1
     {
         get => Get<double>();
         set
@@ -2208,53 +1200,11 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             Set(value);
         }
     }
-    [OrderIndex(46)]
-    [LanguageTranslator("Dwell Alarm 2", "恆溫警報 2", "恒温警报 2")]
-    public double BottomDwellAlarm_2
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
 
-            if (value > DwellAlarm_Max)
-            {
-                value = DwellAlarm_Max;
-            }
-            else if (value <= DwellTime_2)
-            {
-                value = DwellTime_2 + 0.1;
-            }
-
-            Set(value);
-        }
-    }
 
     [OrderIndex(47)]
     [LanguageTranslator("Dwell Alarm 3", "恆溫警報 3", "恒温警报 3")]
     public double DwellAlarm_3
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > DwellAlarm_Max)
-            {
-                value = DwellAlarm_Max;
-            }
-            else if (value <= DwellTime_3)
-            {
-                value = DwellTime_3 + 0.1;
-            }
-
-            Set(value);
-        }
-    }
-
-    [OrderIndex(47)]
-    [LanguageTranslator("Dwell Alarm 3", "恆溫警報 3", "恒温警报 3")]
-    public double BottomDwellAlarm_3
     {
         get => Get<double>();
         set
@@ -2296,27 +1246,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
-    [OrderIndex(48)]
-    [LanguageTranslator("Dwell Alarm 4", "恆溫警報 4", "恒温警报 4")]
-    public double BottomDwellAlarm_4
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > DwellAlarm_Max)
-            {
-                value = DwellAlarm_Max;
-            }
-            else if (value <= DwellTime_4)
-            {
-                value = DwellTime_4 + 0.1;
-            }
-
-            Set(value);
-        }
-    }
 
     [OrderIndex(49)]
     [LanguageTranslator("Dwell Alarm 5", "恆溫警報 5", "恒温警报 5")]
@@ -2340,27 +1269,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
-    [OrderIndex(49)]
-    [LanguageTranslator("Dwell Alarm 5", "恆溫警報 5", "恒温警报 5")]
-    public double BottomDwellAlarm_5
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > DwellAlarm_Max)
-            {
-                value = DwellAlarm_Max;
-            }
-            else if (value <= DwellTime_5)
-            {
-                value = DwellTime_5 + 0.1;
-            }
-
-            Set(value);
-        }
-    }
 
     [OrderIndex(50)]
     [LanguageTranslator("Dwell Alarm 6", "恆溫警報 6", "恒温警报 6")]
@@ -2384,27 +1292,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
-    [OrderIndex(50)]
-    [LanguageTranslator("Dwell Alarm 6", "恆溫警報 6", "恒温警报 6")]
-    public double BottomDwellAlarm_6
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > DwellAlarm_Max)
-            {
-                value = DwellAlarm_Max;
-            }
-            else if (value <= DwellTime_6)
-            {
-                value = DwellTime_6 + 0.1;
-            }
-
-            Set(value);
-        }
-    }
 
     [GPIgnore]
     [OrderIndex(51)]
@@ -2429,28 +1316,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
-    [GPIgnore]
-    [OrderIndex(51)]
-    [LanguageTranslator("Dwell Alarm 7", "恆溫警報 7", "恒温警报 7")]
-    public double BottomDwellAlarm_7
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > DwellAlarm_Max)
-            {
-                value = DwellAlarm_Max;
-            }
-            else if (value <= DwellTime_7)
-            {
-                value = DwellTime_7 + 0.1;
-            }
-
-            Set(value);
-        }
-    }
 
     [GPIgnore]
     [OrderIndex(52)]
@@ -2475,28 +1340,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
-    [GPIgnore]
-    [OrderIndex(52)]
-    [LanguageTranslator("Dwell Alarm 8", "恆溫警報 8", "恒温警报 8")]
-    public double BottomDwellAlarm_8
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > DwellAlarm_Max)
-            {
-                value = DwellAlarm_Max;
-            }
-            else if (value <= DwellTime_8)
-            {
-                value = DwellTime_8 + 0.1;
-            }
-
-            Set(value);
-        }
-    }
 
     [OrderIndex(53)]
     [LanguageTranslator("Warning Time offset 1", "恆溫時間 補償 1", "恒温时间 補償 1")]
@@ -2520,52 +1363,10 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
-    [OrderIndex(53)]
-    [LanguageTranslator("Warning Time offset 1", "恆溫時間 補償 1", "恒温时间 補償 1")]
-    public double BottomDwellTimeOffset_1
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > DwellTime_Offset_Max)
-            {
-                value = DwellTime_Offset_Max;
-            }
-            else if (value < DwellTime_Offset_Min)
-            {
-                value = DwellTime_Offset_Min;
-            }
-
-            Set(value);
-        }
-    }
 
     [OrderIndex(54)]
     [LanguageTranslator("Warning Time offset 2", "恆溫時間 補償 2", "恒温时间 補償 2")]
     public double DwellTimeOffset_2
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > DwellTime_Offset_Max)
-            {
-                value = DwellTime_Offset_Max;
-            }
-            else if (value < DwellTime_Offset_Min)
-            {
-                value = DwellTime_Offset_Min;
-            }
-
-            Set(value);
-        }
-    }
-    [OrderIndex(54)]
-    [LanguageTranslator("Warning Time offset 2", "恆溫時間 補償 2", "恒温时间 補償 2")]
-    public double BottomDwellTimeOffset_2
     {
         get => Get<double>();
         set
@@ -2607,53 +1408,9 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
-    [OrderIndex(55)]
-    [LanguageTranslator("Warning Time offset 3", "恆溫時間 補償 3", "恒温时间 補償 3")]
-    public double BottomDwellTimeOffset_3
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > DwellTime_Offset_Max)
-            {
-                value = DwellTime_Offset_Max;
-            }
-            else if (value < DwellTime_Offset_Min)
-            {
-                value = DwellTime_Offset_Min;
-            }
-
-            Set(value);
-        }
-    }
-
     [OrderIndex(56)]
     [LanguageTranslator("Warning Time offset 4", "恆溫時間 補償 4", "恒温时间 補償 4")]
     public double DwellTimeOffset_4
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > DwellTime_Offset_Max)
-            {
-                value = DwellTime_Offset_Max;
-            }
-            else if (value < DwellTime_Offset_Min)
-            {
-                value = DwellTime_Offset_Min;
-            }
-
-            Set(value);
-        }
-    }
-
-    [OrderIndex(56)]
-    [LanguageTranslator("Warning Time offset 4", "恆溫時間 補償 4", "恒温时间 補償 4")]
-    public double BottomDwellTimeOffset_4
     {
         get => Get<double>();
         set
@@ -2695,27 +1452,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
-    [OrderIndex(57)]
-    [LanguageTranslator("Warning Time offset 5", "恆溫時間 補償 5", "恒温时间 補償 5")]
-    public double BottomDwellTimeOffset_5
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > DwellTime_Offset_Max)
-            {
-                value = DwellTime_Offset_Max;
-            }
-            else if (value < DwellTime_Offset_Min)
-            {
-                value = DwellTime_Offset_Min;
-            }
-
-            Set(value);
-        }
-    }
 
     [OrderIndex(58)]
     [LanguageTranslator("Warning Time offset 6", "恆溫時間 補償 6", "恒温时间 補償 6")]
@@ -2739,27 +1475,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
-    [OrderIndex(58)]
-    [LanguageTranslator("Warning Time offset 6", "恆溫時間 補償 6", "恒温时间 補償 6")]
-    public double BottomDwellTimeOffset_6
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > DwellTime_Offset_Max)
-            {
-                value = DwellTime_Offset_Max;
-            }
-            else if (value < DwellTime_Offset_Min)
-            {
-                value = DwellTime_Offset_Min;
-            }
-
-            Set(value);
-        }
-    }
 
     //[GPIgnore]
     //[OrderIndex(59)]
@@ -3074,15 +1789,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     public Dictionary<string, object> ToDictionary() => new()
                                                         {
                                                             { nameof(RecipeName), RecipeName },
-                                                            { nameof(NitrogenMode), NitrogenMode },
-                                                            { nameof(OxygenContentSet), OxygenContentSet },
-                                                            { nameof(InflatingTime), InflatingTime },
-                                                            { nameof(DwellTemperature_1), DwellTemperature_1 },
-                                                            { nameof(DwellTemperature_2), DwellTemperature_2 },
-                                                            { nameof(DwellTemperature_3), DwellTemperature_3 },
-                                                            { nameof(DwellTemperature_4), DwellTemperature_4 },
-                                                            { nameof(DwellTemperature_5), DwellTemperature_5 },
-                                                            { nameof(DwellTemperature_6), DwellTemperature_6 },
                                                             { nameof(DwellTime_1),  DwellTime_1 },
                                                             { nameof(DwellTime_2),  DwellTime_2 },
                                                             { nameof(DwellTime_3),  DwellTime_3 },
@@ -3121,53 +1827,8 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
                                                             { nameof(DwellTimeOffset_4), DwellTimeOffset_4 },
                                                             { nameof(DwellTimeOffset_5), DwellTimeOffset_5 },
                                                             { nameof(DwellTimeOffset_6), DwellTimeOffset_6 },
-                                                            { nameof(SegmentCounts), SegmentCounts }
-                                                        };
-    public Dictionary<string, object> ToBottomDictionary() => new()
-                                                        {
-                                                            { nameof(BottomRecipeName),              RecipeName },
-                                                            { nameof(BottomNitrogenMode),            NitrogenMode },
-                                                            { nameof(BottomOxygenContentSet),        OxygenContentSet },
-                                                            { nameof(BottomInflatingTime),           InflatingTime },
-                                                            { nameof(BottomDwellTime_1),             DwellTime_1 },
-                                                            { nameof(BottomDwellTime_2),             DwellTime_2 },
-                                                            { nameof(BottomDwellTime_3),             DwellTime_3 },
-                                                            { nameof(BottomDwellTime_4),             DwellTime_4 },
-                                                            { nameof(BottomDwellTime_5),             DwellTime_5 },
-                                                            { nameof(BottomDwellTime_6),             DwellTime_6 },
-                                                            { nameof(BottomDwellAlarm_1),            DwellAlarm_1 },
-                                                            { nameof(BottomDwellAlarm_2),            DwellAlarm_2 },
-                                                            { nameof(BottomDwellAlarm_3),            DwellAlarm_3 },
-                                                            { nameof(BottomDwellAlarm_4),            DwellAlarm_4 },
-                                                            { nameof(BottomDwellAlarm_5),            DwellAlarm_5 },
-                                                            { nameof(BottomDwellAlarm_6),            DwellAlarm_6 },
-                                                            { nameof(BottomCoolingTime),             CoolingTime },
-                                                            { nameof(BottomCoolingTemperature),      CoolingTemperature },
-                                                            { nameof(BottomRampTime_1),              RampTime_1 },
-                                                            { nameof(BottomRampTime_2),              RampTime_2 },
-                                                            { nameof(BottomRampTime_3),              RampTime_3 },
-                                                            { nameof(BottomRampTime_4),              RampTime_4 },
-                                                            { nameof(BottomRampTime_5),              RampTime_5 },
-                                                            { nameof(BottomRampTime_6),              RampTime_6 },
-                                                            { nameof(BottomRampAlarm_1),             RampAlarm_1 },
-                                                            { nameof(BottomRampAlarm_2),             RampAlarm_2 },
-                                                            { nameof(BottomRampAlarm_3),             RampAlarm_3 },
-                                                            { nameof(BottomRampAlarm_4),             RampAlarm_4 },
-                                                            { nameof(BottomRampAlarm_5),             RampAlarm_5 },
-                                                            { nameof(BottomRampAlarm_6),             RampAlarm_6 },
-                                                            { nameof(BottomTemperatureSetpoint_1),   TemperatureSetpoint_1 },
-                                                            { nameof(BottomTemperatureSetpoint_2),   TemperatureSetpoint_2 },
-                                                            { nameof(BottomTemperatureSetpoint_3),   TemperatureSetpoint_3 },
-                                                            { nameof(BottomTemperatureSetpoint_4),   TemperatureSetpoint_4 },
-                                                            { nameof(BottomTemperatureSetpoint_5),   TemperatureSetpoint_5 },
-                                                            { nameof(BottomTemperatureSetpoint_6),   TemperatureSetpoint_6 },
-                                                            { nameof(BottomDwellTimeOffset_1),       DwellTimeOffset_1 },
-                                                            { nameof(BottomDwellTimeOffset_2),       DwellTimeOffset_2 },
-                                                            { nameof(BottomDwellTimeOffset_3),       DwellTimeOffset_3 },
-                                                            { nameof(BottomDwellTimeOffset_4),       DwellTimeOffset_4 },
-                                                            { nameof(BottomDwellTimeOffset_5),       DwellTimeOffset_5 },
-                                                            { nameof(BottomDwellTimeOffset_6),       DwellTimeOffset_6 },
-                                                            { nameof(BottomSegmentCounts),           SegmentCounts }
+                                                            { nameof(SegmentCounts), SegmentCounts },
+                                                            { nameof(NitrogenMode), NitrogenMode }
                                                         };
     public bool SetByDictionary(Dictionary<string, string> dic)
     {

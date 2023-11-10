@@ -422,14 +422,14 @@
                       Margin="0,4,0,0"
                       AutoGenerateColumns="False"
                       BorderThickness="0"
-                      FontSize="12"
+                      FontSize="25"
                       HorizontalScrollBarVisibility="Disabled"
                       ItemsSource="{Binding ViewResults, Mode=OneWay, IsAsync=True}"
                       SelectedCellsChanged="SelectedCellsChanged"
                       SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
                       SelectedItem="{Binding SelectedProcessInfo, Mode=OneWayToSource}">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Width="Auto"
+                    <DataGridTemplateColumn Width="300"
                                             MinWidth="60">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource 紀錄時間}" />
@@ -483,7 +483,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="Auto"
+                    <!--<DataGridTemplateColumn Width="100"
                                             MinWidth="40">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource TopOrBottom}" />
@@ -494,8 +494,8 @@
                                            TextTrimming="CharacterEllipsis" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="Auto"
+                    </DataGridTemplateColumn>-->
+                    <!--<DataGridTemplateColumn Width="300"
                                             MinWidth="40">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource Part}" />
@@ -507,7 +507,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="Auto"
+                    <DataGridTemplateColumn Width="300"
                                             MinWidth="40">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource Lot}" />
@@ -518,7 +518,7 @@
                                            TextTrimming="CharacterEllipsis" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    </DataGridTemplateColumn>-->
                     <DataGridTemplateColumn  Width="*"
                                              HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
@@ -533,8 +533,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                  
-                    <DataGridTemplateColumn Width="Auto"
+                    <!--<DataGridTemplateColumn Width="Auto"
                                             MinWidth="80"
                                             HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
@@ -548,8 +547,8 @@
                                            TextTrimming="CharacterEllipsis" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="Auto"
+                    </DataGridTemplateColumn>-->
+                    <!--<DataGridTemplateColumn Width="Auto"
                                             MinWidth="40">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource 數量}" />
@@ -560,8 +559,8 @@
                                            TextTrimming="CharacterEllipsis" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="Auto"
+                    </DataGridTemplateColumn>-->
+                    <DataGridTemplateColumn Width="300"
                                             MinWidth="60">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource 開始時間}" />
@@ -572,7 +571,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="Auto"
+                    <DataGridTemplateColumn Width="300"
                                             MinWidth="60">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource 結束時間}" />
@@ -583,7 +582,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn> 
-                    <DataGridTemplateColumn Width="Auto"
+                    <DataGridTemplateColumn Width="300"
                                             MinWidth="60">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource 總烘烤時間}" />

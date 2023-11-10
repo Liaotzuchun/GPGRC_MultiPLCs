@@ -381,14 +381,14 @@
             <DataGrid x:Name="dg1"
                       AutoGenerateColumns="False"
                       BorderThickness="0"
-                      FontSize="12"
+                      FontSize="25"
                       HorizontalScrollBarVisibility="Disabled"
                       ItemsSource="{Binding ViewResults, Mode=OneWay, IsAsync=True}"
                       SelectedCellsChanged="dg1_SelectedCellsChanged"
                       SelectedIndex="{Binding SelectedIndex1, Mode=TwoWay}">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn x:Name="dc1"
-                                            Width="Auto"
+                                            Width="300"
                                             MinWidth="60">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource 紀錄時間}" />
@@ -399,7 +399,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="Auto"
+                    <DataGridTemplateColumn Width="300"
                                             MinWidth="60">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource 以前}" />
@@ -410,7 +410,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="Auto"
+                    <DataGridTemplateColumn Width="150"
                                             HeaderStyle="{StaticResource ColumnFilterStyle}"
                                             Visibility="{Binding OvenCount, Source={StaticResource Mediator}, Mode=OneWay, Converter={StaticResource IsMoreThanValueVis}, ConverterParameter={StaticResource two}}">
                         <DataGridTemplateColumn.Header>
@@ -424,7 +424,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="Auto"
+                    <DataGridTemplateColumn Width="200"
                                             HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
                             <ContentControl Content="{StaticResource TypeFilterData}"
@@ -437,7 +437,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="Auto"
+                    <DataGridTemplateColumn Width="300"
                                             MinWidth="60"
                                             MaxWidth="240"
                                             CellTemplateSelector="{StaticResource LogTypeTemplateSelector}">

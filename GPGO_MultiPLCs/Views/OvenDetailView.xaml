@@ -767,18 +767,14 @@
                 </GroupBox.Header>
                 <Grid Background="{StaticResource WindowBackgroundBrush6}"
                       ClipToBounds="True">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="80" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="3*" />
-                            <RowDefinition />
-                            <RowDefinition />
+                            <RowDefinition Height="5*"></RowDefinition>
+                            <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
                         <Border Grid.Row="0"
                                 Grid.Column="0"
@@ -818,7 +814,7 @@
                                 </views:LevelsProgressBar.Steps>
                             </views:LevelsProgressBar>
                         </Border>
-                        <Border Grid.Row="1"
+                        <!--<Border Grid.Row="1"
                                 Grid.Column="0" 
                                 Background="{StaticResource WindowBackgroundBrush2}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -838,8 +834,8 @@
                                 <Run Text="{Binding TopNitrogenFlow, Mode=OneWay, Converter={StaticResource DoubleRound}, ConverterParameter=0, StringFormat=\{0:F0\}}" />
                                 <Run Text="L/m" />
                             </TextBlock>
-                        </Border>
-                        <Border Grid.Row="2"
+                        </Border>-->
+                        <!--<Border Grid.Row="2"
                                 Grid.Column="0"
                                 Background="{StaticResource WindowBackgroundBrush2}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -859,7 +855,7 @@
                                 <Run Text="{Binding OxygenContent, Mode=OneWay, Converter={StaticResource DoubleRound}, ConverterParameter=1, StringFormat=\{0:F1\}}" />
                                 <Run Text="%" />
                             </TextBlock>
-                        </Border>
+                        </Border>-->
                         <!--<Border Grid.Row="3"
                                 Grid.Column="0"
                                 Background="{StaticResource WindowBackgroundBrush2}"
@@ -917,8 +913,8 @@
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            Text="{DynamicResource 設備模式}" />
-                            </Border>-->
-                            <!--<Border Grid.Row="1"
+                            </Border>
+                            <Border Grid.Row="1"
                                     Grid.Column="0"
                                     Background="{StaticResource WindowBackgroundBrush2}"
                                     BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -1024,6 +1020,16 @@
                                                 ContentTemplate="{StaticResource ProgressDataTemplate}" />
                             </Border>-->
                         </Grid>
+                        <Button Grid.Row="1"
+                                Grid.ColumnSpan="2"
+                                Margin="6,6,6,6">
+                            <TextBlock Text="{DynamicResource 啟動}"></TextBlock>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding AutoStart, Mode=OneTime}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
 
                     </Grid>
                 </Grid>
@@ -1736,11 +1742,6 @@
                             <ColumnDefinition Width="80" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="3*" />
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
                         <Border Grid.Row="0"
                                 Grid.Column="0"
                                 Background="{StaticResource WindowBackgroundBrush2}"
@@ -1779,7 +1780,7 @@
                                 </views:LevelsProgressBar.Steps>
                             </views:LevelsProgressBar>
                         </Border>
-                        <Border Grid.Row="1"
+                        <!--<Border Grid.Row="1"
                                 Grid.Column="0"
                                 Background="{StaticResource WindowBackgroundBrush2}"
                                 BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -1820,7 +1821,7 @@
                                 <Run Text="{Binding OxygenContent, Mode=OneWay, Converter={StaticResource DoubleRound}, ConverterParameter=1, StringFormat=\{0:F1\}}" />
                                 <Run Text="%" />
                             </TextBlock>
-                        </Border>
+                        </Border>-->
                         <!--<Border Grid.Row="3"
                                 Grid.Column="0"
                                 Background="{StaticResource WindowBackgroundBrush2}"

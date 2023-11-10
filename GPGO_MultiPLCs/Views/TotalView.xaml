@@ -21,15 +21,11 @@
                  Height="0">   
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="0.5*" />
                     <ColumnDefinition Width="5*"/>
-                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="3*"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
@@ -249,7 +245,7 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Grid Grid.Column="1"
+                    <!--<Grid Grid.Column="1"
                           Grid.RowSpan="2"
                           Margin="4,0,4,0">
                         <ListBox Grid.Row="0"
@@ -277,7 +273,7 @@
                                 <Run Text="炉"></Run>
                             </TextBlock>
                         </ListBox>
-                    </Grid>
+                    </Grid>-->
                 </Grid>
                 <local:OvenEditView Grid.Column="1"
                                     Margin="4,4,4,0"

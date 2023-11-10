@@ -327,14 +327,24 @@ public sealed class TotalView_ViewModel : ObservableObject
                               {
                               };
 
+            //寫入手臂 PLC[0]
+            plc.WriteToRB += e =>
+            {
+                var (dOvenNum, sLot) = e;
+                //Set(lot, nameof(RbLotID));
+                PLC_All[0].OvenNum = dOvenNum;
+                PLC_All[0].RbLotID = sLot;
+                PLC_All[0].RbRun = 1.0;
+            };
+
             //! PLC讀取配方內容時
             plc.GetRecipe += recipeName => string.IsNullOrEmpty(recipeName) ? null : GetRecipe?.Invoke(recipeName);
 
             plc.ExecutingStarted += () =>
                                     {
-                                        //PLCIndex = index;
-                                        Index = 0;
+
                                     };
+
 
             //! 烘烤流程結束時
             plc.ExecutingFinished += async baseInfo =>
@@ -421,7 +431,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                 {
                                     for (var i = 0; i < OvenCount; i++)
                                     {
-                                        PLC_All[i].Check = !PLC_All[i].Check;
+                                        PLC_All[i].Check = PLC_All[i].Check == 1 ? (short)0 : (short)1;
                                     }
                                 }
                                 else if (Gate.Connect(new Dictionary<string, string>

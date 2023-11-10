@@ -192,10 +192,10 @@ public class GlobalSettings : RecipeFileBase<GlobalSettings>
         AVGTime = 1;
         HeartTime = 1;
         HeartContent = "SSEMP";
-        HeartPort = 5001;
-        HeartService = "127.0.0.1";
-        EquipmentID = "GPGO";
-        iMESURL = "iMESurl";
+        HeartPort = 60001;
+        HeartService = "192.168.10.1";
+        EquipmentID = "BF2308271";
+        iMESURL = "http://192.168.10.1:9090/wsservice/macWS";
         CallCarrierID = "CallCarrierID";
         OutCarrierID = "OutCarrierID";
         NGCarrierID = "NGCarrierID";

@@ -507,7 +507,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                     }
                 }
 
-                using var datas = ViewResults.Where(x => x.TopIsFinished || x.BottomIsFinished).ToPooledList();
+                using var datas = ViewResults.ToPooledList();
                 if (datas.Count <= 0)
                 {
                     return;
