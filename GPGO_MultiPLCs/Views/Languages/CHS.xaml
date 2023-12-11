@@ -333,9 +333,7 @@
     <sys:String x:Key="LotID">批号</sys:String>
     <sys:String x:Key="PartID">料号</sys:String>
     <sys:String x:Key="Quantity">数量</sys:String>
-    <sys:String x:Key="TopOrBottom">上下炉</sys:String>
-    <sys:String x:Key="Top">上炉</sys:String>
-    <sys:String x:Key="Bottom">下炉</sys:String>
     <sys:String x:Key="操作人員">操作人員</sys:String>
+    <sys:String x:Key="DataTimes">资料上报频率</sys:String>
 
 </ResourceDictionary>

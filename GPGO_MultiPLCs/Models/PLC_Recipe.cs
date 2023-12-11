@@ -94,14 +94,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         }
     }
 
-    [LanguageTranslator("Nitrogen Mode", "氮氣模式", "氮气模式")]
-    public bool NitrogenMode
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-
-
     [LanguageTranslator("Oxygen Content", "氧含量", "氧含量")]
     public double OxygenContentSet
     {
@@ -188,27 +180,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     [OrderIndex(4)]
     [LanguageTranslator("Inflating Time", "充氣時間", "充气时间")]
     public double InflatingTime
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, MidpointRounding.AwayFromZero);
-
-            if (value > InflatingTime_Max)
-            {
-                value = InflatingTime_Max;
-            }
-            else if (value < InflatingTime_Min)
-            {
-                value = InflatingTime_Min;
-            }
-
-            Set(value);
-        }
-    }
-    [OrderIndex(4)]
-    [LanguageTranslator("Inflating Time", "充氣時間", "充气时间")]
-    public double BottomInflatingTime
     {
         get => Get<double>();
         set
@@ -610,7 +581,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
             else if (value <= RampTime_1)
             {
-                value = RampTime_1 + 0.1;
+                value = RampTime_1 + 1;
             }
 
             Set(value);
@@ -632,7 +603,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
             else if (value <= RampTime_2)
             {
-                value = RampTime_2 + 0.1;
+                value = RampTime_2 + 1;
             }
 
             Set(value);
@@ -654,7 +625,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
             else if (value <= RampTime_3)
             {
-                value = RampTime_3 + 0.1;
+                value = RampTime_3 + 1;
             }
 
             Set(value);
@@ -676,7 +647,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
             else if (value <= RampTime_4)
             {
-                value = RampTime_4 + 0.1;
+                value = RampTime_4 + 1;
             }
 
             Set(value);
@@ -698,7 +669,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
             else if (value <= RampTime_5)
             {
-                value = RampTime_5 + 0.1;
+                value = RampTime_5 + 1;
             }
 
             Set(value);
@@ -720,7 +691,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
             else if (value <= RampTime_6)
             {
-                value = RampTime_6 + 0.1;
+                value = RampTime_6 + 1;
             }
 
             Set(value);
@@ -743,7 +714,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
             else if (value <= RampTime_7)
             {
-                value = RampTime_7 + 0.1;
+                value = RampTime_7 + 1;
             }
 
             Set(value);
@@ -767,7 +738,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
             else if (value <= RampTime_8)
             {
-                value = RampTime_8 + 0.1;
+                value = RampTime_8 + 1;
             }
 
             Set(value);
@@ -1172,7 +1143,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
             else if (value <= DwellTime_1)
             {
-                value = DwellTime_1 + 0.1;
+                value = DwellTime_1 + 1;
             }
 
             Set(value);
@@ -1194,7 +1165,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
             else if (value <= DwellTime_2)
             {
-                value = DwellTime_2 + 0.1;
+                value = DwellTime_2 + 1;
             }
 
             Set(value);
@@ -1217,7 +1188,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
             else if (value <= DwellTime_3)
             {
-                value = DwellTime_3 + 0.1;
+                value = DwellTime_3 + 1;
             }
 
             Set(value);
@@ -1239,7 +1210,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
             else if (value <= DwellTime_4)
             {
-                value = DwellTime_4 + 0.1;
+                value = DwellTime_4 + 1;
             }
 
             Set(value);
@@ -1262,7 +1233,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
             else if (value <= DwellTime_5)
             {
-                value = DwellTime_5 + 0.1;
+                value = DwellTime_5 + 1;
             }
 
             Set(value);
@@ -1285,7 +1256,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             }
             else if (value <= DwellTime_6)
             {
-                value = DwellTime_6 + 0.1;
+                value = DwellTime_6 + 1;
             }
 
             Set(value);
@@ -1590,7 +1561,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
 
     public override bool Equals(PLC_Recipe? other) => other != null &&
                                                       RecipeName == other.RecipeName &&
-                                                      NitrogenMode == other.NitrogenMode &&
                                                       OxygenContentSet.ToString("0.0") == other.OxygenContentSet.ToString("0.0") &&
                                                       InflatingTime.ToString("0") == other.InflatingTime.ToString("0") &&
                                                       DwellTemperature_1.ToString("0.0") == other.DwellTemperature_1.ToString("0.0") &&
@@ -1655,7 +1625,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     {
         Updated = DateTime.Now,
         RecipeName = RecipeName,
-        NitrogenMode = NitrogenMode,
         OxygenContentSet = OxygenContentSet,
         InflatingTime = InflatingTime,
         DwellTemperature_1 = DwellTemperature_1,
@@ -1722,7 +1691,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     public override void CopyValue(string user, UserLevel level, PLC_Recipe recipe)
     {
         Updated = DateTime.Now;
-        NitrogenMode = recipe.NitrogenMode;
         OxygenContentSet = recipe.OxygenContentSet;
         InflatingTime = recipe.InflatingTime;
         DwellTemperature_1 = recipe.DwellTemperature_1;
@@ -1827,8 +1795,51 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
                                                             { nameof(DwellTimeOffset_4), DwellTimeOffset_4 },
                                                             { nameof(DwellTimeOffset_5), DwellTimeOffset_5 },
                                                             { nameof(DwellTimeOffset_6), DwellTimeOffset_6 },
-                                                            { nameof(SegmentCounts), SegmentCounts },
-                                                            { nameof(NitrogenMode), NitrogenMode }
+                                                            { nameof(SegmentCounts), SegmentCounts }
+                                                        };
+
+    public Dictionary<string, object> ToShowDictionary() => new()
+                                                        {
+                                                            { "配方", RecipeName },
+                                                            { "恆溫時間1",  DwellTime_1 },
+                                                            { "恆溫時間2",  DwellTime_2 },
+                                                            { "恆溫時間3",  DwellTime_3 },
+                                                            { "恆溫時間4",  DwellTime_4 },
+                                                            { "恆溫時間5",  DwellTime_5 },
+                                                            { "恆溫時間6",  DwellTime_6 },
+                                                            { "恆溫警報1", DwellAlarm_1 },
+                                                            { "恆溫警報2", DwellAlarm_2 },
+                                                            { "恆溫警報3", DwellAlarm_3 },
+                                                            { "恆溫警報4", DwellAlarm_4 },
+                                                            { "恆溫警報5", DwellAlarm_5 },
+                                                            { "恆溫警報6", DwellAlarm_6 },
+                                                            { "降溫時間", CoolingTime },
+                                                            { "降溫溫度", CoolingTemperature },
+                                                            { "升溫時間1", RampTime_1 },
+                                                            { "升溫時間2", RampTime_2 },
+                                                            { "升溫時間3", RampTime_3 },
+                                                            { "升溫時間4", RampTime_4 },
+                                                            { "升溫時間5", RampTime_5 },
+                                                            { "升溫時間6", RampTime_6 },
+                                                            { "升溫警報1", RampAlarm_1 },
+                                                            { "升溫警報2", RampAlarm_2 },
+                                                            { "升溫警報3", RampAlarm_3 },
+                                                            { "升溫警報4", RampAlarm_4 },
+                                                            { "升溫警報5", RampAlarm_5 },
+                                                            { "升溫警報6", RampAlarm_6 },
+                                                            { "目標溫度1", TemperatureSetpoint_1 },
+                                                            { "目標溫度2", TemperatureSetpoint_2 },
+                                                            { "目標溫度3", TemperatureSetpoint_3 },
+                                                            { "目標溫度4", TemperatureSetpoint_4 },
+                                                            { "目標溫度5", TemperatureSetpoint_5 },
+                                                            { "目標溫度6", TemperatureSetpoint_6 },
+                                                            { "恆溫補償1", DwellTimeOffset_1 },
+                                                            { "恆溫補償2", DwellTimeOffset_2 },
+                                                            { "恆溫補償3", DwellTimeOffset_3 },
+                                                            { "恆溫補償4", DwellTimeOffset_4 },
+                                                            { "恆溫補償5", DwellTimeOffset_5 },
+                                                            { "恆溫補償6", DwellTimeOffset_6 },
+                                                            { "使用段數", SegmentCounts }
                                                         };
     public bool SetByDictionary(Dictionary<string, string> dic)
     {

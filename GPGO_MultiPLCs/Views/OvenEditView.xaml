@@ -51,51 +51,61 @@
                                 <ColumnDefinition />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <Button x:Name="AddAgv"
-                                    Grid.Row="0"
-                                    Grid.Column="0"
-                                    IsEnabled="{Binding TopAddEnabled}">
-                                <TextBlock>叫料</TextBlock>
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction Command="{Binding TopAddAGV, Mode=OneTime}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </Button>
-                            <Button Grid.Row="0"
-                                    Grid.Column="1"
-                                    IsEnabled="{Binding TopRetEnabled}">
-                                <TextBlock>退料</TextBlock>
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction Command="{Binding TopRetAGV, Mode=OneTime}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </Button>
+                            <Grid Grid.Row="0"
+                                  Grid.ColumnSpan="4"
+                                  IsEnabled="{Binding AutoOrHalfAuto , Source={StaticResource Mediator}, Mode=OneWay}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Button x:Name="AddAgv"
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        IsEnabled="{Binding TopAddEnabled}">
+                                    <TextBlock>叫料</TextBlock>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding TopAddAGV, Mode=OneTime}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+                                <Button Grid.Row="0"
+                                        Grid.Column="1"
+                                        IsEnabled="{Binding TopRetEnabled}">
+                                    <TextBlock>退料</TextBlock>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding TopRetAGV, Mode=OneTime}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
 
-                            <Button Grid.Row="0"
-                                    Grid.Column="2"
-                                    IsEnabled="{Binding TopOutEnabled}">
-                                <TextBlock Text="出料">
-                                </TextBlock>
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction Command="{Binding TopOutAGV, Mode=OneTime}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </Button>
+                                <Button Grid.Row="0"
+                                        Grid.Column="2"
+                                        IsEnabled="{Binding TopOutEnabled}">
+                                    <TextBlock Text="出料">
+                                    </TextBlock>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding TopOutAGV, Mode=OneTime}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
 
-                            <Button Grid.Row="0"
-                                    Grid.Column="3"
-                                    IsEnabled="{Binding TopNGOutEnabled}">
-                                <TextBlock>NG出料
-                                </TextBlock>
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction Command="{Binding TopNGOutAGV, Mode=OneTime}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </Button>
+                                <Button Grid.Row="0"
+                                        Grid.Column="3"
+                                        IsEnabled="{Binding TopNGOutEnabled}">
+                                    <TextBlock>NG出料
+                                    </TextBlock>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding TopNGOutAGV, Mode=OneTime}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button> 
+                            </Grid>
                             <Button Grid.Row="0"
                                     Grid.Column="4"
                                     IsEnabled="{Binding TopCheckButtonEnabled}">
@@ -533,7 +543,7 @@
                         </ScrollViewer>
                     </Grid>
                 </GroupBox>
-                <GroupBox Grid.Row="1"
+                <GroupBox Grid.Row="0"
                           Grid.Column="1"
                           Margin="6,6,6,6">
                     <GroupBox.IsEnabled>
@@ -554,7 +564,7 @@
                                    FontSize="16"
                                    FontWeight="Bold"
                                    Foreground="{StaticResource GlyphBrush}">
-        <Run Text="{DynamicResource 列表}" />
+                             <Run Text="{DynamicResource 列表}" />
                         </TextBlock>
                     </GroupBox.Header>
                     <Grid>
@@ -566,12 +576,13 @@
                                   FontSize="14"
                                   FontWeight="Bold"
                                   HorizontalScrollBarVisibility="Disabled"
-                                  IsEnabled="{Binding IsChecked,  Mode=OneWay, Converter={StaticResource BoolNot}}"
+                                  
                                   ItemsSource="{Binding OvenInfo.TopTempProducts, Mode=OneWay}"
                                   Loaded="DataGrid_Loaded"
                                   VerticalScrollBarVisibility="Auto">
+                            <!--IsEnabled="{Binding IsChecked,  Mode=OneWay, Converter={StaticResource BoolNot}}"-->
                             <DataGrid.Columns>
-                                <DataGridTemplateColumn Width="Auto"
+                                <!--<DataGridTemplateColumn Width="Auto"
                                                         MinWidth="60"
                                                         CellStyle="{StaticResource DataGridCellStyle2}">
                                     <DataGridTemplateColumn.CellTemplate>
@@ -580,14 +591,13 @@
                                                     Style="{StaticResource TextButton2}">
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="Click">
-                                                        <i:InvokeCommandAction Command="{Binding DataContext.DeleteLotCommand, ElementName=DataGrid, Mode=OneTime}"
-                                                                               CommandParameter="{Binding SelectedItem, ElementName=DataGrid, Mode=OneWay}" />
+                                                        <i:InvokeCommandAction Command="{Binding DataContext.DeleteLotCommand, ElementName=DataGrid, Mode=OneTime}"/>
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
                                             </Button>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
+                                </DataGridTemplateColumn>-->
                                 <DataGridTemplateColumn Width="*">
                                     <DataGridTemplateColumn.Header>
                                         <TextBlock Text="{DynamicResource 料號}" />
@@ -623,7 +633,7 @@
                             </DataGrid.Columns>
                         </DataGrid>
                     </Grid>
-                </GroupBox>
+                    </GroupBox>
             </Grid>
         
             <GroupBox Grid.Row="2"

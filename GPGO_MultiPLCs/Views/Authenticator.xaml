@@ -41,7 +41,7 @@
         </Style>
     </UserControl.Style>
 
-    <Border Width="600"
+    <Border Width="1000"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Background="{StaticResource WindowBackgroundBrush2}"
@@ -421,7 +421,7 @@
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="200"/>
-                                <RowDefinition Height="100"/>
+                                <RowDefinition Height="130"/>
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
@@ -472,8 +472,6 @@
                                          BorderThickness="1,0,1,1"
                                          FontSize="16"
                                          Text="{Binding Settings.iMESURL, Mode=TwoWay}" />
-                                
-                                
                                 <Border Grid.Row="1"
                                         Grid.Column="0"
                                         Background="{StaticResource WindowBackgroundBrush2}"
@@ -488,7 +486,6 @@
                                          BorderThickness="1,0,1,1"
                                          FontSize="16"
                                          Text="{Binding Settings.CallCarrierID, Mode=TwoWay}" />
-
                                 <Border Grid.Row="1"
                                         Grid.Column="2"
                                         Background="{StaticResource WindowBackgroundBrush2}"
@@ -534,7 +531,7 @@
                                     <views:SpinControl Margin="8,0"
                                                        VerticalAlignment="Center"
                                                        Maximum="60"
-                                                       Minimum="1"
+                                                       Minimum="0"
                                                        Value="{Binding Settings.TimeOut, Mode=TwoWay}">
                                         <views:SpinControl.SmallChange>
                                             <system:Double>1</system:Double>
@@ -548,7 +545,6 @@
                                                               Unit="s" />
                                     </views:SpinControl>
                                 </Border>
-
                                 <Border Grid.Row="3"
                                         Grid.Column="0"
                                         Background="{StaticResource WindowBackgroundBrush2}"
@@ -580,7 +576,6 @@
                                                               Unit="s" />
                                     </views:SpinControl>
                                 </Border>
-
                                 <Border Grid.Row="3"
                                         Grid.Column="2"
                                         Background="{StaticResource WindowBackgroundBrush2}"
@@ -603,7 +598,6 @@
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </CheckBox>
-
                             </Grid>
                             <Border BorderBrush="{StaticResource WindowBackgroundBrush4}"
                                     BorderThickness="0,0,0,0"
@@ -619,6 +613,7 @@
                                         <Grid Grid.Row="0"
                                               Grid.ColumnSpan="2">
                                             <Grid.RowDefinitions>
+                                                <RowDefinition />
                                                 <RowDefinition />
                                                 <RowDefinition />
                                             </Grid.RowDefinitions>
@@ -704,11 +699,58 @@
                                                                           Unit="s" />
                                                 </views:SpinControl>
                                             </Border>
+                                            <Border Grid.Row="2"
+                                                    Grid.Column="0"
+                                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="1,1,0,1">
+                                                <TextBlock HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Text="{DynamicResource DataTimes}" />
+                                            </Border>
+                                            <Border Grid.Row="2"
+                                                    Grid.Column="1"
+                                                    Background="{StaticResource LightBrush}"
+                                                    BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                                                    BorderThickness="1,0,1,1">
+                                                <views:SpinControl Margin="8,0"
+                                                                   VerticalAlignment="Center"
+                                                                   Maximum="60"
+                                                                   Minimum="1"
+                                                                   Value="{Binding Settings.DataTime, Mode=TwoWay}">
+                                                    <views:SpinControl.SmallChange>
+                                                        <system:Double>1</system:Double>
+                                                    </views:SpinControl.SmallChange>
+                                                    <views:NumericTextBox Background="Transparent"
+                                                                          BorderThickness="0"
+                                                                          IntOnly="True"
+                                                                          Max="60"
+                                                                          Min="1"
+                                                                          Text="{Binding Settings.DataTime, Mode=TwoWay}"
+                                                                          Unit="s" />
+                                                </views:SpinControl>
+                                            </Border>
+                                            <ListBox Grid.Row="2"
+                                                     Grid.Column="2"
+                                                     Grid.ColumnSpan="2"
+                                                     Margin="0,0,0,8"
+                                                     FontSize="16"
+                                                     ItemContainerStyle="{StaticResource ListBoxItem_Top}"
+                                                     SelectedIndex="{Binding Settings.AutoorHalfAuto, Mode=TwoWay}">
+                                                <ListBox.Template>
+                                                    <ControlTemplate>
+                                                        <ItemsPresenter />
+                                                    </ControlTemplate>
+                                                </ListBox.Template>
+                                                <ListBox.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <UniformGrid Rows="1" />
+                                                    </ItemsPanelTemplate>
+                                                </ListBox.ItemsPanel>
+                                                <TextBlock Text="{DynamicResource 半自動}" />
+                                                <TextBlock Text="{DynamicResource 自動}" />
+                                            </ListBox>
                                         </Grid>
-                                       
-                                        
-                                       
-                                      
                                     </Grid>
                                 </Grid>
                             </Border>
@@ -870,7 +912,7 @@
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
                 <TextBlock Text="{DynamicResource 繁體中文}" />
-                <TextBlock Text="{DynamicResource 簡體中文}" />
+                <TextBlock Text="{DynamicResource 簡體中文}" />              
                 <!--<TextBlock Text="{DynamicResource 英文}" />-->
             </ListBox>
         </Grid>

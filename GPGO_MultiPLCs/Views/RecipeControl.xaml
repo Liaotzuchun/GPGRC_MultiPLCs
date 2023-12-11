@@ -184,7 +184,7 @@
                                                Minimum="{Binding CoolingTime_Min, Mode=OneWay}"
                                                Value="{Binding CoolingTime, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding CoolingTime_Max, Mode=OneWay}"
@@ -442,7 +442,7 @@
                                                Minimum="{Binding RampTime_Min, Mode=OneWay}"
                                                Value="{Binding RampTime_1, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding RampTime_Max, Mode=OneWay}"
@@ -459,7 +459,7 @@
                                                Minimum="{Binding RampTime_Min, Mode=OneWay}"
                                                Value="{Binding RampTime_2, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding RampTime_Max, Mode=OneWay}"
@@ -476,7 +476,7 @@
                                                Minimum="{Binding RampTime_Min, Mode=OneWay}"
                                                Value="{Binding RampTime_3, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding RampTime_Max, Mode=OneWay}"
@@ -493,7 +493,7 @@
                                                Minimum="{Binding RampTime_Min, Mode=OneWay}"
                                                Value="{Binding RampTime_4, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding RampTime_Max, Mode=OneWay}"
@@ -510,7 +510,7 @@
                                                Minimum="{Binding RampTime_Min, Mode=OneWay}"
                                                Value="{Binding RampTime_5, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding RampTime_Max, Mode=OneWay}"
@@ -527,7 +527,7 @@
                                                Minimum="{Binding RampTime_Min, Mode=OneWay}"
                                                Value="{Binding RampTime_6, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding RampTime_Max, Mode=OneWay}"
@@ -543,7 +543,7 @@
                                                Minimum="{Binding RampAlarm_Min, Mode=OneWay}"
                                                Value="{Binding RampAlarm_1, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                                    <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding RampAlarm_Max, Mode=OneWay}"
@@ -560,7 +560,7 @@
                                                Minimum="{Binding RampAlarm_Min, Mode=OneWay}"
                                                Value="{Binding RampAlarm_2, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding RampAlarm_Max, Mode=OneWay}"
@@ -577,7 +577,7 @@
                                                Minimum="{Binding RampAlarm_Min, Mode=OneWay}"
                                                Value="{Binding RampAlarm_3, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding RampAlarm_Max, Mode=OneWay}"
@@ -594,7 +594,7 @@
                                                Minimum="{Binding RampAlarm_Min, Mode=OneWay}"
                                                Value="{Binding RampAlarm_4, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding RampAlarm_Max, Mode=OneWay}"
@@ -611,7 +611,7 @@
                                                Minimum="{Binding RampAlarm_Min, Mode=OneWay}"
                                                Value="{Binding RampAlarm_5, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding RampAlarm_Max, Mode=OneWay}"
@@ -628,7 +628,7 @@
                                                Minimum="{Binding RampAlarm_Min, Mode=OneWay}"
                                                Value="{Binding RampAlarm_6, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding RampAlarm_Max, Mode=OneWay}"
@@ -644,7 +644,7 @@
                                                Minimum="{Binding DwellTime_Min, Mode=OneWay}"
                                                Value="{Binding DwellTime_1, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding DwellTime_Max, Mode=OneWay}"
@@ -661,7 +661,7 @@
                                                Minimum="{Binding DwellTime_Min, Mode=OneWay}"
                                                Value="{Binding DwellTime_2, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding DwellTime_Max, Mode=OneWay}"
@@ -678,7 +678,7 @@
                                                Minimum="{Binding DwellTime_Min, Mode=OneWay}"
                                                Value="{Binding DwellTime_3, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding DwellTime_Max, Mode=OneWay}"
@@ -695,7 +695,7 @@
                                                Minimum="{Binding DwellTime_Min, Mode=OneWay}"
                                                Value="{Binding DwellTime_4, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding DwellTime_Max, Mode=OneWay}"
@@ -712,7 +712,7 @@
                                                Minimum="{Binding DwellTime_Min, Mode=OneWay}"
                                                Value="{Binding DwellTime_5, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding DwellTime_Max, Mode=OneWay}"
@@ -729,7 +729,7 @@
                                                Minimum="{Binding DwellTime_Min, Mode=OneWay}"
                                                Value="{Binding DwellTime_6, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding DwellTime_Max, Mode=OneWay}"
@@ -745,7 +745,7 @@
                                                Minimum="{Binding DwellAlarm_Min, Mode=OneWay}"
                                                Value="{Binding DwellAlarm_1, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding DwellAlarm_Max, Mode=OneWay}"
@@ -762,7 +762,7 @@
                                                Minimum="{Binding DwellAlarm_Min, Mode=OneWay}"
                                                Value="{Binding DwellAlarm_2, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding DwellAlarm_Max, Mode=OneWay}"
@@ -779,7 +779,7 @@
                                                Minimum="{Binding DwellAlarm_Min, Mode=OneWay}"
                                                Value="{Binding DwellAlarm_3, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding DwellAlarm_Max, Mode=OneWay}"
@@ -796,7 +796,7 @@
                                                Minimum="{Binding DwellAlarm_Min, Mode=OneWay}"
                                                Value="{Binding DwellAlarm_4, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding DwellAlarm_Max, Mode=OneWay}"
@@ -813,7 +813,7 @@
                                                Minimum="{Binding DwellAlarm_Min, Mode=OneWay}"
                                                Value="{Binding DwellAlarm_5, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding DwellAlarm_Max, Mode=OneWay}"
@@ -830,7 +830,7 @@
                                                Minimum="{Binding DwellAlarm_Min, Mode=OneWay}"
                                                Value="{Binding DwellAlarm_6, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding DwellAlarm_Max, Mode=OneWay}"
@@ -846,7 +846,7 @@
                                                Minimum="{Binding DwellTime_Offset_Min, Mode=OneWay}"
                                                Value="{Binding DwellTimeOffset_1, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding DwellTime_Offset_Max, Mode=OneWay}"
@@ -863,7 +863,7 @@
                                                Minimum="{Binding DwellTime_Offset_Min, Mode=OneWay}"
                                                Value="{Binding DwellTimeOffset_2, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding DwellTime_Offset_Max, Mode=OneWay}"
@@ -880,7 +880,7 @@
                                                Minimum="{Binding DwellTime_Offset_Min, Mode=OneWay}"
                                                Value="{Binding DwellTimeOffset_3, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding DwellTime_Offset_Max, Mode=OneWay}"
@@ -897,7 +897,7 @@
                                                Minimum="{Binding DwellTime_Offset_Min, Mode=OneWay}"
                                                Value="{Binding DwellTimeOffset_4, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding DwellTime_Offset_Max, Mode=OneWay}"
@@ -914,7 +914,7 @@
                                                Minimum="{Binding DwellTime_Offset_Min, Mode=OneWay}"
                                                Value="{Binding DwellTimeOffset_5, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding DwellTime_Offset_Max, Mode=OneWay}"
@@ -931,7 +931,7 @@
                                                Minimum="{Binding DwellTime_Offset_Min, Mode=OneWay}"
                                                Value="{Binding DwellTimeOffset_6, Mode=TwoWay}">
                                 <views:SpinControl.SmallChange>
-                                    <system:Double>0.1</system:Double>
+                            <system:Double>1</system:Double>
                                 </views:SpinControl.SmallChange>
                                 <views:NumericTextBox BorderThickness="0"
                                                       Max="{Binding DwellTime_Offset_Max, Mode=OneWay}"
@@ -961,8 +961,7 @@
                     <ColumnDefinition Width="60" />
                 </Grid.ColumnDefinitions>
                 <TabControl Grid.RowSpan="2"
-                            views:TabControl.EnableSliding="True"
-                            SelectedIndex="{Binding SelectedIndex, ElementName=TC, Mode=OneWay}">
+                            views:TabControl.EnableSliding="True">
                     <TabItem Width="0"
                              Height="0">
                         <Button Content="{DynamicResource 儲存}"

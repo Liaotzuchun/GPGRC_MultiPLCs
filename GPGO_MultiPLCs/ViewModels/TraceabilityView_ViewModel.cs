@@ -758,9 +758,9 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
 
             ViewResults = Results.GetRange(min, max - min + 1)
                                  .Where(x => OvenFilter.Check(x.StationNumber) &&
-                                             RecipeFilter.Check(x.Recipe?.RecipeName ?? string.Empty) &&
-                                             OpFilter.Check(x.OperatorID) &&
-                                             FinishedFilter.Check(x.TopIsFinished) || FinishedFilter.Check(x.BottomIsFinished) &&
+                                 RecipeFilter.Check(x.Recipe?.RecipeName ?? string.Empty) &&
+                                 OpFilter.Check(x.OperatorID) &&
+                                             FinishedFilter.Check(x.TopIsFinished) || FinishedFilter.Check(x.TopIsFinished) &&
                                              x.Products.Any(y => PartIDFilter.Check(y.PartID)))
                                  .OrderByDescending(x => x.AddedTime)
                                  .ToList();

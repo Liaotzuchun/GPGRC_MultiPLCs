@@ -70,11 +70,8 @@ public sealed class TotalView_ViewModel : ObservableObject
     public RelayCommand DataUpload180Command { get; }
     public RelayCommand DataUpload190Command { get; }
     public RelayCommand DataUpload200Command { get; }
-    public RelayCommand OvenTopBottomChangeCommand { get; }
-
 
     public event Action<int> ChangeStatusevent;
-    public event Action<int> OvenTopBottomChangeevent;
 
 
     /// <summary>所有PLC</summary>
@@ -143,15 +140,6 @@ public sealed class TotalView_ViewModel : ObservableObject
         set => Set(value);
     }
 
-    public int EditOvenChange
-    {
-        get => Get<int>();
-        set
-        {
-            Set(value);
-            OvenTopBottomChangeevent?.Invoke(EditOvenChange);
-        }
-    }
     public TotalView_ViewModel(int count, IGate gate, IPAddress plcaddress, IDialogService dialog)
     {
         asyncOperation = AsyncOperationManager.CreateOperation(null);
@@ -289,8 +277,10 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                           { DataType.D, 0 },
                                                           { DataType.W, 0 }
                                                       })); //! 可指定PLC點位位移
-
-            plc.OvenInfo.OvenCode = $"Oven{i + 1}";
+            if (i == 0)
+                plc.OvenInfo.OvenCode = $"左炉";
+            else
+                plc.OvenInfo.OvenCode = $"右炉";
 
             PLC_All[i] = plc;
             var index = i;
@@ -330,11 +320,6 @@ public sealed class TotalView_ViewModel : ObservableObject
             //寫入手臂 PLC[0]
             plc.WriteToRB += e =>
             {
-                var (dOvenNum, sLot) = e;
-                //Set(lot, nameof(RbLotID));
-                PLC_All[0].OvenNum = dOvenNum;
-                PLC_All[0].RbLotID = sLot;
-                PLC_All[0].RbRun = 1.0;
             };
 
             //! PLC讀取配方內容時
@@ -351,22 +336,12 @@ public sealed class TotalView_ViewModel : ObservableObject
                                      {
                                          var product = new ProcessInfo(baseInfo);
 
-                                         if (baseInfo.TopIsFinished && baseInfo.TopOrBottom == "Top")
+                                         if (baseInfo.TopIsFinished)
                                          {
                                              dialog.Show(new Dictionary<Language, string>
                                                          {
-                                                             { Language.TW, $"第{index      + 1}站上爐已完成烘烤！" },
-                                                             { Language.CHS, $"第{index     + 1}站上爐已完成烘烤！" },
-                                                             { Language.EN, $"Oven No{index + 1}has been finished!" }
-                                                         },
-                                             TimeSpan.FromSeconds(2));
-                                         }
-                                         else if (baseInfo.BottomIsFinished && baseInfo.TopOrBottom == "Bottom")
-                                         {
-                                             dialog.Show(new Dictionary<Language, string>
-                                                         {
-                                                             { Language.TW, $"第{index      + 1}站下爐已完成烘烤！" },
-                                                             { Language.CHS, $"第{index     + 1}站下爐已完成烘烤！" },
+                                                             { Language.TW, $"已完成烘烤！" },
+                                                             { Language.CHS, $"已完成烘烤！" },
                                                              { Language.EN, $"Oven No{index + 1}has been finished!" }
                                                          },
                                              TimeSpan.FromSeconds(2));
@@ -375,9 +350,9 @@ public sealed class TotalView_ViewModel : ObservableObject
                                          {
                                              dialog.Show(new Dictionary<Language, string>
                                                          {
-                                                             { Language.TW, $"第{index      + 1}站已取消烘烤！" },
-                                                             { Language.CHS, $"第{index     + 1}站已取消烘烤！" },
-                                                             { Language.EN, $"Oven No{index + 1}has been canceled!" }
+                                                             { Language.TW, $"已完成烘烤！" },
+                                                             { Language.CHS, $"已完成烘烤！" },
+                                                             { Language.EN, $"Oven No{index + 1}has been finished!" }
                                                          },
                                               TimeSpan.FromSeconds(2));
                                          }

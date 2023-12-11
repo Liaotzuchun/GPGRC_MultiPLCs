@@ -114,4 +114,9 @@ public partial class Authenticator
     }
 
     private void UserControl_Loaded(object sender, RoutedEventArgs e) { }
+
+    private void ListBox_SelectionChanged2(object sender, SelectionChangedEventArgs e)
+    {
+        var index = ((ListBox)sender).SelectedIndex;
+    }
 }

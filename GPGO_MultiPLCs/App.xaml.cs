@@ -75,14 +75,14 @@ public partial class App
                 var cfgpath = @$"{Path.GetDirectoryName(path)}\mongod.cfg";
                 var arg     = $"--config \"{cfgpath}\"";
                 var process = new Process
-                              {
-                                  StartInfo = new ProcessStartInfo
-                                              {
-                                                  FileName    = path,
-                                                  Arguments   = arg,
-                                                  WindowStyle = ProcessWindowStyle.Hidden
-                                              }
-                              };
+                {
+                    StartInfo = new ProcessStartInfo
+                    {
+                        FileName    = path,
+                        Arguments   = arg,
+                        WindowStyle = ProcessWindowStyle.Hidden
+                    }
+                };
                 process.Start();
             }
         }

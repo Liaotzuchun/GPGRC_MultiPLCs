@@ -56,13 +56,6 @@ public class BaseInfo : ObservableObject
         set => Set(value);
     }
 
-    [LanguageTranslator("TopOrBottom", "上下爐", "上下爐")]
-    public string TopOrBottom
-    {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
-    }
-
     [LanguageTranslator("Recipe", "配方", "配方")]
     public PLC_Recipe? Recipe
     {
@@ -94,13 +87,6 @@ public class BaseInfo : ObservableObject
 
     [LanguageTranslator("Finished", "完成烘烤", "完成烘烤")]
     public bool TopIsFinished
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-
-    [LanguageTranslator("Finished", "完成烘烤", "完成烘烤")]
-    public bool BottomIsFinished
     {
         get => Get<bool>();
         set => Set(value);
@@ -193,7 +179,6 @@ public class BaseInfo : ObservableObject
         EndTime = new DateTime();
         TotalRampTime = 0.0;
         TopIsFinished = false;
-        BottomIsFinished = false;
     }
 }
 

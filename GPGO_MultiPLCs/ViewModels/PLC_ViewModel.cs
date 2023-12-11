@@ -1,10 +1,10 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Schedulers;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
@@ -13,6 +13,7 @@ using GPMVVM.Core.Helpers;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
 using GPMVVM.PooledCollections;
+using MongoDB.Driver;
 using PLCService;
 using Serilog;
 #pragma warning disable VSTHRD110
@@ -48,7 +49,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     private          bool                    ManualRecord;
     private          CancellationTokenSource CheckRecipeCTS = new();
     private          CancellationTokenSource ppCTS          = new();
-    private          CancellationTokenSource BottomppCTS          = new();
     private          DateTime                OfflineTime    = DateTime.MaxValue;
     private          TextBox?                inputFocusTB;
 
@@ -72,9 +72,10 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public event Func<Task> TopNGOutAGVevent;
     public event Func<Task> TopRetAGVevent;
     public event Func<Task> TopLocalIngredientsevent;
-    public event Action<int> TopDataUploadevent;
+    public event Action<string> TopDataUploadevent;
+    public event Action<int> TopDataUploadTimeevent;
     public event Func<Task> TopIngredientsevent;
-    public event Func<Task> TopTaskControlevent;
+    public event Func<string> TopTaskControlevent;
     public DateTime TopCheckin
     {
         get => Get<DateTime>();
@@ -95,6 +96,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         get => Get<bool>();
         set => Set(value);
     }
+
     public bool TopOutEnabled
     {
         get => Get<bool>();
@@ -201,143 +203,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         get => Get<string>() ?? string.Empty;
         set => Set(value);
     }
-    public string BottomLocalUser
-    {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
-    }
-    public string BottomLocalLot
-    {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
-    }
-    public string BottomLocalPartID
-    {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
-    }
-    public string BottomLocalProcessID
-    {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
-    }
-    public string BottomLocalPanelCount
-    {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
-    }
-    public string BottomLocalRecipe
-    {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
-    }
-    #endregion
-    #region Bottom
-    public RelayCommand AddAGV { get; }
-    public RelayCommand OutAGV { get; }
-    public RelayCommand NGOutAGV { get; }
-    public RelayCommand RetAGV { get; }
-    public RelayCommand TaskControl { get; }
-    public RelayCommand Ingredients { get; }
-    public RelayCommand CleanWO { get; }
-    public RelayCommand BottomLocalIngredients { get; }
-    public RelayCommand BottomLocalCleanWO { get; }
-    public RelayCommand CheckButton { get; }
-    public RelayCommand DataUpload { get; }
-    public event Func<Task> AddAGVevent;
-    public event Func<Task> OutAGVevent;
-    public event Func<Task> NGOutAGVevent;
-    public event Func<Task> RetAGVevent;
-    public event Action<int> DataUploadevent;
-    public event Func<Task> Ingredientsevent;
-    public event Func<Task> LocalIngredientsevent;
-    public event Func<Task> TaskControlevent;
-    public bool AddEnabled
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    public bool RetEnabled
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    public bool OutEnabled
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    public bool NGOutEnabled
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    public bool TaskControlButtonEnabled
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    public bool DataUploadButtonEnabled
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    public bool IngredientsButtonEnabled
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    public string Barcode
-    {
-        get => Get<string>();
-        set => Set(value);
-    }
-    public bool BarcodeEnabled
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-
-    public bool CheckButtonEnabled
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    public string OPID
-    {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
-    }
-    public string WorkOrder
-    {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
-    }
-    public string PartID
-    {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
-    }
-    public string ProcessID
-    {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
-    }
-    public string PanelCount
-    {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
-    }
-    public string RecipeID
-    {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
-    }
-    public string MESMessage
-    {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
-    }
     #endregion
     #endregion
     public int InputQuantityMin => 0;
@@ -373,7 +238,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
     /// <summary>取得是否正在紀錄溫度</summary>
     public bool IsExecuting => ExecutingTask?.Status is TaskStatus.Running or TaskStatus.WaitingForActivation or TaskStatus.WaitingToRun;
-    public bool BottomIsExecuting => BottomExecutingTask?.Status is TaskStatus.Running or TaskStatus.WaitingForActivation or TaskStatus.WaitingToRun;
 
     /// <summary>生產進度</summary>
     public double Progress
@@ -418,12 +282,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
     /// <summary>用來紀錄的任務，可追蹤狀態</summary>
     public Task? ExecutingTask
-    {
-        get => Get<Task>();
-        private set => Set(value);
-    }
-    /// <summary>用來紀錄的任務，可追蹤狀態</summary>
-    public Task? BottomExecutingTask
     {
         get => Get<Task>();
         private set => Set(value);
@@ -555,79 +413,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         get => Get<bool>();
         set => Set(value);
     }
-    public int EditOvenChange
-    {
-        get => Get<int>();
-        set
-        {
-            Set(value);
-            if (value is 0)
-            {
-                EditTopVisibility = Visibility.Visible;
-                EditBottomVisibility = Visibility.Hidden;
-            }
-            else if (value is 1)
-            {
-                EditTopVisibility = Visibility.Hidden;
-                EditBottomVisibility = Visibility.Visible;
-            }
-        }
-    }
-    public int DetailOvenChange
-    {
-        get => Get<int>();
-        set
-        {
-            Set(value);
-            if (value is 0)
-            {
-                DetailTopVisibility = Visibility.Visible;
-                DetailBottomVisibility = Visibility.Hidden;
-            }
-
-            else if (value is 1)
-            {
-                DetailTopVisibility = Visibility.Hidden;
-                DetailBottomVisibility = Visibility.Visible;
-            }
-        }
-    }
-    public Visibility EditBottomVisibility
-    {
-        get => Get<Visibility>();
-        set
-        {
-            Set(value);
-            NotifyPropertyChanged();
-        }
-    }
-    public Visibility EditTopVisibility
-    {
-        get => Get<Visibility>();
-        set
-        {
-            Set(value);
-            NotifyPropertyChanged();
-        }
-    }
-    public Visibility DetailTopVisibility
-    {
-        get => Get<Visibility>();
-        set
-        {
-            Set(value);
-            NotifyPropertyChanged();
-        }
-    }
-    public Visibility DetailBottomVisibility
-    {
-        get => Get<Visibility>();
-        set
-        {
-            Set(value);
-            NotifyPropertyChanged();
-        }
-    }
 
     public LogEvent SelectedLogEvent
     {
@@ -642,16 +427,15 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                          (Dictionary<BitType, int> bits_shift, Dictionary<DataType, int> datas_shift) shift = new()) : base(gate, plcindex, plctag, shift)
     {
         #region WebService功能
-        #region Top
+        #region 炉子
         TopAddEnabled = true;
         TopRetEnabled = false;
         TopOutEnabled = false;
         TopNGOutEnabled = false;
-        TopCheckButtonEnabled = true;
+        TopCheckButtonEnabled = false;
         TopIngredientsButtonEnabled = false;
         TopAddAGV = new RelayCommand(_ =>
         {
-            TopAddEnabled = false;
             TopAddAGVevent?.Invoke();
         });
         TopOutAGV = new RelayCommand(_ =>
@@ -670,37 +454,22 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             TopRetAGVevent?.Invoke();
         });
 
-        TopTaskControl = new RelayCommand(_ =>
-        {
-            TopTaskControlevent?.Invoke();
-        });
+        //AutoStart = new RelayCommand(async _ =>
+        //{
+        //    var a = await dialog.Show(new Dictionary<Language, string>
+        //                                                                    {
+        //                                                                        { Language.TW, "請確認是否啟動" },
+        //                                                                        { Language.CHS, "请确认是否啟動" }
+        //                                                                    },
+        //                                                                    true);
+        //    if (!a)
+        //    {
+        //        return;
+        //    }
+        //    Set(true, nameof(AutoStatus));
 
-        AutoStart = new RelayCommand(async _ =>
-        {
-            if (AutoStatus)
-            {
-                dialog.Show(new Dictionary<Language, string>
-                                                                            {
-                                                                                { Language.TW, "烤箱正在烘烤中" },
-                                                                                { Language.CHS, "烤箱正在烘烤中" }
-                                                                            });
-                return;
-            }
-            var a = await dialog.Show(new Dictionary<Language, string>
-                                                                            {
-                                                                                { Language.TW, "請確認是否啟動" },
-                                                                                { Language.CHS, "请确认是否啟動" }
-                                                                            },
-                                                                            true);
-            if (!a)
-            {
-                return;
-            }
-            Set(true, nameof(AutoStatus));
-
-            Set(true, nameof(TopAutoMode_Start));
-        });
-
+        //    Set(true, nameof(TopAutoMode_Start));
+        //});
 
         TopIngredients = new RelayCommand(async _ =>
         {
@@ -723,29 +492,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                                             });
                 return;
             }
-            //bool CheckRB = (bool)(CheckRbReady?.Invoke());
-            //if (!CheckRB)
-            //    return;
-
-            //if (!RemoteStatus)
-            //{
-            //    dialog.Show(new Dictionary<Language, string>
-            //                                                                {
-            //                                                                    { Language.TW,  "請切換為手動模式" },
-            //                                                                    { Language.CHS, "請切換為手動模式" }
-            //                                                                });
-            //    return;
-            //}
-            //if (AutoStatus)
-            //{
-            //    dialog.Show(new Dictionary<Language, string>
-            //                                                                {
-            //                                                                    { Language.TW,  "請切換為手動模式" },
-            //                                                                    { Language.CHS, "請切換為手動模式" }
-            //                                                                });
-            //    return;
-            //}
-
             if (TopAutoMode_Start)
             {
                 dialog.Show(new Dictionary<Language, string>
@@ -755,48 +501,70 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                                             });
                 return;
             }
-            //if (TopPCtoPLC == 0)
-            //{
-            //    dialog.Show(new Dictiona` ry<Language, string>
-            //                                                                {
-            //                                                                    { Language.TW,  "PC與上爐斷線" },
-            //                                                                    { Language.CHS, "PC與上爐斷線" }
-            //                                                                });
-            //    return;
-            //}
-            //if (TopStatus != 1)
-            //{
-            //    dialog.Show(new Dictionary<Language, string>
-            //                                                                {
-            //                                                                    { Language.TW,  "爐內有框" },
-            //                                                                    { Language.CHS, "爐內有框" }
-            //                                                                });
-            //    return;
-            //}
-            var a = await dialog.Show(new Dictionary<Language, string>
+            if (TopPCtoPLC != 1)
+            {
+                dialog.Show(new Dictionary<Language, string>
+                                                                            {
+                                                                                { Language.TW,  "未在PC連線模式" },
+                                                                                { Language.CHS, "未在PC連線模式" }
+            });
+                return;
+            }
+            var result = TopTaskControlevent?.Invoke();
+
+            if (result == "-1")
+            {
+                dialog.Show(new Dictionary<Language, string>
+                                                                                {
+                                                                                    { Language.TW,  "工单品质暂停" },
+                                                                                    { Language.CHS, "工单品质暂停" }
+                                                                                });
+                return;
+            }
+            else if (result == "0")
+            {
+                TopIngredientsevent?.Invoke();
+
+                if (GetRecipe?.Invoke(TopRecipeID) is not { } recipe1)
+                {
+                    Dialog.Show(new Dictionary<Language, string>
+                        {
+                            { Language.TW, "配方讀取錯誤" },
+                            { Language.CHS, "配方读取错误" },
+                            { Language.EN, "Recipe loaded Fail" }
+                        });
+
+                    return;
+                }
+                CheckRecipeCTS.Dispose();
+                CheckRecipeCTS = new CancellationTokenSource();
+                if (!await Dialog.Show(new Dictionary<Language, string>
+                               {
+                                   { Language.TW, "請確認配方內容：" },
+                                   { Language.CHS, "请确认配方内容：" }
+                               },
+                                       recipe1.ToShowDictionary(),
+                                       true,
+                                       TimeSpan.FromMilliseconds(int.MaxValue),
+                                       DialogMsgType.Alert,
+                                       CheckRecipeCTS.Token))
+                    return;
+
+                if (!await dialog.Show(new Dictionary<Language, string>
                                                                             {
                                                                                 { Language.TW, "請確認是否寫入配方" },
                                                                                 { Language.CHS, "请确认是否寫入配方" }
                                                                             },
-                                                                            true);
-            if (!a)
-            {
-                return;
+                                                                                true))
+                    return;
+
+                var recipe = TopRecipeID;
+                var part = TopPartID;
+                var panelcount = Convert.ToInt32(TopPanelCount);
+                var lot = TopWorkOrder;
+                if (!TopWebRecipetoPLC(recipe, part, lot, panelcount))
+                    return;
             }
-            TopIngredientsevent?.Invoke();
-
-
-
-            var recipe = TopRecipeID;
-            var part = TopPartID;
-            var panelcount = Convert.ToInt32(TopPanelCount);
-            var lot = TopWorkOrder;
-            var bCheck = TopWebRecipetoPLC(recipe, part, lot, panelcount);
-            if (!bCheck)
-            {
-                return;
-            }
-
         });
 
         TopLocalIngredients = new RelayCommand(async _ =>
@@ -869,24 +637,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                                             });
                 return;
             }
-            if (!RemoteStatus)
-            {
-                dialog.Show(new Dictionary<Language, string>
-                                                                            {
-                                                                                { Language.TW,  "請切換為手動模式" },
-                                                                                { Language.CHS, "請切換為手動模式" }
-                                                                            });
-                return;
-            }
-            if (AutoStatus)
-            {
-                dialog.Show(new Dictionary<Language, string>
-                                                                            {
-                                                                                { Language.TW,  "請切換為手動模式" },
-                                                                                { Language.CHS, "請切換為手動模式" }
-                                                                            });
-                return;
-            }
             if (TopAutoMode_Start)
             {
                 dialog.Show(new Dictionary<Language, string>
@@ -896,37 +646,42 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                                             });
                 return;
             }
-            //bool CheckRB = (bool)(CheckRbReady?.Invoke());
-            //if (!CheckRB)
-            //    return;
+            if (TopPCtoPLC == 0)
+            {
+                dialog.Show(new Dictionary<Language, string>
+                                                                            {
+                                                                                { Language.TW,  "未在PC連線模式" },
+                                                                                { Language.CHS, "未在PC連線模式"  }
+                                                                            });
+                return;
+            }
+            if (GetRecipe?.Invoke(TopLocalRecipe) is not { } recipe1)
+            {
+                Dialog.Show(new Dictionary<Language, string>
+                        {
+                            { Language.TW, "配方讀取錯誤" },
+                            { Language.CHS, "配方读取错误" },
+                            { Language.EN, "Recipe loaded Fail" }
+                        });
 
-            //if (TopPCtoPLC == 0)
-            //{
-            //    dialog.Show(new Dictionary<Language, string>
-            //                                                                {
-            //                                                                    { Language.TW,  "PC與上爐斷線" },
-            //                                                                    { Language.CHS, "PC與上爐斷線" }
-            //                                                                });
-            //    return;
-            //}
-            //if (IsRbRun == 1)
-            //{
-            //    dialog.Show(new Dictionary<Language, string>
-            //                                                                {
-            //                                                                    { Language.TW,  "機器人搬運中，請稍後" },
-            //                                                                    { Language.CHS, "机器人搬运中，请稍后" }
-            //                                                                });
-            //    return;
-            //}
-            //if (TopStatus != 1)
-            //{
-            //    dialog.Show(new Dictionary<Language, string>
-            //                                                                {
-            //                                                                    { Language.TW,  "爐內有框" },
-            //                                                                    { Language.CHS, "爐內有框" }
-            //                                                                });
-            //    return;
-            //}
+                return;
+            }
+            CheckRecipeCTS.Dispose();
+            CheckRecipeCTS = new CancellationTokenSource();
+            if (!await Dialog.Show(new Dictionary<Language, string>
+                               {
+                                   { Language.TW, "請確認配方內容：" },
+                                   { Language.CHS, "请确认配方内容：" }
+                               },
+                                   recipe1.ToShowDictionary(),
+                                   true,
+                                   TimeSpan.FromMilliseconds(int.MaxValue),
+                                   DialogMsgType.Alert,
+                                   CheckRecipeCTS.Token))
+            {
+                return;
+            }
+
             var a = await dialog.Show(new Dictionary<Language, string>
                                                                             {
                                                                                 { Language.TW, "請確認是否執行" },
@@ -967,15 +722,12 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         TopCheckButton = new RelayCommand(_ =>
         {
             TopCheckButtonEnabled = false;
-            TopDataUploadevent?.Invoke(0);
+            TopDataUploadevent?.Invoke("Normal");
         });
         #endregion
-
         #endregion
         InputLayer = InputLayerMin;
         Dialog = dialog;
-        EditOvenChange = 0;
-        DetailOvenChange = 0;
         ConnectionStatus.ValueChanged += status =>
                                          {
                                              NotifyPropertyChanged(nameof(EquipmentStatus));
@@ -1100,45 +852,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                                         Keyboard.Focus(tb);
                                                     }
                                                 });
-
-        PropertyChanged += (s, e) =>
-                           {
-                               if (e.PropertyName == nameof(ProgramStop))
-                               {
-                                   if (ProgramStop)
-                                   {
-                                       TopAutoMode_Start = false;
-                                       _ = StopPP();
-                                   }
-
-                                   SV_Changed?.Invoke(nameof(ProgramStop), ProgramStop);
-                               }
-                               else if (e.PropertyName == nameof(IsRamp))
-                               {
-                                   ManualRecord = true; //! 狀態變更強制紀錄溫度
-                                   SV_Changed?.Invoke(nameof(IsRamp), IsRamp);
-                               }
-                               else if (e.PropertyName == nameof(IsDwell))
-                               {
-                                   ManualRecord = true; //! 狀態變更強制紀錄溫度
-                                   SV_Changed?.Invoke(nameof(IsDwell), IsDwell);
-                               }
-                               else if (e.PropertyName == nameof(IsCooling))
-                               {
-                                   ManualRecord = true; //! 狀態變更強制紀錄溫度
-                                   SV_Changed?.Invoke(nameof(IsCooling), IsCooling);
-                               }
-                               else if (e.PropertyName == nameof(Inflating))
-                               {
-                                   SV_Changed?.Invoke(nameof(Inflating), Inflating);
-                               }
-                               else if (e.PropertyName is nameof(RemainTime) or nameof(TotalTime))
-                               {
-                                   NotifyPropertyChanged(nameof(Progress));
-                                   NotifyPropertyChanged(nameof(Progress));
-                               }
-                           };
-
         #region 註冊PLC事件
         //! 只有有註冊PLC點位的值變事件
         ValueChanged += (LogType, data) =>
@@ -1167,8 +880,10 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                         {
                                             return;
                                         }
-                                        TopAutoMode_Stop = false;
+                                        TopDataUploadTimeevent?.Invoke(PLCIndex);
+                                        //TopAutoMode_Stop = false;
                                         _ = StartPP();
+                                        Log.Debug("TopAutoMode_Start");
                                     }
                                     else if (name == nameof(TopProcessComplete))
                                     {
@@ -1177,8 +892,11 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                             return;
                                         }
                                         OvenInfo.TopIsFinished = true;
-                                        TopAutoMode_Start = false;
+                                        //TopAutoMode_Start = false;
+                                        TopCheckButtonEnabled = true;
                                         _ = StopPP();
+                                        Log.Debug("TopProcessComplete");
+
                                     }
                                     else if (name == nameof(TopAutoMode_Stop))
                                     {
@@ -1186,8 +904,10 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                         {
                                             return;
                                         }
-                                        TopAutoMode_Start = false;
+                                        //TopAutoMode_Start = false;
+                                        TopCheckButtonEnabled = true;
                                         _ = StopPP();
+                                        Log.Debug("TopAutoMode_Stop");
                                     }
                                 }
                                 else if (value is short sv)
@@ -1201,23 +921,16 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                         {
                                             AddProcessEvent(eventval!);
                                         }
+
                                         NotifyPropertyChanged(nameof(EquipmentStatus));
                                     }
-                                    else if (name == nameof(TopProcessState))
+                                    else if (name == nameof(ProcessState))
                                     {
                                         EventHappened?.Invoke(eventval!);
                                         if (IsExecuting)
                                         {
                                             AddProcessEvent(eventval!);
                                         }
-
-                                        //SetWithOutNotifyWhenEquals(sv == 0, nameof(ManualMode));
-                                        SetWithOutNotifyWhenEquals(sv == 1, nameof(IsRamp));
-                                        SetWithOutNotifyWhenEquals(sv == 2, nameof(IsDwell));
-                                        SetWithOutNotifyWhenEquals(sv == 7, nameof(IsCooling));
-                                        SetWithOutNotifyWhenEquals(sv == 8, nameof(ProgramStop));
-                                        //SetWithOutNotifyWhenEquals(sv == 9, nameof(AutoMode));
-                                        SetWithOutNotifyWhenEquals(sv == 10, nameof(Inflating));
                                     }
                                 }
                             }
@@ -1320,7 +1033,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         }
         return result;
     }
-    private bool RecipeCompare(PLC_Recipe recipe) => NitrogenMode == recipe.NitrogenMode &&
+    private bool RecipeCompare(PLC_Recipe recipe) =>
                                                      OxygenContentSet.ToString("0.0") == recipe.OxygenContentSet.ToString("0.0") &&
                                                      (RecipeName.Length > 16 ? RecipeName.Substring(0, 16) : RecipeName) == (recipe.RecipeName.Length > 16 ? recipe.RecipeName.Substring(0, 16) : recipe.RecipeName) && //! 只最多比對16個字(PLC的配方名長度)
                                                      DwellTime_1.ToString("0.0") == recipe.DwellTime_1.ToString("0.0") &&
@@ -1448,105 +1161,24 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         //var _OvenTemperature_6     = OvenTemperature_6;
         //var _OvenTemperature_7     = OvenTemperature_7;
         //var _OvenTemperature_8     = OvenTemperature_8;
-        var _OxygenContent         = OxygenContent;
+        //var _OxygenContent         = OxygenContent;
 
-        AddTemperatures(true,
-                        OvenInfo.StartTime,
-                        _ThermostatTemperature,
-                        //_OvenTemperature_1,
-                        //_OvenTemperature_2,
-                        //_OvenTemperature_3,
-                        //_OvenTemperature_4,
-                        //_OvenTemperature_5,
-                        //_OvenTemperature_6,
-                        //_OvenTemperature_7,
-                        //_OvenTemperature_8,
-                        OxygenContent);
+        //AddTemperatures(true,
+        //                OvenInfo.StartTime,
+        //                _ThermostatTemperature
+        //                //_OvenTemperature_1,
+        //                //_OvenTemperature_2,
+        //                //_OvenTemperature_3,
+        //                //_OvenTemperature_4,
+        //                //_OvenTemperature_5,
+        //                //_OvenTemperature_6,
+        //                //_OvenTemperature_7,
+        //                //_OvenTemperature_8,
+        //                //OxygenContent
+        //                );
 
         await OneScheduler.StartNew(() =>
                                     {
-                                        while (!ct.IsCancellationRequested)
-                                        {
-                                            if ((DateTime.Now - OfflineTime).TotalSeconds > 30.0)
-                                            {
-                                                ppCTS.Cancel();
-                                                var eventval = (EventType.Alarm, DateTime.Now, "OffLine. The recoding has been aborted.", string.Empty, true);
-                                                EventHappened?.Invoke(eventval);
-                                                AddProcessEvent(eventval);
-                                            }
-
-                                            _ThermostatTemperature = PV_TopThermostatTemperature <= 0 ? _ThermostatTemperature : PV_TopThermostatTemperature;
-                                            //_OvenTemperature_1 = OvenTemperature_1 <= 0 ? _OvenTemperature_1 : OvenTemperature_1;
-                                            //_OvenTemperature_2 = OvenTemperature_2 <= 0 ? _OvenTemperature_2 : OvenTemperature_2;
-                                            //_OvenTemperature_3 = OvenTemperature_3 <= 0 ? _OvenTemperature_3 : OvenTemperature_3;
-                                            //_OvenTemperature_4 = OvenTemperature_4 <= 0 ? _OvenTemperature_4 : OvenTemperature_4;
-                                            //_OvenTemperature_5 = OvenTemperature_5 <= 0 ? _OvenTemperature_5 : OvenTemperature_5;
-                                            //_OvenTemperature_6 = OvenTemperature_6 <= 0 ? _OvenTemperature_6 : OvenTemperature_6;
-                                            //_OvenTemperature_7 = OvenTemperature_7 <= 0 ? _OvenTemperature_7 : OvenTemperature_7;
-                                            //_OvenTemperature_8 = OvenTemperature_8 <= 0 ? _OvenTemperature_8 : OvenTemperature_8;
-                                            _OxygenContent = OxygenContent <= 0 ? _OxygenContent : OxygenContent;
-
-                                            if (DateTime.Now - nt >= n && ConnectionStatus.CurrentValue)
-                                            {
-                                                nt = DateTime.Now;
-                                                AddTemperatures(false,
-                                                                nt,
-                                                                _ThermostatTemperature,
-                                                                //_OvenTemperature_1,
-                                                                //_OvenTemperature_2,
-                                                                //_OvenTemperature_3,
-                                                                //_OvenTemperature_4,
-                                                                //_OvenTemperature_5,
-                                                                //_OvenTemperature_6,
-                                                                //_OvenTemperature_7,
-                                                                //_OvenTemperature_8,
-                                                                _OxygenContent);
-                                            }
-                                            else if (ManualRecord)
-                                            {
-                                                ManualRecord = false;
-                                                AddTemperatures(true,
-                                                                DateTime.Now,
-                                                                _ThermostatTemperature,
-                                                                //_OvenTemperature_1,
-                                                                //_OvenTemperature_2,
-                                                                //_OvenTemperature_3,
-                                                                //_OvenTemperature_4,
-                                                                //_OvenTemperature_5,
-                                                                //_OvenTemperature_6,
-                                                                //_OvenTemperature_7,
-                                                                //_OvenTemperature_8,
-                                                                _OxygenContent);
-                                            }
-                                            else
-                                            {
-                                                SpinWait.SpinUntil(() => false, 15);
-                                            }
-                                        }
-
-                                        _ThermostatTemperature = PV_TopThermostatTemperature <= 0 ? _ThermostatTemperature : PV_TopThermostatTemperature;
-                                        //_OvenTemperature_1 = OvenTemperature_1 <= 0 ? _OvenTemperature_1 : OvenTemperature_1;
-                                        //_OvenTemperature_2 = OvenTemperature_2 <= 0 ? _OvenTemperature_2 : OvenTemperature_2;
-                                        //_OvenTemperature_3 = OvenTemperature_3 <= 0 ? _OvenTemperature_3 : OvenTemperature_3;
-                                        //_OvenTemperature_4 = OvenTemperature_4 <= 0 ? _OvenTemperature_4 : OvenTemperature_4;
-                                        //_OvenTemperature_5 = OvenTemperature_5 <= 0 ? _OvenTemperature_5 : OvenTemperature_5;
-                                        //_OvenTemperature_6 = OvenTemperature_6 <= 0 ? _OvenTemperature_6 : OvenTemperature_6;
-                                        //_OvenTemperature_7 = OvenTemperature_7 <= 0 ? _OvenTemperature_7 : OvenTemperature_7;
-                                        //_OvenTemperature_8 = OvenTemperature_8 <= 0 ? _OvenTemperature_8 : OvenTemperature_8;
-                                        _OxygenContent = OxygenContent <= 0 ? _OxygenContent : OxygenContent;
-
-                                        AddTemperatures(true,
-                                                        DateTime.Now,
-                                                        _ThermostatTemperature,
-                                                        //_OvenTemperature_1,
-                                                        //_OvenTemperature_2,
-                                                        //_OvenTemperature_3,
-                                                        //_OvenTemperature_4,
-                                                        //_OvenTemperature_5,
-                                                        //_OvenTemperature_6,
-                                                        //_OvenTemperature_7,
-                                                        //_OvenTemperature_8,
-                                                        _OxygenContent);
                                     },
                                     ct);
     }
@@ -1591,58 +1223,38 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         //await StopPP(); //! 需先確認PP已停止
         ResetStopTokenSource();
         ExecutingTask = StartRecoder(ppCTS.Token);
-        //_ = ExecutingTask.ContinueWith(x =>
-        //                               {
-        //                                   x.Dispose();
-        //                                   //! 結束生產，填入資料
-        //                                   OvenInfo.EndTime = DateTime.Now;
-        //                                   OvenInfo.Recipe = GetRecipeTop();
-        //                                   OvenInfo.Qty = OvenInfo.TopTempQuantity;
-        //                                   OvenInfo.LotID = TopWorkOrder;
-        //                                   OvenInfo.Part = TopPartID;
-        //                                   OvenInfo.TopOrBottom = "Top";
-        //                                   OvenInfo.OperatorID = TopOPID;
-        //                                   OvenInfo.TotalRampTime = (OvenInfo.EndTime - OvenInfo.StartTime).Minutes;
-        //                                   if (!isCheckin)
-        //                                   {
-        //                                       ClearInput("Top");
-        //                                   }
-
-        //                                   _ = ExecutingFinished?.Invoke(OvenInfo.Copy()!);
-
-        //                                   NotifyPropertyChanged(nameof(IsExecuting));
-        //                               });
+        Dialog.Show(new Dictionary<Language, string>
+                        {
+                            { Language.TW,  $"開始烘烤" },
+                            { Language.CHS, $"开始烘烤" }
+                        });
         TopCheckin = DateTime.Now;
         NotifyPropertyChanged(nameof(IsExecuting));
     }
     private async Task StopPP()
     {
-        if (ExecutingTask != null && IsExecuting)
+        ppCTS.Cancel();
+        //! 結束生產，填入資料
+        OvenInfo.StartTime = TopCheckin;
+        OvenInfo.EndTime = DateTime.Now;
+        OvenInfo.Recipe = GetRecipeTop();
+        OvenInfo.Qty = OvenInfo.TopTempQuantity;
+        OvenInfo.LotID = TopWorkOrder;
+        OvenInfo.Part = TopPartID;
+        OvenInfo.OperatorID = TopOPID;
+        OvenInfo.TotalRampTime = (OvenInfo.EndTime - OvenInfo.StartTime).TotalMinutes;
+        if (!isCheckin)
         {
-            ppCTS.Cancel();
-            //! 結束生產，填入資料
-            OvenInfo.StartTime = TopCheckin;
-            OvenInfo.EndTime = DateTime.Now;
-            OvenInfo.Recipe = GetRecipeTop();
-            OvenInfo.Qty = OvenInfo.TopTempQuantity;
-            OvenInfo.LotID = TopWorkOrder;
-            OvenInfo.Part = TopPartID;
-            OvenInfo.TopOrBottom = "Top";
-            OvenInfo.OperatorID = TopOPID;
-            OvenInfo.TotalRampTime = (OvenInfo.EndTime - OvenInfo.StartTime).Minutes;
-            if (!isCheckin)
-            {
-                ClearInput();
-            }
-            _ = ExecutingFinished?.Invoke(OvenInfo.Copy()!);
-            NotifyPropertyChanged(nameof(IsExecuting));
-            await ExecutingTask;
+            ClearInput();
         }
+        _ = ExecutingFinished?.Invoke(OvenInfo.Copy()!);
+        NotifyPropertyChanged(nameof(IsExecuting));
+        await ExecutingTask;
     }
 
     public PLC_Recipe GetRecipeTop() => new PLC_Recipe
     {
-        NitrogenMode = NitrogenMode,
+        //NitrogenMode = NitrogenMode,
         OxygenContentSet = OxygenContentSet,
         RecipeName = RecipeName,
         DwellTime_1 = DwellTime_1,
@@ -1685,11 +1297,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     {
         if (await WriteRecipeToPlcAsync(recipe).ConfigureAwait(false) == SetRecipeResult.比對不相符)
         {
-            RecipeChangeError = true;
-        }
-
-        if (RecipeChangeError)
-        {
             Dialog.Show(new Dictionary<Language, string>
                         {
                             { Language.TW, "配方切換失敗" },
@@ -1707,8 +1314,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
     public void ClearInput()
     {
-        Set(string.Empty, nameof(InputOperatorID));
-        ClearInputTop();
+        //Set(string.Empty, nameof(InputOperatorID));
+        //ClearInputTop();
         OvenInfo.TopTempProducts.Clear();
     }
 

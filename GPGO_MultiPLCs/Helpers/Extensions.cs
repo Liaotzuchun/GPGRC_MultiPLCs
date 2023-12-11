@@ -31,7 +31,7 @@ public static class Extensions
                                                                                      ',',
                                                                                      (o, c) =>
                                                                                      {
-                                                                                         o.Name     = c[0];
+                                                                                         o.Name = c[0];
                                                                                          o.Password = c[1];
                                                                                          if (Enum.TryParse<UserLevel>(c[2], out var lv))
                                                                                          {
@@ -87,7 +87,7 @@ public static class Extensions
                                                                                                               o => new[]
                                                                                                                    {
                                                                                                                        o.RecipeName,
-                                                                                                                       o.NitrogenMode.ToString(),
+                                                                                                                       //o.NitrogenMode.ToString(),
                                                                                                                        o.OxygenContentSet.ToString("0.0"),
                                                                                                                        o.InflatingTime.ToString("0"),
                                                                                                                        o.SegmentCounts.ToString(),
@@ -129,43 +129,43 @@ public static class Extensions
                                                                                                    ',',
                                                                                                    (o, c) =>
                                                                                                    {
-                                                                                                       o.RecipeName            = c[0];
-                                                                                                       o.NitrogenMode          = bool.TryParse(c[1], out var i1) && i1;
-                                                                                                       o.OxygenContentSet      = double.TryParse(c[2], out var i2) ? i2 : 0;
-                                                                                                       o.InflatingTime         = double.TryParse(c[3], out var i3) ? i3 : 0;
-                                                                                                       o.SegmentCounts         = short.TryParse(c[4], out var i4) ? i4 : (short)1;
-                                                                                                       o.TemperatureSetpoint_1 = double.TryParse(c[5],  out var i5) ? i5 : 0;
-                                                                                                       o.TemperatureSetpoint_2 = double.TryParse(c[6],  out var i6) ? i6 : 0;
-                                                                                                       o.TemperatureSetpoint_3 = double.TryParse(c[7],  out var i7) ? i7 : 0;
-                                                                                                       o.TemperatureSetpoint_4 = double.TryParse(c[8],  out var i8) ? i8 : 0;
-                                                                                                       o.TemperatureSetpoint_5 = double.TryParse(c[9],  out var i9) ? i9 : 0;
+                                                                                                       o.RecipeName = c[0];
+                                                                                                       //o.NitrogenMode          = bool.TryParse(c[1], out var i1) && i1;
+                                                                                                       o.OxygenContentSet = double.TryParse(c[2], out var i2) ? i2 : 0;
+                                                                                                       o.InflatingTime = double.TryParse(c[3], out var i3) ? i3 : 0;
+                                                                                                       o.SegmentCounts = short.TryParse(c[4], out var i4) ? i4 : (short)1;
+                                                                                                       o.TemperatureSetpoint_1 = double.TryParse(c[5], out var i5) ? i5 : 0;
+                                                                                                       o.TemperatureSetpoint_2 = double.TryParse(c[6], out var i6) ? i6 : 0;
+                                                                                                       o.TemperatureSetpoint_3 = double.TryParse(c[7], out var i7) ? i7 : 0;
+                                                                                                       o.TemperatureSetpoint_4 = double.TryParse(c[8], out var i8) ? i8 : 0;
+                                                                                                       o.TemperatureSetpoint_5 = double.TryParse(c[9], out var i9) ? i9 : 0;
                                                                                                        o.TemperatureSetpoint_6 = double.TryParse(c[10], out var i10) ? i10 : 0;
-                                                                                                       o.RampTime_1            = double.TryParse(c[11], out var i11) ? i11 : 0;
-                                                                                                       o.RampTime_2            = double.TryParse(c[12], out var i12) ? i12 : 0;
-                                                                                                       o.RampTime_3            = double.TryParse(c[13], out var i13) ? i13 : 0;
-                                                                                                       o.RampTime_4            = double.TryParse(c[14], out var i14) ? i14 : 0;
-                                                                                                       o.RampTime_5            = double.TryParse(c[15], out var i15) ? i15 : 0;
-                                                                                                       o.RampTime_6            = double.TryParse(c[16], out var i16) ? i16 : 0;
-                                                                                                       o.RampAlarm_1           = double.TryParse(c[17], out var i17) ? i17 : 0;
-                                                                                                       o.RampAlarm_2           = double.TryParse(c[18], out var i18) ? i18 : 0;
-                                                                                                       o.RampAlarm_3           = double.TryParse(c[19], out var i19) ? i19 : 0;
-                                                                                                       o.RampAlarm_4           = double.TryParse(c[20], out var i20) ? i20 : 0;
-                                                                                                       o.RampAlarm_5           = double.TryParse(c[21], out var i21) ? i21 : 0;
-                                                                                                       o.RampAlarm_6           = double.TryParse(c[22], out var i22) ? i22 : 0;
-                                                                                                       o.DwellTime_1           = double.TryParse(c[23], out var i23) ? i23 : 0;
-                                                                                                       o.DwellTime_2           = double.TryParse(c[24], out var i24) ? i24 : 0;
-                                                                                                       o.DwellTime_3           = double.TryParse(c[25], out var i25) ? i25 : 0;
-                                                                                                       o.DwellTime_4           = double.TryParse(c[26], out var i26) ? i26 : 0;
-                                                                                                       o.DwellTime_5           = double.TryParse(c[27], out var i27) ? i27 : 0;
-                                                                                                       o.DwellTime_6           = double.TryParse(c[28], out var i28) ? i28 : 0;
-                                                                                                       o.DwellAlarm_1          = double.TryParse(c[29], out var i29) ? i29 : 0;
-                                                                                                       o.DwellAlarm_2          = double.TryParse(c[30], out var i30) ? i30 : 0;
-                                                                                                       o.DwellAlarm_3          = double.TryParse(c[31], out var i31) ? i31 : 0;
-                                                                                                       o.DwellAlarm_4          = double.TryParse(c[32], out var i32) ? i32 : 0;
-                                                                                                       o.DwellAlarm_5          = double.TryParse(c[33], out var i33) ? i33 : 0;
-                                                                                                       o.DwellAlarm_6          = double.TryParse(c[34], out var i34) ? i34 : 0;
-                                                                                                       o.CoolingTime           = double.TryParse(c[35], out var i35) ? i35 : 0;
-                                                                                                       o.CoolingTemperature    = double.TryParse(c[36], out var i36) ? i36 : 0;
+                                                                                                       o.RampTime_1 = double.TryParse(c[11], out var i11) ? i11 : 0;
+                                                                                                       o.RampTime_2 = double.TryParse(c[12], out var i12) ? i12 : 0;
+                                                                                                       o.RampTime_3 = double.TryParse(c[13], out var i13) ? i13 : 0;
+                                                                                                       o.RampTime_4 = double.TryParse(c[14], out var i14) ? i14 : 0;
+                                                                                                       o.RampTime_5 = double.TryParse(c[15], out var i15) ? i15 : 0;
+                                                                                                       o.RampTime_6 = double.TryParse(c[16], out var i16) ? i16 : 0;
+                                                                                                       o.RampAlarm_1 = double.TryParse(c[17], out var i17) ? i17 : 0;
+                                                                                                       o.RampAlarm_2 = double.TryParse(c[18], out var i18) ? i18 : 0;
+                                                                                                       o.RampAlarm_3 = double.TryParse(c[19], out var i19) ? i19 : 0;
+                                                                                                       o.RampAlarm_4 = double.TryParse(c[20], out var i20) ? i20 : 0;
+                                                                                                       o.RampAlarm_5 = double.TryParse(c[21], out var i21) ? i21 : 0;
+                                                                                                       o.RampAlarm_6 = double.TryParse(c[22], out var i22) ? i22 : 0;
+                                                                                                       o.DwellTime_1 = double.TryParse(c[23], out var i23) ? i23 : 0;
+                                                                                                       o.DwellTime_2 = double.TryParse(c[24], out var i24) ? i24 : 0;
+                                                                                                       o.DwellTime_3 = double.TryParse(c[25], out var i25) ? i25 : 0;
+                                                                                                       o.DwellTime_4 = double.TryParse(c[26], out var i26) ? i26 : 0;
+                                                                                                       o.DwellTime_5 = double.TryParse(c[27], out var i27) ? i27 : 0;
+                                                                                                       o.DwellTime_6 = double.TryParse(c[28], out var i28) ? i28 : 0;
+                                                                                                       o.DwellAlarm_1 = double.TryParse(c[29], out var i29) ? i29 : 0;
+                                                                                                       o.DwellAlarm_2 = double.TryParse(c[30], out var i30) ? i30 : 0;
+                                                                                                       o.DwellAlarm_3 = double.TryParse(c[31], out var i31) ? i31 : 0;
+                                                                                                       o.DwellAlarm_4 = double.TryParse(c[32], out var i32) ? i32 : 0;
+                                                                                                       o.DwellAlarm_5 = double.TryParse(c[33], out var i33) ? i33 : 0;
+                                                                                                       o.DwellAlarm_6 = double.TryParse(c[34], out var i34) ? i34 : 0;
+                                                                                                       o.CoolingTime = double.TryParse(c[35], out var i35) ? i35 : 0;
+                                                                                                       o.CoolingTemperature = double.TryParse(c[36], out var i36) ? i36 : 0;
 
                                                                                                        return true;
                                                                                                    });

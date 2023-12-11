@@ -336,5 +336,6 @@
     <sys:String x:Key="Bottom">下爐</sys:String>
     <sys:String x:Key="總烘烤時間">總烘烤時間(分鐘)</sys:String>
     <sys:String x:Key="操作人員">操作人員</sys:String>
+    <sys:String x:Key="DataTimes">资料上报频率</sys:String>
 
 </ResourceDictionary>

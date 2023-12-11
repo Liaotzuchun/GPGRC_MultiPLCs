@@ -147,6 +147,109 @@ public class LogEvent : ILogData
         }
     }
 
+    [GPIgnore]
+    [LanguageTranslator("Event", "事件", "事件")]
+    public string Description3
+    {
+        get
+        {
+            var obj = "3000";
+
+            switch (Description)
+            {
+                case "M240":
+                    obj = "3000";
+                    break;
+                case "M250":
+                    obj = "3001";
+                    break;
+                case "M302":
+                    obj = "3002";
+                    break;
+                case "M700":
+                    obj = "3003";
+                    break;
+                case "M701":
+                    obj = "3004";
+                    break;
+                case "M702":
+                    obj = "3005";
+                    break;
+                case "M703":
+                    obj = "3006";
+                    break;
+                case "M704":
+                    obj = "3007";
+                    break;
+                case "M705":
+                    obj = "3008";
+                    break;
+                case "M706":
+                    obj = "3009";
+                    break;
+                case "M707":
+                    obj = "3010";
+                    break;
+                case "M708":
+                    obj = "3011";
+                    break;
+                case "M709":
+                    obj = "3012";
+                    break;
+                case "M710":
+                    obj = "3013";
+                    break;
+                case "M711":
+                    obj = "3014";
+                    break;
+                case "M712":
+                    obj = "3015";
+                    break;
+                case "M713":
+                    obj = "3016";
+                    break;
+                case "M714":
+                    obj = "3017";
+                    break;
+                case "M715":
+                    obj = "3018";
+                    break;
+                case "M716":
+                    obj = "3019";
+                    break;
+                case "M717":
+                    obj = "3020";
+                    break;
+                case "M718":
+                    obj = "3021";
+                    break;
+                case "M719":
+                    obj = "3022";
+                    break;
+                case "M720":
+                    obj = "3023";
+                    break;
+                case "M721":
+                    obj = "3024";
+                    break;
+                case "M722":
+                    obj = "3025";
+                    break;
+                case "M723":
+                    obj = "3026";
+                    break;
+                case "M724":
+                    obj = "3027";
+                    break;
+                    //case "M209":
+                    //    obj = "3028";
+                    //    brea
+                    //    k;
+            }
+            return obj;
+        }
+    }
+
     [LanguageTranslator("Event", "事件", "事件")]
     public string Description { get; set; } = string.Empty;
 

@@ -132,7 +132,7 @@ public class GlobalSettings : RecipeFileBase<GlobalSettings>
         {
             value = value switch
             {
-                < 30 => 30,
+                < 0 => 0,
                 > 600 => 600,
                 _ => value
             };
@@ -170,6 +170,33 @@ public class GlobalSettings : RecipeFileBase<GlobalSettings>
             Set(value);
         }
     }
+    public int DataTime
+    {
+        get => Get<int>();
+        set
+        {
+            value = value switch
+            {
+                < 1 => 1,
+                > 600 => 600,
+                _ => value
+            };
+
+            Set(value);
+        }
+    }
+
+    public int AutoorHalfAuto
+    {
+        get => Get<int>();
+        set
+        {
+            Set(value);
+            NotifyPropertyChanged();
+        }
+    }
+
+
 
 
     public GlobalSettings() : base("Settings")
@@ -191,6 +218,7 @@ public class GlobalSettings : RecipeFileBase<GlobalSettings>
         TimeOut = 60;
         AVGTime = 1;
         HeartTime = 1;
+        DataTime = 10;
         HeartContent = "SSEMP";
         HeartPort = 60001;
         HeartService = "192.168.10.1";
@@ -199,5 +227,6 @@ public class GlobalSettings : RecipeFileBase<GlobalSettings>
         CallCarrierID = "CallCarrierID";
         OutCarrierID = "OutCarrierID";
         NGCarrierID = "NGCarrierID";
+        AutoorHalfAuto = 1;
     }
 }
