@@ -3,11 +3,11 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
-using GPGO_MultiPLCs.Helpers;
+using GPGRC_MultiPLCs.Helpers;
 using Linearstar.Windows.RawInput;
 using Serilog;
 
-namespace GPGO_MultiPLCs.Views;
+namespace GPGRC_MultiPLCs.Views;
 
 /// <summary>MainWindow.xaml 的互動邏輯</summary>
 public partial class MainWindow

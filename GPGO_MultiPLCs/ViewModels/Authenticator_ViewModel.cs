@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
-using GPGO_MultiPLCs.Models;
+using GPGRC_MultiPLCs.Models;
 using GPMVVM.Models;
-using MongoDB.Bson;
 using MongodbConnect;
 using Serilog;
 
-namespace GPGO_MultiPLCs.ViewModels;
+namespace GPGRC_MultiPLCs.ViewModels;
 
 /// <summary>提供身分驗證登入和系統設定</summary>
 public class Authenticator_ViewModel : AuthenticatorModel
@@ -26,7 +25,7 @@ public class Authenticator_ViewModel : AuthenticatorModel
         Settings = new GlobalSettings();
         Settings.Load(false);
         Settings.RegisterChanged();
-        Settings.UseHeart = false;
+        //Settings.UseHeart = false;
 
         BtnSaveCommand = new RelayCommand(e =>
         {
@@ -70,7 +69,7 @@ public class Authenticator_ViewModel : AuthenticatorModel
     private void SaveData()
     {
         var tmp = new WebSetting(Settings.EquipmentID,Settings.iMESURL,Settings.CallCarrierID,Settings.OutCarrierID,Settings.NGCarrierID,Settings.AVGTime,Settings.TimeOut,Settings.UseHeart,Settings.HeartTime,Settings.HeartContent,Settings.HeartPort,Settings.HeartService);
-        var tmpbefore = FindInfo("GP", "WebSetting", tmp.Id);
+        var tmpbefore = FindInfo("GP", "WebSetting");
         if (tmpbefore != null)
         {
             DBConnect.DeleteData("GP", "WebSetting", tmpbefore);
@@ -78,7 +77,7 @@ public class Authenticator_ViewModel : AuthenticatorModel
         DBConnect.InsertData("GP", "WebSetting", tmp);
     }
 
-    public WebSetting FindInfo(string DBName, string CollectionName, ObjectId Condition)
+    public WebSetting FindInfo(string DBName, string CollectionName)
     {
         try
         {

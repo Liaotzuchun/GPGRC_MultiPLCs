@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using SCC_ServerSideRef;
 
-namespace GPGO_MultiPLCs.Models;
+namespace GPGRC_MultiPLCs.Models;
 internal class SCC_Service : IMacIntfWS
 {
     //SCC_Reference.WebServiceResponse IMacIntfWS.macIntf(string methodInvoke, string input)

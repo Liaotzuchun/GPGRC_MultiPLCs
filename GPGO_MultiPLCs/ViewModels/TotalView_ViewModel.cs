@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -8,7 +9,8 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using GPGO_MultiPLCs.Models;
+using GP_GRC.Models;
+using GPGRC_MultiPLCs.Models;
 //using GPMVVM.Core.Models.SECS;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
@@ -16,10 +18,10 @@ using GPMVVM.PooledCollections;
 using PLCService;
 #pragma warning disable VSTHRD101
 
-namespace GPGO_MultiPLCs.ViewModels;
+namespace GPGRC_MultiPLCs.ViewModels;
 
 /// <summary>所有烤箱的生產總覽</summary>
-public sealed class TotalView_ViewModel : ObservableObject
+public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChanged
 {
     public event Action<(int StationIndex, EventType type, DateTime time, string note, string tag, object value)>? EventHappened;
     public event Func<(int StationIndex, ProcessInfo Info), Task<int>>?                                            AddRecordToDB;
@@ -46,10 +48,11 @@ public sealed class TotalView_ViewModel : ObservableObject
 
     /// <summary>回到總覽頁</summary>
     public RelayCommand BackCommand { get; }
+    public RelayCommand TestPanelCommand { get; }
+    public RelayCommand InitialPanelCommand { get; }
     public RelayCommand GoDetailCommand { get; }
+    public RelayCommand GoMesCommand { get; }
     public RelayCommand LoadedCommand { get; }
-
-
     public RelayCommand DataUpload10Command { get; }
     public RelayCommand DataUpload20Command { get; }
     public RelayCommand DataUpload30Command { get; }
@@ -70,10 +73,64 @@ public sealed class TotalView_ViewModel : ObservableObject
     public RelayCommand DataUpload180Command { get; }
     public RelayCommand DataUpload190Command { get; }
     public RelayCommand DataUpload200Command { get; }
+    public RelayCommand LocalIngredients { get; }
+
+    public event Func<Task> LocalIngredientsevent;
 
     public event Action<int> ChangeStatusevent;
 
-
+    public bool RadioButton90Check
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+    public bool RadioButton100Check
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+    public string[] Coater1Panel
+    {
+        get => Get<string[]>();
+        set
+        {
+            Set(value);
+            NotifyPropertyChanged(nameof(Coater1Panel));
+        }
+    }
+    public string[] Coater2Panel
+    {
+        get => Get<string[]>();
+        set
+        {
+            Set(value);
+            NotifyPropertyChanged(nameof(Coater2Panel));
+        }
+    }
+    public string[] Coater3Panel
+    {
+        get => Get<string[]>();
+        set
+        {
+            Set(value);
+            NotifyPropertyChanged(nameof(Coater3Panel));
+        }
+    }
+    public ObservableCollection<CoaterItem> Coater1Items
+    {
+        get => Get<ObservableCollection<CoaterItem>>();
+        set => Set(value);
+    }
+    public ObservableCollection<CoaterItem> Coater2Items
+    {
+        get => Get<ObservableCollection<CoaterItem>>();
+        set => Set(value);
+    }
+    public ObservableCollection<CoaterItem> Coater3Items
+    {
+        get => Get<ObservableCollection<CoaterItem>>();
+        set => Set(value);
+    }
     /// <summary>所有PLC</summary>
     public IList<PLC_ViewModel> PLC_All { get; }
 
@@ -139,7 +196,77 @@ public sealed class TotalView_ViewModel : ObservableObject
         get => Get<int>();
         set => Set(value);
     }
+    #region 本地下配方輸入資料
+    public string LocalLot
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string LocalRecipe
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string LocalUser
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string LocalPartID
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string LocalPanelCount
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string LocalProcessID
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    #endregion
+    #region 顯示配方訊息
+    public string ShowOPID
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string ShowLot
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string ShowPartID
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
 
+    public string ShowProcessID
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public string ShowPanelCount
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+
+    public string ShowRecipeID
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
+    public DateTime ShowCheckin
+    {
+        get => Get<DateTime>();
+        set => Set(value);
+    }
+    #endregion
     public TotalView_ViewModel(int count, IGate gate, IPAddress plcaddress, IDialogService dialog)
     {
         asyncOperation = AsyncOperationManager.CreateOperation(null);
@@ -150,15 +277,15 @@ public sealed class TotalView_ViewModel : ObservableObject
         PLCIndex = 0;
         Mode = 0;
         EqpState = 1;
-
-
+        InitialStringItem();
         Status = -1;
-
         var v = Assembly.GetExecutingAssembly().GetName().Version;
         threadid = Thread.CurrentThread.ManagedThreadId;
         BackCommand = new RelayCommand(index => Index = index != null && int.TryParse(index.ToString(), out var i) ? i : 0);
 
         GoDetailCommand = new RelayCommand(_ => Index = 1);
+
+        GoMesCommand = new RelayCommand(_ => Index = 2);
 
         LoadedCommand = new RelayCommand(e =>
                                          {
@@ -170,7 +297,7 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                  }
                                              }
                                          });
-
+        #region 智能狀態
         DataUpload10Command = new RelayCommand(_ =>
         {
             ChangeStatusevent?.Invoke(10);
@@ -251,11 +378,200 @@ public sealed class TotalView_ViewModel : ObservableObject
         {
             ChangeStatusevent?.Invoke(200);
         });
-
+        #endregion
         PropertyChanged += (_, e) =>
                {
                };
         //var address = plcaddress.GetAddressBytes();
+        #region 遠端下配方 還在改
+        //TopIngredients = new RelayCommand(async _ =>
+        //{
+
+        //    if (TopBarcode is null or "")
+        //    {
+        //        dialog.Show(new Dictionary<Language, string>
+        //                                                                    {
+        //                                                                        { Language.TW,  "請刷入工單號！" },
+        //                                                                        { Language.CHS, "请刷入工单号！" }
+        //                                                                    });
+        //        return;
+        //    }
+        //    if (TopPCtoPLC != 1)
+        //    {
+        //        dialog.Show(new Dictionary<Language, string>
+        //                                                                    {
+        //                                                                        { Language.TW,  "未在PC連線模式" },
+        //                                                                        { Language.CHS, "未在PC連線模式" }
+        //    });
+        //        return;
+        //    }
+        //    if (!bChangeStatusevent.Invoke())
+        //    {
+        //        dialog.Show(new Dictionary<Language, string>
+        //                                                                    {
+        //                                                                        { Language.TW,  "智能单元状态不在可下方配方状态" },
+        //                                                                        { Language.CHS, "智能单元状态不在可下方配方状态" }
+        //    });
+        //        return;
+        //    }
+        //    var result = TopTaskControlevent?.Invoke();
+
+        //    if (result == "-1")
+        //    {
+        //        dialog.Show(new Dictionary<Language, string>
+        //                                                                        {
+        //                                                                            { Language.TW,  "工单品质暂停" },
+        //                                                                            { Language.CHS, "工单品质暂停" }
+        //                                                                        });
+        //        return;
+        //    }
+        //    else if (result == "0")
+        //    {
+        //        await Task.Run(() => TopIngredientsevent?.Invoke());
+
+        //        if (GetRecipe?.Invoke(TopRecipeID) is not { } recipe1)
+        //        {
+        //            Dialog.Show(new Dictionary<Language, string>
+        //                {
+        //                    { Language.TW, "配方讀取錯誤" },
+        //                    { Language.CHS, "配方读取错误" },
+        //                    { Language.EN, "Recipe loaded Fail" }
+        //                });
+        //            return;
+        //        }
+        //        if (!await Dialog.Show(new Dictionary<Language, string>
+        //                       {
+        //                           { Language.TW, "請確認配方內容：" },
+        //                           { Language.CHS, "请确认配方内容：" }
+        //                       },
+        //                               recipe1.ToShowDictionary(),
+        //                               true,
+        //                               TimeSpan.FromMilliseconds(int.MaxValue),
+        //                               DialogMsgType.Alert))
+        //            return;
+        //        var recipe = TopRecipeID;
+        //        var part = TopPartID;
+        //        var panelcount = Convert.ToInt32(TopPanelCount);
+        //        var lot = TopWorkOrder;
+        //        if (!WebRecipetoPLC(recipe, part))
+        //            return;
+        //    }
+        //});
+
+        #endregion
+        LocalIngredients = new RelayCommand(async _ =>
+        {
+            if (LocalLot is null or "")
+            {
+                dialog.Show(new Dictionary<Language, string>
+                                                                            {
+                                                                                { Language.TW,  "請刷入工單號！" },
+                                                                                { Language.CHS, "请刷入工单号！" }
+                                                                            });
+                return;
+            }
+            if (LocalRecipe is null or "")
+            {
+                dialog.Show(new Dictionary<Language, string>
+                                                                            {
+                                                                                { Language.TW,  "請輸入配方！" },
+                                                                                { Language.CHS, "请输入配方！" }
+                                                                            });
+                return;
+            }
+            if (LocalPartID is null or "")
+            {
+                dialog.Show(new Dictionary<Language, string>
+                                                                            {
+                                                                                { Language.TW,  "請輸入物资编码！" },
+                                                                                { Language.CHS, "请输入物资编码！" }
+                                                                            });
+                return;
+            }
+            if (LocalProcessID is null or "")
+            {
+                dialog.Show(new Dictionary<Language, string>
+                                                                            {
+                                                                                { Language.TW,  "請輸入工序编码！" },
+                                                                                { Language.CHS, "请输入工序编码！" }
+                                                                            });
+                return;
+            }
+            if (LocalPanelCount is null or "")
+            {
+                dialog.Show(new Dictionary<Language, string>
+                                                                            {
+                                                                                { Language.TW,  "請輸入計畫加工板數！" },
+                                                                                { Language.CHS, "请输入計畫加工板數！" }
+                                                                            });
+                return;
+            }
+            if (LocalUser is null or "")
+            {
+                dialog.Show(new Dictionary<Language, string>
+                                                                            {
+                                                                                { Language.TW,  "請刷入操作人員工號！" },
+                                                                                { Language.CHS, "請刷入操作人員工号！" }
+                                                                            });
+                return;
+            }
+
+            try
+            {
+                var check = Convert.ToInt32(LocalPanelCount);
+            }
+            catch
+            {
+                dialog.Show(new Dictionary<Language, string>
+                                                                            {
+                                                                                { Language.TW,  "板數輸入錯誤！" },
+                                                                                { Language.CHS, "板数输入错误！" }
+                                                                            });
+                return;
+            }
+            //if (TopPCtoPLC == 0)
+            //{
+            //    dialog.Show(new Dictionary<Language, string>
+            //                                                                {
+            //                                                                    { Language.TW,  "未在PC連線模式" },
+            //                                                                    { Language.CHS, "未在PC連線模式"  }
+            //                                                                });
+            //    return;
+            //}
+            if (GetRecipe?.Invoke(LocalRecipe) is not { } recipe1)
+            {
+                Dialog.Show(new Dictionary<Language, string>
+                        {
+                            { Language.TW, "配方讀取錯誤" },
+                            { Language.CHS, "配方读取错误" },
+                            { Language.EN, "Recipe loaded Fail" }
+                        });
+
+                return;
+            }
+            var abb = recipe1.ToShowDictionary();
+            if (!await Dialog.Show(new Dictionary<Language, string>
+                               {
+                                   { Language.TW, "請確認配方內容：" },
+                                   { Language.CHS, "请确认配方内容：" }
+                               },
+                                   recipe1.ToShowDictionary(),
+                                   true,
+                                   TimeSpan.FromMilliseconds(int.MaxValue),
+                                   DialogMsgType.Alert))
+            {
+                return;
+            }
+            var recipe = LocalRecipe;
+            var lot = LocalLot;
+            var part = LocalPartID;
+            var panelcount = Convert.ToInt32(LocalPanelCount);
+            PLC_All[0].WebRecipetoPLC(recipe, lot);
+            PLC_All[1].WebRecipetoPLC(recipe, lot);
+            PLC_All[2].WebRecipetoPLC(recipe, lot);
+
+            LocalIngredientsevent?.Invoke();
+        });
 
         //! 註冊PLC事件需引發的動作
         for (var i = 0; i < count; i++)
@@ -277,10 +593,10 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                           { DataType.D, 0 },
                                                           { DataType.W, 0 }
                                                       })); //! 可指定PLC點位位移
-            if (i == 0)
-                plc.OvenInfo.OvenCode = $"左炉";
-            else
-                plc.OvenInfo.OvenCode = $"右炉";
+            //if (i == 0)
+            plc.OvenInfo.OvenCode = $"Coater" + (i + 1);
+            //else
+            //    plc.OvenInfo.OvenCode = $"右炉";
 
             PLC_All[i] = plc;
             var index = i;
@@ -383,10 +699,134 @@ public sealed class TotalView_ViewModel : ObservableObject
                                                     TimeSpan.FromSeconds(1),
                                                     DialogMsgType.Alarm);
                                     };
-
             //! PLC事件紀錄
             plc.EventHappened += e => EventHappened?.Invoke((index, e.type, e.time, e.note, e.tag, e.value));
+
+            var panelIndexMap = new Dictionary<string, int>
+                                                   {
+                                                       { nameof(plc.FeedInlet), 0 },
+                                                       { nameof(plc.FeedToWait), 1 },
+                                                       { nameof(plc.WaitToFrontWeight), 2 },
+                                                       { nameof(plc.FrontWeightToCoater), 3 },
+                                                       { nameof(plc.CoaterToBackWeight), 4 },
+                                                   };
+
+            plc.PanelMoveHappened += e =>
+            {
+                try
+                {
+                    if (e.Item1 == 0)
+                    {
+                        if (panelIndexMap.ContainsKey(e.Item2))
+                        {
+                            var Coaterindex = panelIndexMap[e.Item2];
+
+                            if (Coaterindex == 0)
+                            {
+                                Coater1Panel[0] = plc.PanelID;
+                            }
+                            else
+                            {
+                                Coater1Panel[Coaterindex] = Coater1Panel[Coaterindex - 1];
+                                Coater1Panel[Coaterindex - 1] = "";
+                            }
+                        }
+                        else if (e.Item2 == nameof(plc.BackWeightToOven) && !string.IsNullOrEmpty(Coater1Panel[4]))
+                        {
+                            _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
+                            {
+                                Coater1Items.Add(new CoaterItem { Num = Coater1Items.Count + 1, PanelName = Coater1Panel[4] });
+                                Coater1Panel[4] = "";
+                            });
+                        }
+                    }
+                    else if (e.Item1 == 1)
+                    {
+                        if (panelIndexMap.ContainsKey(e.Item2))
+                        {
+                            var Coaterindex = panelIndexMap[e.Item2];
+                            if (Coaterindex == 0)
+                            {
+
+                            }
+                            else if (Coaterindex == 1)
+                            {
+                                _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
+                                    {
+                                        Coater2Panel[0] = Coater1Items[0].PanelName;
+
+                                        for (var i = 0; i < Coater1Items.Count - 1; i++)
+                                        {
+                                            Coater1Items[i] = Coater1Items[i + 1];
+                                            Coater1Items[i].Num = i + 1;
+                                        }
+                                        Coater1Items.RemoveAt(Coater1Items.Count - 1);
+                                    });
+                            }
+                            else
+                            {
+                                Coater2Panel[Coaterindex - 1] = Coater2Panel[Coaterindex - 2];
+                                Coater2Panel[Coaterindex - 2] = "";
+                            }
+                        }
+                        else if (e.Item2 == nameof(plc.BackWeightToOven) && !string.IsNullOrEmpty(Coater2Panel[3]))
+                        {
+                            _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
+                            {
+                                Coater2Items.Add(new CoaterItem { Num = Coater2Items.Count + 1, PanelName = Coater2Panel[3] });
+                                Coater2Panel[3] = "";
+                            });
+                        }
+                    }
+                    else if (e.Item1 == 2)
+                    {
+                        if (panelIndexMap.ContainsKey(e.Item2))
+                        {
+                            var Coaterindex = panelIndexMap[e.Item2];
+                            if (Coaterindex == 0)
+                            {
+
+                            }
+                            else if (Coaterindex == 1)
+                            {
+                                _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
+                                    {
+                                        Coater3Panel[0] = Coater2Items[0].PanelName;
+
+                                        for (var i = 0; i < Coater2Items.Count - 1; i++)
+                                        {
+                                            Coater2Items[i] = Coater2Items[i + 1];
+                                            Coater2Items[i].Num = i + 1;
+                                        }
+                                        Coater2Items.RemoveAt(Coater2Items.Count - 1);
+                                    });
+                            }
+                            else
+                            {
+                                Coater3Panel[Coaterindex - 1] = Coater3Panel[Coaterindex - 2];
+                                Coater3Panel[Coaterindex - 2] = "";
+                            }
+                        }
+                        else if (e.Item2 == nameof(plc.BackWeightToOven) && !string.IsNullOrEmpty(Coater3Panel[3]))
+                        {
+                            _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
+                            {
+                                Coater3Items.Add(new CoaterItem { Num = Coater3Items.Count + 1, PanelName = Coater3Panel[3] });
+                                Coater3Panel[3] = "";
+                            });
+                        }
+                    }
+                    NotifyPropertyChanged(nameof(Coater1Panel));
+                    NotifyPropertyChanged(nameof(Coater2Panel));
+                    NotifyPropertyChanged(nameof(Coater3Panel));
+                }
+                catch
+                {
+
+                }
+            };
         }
+
         #region PLCGate事件通知
         Gate.GateStatus.ValueChanged += status =>
                                         {
@@ -426,6 +866,16 @@ public sealed class TotalView_ViewModel : ObservableObject
                             null,
                             Timeout.Infinite,
                             Timeout.Infinite);
+    }
+
+    private void InitialStringItem()
+    {
+        Coater1Panel = new string[5];
+        Coater2Panel = new string[4];
+        Coater3Panel = new string[4];
+        Coater1Items = [];
+        Coater2Items = [];
+        Coater3Items = [];
     }
 
     /// <summary>讀取財產編號</summary>

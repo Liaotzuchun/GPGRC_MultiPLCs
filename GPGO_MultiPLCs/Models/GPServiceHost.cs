@@ -5,9 +5,9 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
-using GPGO_MultiPLCs.Interfaces;
+using GPGRC_MultiPLCs.Interfaces;
 
-namespace GPGO_MultiPLCs.Models;
+namespace GPGRC_MultiPLCs.Models;
 public class GPServiceHost : IGPOvenServerService
 {
     public WebServiceResponse macIntf(string methodInvoke, string input)

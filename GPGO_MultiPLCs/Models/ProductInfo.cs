@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
 
-namespace GPGO_MultiPLCs.Models;
+namespace GPGRC_MultiPLCs.Models;
 
 /// <summary>材料生產資訊</summary>
 public class ProductInfo : ObservableObject //! 這是一個批號的資料

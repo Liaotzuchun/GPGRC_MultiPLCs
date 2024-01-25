@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using GPMVVM.Models;
 
-namespace GPGO_MultiPLCs.Models;
+namespace GPGRC_MultiPLCs.Models;
 
 /// <summary>PC程式參數</summary>
 public class GlobalSettings : RecipeFileBase<GlobalSettings>
@@ -196,9 +196,6 @@ public class GlobalSettings : RecipeFileBase<GlobalSettings>
         }
     }
 
-
-
-
     public GlobalSettings() : base("Settings")
     {
         //CodeReaderName   = "Symbol Bar Code Scanner";
@@ -212,7 +209,7 @@ public class GlobalSettings : RecipeFileBase<GlobalSettings>
         DataOutputPath = "C:\\GPOutput";
         RecipeImportPath = "C:\\GPOutput\\Recipe.csv";
         Lng = Language.TW;
-        OvenCount = 1;
+        OvenCount = 3;
         RecordDelay = 1;
         ClearInputDelay = 60;
         TimeOut = 60;
@@ -221,7 +218,7 @@ public class GlobalSettings : RecipeFileBase<GlobalSettings>
         DataTime = 10;
         HeartContent = "SSEMP";
         HeartPort = 60001;
-        HeartService = "192.168.10.1";
+        HeartService = "10.63.116.174";
         EquipmentID = "BF2308271";
         iMESURL = "http://192.168.10.1:9090/wsservice/macWS";
         CallCarrierID = "CallCarrierID";

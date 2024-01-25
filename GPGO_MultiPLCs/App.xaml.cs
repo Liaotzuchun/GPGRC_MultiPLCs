@@ -4,14 +4,14 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using GPGO_MultiPLCs.Views;
+using GPGRC_MultiPLCs.Views;
 using GPMVVM.Helpers;
 using Microsoft.Win32;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using Serilog;
 
-namespace GPGO_MultiPLCs;
+namespace GPGRC_MultiPLCs;
 
 /// <summary>App.xaml 的互動邏輯</summary>
 public partial class App

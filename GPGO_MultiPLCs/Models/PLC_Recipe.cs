@@ -4,7 +4,7 @@ using GPMVVM.Models;
 using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
 
-namespace GPGO_MultiPLCs.Models;
+namespace GPGRC_MultiPLCs.Models;
 
 /// <summary>PLC配方</summary>
 [OrderedObject]
@@ -15,147 +15,405 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     private const int Digits1 = 1;
 
     [JsonIgnore]
-    public short SegmentCounts_Max => 6;
+    public double RC1_Coatingoftimes_Max => 100;
 
     [JsonIgnore]
-    public short SegmentCounts_Min => 1;
+    public double RC1_Coatingoftimes_Min => 1;
 
     [JsonIgnore]
-    public double Temperature_Max => 999.9;
+    public double RC1_CoatingSpeedSetting_Max => 999.9;
 
     [JsonIgnore]
-    public double Temperature_Min => 0.0;
+    public double RC1_CoatingSpeedSetting_Min => 0.0;
+    [JsonIgnore]
+    public double RC1_BoardClampingDistance_Max => 999.9;
 
     [JsonIgnore]
-    public double CoolingTemperature_Max => 999.9;
+    public double RC1_BoardClampingDistance_Min => 0.0;
+    [JsonIgnore]
+    public double RC1_Plugoftimes_Max => 999.9;
 
     [JsonIgnore]
-    public double CoolingTemperature_Min => 0.0;
+    public double RC1_Plugoftimes_Min => 0.0;
 
     [JsonIgnore]
-    public double CoolingTime_Max => 99.9;
+    public double RC1_CoatingPressureSetting_Max => 999.9;
 
     [JsonIgnore]
-    public double CoolingTime_Min => 0.0;
+    public double RC1_CoatingPressureSetting_Min => 0.0;
+    [JsonIgnore]
+    public double RC1_PanelThicknessSetting_Max => 999.9;
 
     [JsonIgnore]
-    public double RampTime_Max => 999.8;
+    public double RC1_PanelThicknessSetting_Min => 0.0;
+    [JsonIgnore]
+    public double RC1_LocationOfDrop_Max => 999.9;
 
     [JsonIgnore]
-    public double RampTime_Min => 0.0;
+    public double RC1_LocationOfDrop_Min => 0.0;
+    [JsonIgnore]
+    public double RC1_Blade_Pressure_Max => 999.9;
 
     [JsonIgnore]
-    public double RampAlarm_Max => 999.9;
+    public double RC1_Blade_Pressure_Min => 0.0;
+    [JsonIgnore]
+    public double RC1_D_BarPressureSetting1_Max => 999.9;
 
     [JsonIgnore]
-    public double RampAlarm_Min => 0.0;
+    public double RC1_D_BarPressureSetting1_Min => 0.0;
+    [JsonIgnore]
+    public double RC1_D_BarPressureSetting2_Max => 999.9;
 
     [JsonIgnore]
-    public double DwellTime_Max => 9999.8;
+    public double RC1_D_BarPressureSetting2_Min => 0.0;
+    [JsonIgnore]
+    public double RC1_D_BarPressureSetting3_Max => 999.9;
 
     [JsonIgnore]
-    public double DwellTime_Min => 0.0;
+    public double RC1_D_BarPressureSetting3_Min => 0.0;
+    [JsonIgnore]
+    public double RC1_D_BarPressureSetting4_Max => 999.9;
 
     [JsonIgnore]
-    public double DwellAlarm_Max => 9999.9;
+    public double RC1_D_BarPressureSetting4_Min => 0.0;
+    [JsonIgnore]
+    public double RC1_BakingTimeSetting_Max => 999.9;
 
     [JsonIgnore]
-    public double DwellAlarm_Min => 0.0;
+    public double RC1_BakingTimeSetting_Min => 0.0;
+    [JsonIgnore]
+    public double RC1_TemperatureSV1_Max => 999.9;
 
     [JsonIgnore]
-    public double InflatingTime_Max => 99.0;
+    public double RC1_TemperatureSV1_Min => 0.0;
+    [JsonIgnore]
+    public double RC1_TemperatureSV2_Max => 999.9;
 
     [JsonIgnore]
-    public double InflatingTime_Min => 0.0;
+    public double RC1_TemperatureSV2_Min => 0.0;
+    [JsonIgnore]
+    public double RC1_UseCoating_Max => 999.9;
 
     [JsonIgnore]
-    public double DwellTime_Offset_Max => 999.9;
+    public double RC1_UseCoating_Min => 0.0;
 
     [JsonIgnore]
-    public double DwellTime_Offset_Min => -999.9;
+    public double RC1_UsePlug_Max => 999.9;
 
-    [OrderIndex(3)]
-    [LanguageTranslator("Used Step Counts", "使用段數", "使用段数")]
-    public short SegmentCounts
-    {
-        get => Get<short>();
-        set
-        {
-            if (value > SegmentCounts_Max)
-            {
-                value = SegmentCounts_Max;
-            }
-            else if (value < SegmentCounts_Min)
-            {
-                value = SegmentCounts_Min;
-            }
+    [JsonIgnore]
+    public double RC1_UsePlug_Min => 0.0;
 
-            Set(value);
-        }
-    }
+    [JsonIgnore]
+    public double RC1_StandardInk_Max => 999.9;
 
-    [LanguageTranslator("Oxygen Content", "氧含量", "氧含量")]
-    public double OxygenContentSet
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, MidpointRounding.AwayFromZero);
+    [JsonIgnore]
+    public double RC1_StandardInk_Min => 0.0;
 
-            if (value > 21)
-            {
-                value = 21;
-            }
-            else if (value < 0.1)
-            {
-                value = 0.1;
-            }
+    [JsonIgnore]
+    public double RC1_DifferenceOfInk_Max => 999.9;
 
-            Set(value);
-        }
-    }
+    [JsonIgnore]
+    public double RC1_DifferenceOfInk_Min => 0.0;
+    [JsonIgnore]
+    public double Coatingoftimes_Max => 100;
 
-    [LanguageTranslator("Cooling Temp.", "降溫溫度", "降温温度")]
-    public double CoolingTemperature
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, MidpointRounding.AwayFromZero);
+    [JsonIgnore]
+    public double Coatingoftimes_Min => 1;
 
-            if (value > CoolingTemperature_Max)
-            {
-                value = CoolingTemperature_Max;
-            }
-            else if (value < CoolingTemperature_Min)
-            {
-                value = CoolingTemperature_Min;
-            }
+    [JsonIgnore]
+    public double CoatingSpeedSetting_Max => 999.9;
 
-            Set(value);
-        }
-    }
+    [JsonIgnore]
+    public double CoatingSpeedSetting_Min => 0.0;
+    [JsonIgnore]
+    public double BoardClampingDistance_Max => 999.9;
 
-    [LanguageTranslator("Cooling Time", "降溫時間", "降温时间")]
-    public double CoolingTime
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+    [JsonIgnore]
+    public double BoardClampingDistance_Min => 0.0;
+    [JsonIgnore]
+    public double Plugoftimes_Max => 999.9;
 
-            if (value > CoolingTime_Max)
-            {
-                value = CoolingTime_Max;
-            }
-            else if (value < CoolingTime_Min)
-            {
-                value = CoolingTime_Min;
-            }
+    [JsonIgnore]
+    public double Plugoftimes_Min => 0.0;
 
-            Set(value);
-        }
-    }
+    [JsonIgnore]
+    public double CoatingPressureSetting_Max => 999.9;
+
+    [JsonIgnore]
+    public double CoatingPressureSetting_Min => 0.0;
+    [JsonIgnore]
+    public double PanelThicknessSetting_Max => 999.9;
+
+    [JsonIgnore]
+    public double PanelThicknessSetting_Min => 0.0;
+    [JsonIgnore]
+    public double LocationOfDrop_Max => 999.9;
+
+    [JsonIgnore]
+    public double LocationOfDrop_Min => 0.0;
+    [JsonIgnore]
+    public double Blade_Pressure_Max => 999.9;
+
+    [JsonIgnore]
+    public double Blade_Pressure_Min => 0.0;
+    [JsonIgnore]
+    public double D_BarPressureSetting1_Max => 999.9;
+
+    [JsonIgnore]
+    public double D_BarPressureSetting1_Min => 0.0;
+    [JsonIgnore]
+    public double D_BarPressureSetting2_Max => 999.9;
+
+    [JsonIgnore]
+    public double D_BarPressureSetting2_Min => 0.0;
+    [JsonIgnore]
+    public double D_BarPressureSetting3_Max => 999.9;
+
+    [JsonIgnore]
+    public double D_BarPressureSetting3_Min => 0.0;
+    [JsonIgnore]
+    public double D_BarPressureSetting4_Max => 999.9;
+
+    [JsonIgnore]
+    public double D_BarPressureSetting4_Min => 0.0;
+    [JsonIgnore]
+    public double BakingTimeSetting_Max => 999.9;
+
+    [JsonIgnore]
+    public double BakingTimeSetting_Min => 0.0;
+    [JsonIgnore]
+    public double TemperatureSV1_Max => 999.9;
+
+    [JsonIgnore]
+    public double TemperatureSV1_Min => 0.0;
+    [JsonIgnore]
+    public double TemperatureSV2_Max => 999.9;
+
+    [JsonIgnore]
+    public double TemperatureSV2_Min => 0.0;
+    [JsonIgnore]
+    public double UseCoating_Max => 999.9;
+
+    [JsonIgnore]
+    public double UseCoating_Min => 0.0;
+
+    [JsonIgnore]
+    public double UsePlug_Max => 999.9;
+
+    [JsonIgnore]
+    public double UsePlug_Min => 0.0;
+
+    [JsonIgnore]
+    public double StandardInk_Max => 999.9;
+
+    [JsonIgnore]
+    public double StandardInk_Min => 0.0;
+
+    [JsonIgnore]
+    public double DifferenceOfInk_Max => 999.9;
+
+    [JsonIgnore]
+    public double DifferenceOfInk_Min => 0.0;
+    [JsonIgnore]
+    public double RC2_Coatingoftimes_Max => 100;
+
+    [JsonIgnore]
+    public double RC2_Coatingoftimes_Min => 1;
+
+    [JsonIgnore]
+    public double RC2_CoatingSpeedSetting_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC2_CoatingSpeedSetting_Min => 0.0;
+    [JsonIgnore]
+    public double RC2_BoardClampingDistance_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC2_BoardClampingDistance_Min => 0.0;
+    [JsonIgnore]
+    public double RC2_Plugoftimes_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC2_Plugoftimes_Min => 0.0;
+
+    [JsonIgnore]
+    public double RC2_CoatingPressureSetting_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC2_CoatingPressureSetting_Min => 0.0;
+    [JsonIgnore]
+    public double RC2_PanelThicknessSetting_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC2_PanelThicknessSetting_Min => 0.0;
+    [JsonIgnore]
+    public double RC2_LocationOfDrop_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC2_LocationOfDrop_Min => 0.0;
+    [JsonIgnore]
+    public double RC2_Blade_Pressure_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC2_Blade_Pressure_Min => 0.0;
+    [JsonIgnore]
+    public double RC2_D_BarPressureSetting1_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC2_D_BarPressureSetting1_Min => 0.0;
+    [JsonIgnore]
+    public double RC2_D_BarPressureSetting2_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC2_D_BarPressureSetting2_Min => 0.0;
+    [JsonIgnore]
+    public double RC2_D_BarPressureSetting3_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC2_D_BarPressureSetting3_Min => 0.0;
+    [JsonIgnore]
+    public double RC2_D_BarPressureSetting4_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC2_D_BarPressureSetting4_Min => 0.0;
+    [JsonIgnore]
+    public double RC2_BakingTimeSetting_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC2_BakingTimeSetting_Min => 0.0;
+    [JsonIgnore]
+    public double RC2_TemperatureSV1_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC2_TemperatureSV1_Min => 0.0;
+    [JsonIgnore]
+    public double RC2_TemperatureSV2_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC2_TemperatureSV2_Min => 0.0;
+    [JsonIgnore]
+    public double RC2_UseCoating_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC2_UseCoating_Min => 0.0;
+
+    [JsonIgnore]
+    public double RC2_UsePlug_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC2_UsePlug_Min => 0.0;
+
+    [JsonIgnore]
+    public double RC2_StandardInk_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC2_StandardInk_Min => 0.0;
+
+    [JsonIgnore]
+    public double RC2_DifferenceOfInk_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC2_DifferenceOfInk_Min => 0.0;
+    [JsonIgnore]
+    public double RC3_Coatingoftimes_Max => 100;
+
+    [JsonIgnore]
+    public double RC3_Coatingoftimes_Min => 1;
+
+    [JsonIgnore]
+    public double RC3_CoatingSpeedSetting_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC3_CoatingSpeedSetting_Min => 0.0;
+    [JsonIgnore]
+    public double RC3_BoardClampingDistance_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC3_BoardClampingDistance_Min => 0.0;
+    [JsonIgnore]
+    public double RC3_Plugoftimes_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC3_Plugoftimes_Min => 0.0;
+
+    [JsonIgnore]
+    public double RC3_CoatingPressureSetting_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC3_CoatingPressureSetting_Min => 0.0;
+    [JsonIgnore]
+    public double RC3_PanelThicknessSetting_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC3_PanelThicknessSetting_Min => 0.0;
+    [JsonIgnore]
+    public double RC3_LocationOfDrop_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC3_LocationOfDrop_Min => 0.0;
+    [JsonIgnore]
+    public double RC3_Blade_Pressure_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC3_Blade_Pressure_Min => 0.0;
+    [JsonIgnore]
+    public double RC3_D_BarPressureSetting1_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC3_D_BarPressureSetting1_Min => 0.0;
+    [JsonIgnore]
+    public double RC3_D_BarPressureSetting2_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC3_D_BarPressureSetting2_Min => 0.0;
+    [JsonIgnore]
+    public double RC3_D_BarPressureSetting3_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC3_D_BarPressureSetting3_Min => 0.0;
+    [JsonIgnore]
+    public double RC3_D_BarPressureSetting4_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC3_D_BarPressureSetting4_Min => 0.0;
+    [JsonIgnore]
+    public double RC3_BakingTimeSetting_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC3_BakingTimeSetting_Min => 0.0;
+    [JsonIgnore]
+    public double RC3_TemperatureSV1_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC3_TemperatureSV1_Min => 0.0;
+    [JsonIgnore]
+    public double RC3_TemperatureSV2_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC3_TemperatureSV2_Min => 0.0;
+    [JsonIgnore]
+    public double RC3_UseCoating_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC3_UseCoating_Min => 0.0;
+
+    [JsonIgnore]
+    public double RC3_UsePlug_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC3_UsePlug_Min => 0.0;
+
+    [JsonIgnore]
+    public double RC3_StandardInk_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC3_StandardInk_Min => 0.0;
+
+    [JsonIgnore]
+    public double RC3_DifferenceOfInk_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC3_DifferenceOfInk_Min => 0.0;
 
     [JsonIgnore] //匯出時檔名已是名稱，此處用JsonIgnore是用來做配方比較需忽略此項
     [OrderIndex(-1)]
@@ -177,22 +435,20 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     [LanguageTranslator("Editor Level", "權限", "权限")]
     public override UserLevel EditorLevel { get; set; }
 
-    [OrderIndex(4)]
-    [LanguageTranslator("Inflating Time", "充氣時間", "充气时间")]
-    public double InflatingTime
+    [OrderIndex(3)]
+    [LanguageTranslator("Coatingoftimes", "塗佈次數", "塗佈次數")]
+    public double RC1_Coatingoftimes
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, MidpointRounding.AwayFromZero);
-
-            if (value > InflatingTime_Max)
+            if (value > RC1_Coatingoftimes_Max)
             {
-                value = InflatingTime_Max;
+                value = RC1_Coatingoftimes_Max;
             }
-            else if (value < InflatingTime_Min)
+            else if (value < RC1_Coatingoftimes_Min)
             {
-                value = InflatingTime_Min;
+                value = RC1_Coatingoftimes_Min;
             }
 
             Set(value);
@@ -200,1087 +456,1009 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     }
 
     [OrderIndex(5)]
-    [LanguageTranslator("Temp. SP 1", "目標溫度 1", "目标温度 1")]
-    public double TemperatureSetpoint_1
+    [LanguageTranslator("CoatingSpeedSetting", "塗佈速度設定", "塗佈速度設定")]
+    public double RC1_CoatingSpeedSetting
     {
         get => Get<double>();
         set
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > Temperature_Max)
+            if (value > RC1_CoatingSpeedSetting_Max)
             {
-                value = Temperature_Max;
+                value = RC1_CoatingSpeedSetting_Max;
             }
-            else if (value < Temperature_Min)
+            else if (value < RC1_CoatingSpeedSetting_Min)
             {
-                value = Temperature_Min;
+                value = RC1_CoatingSpeedSetting_Min;
             }
 
             Set(value);
         }
     }
 
-    [OrderIndex(6)]
-    [LanguageTranslator("Temp. SP 2", "目標溫度 2", "目标温度 2")]
-    public double TemperatureSetpoint_2
+    [OrderIndex(5)]
+    [LanguageTranslator("BoardClampingDistance", "板面夾持距離", "塗佈速度設定")]
+    public double RC1_BoardClampingDistance
     {
         get => Get<double>();
         set
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > Temperature_Max)
+            if (value > RC1_BoardClampingDistance_Max)
             {
-                value = Temperature_Max;
+                value = RC1_BoardClampingDistance_Max;
             }
-            else if (value < Temperature_Min)
+            else if (value < RC1_BoardClampingDistance_Min)
             {
-                value = Temperature_Min;
+                value = RC1_BoardClampingDistance_Min;
             }
 
             Set(value);
         }
     }
 
-    [OrderIndex(7)]
-    [LanguageTranslator("Temp. SP 3", "目標溫度 3", "目标温度 3")]
-    public double TemperatureSetpoint_3
+    [OrderIndex(5)]
+    [LanguageTranslator("Plugoftimes", "塞孔次數", "塞孔次數")]
+    public double RC1_Plugoftimes
     {
         get => Get<double>();
         set
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > Temperature_Max)
+            if (value > RC1_Plugoftimes_Max)
             {
-                value = Temperature_Max;
+                value = RC1_Plugoftimes_Max;
             }
-            else if (value < Temperature_Min)
+            else if (value < RC1_Plugoftimes_Min)
             {
-                value = Temperature_Min;
+                value = RC1_Plugoftimes_Min;
             }
 
             Set(value);
         }
     }
 
-    [OrderIndex(8)]
-    [LanguageTranslator("Temp. SP 4", "目標溫度 4", "目标温度 4")]
-    public double TemperatureSetpoint_4
+    [OrderIndex(5)]
+    [LanguageTranslator("CoatingPressureSetting", "塗佈壓力設定", "塗佈壓力設定")]
+    public double RC1_CoatingPressureSetting
     {
         get => Get<double>();
         set
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > Temperature_Max)
+            if (value > RC1_CoatingPressureSetting_Max)
             {
-                value = Temperature_Max;
+                value = RC1_CoatingPressureSetting_Max;
             }
-            else if (value < Temperature_Min)
+            else if (value < RC1_CoatingPressureSetting_Min)
             {
-                value = Temperature_Min;
+                value = RC1_CoatingPressureSetting_Min;
             }
 
             Set(value);
         }
     }
 
-    [OrderIndex(9)]
-    [LanguageTranslator("Temp. SP 5", "目標溫度 5", "目标温度 5")]
-    public double TemperatureSetpoint_5
+    [OrderIndex(5)]
+    [LanguageTranslator("PanelThicknessSetting", "基板厚度設定", "基板厚度設定")]
+    public double RC1_PanelThicknessSetting
     {
         get => Get<double>();
         set
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > Temperature_Max)
+            if (value > RC1_PanelThicknessSetting_Max)
             {
-                value = Temperature_Max;
+                value = RC1_PanelThicknessSetting_Max;
             }
-            else if (value < Temperature_Min)
+            else if (value < RC1_PanelThicknessSetting_Min)
             {
-                value = Temperature_Min;
+                value = RC1_PanelThicknessSetting_Min;
             }
 
             Set(value);
         }
     }
 
-    [OrderIndex(10)]
-    [LanguageTranslator("Temp. SP 6", "目標溫度 6", "目标温度 6")]
-    public double TemperatureSetpoint_6
+    [OrderIndex(5)]
+    [LanguageTranslator("LocationOfDrop", "入料下降位置設定", "入料下降位置設定")]
+    public double RC1_LocationOfDrop
     {
         get => Get<double>();
         set
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > Temperature_Max)
+            if (value > RC1_LocationOfDrop_Max)
             {
-                value = Temperature_Max;
+                value = RC1_LocationOfDrop_Max;
             }
-            else if (value < Temperature_Min)
+            else if (value < RC1_LocationOfDrop_Min)
             {
-                value = Temperature_Min;
+                value = RC1_LocationOfDrop_Min;
             }
 
             Set(value);
         }
     }
-
-    [GPIgnore]
-    [OrderIndex(11)]
-    [LanguageTranslator("Temp. SP 7", "目標溫度 7", "目标温度 7")]
-    public double TemperatureSetpoint_7
+    [OrderIndex(5)]
+    [LanguageTranslator("Blade_Pressure", "入料下降位置設定", "入料下降位置設定")]
+    public double RC1_Blade_Pressure
     {
         get => Get<double>();
         set
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > Temperature_Max)
+            if (value > RC1_Blade_Pressure_Max)
             {
-                value = Temperature_Max;
+                value = RC1_Blade_Pressure_Max;
             }
-            else if (value < Temperature_Min)
+            else if (value < RC1_Blade_Pressure_Min)
             {
-                value = Temperature_Min;
+                value = RC1_Blade_Pressure_Min;
             }
 
             Set(value);
         }
     }
 
-    [GPIgnore]
-    [OrderIndex(12)]
-    [LanguageTranslator("Temp. SP 8", "目標溫度 8", "目标温度 8")]
-    public double TemperatureSetpoint_8
+    [OrderIndex(5)]
+    [LanguageTranslator("D_BarPressureSetting1", "左前D.BAR壓力設定", "左前D.BAR壓力設定")]
+    public double RC1_D_BarPressureSetting1
     {
         get => Get<double>();
         set
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > Temperature_Max)
+            if (value > RC1_D_BarPressureSetting1_Max)
             {
-                value = Temperature_Max;
+                value = RC1_D_BarPressureSetting1_Max;
             }
-            else if (value < Temperature_Min)
+            else if (value < RC1_D_BarPressureSetting1_Min)
             {
-                value = Temperature_Min;
+                value = RC1_D_BarPressureSetting1_Min;
             }
 
             Set(value);
         }
     }
-    [GPIgnore]
-
-
-    [OrderIndex(13)]
-    [LanguageTranslator("Ramp Time 1", "升溫時間 1", "升温时间 1")]
-    public double RampTime_1
+    [OrderIndex(5)]
+    [LanguageTranslator("D_BarPressureSetting2", "右前D.BAR壓力設定", "右前D.BAR壓力設定")]
+    public double RC1_D_BarPressureSetting2
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RampTime_Max)
+            if (value > RC1_D_BarPressureSetting2_Max)
             {
-                value = RampTime_Max;
+                value = RC1_D_BarPressureSetting2_Max;
             }
-            else if (value < RampTime_Min)
+            else if (value < RC1_D_BarPressureSetting2_Min)
             {
-                value = RampTime_Min;
+                value = RC1_D_BarPressureSetting2_Min;
             }
 
             Set(value);
-            RampAlarm_1 = RampAlarm_1;
         }
     }
 
-    [OrderIndex(14)]
-    [LanguageTranslator("Ramp Time 2", "升溫時間 2", "升温时间 2")]
-    public double RampTime_2
+
+    [OrderIndex(5)]
+    [LanguageTranslator("D_BarPressureSetting3", "左後D.BAR壓力設定", "左後D.BAR壓力設定")]
+    public double RC1_D_BarPressureSetting3
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RampTime_Max)
+            if (value > RC1_D_BarPressureSetting3_Max)
             {
-                value = RampTime_Max;
+                value = RC1_D_BarPressureSetting3_Max;
             }
-            else if (value < RampTime_Min)
+            else if (value < RC1_D_BarPressureSetting3_Min)
             {
-                value = RampTime_Min;
+                value = RC1_D_BarPressureSetting3_Min;
             }
 
             Set(value);
-            RampAlarm_2 = RampAlarm_2;
         }
     }
 
-    [OrderIndex(15)]
-    [LanguageTranslator("Ramp Time 3", "升溫時間 3", "升温时间 3")]
-    public double RampTime_3
+    [OrderIndex(5)]
+    [LanguageTranslator("D_BarPressureSetting4", "右後D.BAR壓力設定", "右後D.BAR壓力設定")]
+    public double RC1_D_BarPressureSetting4
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RampTime_Max)
+            if (value > RC1_D_BarPressureSetting4_Max)
             {
-                value = RampTime_Max;
+                value = RC1_D_BarPressureSetting4_Max;
             }
-            else if (value < RampTime_Min)
+            else if (value < RC1_D_BarPressureSetting4_Min)
             {
-                value = RampTime_Min;
+                value = RC1_D_BarPressureSetting4_Min;
             }
 
             Set(value);
-            RampAlarm_3 = RampAlarm_3;
         }
     }
-
-    [OrderIndex(16)]
-    [LanguageTranslator("Ramp Time 4", "升溫時間 4", "升温时间 4")]
-    public double RampTime_4
+    [OrderIndex(5)]
+    [LanguageTranslator("BakingTimeSetting", "烘烤時間設定", "烘烤時間設定")]
+    public double RC1_BakingTimeSetting
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RampTime_Max)
+            if (value > RC1_BakingTimeSetting_Max)
             {
-                value = RampTime_Max;
+                value = RC1_BakingTimeSetting_Max;
             }
-            else if (value < RampTime_Min)
+            else if (value < RC1_BakingTimeSetting_Min)
             {
-                value = RampTime_Min;
+                value = RC1_BakingTimeSetting_Min;
             }
 
             Set(value);
-            RampAlarm_4 = RampAlarm_4;
         }
     }
-
-    [OrderIndex(17)]
-    [LanguageTranslator("Ramp Time 5", "升溫時間 5", "升温时间 5")]
-    public double RampTime_5
+    [OrderIndex(5)]
+    [LanguageTranslator("TemperatureSV1", "第1段溫度設定值", "第1段溫度設定值")]
+    public double RC1_TemperatureSV1
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RampTime_Max)
+            if (value > RC1_TemperatureSV1_Max)
             {
-                value = RampTime_Max;
+                value = RC1_TemperatureSV1_Max;
             }
-            else if (value < RampTime_Min)
+            else if (value < RC1_TemperatureSV1_Min)
             {
-                value = RampTime_Min;
+                value = RC1_TemperatureSV1_Min;
             }
 
             Set(value);
-            RampAlarm_5 = RampAlarm_5;
         }
     }
-
-    [OrderIndex(18)]
-    [LanguageTranslator("Ramp Time 6", "升溫時間 6", "升温时间 6")]
-    public double RampTime_6
+    [OrderIndex(5)]
+    [LanguageTranslator("TemperatureSV2", "第2段溫度設定值", "第2段溫度設定值")]
+    public double RC1_TemperatureSV2
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RampTime_Max)
+            if (value > RC1_TemperatureSV2_Max)
             {
-                value = RampTime_Max;
+                value = RC1_TemperatureSV2_Max;
             }
-            else if (value < RampTime_Min)
+            else if (value < RC1_TemperatureSV2_Min)
             {
-                value = RampTime_Min;
+                value = RC1_TemperatureSV2_Min;
             }
 
             Set(value);
-            RampAlarm_6 = RampAlarm_6;
         }
     }
-
-    [GPIgnore]
-    [OrderIndex(19)]
-    [LanguageTranslator("Ramp Time 7", "升溫時間 7", "升温时间 7")]
-    public double RampTime_7
+    [OrderIndex(5)]
+    [LanguageTranslator("UseCoating", "塗佈使用", "塗佈使用")]
+    public double RC1_UseCoating
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RampTime_Max)
+            if (value > RC1_UseCoating_Max)
             {
-                value = RampTime_Max;
+                value = RC1_UseCoating_Max;
             }
-            else if (value < RampTime_Min)
+            else if (value < RC1_UseCoating_Min)
             {
-                value = RampTime_Min;
+                value = RC1_UseCoating_Min;
             }
 
             Set(value);
-            RampAlarm_7 = RampAlarm_7;
         }
     }
-
-    [GPIgnore]
-    [OrderIndex(20)]
-    [LanguageTranslator("Ramp Time 8", "升溫時間 8", "升温时间 8")]
-    public double RampTime_8
+    [OrderIndex(5)]
+    [LanguageTranslator("UsePlug", "塞孔使用", "塞孔使用")]
+    public double RC1_UsePlug
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RampTime_Max)
+            if (value > RC1_UsePlug_Max)
             {
-                value = RampTime_Max;
+                value = RC1_UsePlug_Max;
             }
-            else if (value < RampTime_Min)
+            else if (value < RC1_UsePlug_Min)
             {
-                value = RampTime_Min;
+                value = RC1_UsePlug_Min;
             }
 
             Set(value);
-            RampAlarm_8 = RampAlarm_8;
         }
     }
-
-
-    [OrderIndex(21)]
-    [LanguageTranslator("Ramp Alarm 1", "升溫警報 1", "升温警报 1")]
-    public double RampAlarm_1
+    [OrderIndex(5)]
+    [LanguageTranslator("StandardInk", "標準墨重", "標準墨重")]
+    public double RC1_StandardInk
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RampAlarm_Max)
+            if (value > RC1_StandardInk_Max)
             {
-                value = RampAlarm_Max;
+                value = RC1_StandardInk_Max;
             }
-            else if (value <= RampTime_1)
+            else if (value < RC1_StandardInk_Min)
             {
-                value = RampTime_1 + 1;
+                value = RC1_StandardInk_Min;
             }
 
             Set(value);
         }
     }
-
-    [OrderIndex(22)]
-    [LanguageTranslator("Ramp Alarm 2", "升溫警報 2", "升温警报 2")]
-    public double RampAlarm_2
+    [OrderIndex(5)]
+    [LanguageTranslator("DifferenceOfInk", "墨重誤差值", "墨重誤差值")]
+    public double RC1_DifferenceOfInk
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RampAlarm_Max)
+            if (value > RC1_DifferenceOfInk_Max)
             {
-                value = RampAlarm_Max;
+                value = RC1_DifferenceOfInk_Max;
             }
-            else if (value <= RampTime_2)
+            else if (value < RC1_DifferenceOfInk_Min)
             {
-                value = RampTime_2 + 1;
+                value = RC1_DifferenceOfInk_Min;
             }
 
             Set(value);
         }
     }
-
-    [OrderIndex(23)]
-    [LanguageTranslator("Ramp Alarm 3", "升溫警報 3", "升温警报 3")]
-    public double RampAlarm_3
+    [OrderIndex(3)]
+    [LanguageTranslator("Coatingoftimes", "塗佈次數", "塗佈次數")]
+    public double Coatingoftimes
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > RampAlarm_Max)
+            if (value > Coatingoftimes_Max)
             {
-                value = RampAlarm_Max;
+                value = Coatingoftimes_Max;
             }
-            else if (value <= RampTime_3)
+            else if (value < Coatingoftimes_Min)
             {
-                value = RampTime_3 + 1;
+                value = Coatingoftimes_Min;
             }
 
             Set(value);
         }
     }
 
-    [OrderIndex(24)]
-    [LanguageTranslator("Ramp Alarm 4", "升溫警報 4", "升温警报 4")]
-    public double RampAlarm_4
+    [OrderIndex(5)]
+    [LanguageTranslator("CoatingSpeedSetting", "塗佈速度設定", "塗佈速度設定")]
+    public double CoatingSpeedSetting
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RampAlarm_Max)
+            if (value > CoatingSpeedSetting_Max)
             {
-                value = RampAlarm_Max;
+                value = CoatingSpeedSetting_Max;
             }
-            else if (value <= RampTime_4)
+            else if (value < CoatingSpeedSetting_Min)
             {
-                value = RampTime_4 + 1;
+                value = CoatingSpeedSetting_Min;
             }
 
             Set(value);
         }
     }
 
-    [OrderIndex(25)]
-    [LanguageTranslator("Ramp Alarm 5", "升溫警報 5", "升温警报 5")]
-    public double RampAlarm_5
+    [OrderIndex(5)]
+    [LanguageTranslator("BoardClampingDistance", "板面夾持距離", "塗佈速度設定")]
+    public double BoardClampingDistance
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RampAlarm_Max)
+            if (value > BoardClampingDistance_Max)
             {
-                value = RampAlarm_Max;
+                value = BoardClampingDistance_Max;
             }
-            else if (value <= RampTime_5)
+            else if (value < BoardClampingDistance_Min)
             {
-                value = RampTime_5 + 1;
+                value = BoardClampingDistance_Min;
             }
 
             Set(value);
         }
     }
 
-    [OrderIndex(26)]
-    [LanguageTranslator("Ramp Alarm 6", "升溫警報 6", "升温警报 6")]
-    public double RampAlarm_6
+    [OrderIndex(5)]
+    [LanguageTranslator("Plugoftimes", "塞孔次數", "塞孔次數")]
+    public double Plugoftimes
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RampAlarm_Max)
+            if (value > Plugoftimes_Max)
             {
-                value = RampAlarm_Max;
+                value = Plugoftimes_Max;
             }
-            else if (value <= RampTime_6)
+            else if (value < Plugoftimes_Min)
             {
-                value = RampTime_6 + 1;
+                value = Plugoftimes_Min;
             }
 
             Set(value);
         }
     }
 
-    [GPIgnore]
-    [OrderIndex(27)]
-    [LanguageTranslator("Ramp Alarm 7", "升溫警報 7", "升温警报 7")]
-    public double RampAlarm_7
+    [OrderIndex(5)]
+    [LanguageTranslator("CoatingPressureSetting", "塗佈壓力設定", "塗佈壓力設定")]
+    public double CoatingPressureSetting
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RampAlarm_Max)
+            if (value > CoatingPressureSetting_Max)
             {
-                value = RampAlarm_Max;
+                value = CoatingPressureSetting_Max;
             }
-            else if (value <= RampTime_7)
+            else if (value < CoatingPressureSetting_Min)
             {
-                value = RampTime_7 + 1;
+                value = CoatingPressureSetting_Min;
             }
 
             Set(value);
         }
     }
 
-
-    [GPIgnore]
-    [OrderIndex(28)]
-    [LanguageTranslator("Ramp Alarm 8", "升溫警報 8", "升温警报 8")]
-    public double RampAlarm_8
+    [OrderIndex(5)]
+    [LanguageTranslator("PanelThicknessSetting", "基板厚度設定", "基板厚度設定")]
+    public double PanelThicknessSetting
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RampAlarm_Max)
+            if (value > PanelThicknessSetting_Max)
             {
-                value = RampAlarm_Max;
+                value = PanelThicknessSetting_Max;
             }
-            else if (value <= RampTime_8)
+            else if (value < PanelThicknessSetting_Min)
             {
-                value = RampTime_8 + 1;
+                value = PanelThicknessSetting_Min;
             }
 
             Set(value);
         }
     }
 
-    [GPIgnore]
-    [OrderIndex(29)]
-    [LanguageTranslator("Dwell Temp. 1", "恆溫溫度 1", "恒温温度 1")]
-    public double DwellTemperature_1
+    [OrderIndex(5)]
+    [LanguageTranslator("LocationOfDrop", "入料下降位置設定", "入料下降位置設定")]
+    public double LocationOfDrop
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > Temperature_Max)
+            if (value > LocationOfDrop_Max)
             {
-                value = Temperature_Max;
+                value = LocationOfDrop_Max;
             }
-            else if (value < Temperature_Min)
+            else if (value < LocationOfDrop_Min)
             {
-                value = Temperature_Min;
+                value = LocationOfDrop_Min;
             }
 
             Set(value);
         }
     }
-
-    [GPIgnore]
-    [OrderIndex(30)]
-    [LanguageTranslator("Dwell Temp. 2", "恆溫溫度 2", "恒温温度 2")]
-    public double DwellTemperature_2
+    [OrderIndex(5)]
+    [LanguageTranslator("Blade_Pressure", "入料下降位置設定", "入料下降位置設定")]
+    public double Blade_Pressure
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > Temperature_Max)
+            if (value > Blade_Pressure_Max)
             {
-                value = Temperature_Max;
+                value = Blade_Pressure_Max;
             }
-            else if (value < Temperature_Min)
+            else if (value < Blade_Pressure_Min)
             {
-                value = Temperature_Min;
+                value = Blade_Pressure_Min;
             }
 
             Set(value);
         }
     }
 
-
-    [GPIgnore]
-    [OrderIndex(31)]
-    [LanguageTranslator("Dwell Temp. 3", "恆溫溫度 3", "恒温温度 3")]
-    public double DwellTemperature_3
+    [OrderIndex(5)]
+    [LanguageTranslator("D_BarPressureSetting1", "左前D.BAR壓力設定", "左前D.BAR壓力設定")]
+    public double D_BarPressureSetting1
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > Temperature_Max)
+            if (value > D_BarPressureSetting1_Max)
             {
-                value = Temperature_Max;
+                value = D_BarPressureSetting1_Max;
             }
-            else if (value < Temperature_Min)
+            else if (value < D_BarPressureSetting1_Min)
             {
-                value = Temperature_Min;
+                value = D_BarPressureSetting1_Min;
             }
 
             Set(value);
         }
     }
-
-
-
-    [GPIgnore]
-    [OrderIndex(32)]
-    [LanguageTranslator("Dwell Temp. 4", "恆溫溫度 4", "恒温温度 4")]
-    public double DwellTemperature_4
+    [OrderIndex(5)]
+    [LanguageTranslator("D_BarPressureSetting2", "右前D.BAR壓力設定", "右前D.BAR壓力設定")]
+    public double D_BarPressureSetting2
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > Temperature_Max)
+            if (value > D_BarPressureSetting2_Max)
             {
-                value = Temperature_Max;
+                value = D_BarPressureSetting2_Max;
             }
-            else if (value < Temperature_Min)
+            else if (value < D_BarPressureSetting2_Min)
             {
-                value = Temperature_Min;
+                value = D_BarPressureSetting2_Min;
             }
 
             Set(value);
         }
     }
 
-    [GPIgnore]
-    [OrderIndex(33)]
-    [LanguageTranslator("Dwell Temp. 5", "恆溫溫度 5", "恒温温度 5")]
-    public double DwellTemperature_5
+
+    [OrderIndex(5)]
+    [LanguageTranslator("D_BarPressureSetting3", "左後D.BAR壓力設定", "左後D.BAR壓力設定")]
+    public double D_BarPressureSetting3
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > Temperature_Max)
+            if (value > D_BarPressureSetting3_Max)
             {
-                value = Temperature_Max;
+                value = D_BarPressureSetting3_Max;
             }
-            else if (value < Temperature_Min)
+            else if (value < D_BarPressureSetting3_Min)
             {
-                value = Temperature_Min;
+                value = D_BarPressureSetting3_Min;
             }
 
             Set(value);
         }
     }
 
-    [GPIgnore]
-    [OrderIndex(34)]
-    [LanguageTranslator("Dwell Temp. 6", "恆溫溫度 6", "恒温温度 6")]
-    public double DwellTemperature_6
+    [OrderIndex(5)]
+    [LanguageTranslator("D_BarPressureSetting4", "右後D.BAR壓力設定", "右後D.BAR壓力設定")]
+    public double D_BarPressureSetting4
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > Temperature_Max)
+            if (value > D_BarPressureSetting4_Max)
             {
-                value = Temperature_Max;
+                value = D_BarPressureSetting4_Max;
             }
-            else if (value < Temperature_Min)
+            else if (value < D_BarPressureSetting4_Min)
             {
-                value = Temperature_Min;
+                value = D_BarPressureSetting4_Min;
             }
 
             Set(value);
         }
     }
-
-    [GPIgnore]
-    [OrderIndex(35)]
-    [LanguageTranslator("Dwell Temp. 7", "恆溫溫度 7", "恒温温度 7")]
-    public double DwellTemperature_7
+    [OrderIndex(5)]
+    [LanguageTranslator("BakingTimeSetting", "烘烤時間設定", "烘烤時間設定")]
+    public double BakingTimeSetting
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > Temperature_Max)
+            if (value > BakingTimeSetting_Max)
             {
-                value = Temperature_Max;
+                value = BakingTimeSetting_Max;
             }
-            else if (value < Temperature_Min)
+            else if (value < BakingTimeSetting_Min)
             {
-                value = Temperature_Min;
+                value = BakingTimeSetting_Min;
             }
 
             Set(value);
         }
     }
-
-    [GPIgnore]
-    [OrderIndex(36)]
-    [LanguageTranslator("Dwell Temp. 8", "恆溫溫度 8", "恒温温度 8")]
-    public double DwellTemperature_8
+    [OrderIndex(5)]
+    [LanguageTranslator("TemperatureSV1", "第1段溫度設定值", "第1段溫度設定值")]
+    public double TemperatureSV1
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > Temperature_Max)
+            if (value > TemperatureSV1_Max)
             {
-                value = Temperature_Max;
+                value = TemperatureSV1_Max;
             }
-            else if (value < Temperature_Min)
+            else if (value < TemperatureSV1_Min)
             {
-                value = Temperature_Min;
+                value = TemperatureSV1_Min;
             }
 
             Set(value);
         }
     }
-
-
-    [OrderIndex(37)]
-    [LanguageTranslator("Warning Time 1", "恆溫時間 1", "恒温时间 1")]
-    public double DwellTime_1
+    [OrderIndex(5)]
+    [LanguageTranslator("TemperatureSV2", "第2段溫度設定值", "第2段溫度設定值")]
+    public double TemperatureSV2
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > DwellTime_Max)
+            if (value > TemperatureSV2_Max)
             {
-                value = DwellTime_Max;
+                value = TemperatureSV2_Max;
             }
-            else if (value < DwellTime_Min)
+            else if (value < TemperatureSV2_Min)
             {
-                value = DwellTime_Min;
+                value = TemperatureSV2_Min;
             }
 
             Set(value);
-            DwellAlarm_1 = DwellAlarm_1;
         }
     }
-
-
-    [OrderIndex(38)]
-    [LanguageTranslator("Warning Time 2", "恆溫時間 2", "恒温时间 2")]
-    public double DwellTime_2
+    [OrderIndex(5)]
+    [LanguageTranslator("UseCoating", "塗佈使用", "塗佈使用")]
+    public double UseCoating
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > DwellTime_Max)
+            if (value > UseCoating_Max)
             {
-                value = DwellTime_Max;
+                value = UseCoating_Max;
             }
-            else if (value < DwellTime_Min)
+            else if (value < UseCoating_Min)
             {
-                value = DwellTime_Min;
+                value = UseCoating_Min;
             }
 
             Set(value);
-            DwellAlarm_2 = DwellAlarm_2;
         }
     }
-
-
-
-    [OrderIndex(39)]
-    [LanguageTranslator("Warning Time 3", "恆溫時間 3", "恒温时间 3")]
-    public double DwellTime_3
+    [OrderIndex(5)]
+    [LanguageTranslator("UsePlug", "塞孔使用", "塞孔使用")]
+    public double UsePlug
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > DwellTime_Max)
+            if (value > UsePlug_Max)
             {
-                value = DwellTime_Max;
+                value = UsePlug_Max;
             }
-            else if (value < DwellTime_Min)
+            else if (value < UsePlug_Min)
             {
-                value = DwellTime_Min;
+                value = UsePlug_Min;
             }
 
             Set(value);
-            DwellAlarm_3 = DwellAlarm_3;
         }
     }
-
-
-    [OrderIndex(40)]
-    [LanguageTranslator("Warning Time 4", "恆溫時間 4", "恒温时间 4")]
-    public double DwellTime_4
+    [OrderIndex(5)]
+    [LanguageTranslator("StandardInk", "標準墨重", "標準墨重")]
+    public double StandardInk
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > DwellTime_Max)
+            if (value > StandardInk_Max)
             {
-                value = DwellTime_Max;
+                value = StandardInk_Max;
             }
-            else if (value < DwellTime_Min)
+            else if (value < StandardInk_Min)
             {
-                value = DwellTime_Min;
+                value = StandardInk_Min;
             }
 
             Set(value);
-            DwellAlarm_4 = DwellAlarm_4;
         }
     }
-
-
-    [OrderIndex(41)]
-    [LanguageTranslator("Warning Time 5", "恆溫時間 5", "恒温时间 5")]
-    public double DwellTime_5
+    [OrderIndex(5)]
+    [LanguageTranslator("DifferenceOfInk", "墨重誤差值", "墨重誤差值")]
+    public double DifferenceOfInk
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > DwellTime_Max)
+            if (value > DifferenceOfInk_Max)
             {
-                value = DwellTime_Max;
+                value = DifferenceOfInk_Max;
             }
-            else if (value < DwellTime_Min)
+            else if (value < DifferenceOfInk_Min)
             {
-                value = DwellTime_Min;
+                value = DifferenceOfInk_Min;
             }
 
             Set(value);
-            DwellAlarm_5 = DwellAlarm_5;
         }
     }
-
-
-
-    [OrderIndex(42)]
-    [LanguageTranslator("Warning Time 6", "恆溫時間 6", "恒温时间 6")]
-    public double DwellTime_6
+    [OrderIndex(3)]
+    [LanguageTranslator("Coatingoftimes", "塗佈次數", "塗佈次數")]
+    public double RC2_Coatingoftimes
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
-
-            if (value > DwellTime_Max)
+            if (value > RC2_Coatingoftimes_Max)
             {
-                value = DwellTime_Max;
+                value = RC2_Coatingoftimes_Max;
             }
-            else if (value < DwellTime_Min)
+            else if (value < RC2_Coatingoftimes_Min)
             {
-                value = DwellTime_Min;
+                value = RC2_Coatingoftimes_Min;
             }
 
             Set(value);
-            DwellAlarm_6 = DwellAlarm_6;
         }
     }
 
-
-    [GPIgnore]
-    [OrderIndex(43)]
-    [LanguageTranslator("Warning Time 7", "恆溫時間 7", "恒温时间 7")]
-    public double DwellTime_7
+    [OrderIndex(5)]
+    [LanguageTranslator("CoatingSpeedSetting", "塗佈速度設定", "塗佈速度設定")]
+    public double RC2_CoatingSpeedSetting
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > DwellTime_Max)
+            if (value > RC2_CoatingSpeedSetting_Max)
             {
-                value = DwellTime_Max;
+                value = RC2_CoatingSpeedSetting_Max;
             }
-            else if (value < DwellTime_Min)
+            else if (value < RC2_CoatingSpeedSetting_Min)
             {
-                value = DwellTime_Min;
+                value = RC2_CoatingSpeedSetting_Min;
             }
 
             Set(value);
-            DwellAlarm_7 = DwellAlarm_7;
         }
     }
 
-    [GPIgnore]
-    [OrderIndex(44)]
-    [LanguageTranslator("Warning Time 8", "恆溫時間 8", "恒温时间 8")]
-    public double DwellTime_8
+    [OrderIndex(5)]
+    [LanguageTranslator("BoardClampingDistance", "板面夾持距離", "塗佈速度設定")]
+    public double RC2_BoardClampingDistance
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > DwellTime_Max)
+            if (value > RC2_BoardClampingDistance_Max)
             {
-                value = DwellTime_Max;
+                value = RC2_BoardClampingDistance_Max;
             }
-            else if (value < DwellTime_Min)
+            else if (value < RC2_BoardClampingDistance_Min)
             {
-                value = DwellTime_Min;
+                value = RC2_BoardClampingDistance_Min;
             }
 
             Set(value);
-            DwellAlarm_8 = DwellAlarm_8;
         }
     }
 
-
-    [OrderIndex(45)]
-    [LanguageTranslator("Dwell Alarm 1", "恆溫警報 1", "恒温警报 1")]
-    public double DwellAlarm_1
+    [OrderIndex(5)]
+    [LanguageTranslator("Plugoftimes", "塞孔次數", "塞孔次數")]
+    public double RC2_Plugoftimes
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > DwellAlarm_Max)
+            if (value > RC2_Plugoftimes_Max)
             {
-                value = DwellAlarm_Max;
+                value = RC2_Plugoftimes_Max;
             }
-            else if (value <= DwellTime_1)
+            else if (value < RC2_Plugoftimes_Min)
             {
-                value = DwellTime_1 + 1;
+                value = RC2_Plugoftimes_Min;
             }
 
             Set(value);
         }
     }
 
-    [OrderIndex(46)]
-    [LanguageTranslator("Dwell Alarm 2", "恆溫警報 2", "恒温警报 2")]
-    public double DwellAlarm_2
+    [OrderIndex(5)]
+    [LanguageTranslator("CoatingPressureSetting", "塗佈壓力設定", "塗佈壓力設定")]
+    public double RC2_CoatingPressureSetting
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > DwellAlarm_Max)
+            if (value > RC2_CoatingPressureSetting_Max)
             {
-                value = DwellAlarm_Max;
+                value = RC2_CoatingPressureSetting_Max;
             }
-            else if (value <= DwellTime_2)
+            else if (value < RC2_CoatingPressureSetting_Min)
             {
-                value = DwellTime_2 + 1;
+                value = RC2_CoatingPressureSetting_Min;
             }
 
             Set(value);
         }
     }
 
-
-    [OrderIndex(47)]
-    [LanguageTranslator("Dwell Alarm 3", "恆溫警報 3", "恒温警报 3")]
-    public double DwellAlarm_3
+    [OrderIndex(5)]
+    [LanguageTranslator("PanelThicknessSetting", "基板厚度設定", "基板厚度設定")]
+    public double RC2_PanelThicknessSetting
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > DwellAlarm_Max)
+            if (value > RC2_PanelThicknessSetting_Max)
             {
-                value = DwellAlarm_Max;
+                value = RC2_PanelThicknessSetting_Max;
             }
-            else if (value <= DwellTime_3)
+            else if (value < RC2_PanelThicknessSetting_Min)
             {
-                value = DwellTime_3 + 1;
+                value = RC2_PanelThicknessSetting_Min;
             }
 
             Set(value);
         }
     }
 
-    [OrderIndex(48)]
-    [LanguageTranslator("Dwell Alarm 4", "恆溫警報 4", "恒温警报 4")]
-    public double DwellAlarm_4
+    [OrderIndex(5)]
+    [LanguageTranslator("LocationOfDrop", "入料下降位置設定", "入料下降位置設定")]
+    public double RC2_LocationOfDrop
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > DwellAlarm_Max)
+            if (value > RC2_LocationOfDrop_Max)
             {
-                value = DwellAlarm_Max;
+                value = RC2_LocationOfDrop_Max;
             }
-            else if (value <= DwellTime_4)
+            else if (value < RC2_LocationOfDrop_Min)
             {
-                value = DwellTime_4 + 1;
+                value = RC2_LocationOfDrop_Min;
             }
 
             Set(value);
         }
     }
-
-
-    [OrderIndex(49)]
-    [LanguageTranslator("Dwell Alarm 5", "恆溫警報 5", "恒温警报 5")]
-    public double DwellAlarm_5
+    [OrderIndex(5)]
+    [LanguageTranslator("Blade_Pressure", "入料下降位置設定", "入料下降位置設定")]
+    public double RC2_Blade_Pressure
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > DwellAlarm_Max)
+            if (value > RC2_Blade_Pressure_Max)
             {
-                value = DwellAlarm_Max;
+                value = RC2_Blade_Pressure_Max;
             }
-            else if (value <= DwellTime_5)
+            else if (value < RC2_Blade_Pressure_Min)
             {
-                value = DwellTime_5 + 1;
+                value = RC2_Blade_Pressure_Min;
             }
 
             Set(value);
         }
     }
 
-
-    [OrderIndex(50)]
-    [LanguageTranslator("Dwell Alarm 6", "恆溫警報 6", "恒温警报 6")]
-    public double DwellAlarm_6
+    [OrderIndex(5)]
+    [LanguageTranslator("D_BarPressureSetting1", "左前D.BAR壓力設定", "左前D.BAR壓力設定")]
+    public double RC2_D_BarPressureSetting1
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > DwellAlarm_Max)
+            if (value > RC2_D_BarPressureSetting1_Max)
             {
-                value = DwellAlarm_Max;
+                value = RC2_D_BarPressureSetting1_Max;
             }
-            else if (value <= DwellTime_6)
+            else if (value < RC2_D_BarPressureSetting1_Min)
             {
-                value = DwellTime_6 + 1;
+                value = RC2_D_BarPressureSetting1_Min;
             }
 
             Set(value);
         }
     }
-
-
-    [GPIgnore]
-    [OrderIndex(51)]
-    [LanguageTranslator("Dwell Alarm 7", "恆溫警報 7", "恒温警报 7")]
-    public double DwellAlarm_7
+    [OrderIndex(5)]
+    [LanguageTranslator("D_BarPressureSetting2", "右前D.BAR壓力設定", "右前D.BAR壓力設定")]
+    public double RC2_D_BarPressureSetting2
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > DwellAlarm_Max)
+            if (value > RC2_D_BarPressureSetting2_Max)
             {
-                value = DwellAlarm_Max;
+                value = RC2_D_BarPressureSetting2_Max;
             }
-            else if (value <= DwellTime_7)
+            else if (value < RC2_D_BarPressureSetting2_Min)
             {
-                value = DwellTime_7 + 0.1;
+                value = RC2_D_BarPressureSetting2_Min;
             }
 
             Set(value);
@@ -1288,158 +1466,407 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     }
 
 
-    [GPIgnore]
-    [OrderIndex(52)]
-    [LanguageTranslator("Dwell Alarm 8", "恆溫警報 8", "恒温警报 8")]
-    public double DwellAlarm_8
+    [OrderIndex(5)]
+    [LanguageTranslator("D_BarPressureSetting3", "左後D.BAR壓力設定", "左後D.BAR壓力設定")]
+    public double RC2_D_BarPressureSetting3
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > DwellAlarm_Max)
+            if (value > RC2_D_BarPressureSetting3_Max)
             {
-                value = DwellAlarm_Max;
+                value = RC2_D_BarPressureSetting3_Max;
             }
-            else if (value <= DwellTime_8)
+            else if (value < RC2_D_BarPressureSetting3_Min)
             {
-                value = DwellTime_8 + 0.1;
+                value = RC2_D_BarPressureSetting3_Min;
             }
 
             Set(value);
         }
     }
 
-
-    [OrderIndex(53)]
-    [LanguageTranslator("Warning Time offset 1", "恆溫時間 補償 1", "恒温时间 補償 1")]
-    public double DwellTimeOffset_1
+    [OrderIndex(5)]
+    [LanguageTranslator("D_BarPressureSetting4", "右後D.BAR壓力設定", "右後D.BAR壓力設定")]
+    public double RC2_D_BarPressureSetting4
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > DwellTime_Offset_Max)
+            if (value > RC2_D_BarPressureSetting4_Max)
             {
-                value = DwellTime_Offset_Max;
+                value = RC2_D_BarPressureSetting4_Max;
             }
-            else if (value < DwellTime_Offset_Min)
+            else if (value < RC2_D_BarPressureSetting4_Min)
             {
-                value = DwellTime_Offset_Min;
+                value = RC2_D_BarPressureSetting4_Min;
             }
 
             Set(value);
         }
     }
-
-
-    [OrderIndex(54)]
-    [LanguageTranslator("Warning Time offset 2", "恆溫時間 補償 2", "恒温时间 補償 2")]
-    public double DwellTimeOffset_2
+    [OrderIndex(5)]
+    [LanguageTranslator("BakingTimeSetting", "烘烤時間設定", "烘烤時間設定")]
+    public double RC2_BakingTimeSetting
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > DwellTime_Offset_Max)
+            if (value > RC2_BakingTimeSetting_Max)
             {
-                value = DwellTime_Offset_Max;
+                value = RC2_BakingTimeSetting_Max;
             }
-            else if (value < DwellTime_Offset_Min)
+            else if (value < RC2_BakingTimeSetting_Min)
             {
-                value = DwellTime_Offset_Min;
+                value = RC2_BakingTimeSetting_Min;
             }
 
             Set(value);
         }
     }
-
-    [OrderIndex(55)]
-    [LanguageTranslator("Warning Time offset 3", "恆溫時間 補償 3", "恒温时间 補償 3")]
-    public double DwellTimeOffset_3
+    [OrderIndex(5)]
+    [LanguageTranslator("TemperatureSV1", "第1段溫度設定值", "第1段溫度設定值")]
+    public double RC2_TemperatureSV1
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > DwellTime_Offset_Max)
+            if (value > RC2_TemperatureSV1_Max)
             {
-                value = DwellTime_Offset_Max;
+                value = RC2_TemperatureSV1_Max;
             }
-            else if (value < DwellTime_Offset_Min)
+            else if (value < RC2_TemperatureSV1_Min)
             {
-                value = DwellTime_Offset_Min;
+                value = RC2_TemperatureSV1_Min;
             }
 
             Set(value);
         }
     }
-
-    [OrderIndex(56)]
-    [LanguageTranslator("Warning Time offset 4", "恆溫時間 補償 4", "恒温时间 補償 4")]
-    public double DwellTimeOffset_4
+    [OrderIndex(5)]
+    [LanguageTranslator("TemperatureSV2", "第2段溫度設定值", "第2段溫度設定值")]
+    public double RC2_TemperatureSV2
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > DwellTime_Offset_Max)
+            if (value > RC2_TemperatureSV2_Max)
             {
-                value = DwellTime_Offset_Max;
+                value = RC2_TemperatureSV2_Max;
             }
-            else if (value < DwellTime_Offset_Min)
+            else if (value < RC2_TemperatureSV2_Min)
             {
-                value = DwellTime_Offset_Min;
+                value = RC2_TemperatureSV2_Min;
             }
 
             Set(value);
         }
     }
-
-    [OrderIndex(57)]
-    [LanguageTranslator("Warning Time offset 5", "恆溫時間 補償 5", "恒温时间 補償 5")]
-    public double DwellTimeOffset_5
+    [OrderIndex(5)]
+    [LanguageTranslator("UseCoating", "塗佈使用", "塗佈使用")]
+    public double RC2_UseCoating
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > DwellTime_Offset_Max)
+            if (value > RC2_UseCoating_Max)
             {
-                value = DwellTime_Offset_Max;
+                value = RC2_UseCoating_Max;
             }
-            else if (value < DwellTime_Offset_Min)
+            else if (value < RC2_UseCoating_Min)
             {
-                value = DwellTime_Offset_Min;
+                value = RC2_UseCoating_Min;
             }
 
             Set(value);
         }
     }
-
-
-    [OrderIndex(58)]
-    [LanguageTranslator("Warning Time offset 6", "恆溫時間 補償 6", "恒温时间 補償 6")]
-    public double DwellTimeOffset_6
+    [OrderIndex(5)]
+    [LanguageTranslator("UsePlug", "塞孔使用", "塞孔使用")]
+    public double RC2_UsePlug
     {
         get => Get<double>();
         set
         {
-            value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > DwellTime_Offset_Max)
+            if (value > RC2_UsePlug_Max)
             {
-                value = DwellTime_Offset_Max;
+                value = RC2_UsePlug_Max;
             }
-            else if (value < DwellTime_Offset_Min)
+            else if (value < RC2_UsePlug_Min)
             {
-                value = DwellTime_Offset_Min;
+                value = RC2_UsePlug_Min;
+            }
+
+            Set(value);
+        }
+    }
+    [OrderIndex(5)]
+    [LanguageTranslator("StandardInk", "標準墨重", "標準墨重")]
+    public double RC2_StandardInk
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
+
+            if (value > RC2_StandardInk_Max)
+            {
+                value = RC2_StandardInk_Max;
+            }
+            else if (value < RC2_StandardInk_Min)
+            {
+                value = RC2_StandardInk_Min;
+            }
+
+            Set(value);
+        }
+    }
+    [OrderIndex(5)]
+    [LanguageTranslator("DifferenceOfInk", "墨重誤差值", "墨重誤差值")]
+    public double RC2_DifferenceOfInk
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
+
+            if (value > RC2_DifferenceOfInk_Max)
+            {
+                value = RC2_DifferenceOfInk_Max;
+            }
+            else if (value < RC2_DifferenceOfInk_Min)
+            {
+                value = RC2_DifferenceOfInk_Min;
+            }
+
+            Set(value);
+        }
+    }
+
+    [OrderIndex(3)]
+    [LanguageTranslator("Coatingoftimes", "塗佈次數", "塗佈次數")]
+    public double RC3_Coatingoftimes
+    {
+        get => Get<double>();
+        set
+        {
+            if (value > RC3_Coatingoftimes_Max)
+            {
+                value = RC3_Coatingoftimes_Max;
+            }
+            else if (value < RC3_Coatingoftimes_Min)
+            {
+                value = RC3_Coatingoftimes_Min;
+            }
+
+            Set(value);
+        }
+    }
+
+    [OrderIndex(5)]
+    [LanguageTranslator("CoatingSpeedSetting", "塗佈速度設定", "塗佈速度設定")]
+    public double RC3_CoatingSpeedSetting
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
+
+            if (value > RC3_CoatingSpeedSetting_Max)
+            {
+                value = RC3_CoatingSpeedSetting_Max;
+            }
+            else if (value < RC3_CoatingSpeedSetting_Min)
+            {
+                value = RC3_CoatingSpeedSetting_Min;
+            }
+
+            Set(value);
+        }
+    }
+
+    [OrderIndex(5)]
+    [LanguageTranslator("BoardClampingDistance", "板面夾持距離", "塗佈速度設定")]
+    public double RC3_BoardClampingDistance
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
+
+            if (value > RC3_BoardClampingDistance_Max)
+            {
+                value = RC3_BoardClampingDistance_Max;
+            }
+            else if (value < RC3_BoardClampingDistance_Min)
+            {
+                value = RC3_BoardClampingDistance_Min;
+            }
+
+            Set(value);
+        }
+    }
+
+    [OrderIndex(5)]
+    [LanguageTranslator("Plugoftimes", "塞孔次數", "塞孔次數")]
+    public double RC3_Plugoftimes
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
+
+            if (value > RC3_Plugoftimes_Max)
+            {
+                value = RC3_Plugoftimes_Max;
+            }
+            else if (value < RC3_Plugoftimes_Min)
+            {
+                value = RC3_Plugoftimes_Min;
+            }
+
+            Set(value);
+        }
+    }
+
+    [OrderIndex(5)]
+    [LanguageTranslator("CoatingPressureSetting", "塗佈壓力設定", "塗佈壓力設定")]
+    public double RC3_CoatingPressureSetting
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
+
+            if (value > RC3_CoatingPressureSetting_Max)
+            {
+                value = RC3_CoatingPressureSetting_Max;
+            }
+            else if (value < RC3_CoatingPressureSetting_Min)
+            {
+                value = RC3_CoatingPressureSetting_Min;
+            }
+
+            Set(value);
+        }
+    }
+
+    [OrderIndex(5)]
+    [LanguageTranslator("PanelThicknessSetting", "基板厚度設定", "基板厚度設定")]
+    public double RC3_PanelThicknessSetting
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
+
+            if (value > RC3_PanelThicknessSetting_Max)
+            {
+                value = RC3_PanelThicknessSetting_Max;
+            }
+            else if (value < RC3_PanelThicknessSetting_Min)
+            {
+                value = RC3_PanelThicknessSetting_Min;
+            }
+
+            Set(value);
+        }
+    }
+
+    [OrderIndex(5)]
+    [LanguageTranslator("LocationOfDrop", "入料下降位置設定", "入料下降位置設定")]
+    public double RC3_LocationOfDrop
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
+
+            if (value > RC3_LocationOfDrop_Max)
+            {
+                value = RC3_LocationOfDrop_Max;
+            }
+            else if (value < RC3_LocationOfDrop_Min)
+            {
+                value = RC3_LocationOfDrop_Min;
+            }
+
+            Set(value);
+        }
+    }
+    [OrderIndex(5)]
+    [LanguageTranslator("Blade_Pressure", "入料下降位置設定", "入料下降位置設定")]
+    public double RC3_Blade_Pressure
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
+
+            if (value > RC3_Blade_Pressure_Max)
+            {
+                value = RC3_Blade_Pressure_Max;
+            }
+            else if (value < RC3_Blade_Pressure_Min)
+            {
+                value = RC3_Blade_Pressure_Min;
+            }
+
+            Set(value);
+        }
+    }
+
+    [OrderIndex(5)]
+    [LanguageTranslator("D_BarPressureSetting1", "左前D.BAR壓力設定", "左前D.BAR壓力設定")]
+    public double RC3_D_BarPressureSetting1
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
+
+            if (value > RC3_D_BarPressureSetting1_Max)
+            {
+                value = RC3_D_BarPressureSetting1_Max;
+            }
+            else if (value < RC3_D_BarPressureSetting1_Min)
+            {
+                value = RC3_D_BarPressureSetting1_Min;
+            }
+
+            Set(value);
+        }
+    }
+    [OrderIndex(5)]
+    [LanguageTranslator("D_BarPressureSetting2", "右前D.BAR壓力設定", "右前D.BAR壓力設定")]
+    public double RC3_D_BarPressureSetting2
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
+
+            if (value > RC3_D_BarPressureSetting2_Max)
+            {
+                value = RC3_D_BarPressureSetting2_Max;
+            }
+            else if (value < RC3_D_BarPressureSetting2_Min)
+            {
+                value = RC3_D_BarPressureSetting2_Min;
             }
 
             Set(value);
@@ -1447,243 +1874,382 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     }
 
 
-    //[GPIgnore]
-    //[OrderIndex(59)]
-    //[LanguageTranslator("Warning Time offset 7", "恆溫時間 補償 7", "恒温时间 補償 7")]
-    //public double DwellTimeOffset_7
-    //{
-    //    get => Get<double>();
-    //    set
-    //    {
-    //        value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+    [OrderIndex(5)]
+    [LanguageTranslator("D_BarPressureSetting3", "左後D.BAR壓力設定", "左後D.BAR壓力設定")]
+    public double RC3_D_BarPressureSetting3
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-    //        if (value > DwellTime_Offset_Max)
-    //        {
-    //            value = DwellTime_Offset_Max;
-    //        }
-    //        else if (value < DwellTime_Offset_Min)
-    //        {
-    //            value = DwellTime_Offset_Min;
-    //        }
+            if (value > RC3_D_BarPressureSetting3_Max)
+            {
+                value = RC3_D_BarPressureSetting3_Max;
+            }
+            else if (value < RC3_D_BarPressureSetting3_Min)
+            {
+                value = RC3_D_BarPressureSetting3_Min;
+            }
 
-    //        Set(value);
-    //    }
-    //}
+            Set(value);
+        }
+    }
 
-    //[GPIgnore]
-    //[OrderIndex(60)]
-    //[LanguageTranslator("Warning Time offset 8", "恆溫時間 補償 8", "恒温时间 補償 8")]
-    //public double DwellTimeOffset_8
-    //{
-    //    get => Get<double>();
-    //    set
-    //    {
-    //        value = Math.Round(value, Digits1, MidpointRounding.AwayFromZero);
+    [OrderIndex(5)]
+    [LanguageTranslator("D_BarPressureSetting4", "右後D.BAR壓力設定", "右後D.BAR壓力設定")]
+    public double RC3_D_BarPressureSetting4
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-    //        if (value > DwellTime_Offset_Max)
-    //        {
-    //            value = DwellTime_Offset_Max;
-    //        }
-    //        else if (value < DwellTime_Offset_Min)
-    //        {
-    //            value = DwellTime_Offset_Min;
-    //        }
+            if (value > RC3_D_BarPressureSetting4_Max)
+            {
+                value = RC3_D_BarPressureSetting4_Max;
+            }
+            else if (value < RC3_D_BarPressureSetting4_Min)
+            {
+                value = RC3_D_BarPressureSetting4_Min;
+            }
 
-    //        Set(value);
-    //    }
-    //}
+            Set(value);
+        }
+    }
+    [OrderIndex(5)]
+    [LanguageTranslator("BakingTimeSetting", "烘烤時間設定", "烘烤時間設定")]
+    public double RC3_BakingTimeSetting
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
+
+            if (value > RC3_BakingTimeSetting_Max)
+            {
+                value = RC3_BakingTimeSetting_Max;
+            }
+            else if (value < RC3_BakingTimeSetting_Min)
+            {
+                value = RC3_BakingTimeSetting_Min;
+            }
+
+            Set(value);
+        }
+    }
+    [OrderIndex(5)]
+    [LanguageTranslator("TemperatureSV1", "第1段溫度設定值", "第1段溫度設定值")]
+    public double RC3_TemperatureSV1
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
+
+            if (value > RC3_TemperatureSV1_Max)
+            {
+                value = RC3_TemperatureSV1_Max;
+            }
+            else if (value < RC3_TemperatureSV1_Min)
+            {
+                value = RC3_TemperatureSV1_Min;
+            }
+
+            Set(value);
+        }
+    }
+    [OrderIndex(5)]
+    [LanguageTranslator("TemperatureSV2", "第2段溫度設定值", "第2段溫度設定值")]
+    public double RC3_TemperatureSV2
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
+
+            if (value > RC3_TemperatureSV2_Max)
+            {
+                value = RC3_TemperatureSV2_Max;
+            }
+            else if (value < RC3_TemperatureSV2_Min)
+            {
+                value = RC3_TemperatureSV2_Min;
+            }
+
+            Set(value);
+        }
+    }
+    [OrderIndex(5)]
+    [LanguageTranslator("UseCoating", "塗佈使用", "塗佈使用")]
+    public double RC3_UseCoating
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
+
+            if (value > RC3_UseCoating_Max)
+            {
+                value = RC3_UseCoating_Max;
+            }
+            else if (value < RC3_UseCoating_Min)
+            {
+                value = RC3_UseCoating_Min;
+            }
+
+            Set(value);
+        }
+    }
+    [OrderIndex(5)]
+    [LanguageTranslator("UsePlug", "塞孔使用", "塞孔使用")]
+    public double RC3_UsePlug
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
+
+            if (value > RC3_UsePlug_Max)
+            {
+                value = RC3_UsePlug_Max;
+            }
+            else if (value < RC3_UsePlug_Min)
+            {
+                value = RC3_UsePlug_Min;
+            }
+
+            Set(value);
+        }
+    }
+    [OrderIndex(5)]
+    [LanguageTranslator("StandardInk", "標準墨重", "標準墨重")]
+    public double RC3_StandardInk
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
+
+            if (value > RC3_StandardInk_Max)
+            {
+                value = RC3_StandardInk_Max;
+            }
+            else if (value < RC3_StandardInk_Min)
+            {
+                value = RC3_StandardInk_Min;
+            }
+
+            Set(value);
+        }
+    }
+    [OrderIndex(5)]
+    [LanguageTranslator("DifferenceOfInk", "墨重誤差值", "墨重誤差值")]
+    public double RC3_DifferenceOfInk
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
+
+            if (value > RC3_DifferenceOfInk_Max)
+            {
+                value = RC3_DifferenceOfInk_Max;
+            }
+            else if (value < RC3_DifferenceOfInk_Min)
+            {
+                value = RC3_DifferenceOfInk_Min;
+            }
+
+            Set(value);
+        }
+    }
 
     public PLC_Recipe(string name, string user, UserLevel level) : base(name, user, level)
     {
-        InflatingTime = 10;
-        OxygenContentSet = 21;
-        DwellTemperature_1 = 30;
-        DwellTemperature_2 = 30;
-        DwellTemperature_3 = 30;
-        DwellTemperature_4 = 30;
-        DwellTemperature_5 = 30;
-        DwellTemperature_6 = 30;
-        DwellTemperature_7 = 30;
-        DwellTemperature_8 = 30;
-        DwellTime_1 = 10;
-        DwellTime_2 = 10;
-        DwellTime_3 = 10;
-        DwellTime_4 = 10;
-        DwellTime_5 = 10;
-        DwellTime_6 = 10;
-        DwellTime_7 = 10;
-        DwellTime_8 = 10;
-        DwellAlarm_1 = 11;
-        DwellAlarm_2 = 11;
-        DwellAlarm_3 = 11;
-        DwellAlarm_4 = 11;
-        DwellAlarm_5 = 11;
-        DwellAlarm_6 = 11;
-        DwellAlarm_7 = 11;
-        DwellAlarm_8 = 11;
-        CoolingTime = 30;
-        CoolingTemperature = 40;
-        RampTime_1 = 10;
-        RampTime_2 = 10;
-        RampTime_3 = 10;
-        RampTime_4 = 10;
-        RampTime_5 = 10;
-        RampTime_6 = 10;
-        RampTime_7 = 10;
-        RampTime_8 = 10;
-        RampAlarm_1 = 11;
-        RampAlarm_2 = 11;
-        RampAlarm_3 = 11;
-        RampAlarm_4 = 11;
-        RampAlarm_5 = 11;
-        RampAlarm_6 = 11;
-        RampAlarm_7 = 11;
-        RampAlarm_8 = 11;
-        TemperatureSetpoint_1 = 30;
-        TemperatureSetpoint_2 = 30;
-        TemperatureSetpoint_3 = 30;
-        TemperatureSetpoint_4 = 30;
-        TemperatureSetpoint_5 = 30;
-        TemperatureSetpoint_6 = 30;
-        TemperatureSetpoint_7 = 30;
-        TemperatureSetpoint_8 = 30;
-        DwellTimeOffset_1 = 0;
-        DwellTimeOffset_2 = 0;
-        DwellTimeOffset_3 = 0;
-        DwellTimeOffset_4 = 0;
-        DwellTimeOffset_5 = 0;
-        DwellTimeOffset_6 = 0;
-
-        SegmentCounts = SegmentCounts_Max;
+        RecipeName = RecipeName;
+        RC1_Coatingoftimes = RC1_Coatingoftimes;
+        RC1_CoatingSpeedSetting = RC1_CoatingSpeedSetting;
+        RC1_BoardClampingDistance = RC1_BoardClampingDistance;
+        RC1_Plugoftimes = RC1_Plugoftimes;
+        RC1_PanelThicknessSetting = RC1_PanelThicknessSetting;
+        RC1_CoatingPressureSetting = RC1_CoatingPressureSetting;
+        RC1_LocationOfDrop = RC1_LocationOfDrop;
+        RC1_Blade_Pressure = 0;
+        RC1_D_BarPressureSetting1 = 0;
+        RC1_D_BarPressureSetting2 = 0;
+        RC1_D_BarPressureSetting3 = 0;
+        RC1_D_BarPressureSetting4 = 0;
+        RC1_BakingTimeSetting = 0;
+        RC1_TemperatureSV1 = 0;
+        RC1_TemperatureSV2 = 0;
+        RC1_UseCoating = 0;
+        RC1_UsePlug = 0;
+        RC1_StandardInk = 0;
+        RC1_DifferenceOfInk = 0;
+        RC2_Coatingoftimes = 0;
+        RC2_CoatingSpeedSetting = 0;
+        RC2_BoardClampingDistance = 0;
+        RC2_Plugoftimes = 0;
+        RC2_PanelThicknessSetting = 0;
+        RC2_CoatingPressureSetting = 0;
+        RC2_LocationOfDrop = 0;
+        RC2_Blade_Pressure = 0;
+        RC2_D_BarPressureSetting1 = 0;
+        RC2_D_BarPressureSetting2 = 0;
+        RC2_D_BarPressureSetting3 = 0;
+        RC2_D_BarPressureSetting4 = 0;
+        RC2_BakingTimeSetting = 0;
+        RC2_TemperatureSV1 = 0;
+        RC2_TemperatureSV2 = 0;
+        RC2_UseCoating = 0;
+        RC2_UsePlug = 0;
+        RC2_StandardInk = 0;
+        RC2_DifferenceOfInk = 0;
+        RC3_Coatingoftimes = 0;
+        RC3_CoatingSpeedSetting = 0;
+        RC3_BoardClampingDistance = 0;
+        RC3_Plugoftimes = 0;
+        RC3_PanelThicknessSetting = 0;
+        RC3_CoatingPressureSetting = 0;
+        RC3_LocationOfDrop = 0;
+        RC3_Blade_Pressure = 0;
+        RC3_D_BarPressureSetting1 = 0;
+        RC3_D_BarPressureSetting2 = 0;
+        RC3_D_BarPressureSetting3 = 0;
+        RC3_D_BarPressureSetting4 = 0;
+        RC3_BakingTimeSetting = 0;
+        RC3_TemperatureSV1 = 0;
+        RC3_TemperatureSV2 = 0;
+        RC3_UseCoating = 0;
+        RC3_UsePlug = 0;
+        RC3_StandardInk = 0;
+        RC3_DifferenceOfInk = 0;
     }
 
     public PLC_Recipe() { }
 
     public override bool Equals(PLC_Recipe? other) => other != null &&
                                                       RecipeName == other.RecipeName &&
-                                                      OxygenContentSet.ToString("0.0") == other.OxygenContentSet.ToString("0.0") &&
-                                                      InflatingTime.ToString("0") == other.InflatingTime.ToString("0") &&
-                                                      DwellTemperature_1.ToString("0.0") == other.DwellTemperature_1.ToString("0.0") &&
-                                                      DwellTemperature_2.ToString("0.0") == other.DwellTemperature_2.ToString("0.0") &&
-                                                      DwellTemperature_3.ToString("0.0") == other.DwellTemperature_3.ToString("0.0") &&
-                                                      DwellTemperature_4.ToString("0.0") == other.DwellTemperature_4.ToString("0.0") &&
-                                                      DwellTemperature_5.ToString("0.0") == other.DwellTemperature_5.ToString("0.0") &&
-                                                      DwellTemperature_6.ToString("0.0") == other.DwellTemperature_6.ToString("0.0") &&
-                                                      DwellTemperature_7.ToString("0.0") == other.DwellTemperature_7.ToString("0.0") &&
-                                                      DwellTemperature_8.ToString("0.0") == other.DwellTemperature_8.ToString("0.0") &&
-                                                      DwellTime_1.ToString("0.0") == other.DwellTime_1.ToString("0.0") &&
-                                                      DwellTime_2.ToString("0.0") == other.DwellTime_2.ToString("0.0") &&
-                                                      DwellTime_3.ToString("0.0") == other.DwellTime_3.ToString("0.0") &&
-                                                      DwellTime_4.ToString("0.0") == other.DwellTime_4.ToString("0.0") &&
-                                                      DwellTime_5.ToString("0.0") == other.DwellTime_5.ToString("0.0") &&
-                                                      DwellTime_6.ToString("0.0") == other.DwellTime_6.ToString("0.0") &&
-                                                      DwellTime_7.ToString("0.0") == other.DwellTime_7.ToString("0.0") &&
-                                                      DwellTime_8.ToString("0.0") == other.DwellTime_8.ToString("0.0") &&
-                                                      DwellAlarm_1.ToString("0.0") == other.DwellAlarm_1.ToString("0.0") &&
-                                                      DwellAlarm_2.ToString("0.0") == other.DwellAlarm_2.ToString("0.0") &&
-                                                      DwellAlarm_3.ToString("0.0") == other.DwellAlarm_3.ToString("0.0") &&
-                                                      DwellAlarm_4.ToString("0.0") == other.DwellAlarm_4.ToString("0.0") &&
-                                                      DwellAlarm_5.ToString("0.0") == other.DwellAlarm_5.ToString("0.0") &&
-                                                      DwellAlarm_6.ToString("0.0") == other.DwellAlarm_6.ToString("0.0") &&
-                                                      DwellAlarm_7.ToString("0.0") == other.DwellAlarm_7.ToString("0.0") &&
-                                                      DwellAlarm_8.ToString("0.0") == other.DwellAlarm_8.ToString("0.0") &&
-                                                      DwellTimeOffset_1.ToString("0.0") == other.DwellTimeOffset_1.ToString("0.0") &&
-                                                      DwellTimeOffset_2.ToString("0.0") == other.DwellTimeOffset_2.ToString("0.0") &&
-                                                      DwellTimeOffset_3.ToString("0.0") == other.DwellTimeOffset_3.ToString("0.0") &&
-                                                      DwellTimeOffset_4.ToString("0.0") == other.DwellTimeOffset_4.ToString("0.0") &&
-                                                      DwellTimeOffset_5.ToString("0.0") == other.DwellTimeOffset_5.ToString("0.0") &&
-                                                      DwellTimeOffset_6.ToString("0.0") == other.DwellTimeOffset_6.ToString("0.0") &&
-                                                      CoolingTime.ToString("0.0") == other.CoolingTime.ToString("0.0") &&
-                                                      CoolingTemperature.ToString("0.0") == other.CoolingTemperature.ToString("0.0") &&
-                                                      RampTime_1.ToString("0.0") == other.RampTime_1.ToString("0.0") &&
-                                                      RampTime_2.ToString("0.0") == other.RampTime_2.ToString("0.0") &&
-                                                      RampTime_3.ToString("0.0") == other.RampTime_3.ToString("0.0") &&
-                                                      RampTime_4.ToString("0.0") == other.RampTime_4.ToString("0.0") &&
-                                                      RampTime_5.ToString("0.0") == other.RampTime_5.ToString("0.0") &&
-                                                      RampTime_6.ToString("0.0") == other.RampTime_6.ToString("0.0") &&
-                                                      RampTime_7.ToString("0.0") == other.RampTime_7.ToString("0.0") &&
-                                                      RampTime_8.ToString("0.0") == other.RampTime_8.ToString("0.0") &&
-                                                      RampAlarm_1.ToString("0.0") == other.RampAlarm_1.ToString("0.0") &&
-                                                      RampAlarm_2.ToString("0.0") == other.RampAlarm_2.ToString("0.0") &&
-                                                      RampAlarm_3.ToString("0.0") == other.RampAlarm_3.ToString("0.0") &&
-                                                      RampAlarm_4.ToString("0.0") == other.RampAlarm_4.ToString("0.0") &&
-                                                      RampAlarm_5.ToString("0.0") == other.RampAlarm_5.ToString("0.0") &&
-                                                      RampAlarm_6.ToString("0.0") == other.RampAlarm_6.ToString("0.0") &&
-                                                      RampAlarm_7.ToString("0.0") == other.RampAlarm_7.ToString("0.0") &&
-                                                      RampAlarm_8.ToString("0.0") == other.RampAlarm_8.ToString("0.0") &&
-                                                      TemperatureSetpoint_1.ToString("0.0") == other.TemperatureSetpoint_1.ToString("0.0") &&
-                                                      TemperatureSetpoint_2.ToString("0.0") == other.TemperatureSetpoint_2.ToString("0.0") &&
-                                                      TemperatureSetpoint_3.ToString("0.0") == other.TemperatureSetpoint_3.ToString("0.0") &&
-                                                      TemperatureSetpoint_4.ToString("0.0") == other.TemperatureSetpoint_4.ToString("0.0") &&
-                                                      TemperatureSetpoint_5.ToString("0.0") == other.TemperatureSetpoint_5.ToString("0.0") &&
-                                                      TemperatureSetpoint_6.ToString("0.0") == other.TemperatureSetpoint_6.ToString("0.0") &&
-                                                      TemperatureSetpoint_7.ToString("0.0") == other.TemperatureSetpoint_7.ToString("0.0") &&
-                                                      TemperatureSetpoint_8.ToString("0.0") == other.TemperatureSetpoint_8.ToString("0.0") &&
-                                                      SegmentCounts == other.SegmentCounts;
+                                                      RC1_Coatingoftimes == other.RC1_Coatingoftimes &&
+                                                      RC1_CoatingSpeedSetting.ToString("0.0") == other.RC1_CoatingSpeedSetting.ToString("0.0") &&
+                                                      RC1_BoardClampingDistance.ToString("0.0") == other.RC1_BoardClampingDistance.ToString("0.0") &&
+                                                      RC1_Plugoftimes.ToString("0.0") == other.RC1_Plugoftimes.ToString("0.0") &&
+                                                      RC1_CoatingPressureSetting.ToString("0.0") == other.RC1_CoatingPressureSetting.ToString("0.0") &&
+                                                      RC1_PanelThicknessSetting.ToString("0.0") == other.RC1_PanelThicknessSetting.ToString("0.0") &&
+                                                      RC1_LocationOfDrop.ToString("0.0") == other.RC1_LocationOfDrop.ToString("0.0") &&
+                                                      RC1_Blade_Pressure.ToString("0.0") == other.RC1_Blade_Pressure.ToString("0.0") &&
+                                                      RC1_D_BarPressureSetting1.ToString("0.0") == other.RC1_D_BarPressureSetting1.ToString("0.0") &&
+                                                      RC1_D_BarPressureSetting2.ToString("0.0") == other.RC1_D_BarPressureSetting2.ToString("0.0") &&
+                                                      RC1_D_BarPressureSetting3.ToString("0.0") == other.RC1_D_BarPressureSetting3.ToString("0.0") &&
+                                                      RC1_D_BarPressureSetting4.ToString("0.0") == other.RC1_D_BarPressureSetting4.ToString("0.0") &&
+                                                      RC1_BakingTimeSetting.ToString("0.0") == other.RC1_BakingTimeSetting.ToString("0.0") &&
+                                                      RC1_TemperatureSV1.ToString("0.0") == other.RC1_TemperatureSV1.ToString("0.0") &&
+                                                      RC1_TemperatureSV2.ToString("0.0") == other.RC1_TemperatureSV2.ToString("0.0") &&
+                                                      RC1_UseCoating.ToString("0.0") == other.RC1_UseCoating.ToString("0.0") &&
+                                                      RC1_UsePlug.ToString("0.0") == other.RC1_UsePlug.ToString("0.0") &&
+                                                      RC1_StandardInk.ToString("0.0") == other.RC1_StandardInk.ToString("0.0") &&
+                                                      RC1_DifferenceOfInk.ToString("0.0") == other.RC1_DifferenceOfInk.ToString("0.0") &&
+                                                      RC2_Coatingoftimes == other.RC2_Coatingoftimes &&
+                                                      RC2_CoatingSpeedSetting.ToString("0.0") == other.RC2_CoatingSpeedSetting.ToString("0.0") &&
+                                                      RC2_BoardClampingDistance.ToString("0.0") == other.RC2_BoardClampingDistance.ToString("0.0") &&
+                                                      RC2_Plugoftimes.ToString("0.0") == other.RC2_Plugoftimes.ToString("0.0") &&
+                                                      RC2_CoatingPressureSetting.ToString("0.0") == other.RC2_CoatingPressureSetting.ToString("0.0") &&
+                                                      RC2_PanelThicknessSetting.ToString("0.0") == other.RC2_PanelThicknessSetting.ToString("0.0") &&
+                                                      RC2_LocationOfDrop.ToString("0.0") == other.RC2_LocationOfDrop.ToString("0.0") &&
+                                                      RC2_Blade_Pressure.ToString("0.0") == other.RC2_Blade_Pressure.ToString("0.0") &&
+                                                      RC2_D_BarPressureSetting1.ToString("0.0") == other.RC2_D_BarPressureSetting1.ToString("0.0") &&
+                                                      RC2_D_BarPressureSetting2.ToString("0.0") == other.RC2_D_BarPressureSetting2.ToString("0.0") &&
+                                                      RC2_D_BarPressureSetting3.ToString("0.0") == other.RC2_D_BarPressureSetting3.ToString("0.0") &&
+                                                      RC2_D_BarPressureSetting4.ToString("0.0") == other.RC2_D_BarPressureSetting4.ToString("0.0") &&
+                                                      RC2_BakingTimeSetting.ToString("0.0") == other.RC2_BakingTimeSetting.ToString("0.0") &&
+                                                      RC2_TemperatureSV1.ToString("0.0") == other.RC2_TemperatureSV1.ToString("0.0") &&
+                                                      RC2_TemperatureSV2.ToString("0.0") == other.RC2_TemperatureSV2.ToString("0.0") &&
+                                                      RC2_UseCoating.ToString("0.0") == other.RC2_UseCoating.ToString("0.0") &&
+                                                      RC2_UsePlug.ToString("0.0") == other.RC2_UsePlug.ToString("0.0") &&
+                                                      RC2_StandardInk.ToString("0.0") == other.RC2_StandardInk.ToString("0.0") &&
+                                                      RC2_DifferenceOfInk.ToString("0.0") == other.RC2_DifferenceOfInk.ToString("0.0") &&
+                                                      RC3_Coatingoftimes == other.RC3_Coatingoftimes &&
+                                                      RC3_CoatingSpeedSetting.ToString("0.0") == other.RC3_CoatingSpeedSetting.ToString("0.0") &&
+                                                      RC3_BoardClampingDistance.ToString("0.0") == other.RC3_BoardClampingDistance.ToString("0.0") &&
+                                                      RC3_Plugoftimes.ToString("0.0") == other.RC3_Plugoftimes.ToString("0.0") &&
+                                                      RC3_CoatingPressureSetting.ToString("0.0") == other.RC3_CoatingPressureSetting.ToString("0.0") &&
+                                                      RC3_PanelThicknessSetting.ToString("0.0") == other.RC3_PanelThicknessSetting.ToString("0.0") &&
+                                                      RC3_LocationOfDrop.ToString("0.0") == other.RC3_LocationOfDrop.ToString("0.0") &&
+                                                      RC3_Blade_Pressure.ToString("0.0") == other.RC3_Blade_Pressure.ToString("0.0") &&
+                                                      RC3_D_BarPressureSetting1.ToString("0.0") == other.RC3_D_BarPressureSetting1.ToString("0.0") &&
+                                                      RC3_D_BarPressureSetting2.ToString("0.0") == other.RC3_D_BarPressureSetting2.ToString("0.0") &&
+                                                      RC3_D_BarPressureSetting3.ToString("0.0") == other.RC3_D_BarPressureSetting3.ToString("0.0") &&
+                                                      RC3_D_BarPressureSetting4.ToString("0.0") == other.RC3_D_BarPressureSetting4.ToString("0.0") &&
+                                                      RC3_BakingTimeSetting.ToString("0.0") == other.RC3_BakingTimeSetting.ToString("0.0") &&
+                                                      RC3_TemperatureSV1.ToString("0.0") == other.RC3_TemperatureSV1.ToString("0.0") &&
+                                                      RC3_TemperatureSV2.ToString("0.0") == other.RC3_TemperatureSV2.ToString("0.0") &&
+                                                      RC3_UseCoating.ToString("0.0") == other.RC3_UseCoating.ToString("0.0") &&
+                                                      RC3_UsePlug.ToString("0.0") == other.RC3_UsePlug.ToString("0.0") &&
+                                                      RC3_StandardInk.ToString("0.0") == other.RC3_StandardInk.ToString("0.0") &&
+                                                      RC3_DifferenceOfInk.ToString("0.0") == other.RC3_DifferenceOfInk.ToString("0.0");
 
     public override PLC_Recipe Copy(string user, UserLevel level) => new()
     {
         Updated = DateTime.Now,
         RecipeName = RecipeName,
-        OxygenContentSet = OxygenContentSet,
-        InflatingTime = InflatingTime,
-        DwellTemperature_1 = DwellTemperature_1,
-        DwellTemperature_2 = DwellTemperature_2,
-        DwellTemperature_3 = DwellTemperature_3,
-        DwellTemperature_4 = DwellTemperature_4,
-        DwellTemperature_5 = DwellTemperature_5,
-        DwellTemperature_6 = DwellTemperature_6,
-        DwellTemperature_7 = DwellTemperature_7,
-        DwellTemperature_8 = DwellTemperature_8,
-        DwellTime_1 = DwellTime_1,
-        DwellTime_2 = DwellTime_2,
-        DwellTime_3 = DwellTime_3,
-        DwellTime_4 = DwellTime_4,
-        DwellTime_5 = DwellTime_5,
-        DwellTime_6 = DwellTime_6,
-        DwellTime_7 = DwellTime_7,
-        DwellTime_8 = DwellTime_8,
-        DwellAlarm_1 = DwellAlarm_1,
-        DwellAlarm_2 = DwellAlarm_2,
-        DwellAlarm_3 = DwellAlarm_3,
-        DwellAlarm_4 = DwellAlarm_4,
-        DwellAlarm_5 = DwellAlarm_5,
-        DwellAlarm_6 = DwellAlarm_6,
-        DwellAlarm_7 = DwellAlarm_7,
-        DwellAlarm_8 = DwellAlarm_8,
-        CoolingTime = CoolingTime,
-        CoolingTemperature = CoolingTemperature,
-        RampTime_1 = RampTime_1,
-        RampTime_2 = RampTime_2,
-        RampTime_3 = RampTime_3,
-        RampTime_4 = RampTime_4,
-        RampTime_5 = RampTime_5,
-        RampTime_6 = RampTime_6,
-        RampTime_7 = RampTime_7,
-        RampTime_8 = RampTime_8,
-        RampAlarm_1 = RampAlarm_1,
-        RampAlarm_2 = RampAlarm_2,
-        RampAlarm_3 = RampAlarm_3,
-        RampAlarm_4 = RampAlarm_4,
-        RampAlarm_5 = RampAlarm_5,
-        RampAlarm_6 = RampAlarm_6,
-        RampAlarm_7 = RampAlarm_7,
-        RampAlarm_8 = RampAlarm_8,
-        TemperatureSetpoint_1 = TemperatureSetpoint_1,
-        TemperatureSetpoint_2 = TemperatureSetpoint_2,
-        TemperatureSetpoint_3 = TemperatureSetpoint_3,
-        TemperatureSetpoint_4 = TemperatureSetpoint_4,
-        TemperatureSetpoint_5 = TemperatureSetpoint_5,
-        TemperatureSetpoint_6 = TemperatureSetpoint_6,
-        TemperatureSetpoint_7 = TemperatureSetpoint_7,
-        TemperatureSetpoint_8 = TemperatureSetpoint_8,
-        DwellTimeOffset_1 = DwellTimeOffset_1,
-        DwellTimeOffset_2 = DwellTimeOffset_2,
-        DwellTimeOffset_3 = DwellTimeOffset_3,
-        DwellTimeOffset_4 = DwellTimeOffset_4,
-        DwellTimeOffset_5 = DwellTimeOffset_5,
-        DwellTimeOffset_6 = DwellTimeOffset_6,
-        SegmentCounts = SegmentCounts,
+        RC1_Coatingoftimes = RC1_Coatingoftimes,
+        RC1_CoatingSpeedSetting = RC1_CoatingSpeedSetting,
+        RC1_BoardClampingDistance = RC1_BoardClampingDistance,
+        RC1_Plugoftimes = RC1_Plugoftimes,
+        RC1_PanelThicknessSetting = RC1_PanelThicknessSetting,
+        RC1_CoatingPressureSetting = RC1_CoatingPressureSetting,
+        RC1_LocationOfDrop = RC1_LocationOfDrop,
+        RC1_Blade_Pressure = RC1_Blade_Pressure,
+        RC1_D_BarPressureSetting1 = RC1_D_BarPressureSetting1,
+        RC1_D_BarPressureSetting2 = RC1_D_BarPressureSetting2,
+        RC1_D_BarPressureSetting3 = RC1_D_BarPressureSetting3,
+        RC1_D_BarPressureSetting4 = RC1_D_BarPressureSetting4,
+        RC1_BakingTimeSetting = RC1_BakingTimeSetting,
+        RC1_TemperatureSV1 = RC1_TemperatureSV1,
+        RC1_TemperatureSV2 = RC1_TemperatureSV2,
+        RC1_UseCoating = RC1_UseCoating,
+        RC1_UsePlug = RC1_UsePlug,
+        RC1_StandardInk = RC1_StandardInk,
+        RC1_DifferenceOfInk = RC1_DifferenceOfInk,
+        RC2_Coatingoftimes = RC2_Coatingoftimes,
+        RC2_CoatingSpeedSetting = RC2_CoatingSpeedSetting,
+        RC2_BoardClampingDistance = RC2_BoardClampingDistance,
+        RC2_Plugoftimes = RC2_Plugoftimes,
+        RC2_PanelThicknessSetting = RC2_PanelThicknessSetting,
+        RC2_CoatingPressureSetting = RC2_CoatingPressureSetting,
+        RC2_LocationOfDrop = RC2_LocationOfDrop,
+        RC2_Blade_Pressure = RC2_Blade_Pressure,
+        RC2_D_BarPressureSetting1 = RC2_D_BarPressureSetting1,
+        RC2_D_BarPressureSetting2 = RC2_D_BarPressureSetting2,
+        RC2_D_BarPressureSetting3 = RC2_D_BarPressureSetting3,
+        RC2_D_BarPressureSetting4 = RC2_D_BarPressureSetting4,
+        RC2_BakingTimeSetting = RC2_BakingTimeSetting,
+        RC2_TemperatureSV1 = RC2_TemperatureSV1,
+        RC2_TemperatureSV2 = RC2_TemperatureSV2,
+        RC2_UseCoating = RC2_UseCoating,
+        RC2_UsePlug = RC2_UsePlug,
+        RC2_StandardInk = RC2_StandardInk,
+        RC2_DifferenceOfInk = RC2_DifferenceOfInk,
+        RC3_Coatingoftimes = RC3_Coatingoftimes,
+        RC3_CoatingSpeedSetting = RC3_CoatingSpeedSetting,
+        RC3_BoardClampingDistance = RC3_BoardClampingDistance,
+        RC3_Plugoftimes = RC3_Plugoftimes,
+        RC3_PanelThicknessSetting = RC3_PanelThicknessSetting,
+        RC3_CoatingPressureSetting = RC3_CoatingPressureSetting,
+        RC3_LocationOfDrop = RC3_LocationOfDrop,
+        RC3_Blade_Pressure = RC3_Blade_Pressure,
+        RC3_D_BarPressureSetting1 = RC3_D_BarPressureSetting1,
+        RC3_D_BarPressureSetting2 = RC3_D_BarPressureSetting2,
+        RC3_D_BarPressureSetting3 = RC3_D_BarPressureSetting3,
+        RC3_D_BarPressureSetting4 = RC3_D_BarPressureSetting4,
+        RC3_BakingTimeSetting = RC3_BakingTimeSetting,
+        RC3_TemperatureSV1 = RC3_TemperatureSV1,
+        RC3_TemperatureSV2 = RC3_TemperatureSV2,
+        RC3_UseCoating = RC3_UseCoating,
+        RC3_UsePlug = RC3_UsePlug,
+        RC3_StandardInk = RC3_StandardInk,
+        RC3_DifferenceOfInk = RC3_DifferenceOfInk,
         Editor = user,
         EditorLevel = level
     };
@@ -1691,65 +2257,60 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     public override void CopyValue(string user, UserLevel level, PLC_Recipe recipe)
     {
         Updated = DateTime.Now;
-        OxygenContentSet = recipe.OxygenContentSet;
-        InflatingTime = recipe.InflatingTime;
-        DwellTemperature_1 = recipe.DwellTemperature_1;
-        DwellTemperature_2 = recipe.DwellTemperature_2;
-        DwellTemperature_3 = recipe.DwellTemperature_3;
-        DwellTemperature_4 = recipe.DwellTemperature_4;
-        DwellTemperature_5 = recipe.DwellTemperature_5;
-        DwellTemperature_6 = recipe.DwellTemperature_6;
-        DwellTemperature_7 = recipe.DwellTemperature_7;
-        DwellTemperature_8 = recipe.DwellTemperature_8;
-        DwellTime_1 = recipe.DwellTime_1;
-        DwellTime_2 = recipe.DwellTime_2;
-        DwellTime_3 = recipe.DwellTime_3;
-        DwellTime_4 = recipe.DwellTime_4;
-        DwellTime_5 = recipe.DwellTime_5;
-        DwellTime_6 = recipe.DwellTime_6;
-        DwellTime_7 = recipe.DwellTime_7;
-        DwellTime_8 = recipe.DwellTime_8;
-        DwellAlarm_1 = recipe.DwellAlarm_1;
-        DwellAlarm_2 = recipe.DwellAlarm_2;
-        DwellAlarm_3 = recipe.DwellAlarm_3;
-        DwellAlarm_4 = recipe.DwellAlarm_4;
-        DwellAlarm_5 = recipe.DwellAlarm_5;
-        DwellAlarm_6 = recipe.DwellAlarm_6;
-        DwellAlarm_7 = recipe.DwellAlarm_7;
-        DwellAlarm_8 = recipe.DwellAlarm_8;
-        CoolingTime = recipe.CoolingTime;
-        CoolingTemperature = recipe.CoolingTemperature;
-        RampTime_1 = recipe.RampTime_1;
-        RampTime_2 = recipe.RampTime_2;
-        RampTime_3 = recipe.RampTime_3;
-        RampTime_4 = recipe.RampTime_4;
-        RampTime_5 = recipe.RampTime_5;
-        RampTime_6 = recipe.RampTime_6;
-        RampTime_7 = recipe.RampTime_7;
-        RampTime_8 = recipe.RampTime_8;
-        RampAlarm_1 = recipe.RampAlarm_1;
-        RampAlarm_2 = recipe.RampAlarm_2;
-        RampAlarm_3 = recipe.RampAlarm_3;
-        RampAlarm_4 = recipe.RampAlarm_4;
-        RampAlarm_5 = recipe.RampAlarm_5;
-        RampAlarm_6 = recipe.RampAlarm_6;
-        RampAlarm_7 = recipe.RampAlarm_7;
-        RampAlarm_8 = recipe.RampAlarm_8;
-        TemperatureSetpoint_1 = recipe.TemperatureSetpoint_1;
-        TemperatureSetpoint_2 = recipe.TemperatureSetpoint_2;
-        TemperatureSetpoint_3 = recipe.TemperatureSetpoint_3;
-        TemperatureSetpoint_4 = recipe.TemperatureSetpoint_4;
-        TemperatureSetpoint_5 = recipe.TemperatureSetpoint_5;
-        TemperatureSetpoint_6 = recipe.TemperatureSetpoint_6;
-        TemperatureSetpoint_7 = recipe.TemperatureSetpoint_7;
-        TemperatureSetpoint_8 = recipe.TemperatureSetpoint_8;
-        DwellTimeOffset_1 = recipe.DwellTimeOffset_1;
-        DwellTimeOffset_2 = recipe.DwellTimeOffset_2;
-        DwellTimeOffset_3 = recipe.DwellTimeOffset_3;
-        DwellTimeOffset_4 = recipe.DwellTimeOffset_4;
-        DwellTimeOffset_5 = recipe.DwellTimeOffset_5;
-        DwellTimeOffset_6 = recipe.DwellTimeOffset_6;
-        SegmentCounts = recipe.SegmentCounts;
+        RC1_Coatingoftimes = recipe.RC1_Coatingoftimes;
+        RC1_CoatingSpeedSetting = recipe.RC1_CoatingSpeedSetting;
+        RC1_Plugoftimes = recipe.RC1_Plugoftimes;
+        RC1_CoatingPressureSetting = recipe.RC1_CoatingPressureSetting;
+        RC1_PanelThicknessSetting = recipe.RC1_PanelThicknessSetting;
+        RC1_LocationOfDrop = recipe.RC1_LocationOfDrop;
+        RC1_Blade_Pressure = recipe.RC1_Blade_Pressure;
+        RC1_D_BarPressureSetting1 = recipe.RC1_D_BarPressureSetting1;
+        RC1_D_BarPressureSetting2 = recipe.RC1_D_BarPressureSetting2;
+        RC1_D_BarPressureSetting3 = recipe.RC1_D_BarPressureSetting3;
+        RC1_D_BarPressureSetting4 = recipe.RC1_D_BarPressureSetting4;
+        RC1_BakingTimeSetting = recipe.RC1_BakingTimeSetting;
+        RC1_TemperatureSV1 = recipe.RC1_TemperatureSV1;
+        RC1_TemperatureSV2 = recipe.RC1_TemperatureSV2;
+        RC1_UseCoating = recipe.RC1_UseCoating;
+        RC1_UsePlug = recipe.RC1_UsePlug;
+        RC1_StandardInk = recipe.RC1_StandardInk;
+        RC1_DifferenceOfInk = recipe.RC1_DifferenceOfInk;
+        RC2_Coatingoftimes = recipe.RC2_Coatingoftimes;
+        RC2_CoatingSpeedSetting = recipe.RC2_CoatingSpeedSetting;
+        RC2_Plugoftimes = recipe.RC2_Plugoftimes;
+        RC2_CoatingPressureSetting = recipe.RC2_CoatingPressureSetting;
+        RC2_PanelThicknessSetting = recipe.RC2_PanelThicknessSetting;
+        RC2_LocationOfDrop = recipe.RC2_LocationOfDrop;
+        RC2_Blade_Pressure = recipe.RC2_Blade_Pressure;
+        RC2_D_BarPressureSetting1 = recipe.RC2_D_BarPressureSetting1;
+        RC2_D_BarPressureSetting2 = recipe.RC2_D_BarPressureSetting2;
+        RC2_D_BarPressureSetting3 = recipe.RC2_D_BarPressureSetting3;
+        RC2_D_BarPressureSetting4 = recipe.RC2_D_BarPressureSetting4;
+        RC2_BakingTimeSetting = recipe.RC2_BakingTimeSetting;
+        RC2_TemperatureSV1 = recipe.RC2_TemperatureSV1;
+        RC2_TemperatureSV2 = recipe.RC2_TemperatureSV2;
+        RC2_UseCoating = recipe.RC2_UseCoating;
+        RC2_UsePlug = recipe.RC2_UsePlug;
+        RC2_StandardInk = recipe.RC2_StandardInk;
+        RC2_DifferenceOfInk = recipe.RC2_DifferenceOfInk;
+        RC3_Coatingoftimes = recipe.RC3_Coatingoftimes;
+        RC3_CoatingSpeedSetting = recipe.RC3_CoatingSpeedSetting;
+        RC3_Plugoftimes = recipe.RC3_Plugoftimes;
+        RC3_CoatingPressureSetting = recipe.RC3_CoatingPressureSetting;
+        RC3_PanelThicknessSetting = recipe.RC3_PanelThicknessSetting;
+        RC3_LocationOfDrop = recipe.RC3_LocationOfDrop;
+        RC3_Blade_Pressure = recipe.RC3_Blade_Pressure;
+        RC3_D_BarPressureSetting1 = recipe.RC3_D_BarPressureSetting1;
+        RC3_D_BarPressureSetting2 = recipe.RC3_D_BarPressureSetting2;
+        RC3_D_BarPressureSetting3 = recipe.RC3_D_BarPressureSetting3;
+        RC3_D_BarPressureSetting4 = recipe.RC3_D_BarPressureSetting4;
+        RC3_BakingTimeSetting = recipe.RC3_BakingTimeSetting;
+        RC3_TemperatureSV1 = recipe.RC3_TemperatureSV1;
+        RC3_TemperatureSV2 = recipe.RC3_TemperatureSV2;
+        RC3_UseCoating = recipe.RC3_UseCoating;
+        RC3_UsePlug = recipe.RC3_UsePlug;
+        RC3_StandardInk = recipe.RC3_StandardInk;
+        RC3_DifferenceOfInk = recipe.RC3_DifferenceOfInk;
         Editor = user;
         EditorLevel = level;
     }
@@ -1757,90 +2318,221 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     public Dictionary<string, object> ToDictionary() => new()
                                                         {
                                                             { nameof(RecipeName), RecipeName },
-                                                            { nameof(DwellTime_1),  DwellTime_1 },
-                                                            { nameof(DwellTime_2),  DwellTime_2 },
-                                                            { nameof(DwellTime_3),  DwellTime_3 },
-                                                            { nameof(DwellTime_4),  DwellTime_4 },
-                                                            { nameof(DwellTime_5),  DwellTime_5 },
-                                                            { nameof(DwellTime_6),  DwellTime_6 },
-                                                            { nameof(DwellAlarm_1), DwellAlarm_1 },
-                                                            { nameof(DwellAlarm_2), DwellAlarm_2 },
-                                                            { nameof(DwellAlarm_3), DwellAlarm_3 },
-                                                            { nameof(DwellAlarm_4), DwellAlarm_4 },
-                                                            { nameof(DwellAlarm_5), DwellAlarm_5 },
-                                                            { nameof(DwellAlarm_6), DwellAlarm_6 },
-                                                            { nameof(CoolingTime), CoolingTime },
-                                                            { nameof(CoolingTemperature), CoolingTemperature },
-                                                            { nameof(RampTime_1), RampTime_1 },
-                                                            { nameof(RampTime_2), RampTime_2 },
-                                                            { nameof(RampTime_3), RampTime_3 },
-                                                            { nameof(RampTime_4), RampTime_4 },
-                                                            { nameof(RampTime_5), RampTime_5 },
-                                                            { nameof(RampTime_6), RampTime_6 },
-                                                            { nameof(RampAlarm_1), RampAlarm_1 },
-                                                            { nameof(RampAlarm_2), RampAlarm_2 },
-                                                            { nameof(RampAlarm_3), RampAlarm_3 },
-                                                            { nameof(RampAlarm_4), RampAlarm_4 },
-                                                            { nameof(RampAlarm_5), RampAlarm_5 },
-                                                            { nameof(RampAlarm_6), RampAlarm_6 },
-                                                            { nameof(TemperatureSetpoint_1), TemperatureSetpoint_1 },
-                                                            { nameof(TemperatureSetpoint_2), TemperatureSetpoint_2 },
-                                                            { nameof(TemperatureSetpoint_3), TemperatureSetpoint_3 },
-                                                            { nameof(TemperatureSetpoint_4), TemperatureSetpoint_4 },
-                                                            { nameof(TemperatureSetpoint_5), TemperatureSetpoint_5 },
-                                                            { nameof(TemperatureSetpoint_6), TemperatureSetpoint_6 },
-                                                            { nameof(DwellTimeOffset_1), DwellTimeOffset_1 },
-                                                            { nameof(DwellTimeOffset_2), DwellTimeOffset_2 },
-                                                            { nameof(DwellTimeOffset_3), DwellTimeOffset_3 },
-                                                            { nameof(DwellTimeOffset_4), DwellTimeOffset_4 },
-                                                            { nameof(DwellTimeOffset_5), DwellTimeOffset_5 },
-                                                            { nameof(DwellTimeOffset_6), DwellTimeOffset_6 },
-                                                            { nameof(SegmentCounts), SegmentCounts }
-                                                        };
+                                                            { nameof(Coatingoftimes), RC1_Coatingoftimes },
+                                                            { nameof(CoatingSpeedSetting), RC1_CoatingSpeedSetting },
+                                                            { nameof(BoardClampingDistance), RC1_BoardClampingDistance },
+                                                            { nameof(Plugoftimes), RC1_Plugoftimes },
+                                                            { nameof(CoatingPressureSetting), RC1_CoatingPressureSetting },
+                                                            { nameof(PanelThicknessSetting), RC1_PanelThicknessSetting },
+                                                            { nameof(LocationOfDrop), RC1_LocationOfDrop },
+                                                            { nameof(Blade_Pressure), RC1_Blade_Pressure },
+                                                            { nameof(D_BarPressureSetting1), RC1_D_BarPressureSetting1 },
+                                                            { nameof(D_BarPressureSetting2), RC1_D_BarPressureSetting2 },
+                                                            { nameof(D_BarPressureSetting3), RC1_D_BarPressureSetting3 },
+                                                            { nameof(D_BarPressureSetting4), RC1_D_BarPressureSetting4 },
+                                                            { nameof(BakingTimeSetting), RC1_BakingTimeSetting },
+                                                            { nameof(TemperatureSV1), RC1_TemperatureSV1 },
+                                                            { nameof(TemperatureSV2), RC1_TemperatureSV2 },
+                                                            { nameof(UseCoating), RC1_UseCoating },
+                                                            { nameof(UsePlug), RC1_UsePlug },
+                                                            { nameof(StandardInk), RC1_StandardInk },
+                                                            { nameof(DifferenceOfInk), RC1_DifferenceOfInk },
+                                                            //{ nameof(RC2_Coatingoftimes), RC2_Coatingoftimes },
+                                                            //{ nameof(RC2_CoatingSpeedSetting), RC2_CoatingSpeedSetting },
+                                                            //{ nameof(RC2_BoardClampingDistance), RC2_BoardClampingDistance },
+                                                            //{ nameof(RC2_Plugoftimes), RC2_Plugoftimes },
+                                                            //{ nameof(RC2_CoatingPressureSetting), RC2_CoatingPressureSetting },
+                                                            //{ nameof(RC2_PanelThicknessSetting), RC2_PanelThicknessSetting },
+                                                            //{ nameof(RC2_LocationOfDrop), RC2_LocationOfDrop },
+                                                            //{ nameof(RC2_Blade_Pressure), RC2_Blade_Pressure },
+                                                            //{ nameof(RC2_D_BarPressureSetting1), RC2_D_BarPressureSetting1 },
+                                                            //{ nameof(RC2_D_BarPressureSetting2), RC2_D_BarPressureSetting2 },
+                                                            //{ nameof(RC2_D_BarPressureSetting3), RC2_D_BarPressureSetting3 },
+                                                            //{ nameof(RC2_D_BarPressureSetting4), RC2_D_BarPressureSetting4 },
+                                                            //{ nameof(RC2_BakingTimeSetting), RC2_BakingTimeSetting },
+                                                            //{ nameof(RC2_TemperatureSV1), RC2_TemperatureSV1 },
+                                                            //{ nameof(RC2_TemperatureSV2), RC2_TemperatureSV2 },
+                                                            //{ nameof(RC2_UseCoating), RC2_UseCoating },
+                                                            //{ nameof(RC2_UsePlug), RC2_UsePlug },
+                                                            //{ nameof(RC2_StandardInk), RC2_StandardInk },
+                                                            //{ nameof(RC2_DifferenceOfInk), RC2_DifferenceOfInk },
+                                                            //{ nameof(RC3_Coatingoftimes), RC3_Coatingoftimes },
+                                                            //{ nameof(RC3_CoatingSpeedSetting), RC3_CoatingSpeedSetting },
+                                                            //{ nameof(RC3_BoardClampingDistance), RC3_BoardClampingDistance },
+                                                            //{ nameof(RC3_Plugoftimes), RC3_Plugoftimes },
+                                                            //{ nameof(RC3_CoatingPressureSetting), RC3_CoatingPressureSetting },
+                                                            //{ nameof(RC3_PanelThicknessSetting), RC3_PanelThicknessSetting },
+                                                            //{ nameof(RC3_LocationOfDrop), RC3_LocationOfDrop },
+                                                            //{ nameof(RC3_Blade_Pressure), RC3_Blade_Pressure },
+                                                            //{ nameof(RC3_D_BarPressureSetting1), RC3_D_BarPressureSetting1 },
+                                                            //{ nameof(RC3_D_BarPressureSetting2), RC3_D_BarPressureSetting2 },
+                                                            //{ nameof(RC3_D_BarPressureSetting3), RC3_D_BarPressureSetting3 },
+                                                            //{ nameof(RC3_D_BarPressureSetting4), RC3_D_BarPressureSetting4 },
+                                                            //{ nameof(RC3_BakingTimeSetting), RC3_BakingTimeSetting },
+                                                            //{ nameof(RC3_TemperatureSV1), RC3_TemperatureSV1 },
+                                                            //{ nameof(RC3_TemperatureSV2), RC3_TemperatureSV2 },
+                                                            //{ nameof(RC3_UseCoating), RC3_UseCoating },
+                                                            //{ nameof(RC3_UsePlug), RC3_UsePlug },
+                                                            //{ nameof(RC3_StandardInk), RC3_StandardInk },
+                                                            //{ nameof(RC3_DifferenceOfInk), RC3_DifferenceOfInk },
+                                                            };
+    public Dictionary<string, object> ToDictionary(int i) => i switch
+    {
+        0 => new Dictionary<string, object>
+        {
+            { nameof(RecipeName), RecipeName },
+            { nameof(Coatingoftimes), RC1_Coatingoftimes },
+            { nameof(CoatingSpeedSetting), RC1_CoatingSpeedSetting },
+            { nameof(BoardClampingDistance), RC1_BoardClampingDistance },
+            { nameof(Plugoftimes), RC1_Plugoftimes },
+            { nameof(CoatingPressureSetting), RC1_CoatingPressureSetting },
+            { nameof(PanelThicknessSetting), RC1_PanelThicknessSetting },
+            { nameof(LocationOfDrop), RC1_LocationOfDrop },
+            { nameof(Blade_Pressure), RC1_Blade_Pressure },
+            { nameof(D_BarPressureSetting1), RC1_D_BarPressureSetting1 },
+            { nameof(D_BarPressureSetting2), RC1_D_BarPressureSetting2 },
+            { nameof(D_BarPressureSetting3), RC1_D_BarPressureSetting3 },
+            { nameof(D_BarPressureSetting4), RC1_D_BarPressureSetting4 },
+            { nameof(BakingTimeSetting), RC1_BakingTimeSetting },
+            { nameof(TemperatureSV1), RC1_TemperatureSV1 },
+            { nameof(TemperatureSV2), RC1_TemperatureSV2 },
+            { nameof(UseCoating), RC1_UseCoating },
+            { nameof(UsePlug), RC1_UsePlug },
+            { nameof(StandardInk), RC1_StandardInk },
+            { nameof(DifferenceOfInk), RC1_DifferenceOfInk },
+        },
+        1 => new Dictionary<string, object>
+        {
+            { nameof(RecipeName), RecipeName },
+            { nameof(Coatingoftimes), RC2_Coatingoftimes },
+            { nameof(CoatingSpeedSetting), RC2_CoatingSpeedSetting },
+            { nameof(BoardClampingDistance), RC2_BoardClampingDistance },
+            { nameof(Plugoftimes), RC2_Plugoftimes },
+            { nameof(CoatingPressureSetting), RC2_CoatingPressureSetting },
+            { nameof(PanelThicknessSetting), RC2_PanelThicknessSetting },
+            { nameof(LocationOfDrop), RC2_LocationOfDrop },
+            { nameof(Blade_Pressure), RC2_Blade_Pressure },
+            { nameof(D_BarPressureSetting1), RC2_D_BarPressureSetting1 },
+            { nameof(D_BarPressureSetting2), RC2_D_BarPressureSetting2 },
+            { nameof(D_BarPressureSetting3), RC2_D_BarPressureSetting3 },
+            { nameof(D_BarPressureSetting4), RC2_D_BarPressureSetting4 },
+            { nameof(BakingTimeSetting), RC2_BakingTimeSetting },
+            { nameof(TemperatureSV1), RC2_TemperatureSV1 },
+            { nameof(TemperatureSV2), RC2_TemperatureSV2 },
+            { nameof(UseCoating), RC2_UseCoating },
+            { nameof(UsePlug), RC2_UsePlug },
+            { nameof(StandardInk), RC2_StandardInk },
+            { nameof(DifferenceOfInk), RC2_DifferenceOfInk },
+        },
+        2 => new Dictionary<string, object>
+        {
+             { nameof(RecipeName), RecipeName },
+             { nameof(Coatingoftimes), RC3_Coatingoftimes },
+             { nameof(CoatingSpeedSetting), RC3_CoatingSpeedSetting },
+             { nameof(BoardClampingDistance), RC3_BoardClampingDistance },
+             { nameof(Plugoftimes), RC3_Plugoftimes },
+             { nameof(CoatingPressureSetting), RC3_CoatingPressureSetting },
+             { nameof(PanelThicknessSetting), RC3_PanelThicknessSetting },
+             { nameof(LocationOfDrop), RC3_LocationOfDrop },
+             { nameof(Blade_Pressure), RC3_Blade_Pressure },
+             { nameof(D_BarPressureSetting1), RC3_D_BarPressureSetting1 },
+             { nameof(D_BarPressureSetting2), RC3_D_BarPressureSetting2 },
+             { nameof(D_BarPressureSetting3), RC3_D_BarPressureSetting3 },
+             { nameof(D_BarPressureSetting4), RC3_D_BarPressureSetting4 },
+             { nameof(BakingTimeSetting), RC3_BakingTimeSetting },
+             { nameof(TemperatureSV1), RC3_TemperatureSV1 },
+             { nameof(TemperatureSV2), RC3_TemperatureSV2 },
+             { nameof(UseCoating), RC3_UseCoating },
+             { nameof(UsePlug), RC3_UsePlug },
+             { nameof(StandardInk), RC3_StandardInk },
+             { nameof(DifferenceOfInk), RC3_DifferenceOfInk },
+        },
+        // 可以根據需要添加其他 case
+        _ => throw new ArgumentException("不支援的 plcindex 值"),
+    };
+    //{ nameof(RecipeName), RecipeName },
+    //{ nameof(Coatingoftimes), RC1_Coatingoftimes },
+    //{ nameof(CoatingSpeedSetting), RC1_CoatingSpeedSetting },
+    //{ nameof(BoardClampingDistance), RC1_BoardClampingDistance },
+    //{ nameof(Plugoftimes), RC1_Plugoftimes },
+    //{ nameof(CoatingPressureSetting), RC1_CoatingPressureSetting },
+    //{ nameof(PanelThicknessSetting), RC1_PanelThicknessSetting },
+    //{ nameof(LocationOfDrop), RC1_LocationOfDrop },
+    //{ nameof(Blade_Pressure), RC1_Blade_Pressure },
+    //{ nameof(D_BarPressureSetting1), RC1_D_BarPressureSetting1 },
+    //{ nameof(D_BarPressureSetting2), RC1_D_BarPressureSetting2 },
+    //{ nameof(D_BarPressureSetting3), RC1_D_BarPressureSetting3 },
+    //{ nameof(D_BarPressureSetting4), RC1_D_BarPressureSetting4 },
+    //{ nameof(BakingTimeSetting), RC1_BakingTimeSetting },
+    //{ nameof(TemperatureSV1), RC1_TemperatureSV1 },
+    //{ nameof(TemperatureSV2), RC1_TemperatureSV2 },
+    //{ nameof(UseCoating), RC1_UseCoating },
+    //{ nameof(UsePlug), RC1_UsePlug },
+    //{ nameof(StandardInk), RC1_StandardInk },
+    //{ nameof(DifferenceOfInk), RC1_DifferenceOfInk },
+
 
     public Dictionary<string, object> ToShowDictionary() => new()
                                                         {
                                                             { "配方", RecipeName },
-                                                            { "恆溫時間1",  DwellTime_1 },
-                                                            { "恆溫時間2",  DwellTime_2 },
-                                                            { "恆溫時間3",  DwellTime_3 },
-                                                            { "恆溫時間4",  DwellTime_4 },
-                                                            { "恆溫時間5",  DwellTime_5 },
-                                                            { "恆溫時間6",  DwellTime_6 },
-                                                            { "恆溫警報1", DwellAlarm_1 },
-                                                            { "恆溫警報2", DwellAlarm_2 },
-                                                            { "恆溫警報3", DwellAlarm_3 },
-                                                            { "恆溫警報4", DwellAlarm_4 },
-                                                            { "恆溫警報5", DwellAlarm_5 },
-                                                            { "恆溫警報6", DwellAlarm_6 },
-                                                            { "降溫時間", CoolingTime },
-                                                            { "降溫溫度", CoolingTemperature },
-                                                            { "升溫時間1", RampTime_1 },
-                                                            { "升溫時間2", RampTime_2 },
-                                                            { "升溫時間3", RampTime_3 },
-                                                            { "升溫時間4", RampTime_4 },
-                                                            { "升溫時間5", RampTime_5 },
-                                                            { "升溫時間6", RampTime_6 },
-                                                            { "升溫警報1", RampAlarm_1 },
-                                                            { "升溫警報2", RampAlarm_2 },
-                                                            { "升溫警報3", RampAlarm_3 },
-                                                            { "升溫警報4", RampAlarm_4 },
-                                                            { "升溫警報5", RampAlarm_5 },
-                                                            { "升溫警報6", RampAlarm_6 },
-                                                            { "目標溫度1", TemperatureSetpoint_1 },
-                                                            { "目標溫度2", TemperatureSetpoint_2 },
-                                                            { "目標溫度3", TemperatureSetpoint_3 },
-                                                            { "目標溫度4", TemperatureSetpoint_4 },
-                                                            { "目標溫度5", TemperatureSetpoint_5 },
-                                                            { "目標溫度6", TemperatureSetpoint_6 },
-                                                            { "恆溫補償1", DwellTimeOffset_1 },
-                                                            { "恆溫補償2", DwellTimeOffset_2 },
-                                                            { "恆溫補償3", DwellTimeOffset_3 },
-                                                            { "恆溫補償4", DwellTimeOffset_4 },
-                                                            { "恆溫補償5", DwellTimeOffset_5 },
-                                                            { "恆溫補償6", DwellTimeOffset_6 },
-                                                            { "使用段數", SegmentCounts }
-                                                        };
+                                                            { "RC1_塗佈次數", RC1_Coatingoftimes },
+                                                            { "RC1_塗佈速度設定", RC1_CoatingSpeedSetting },
+                                                            { "RC1_板面夾持距離", RC1_BoardClampingDistance },
+                                                            { "RC1_塞孔次數", RC1_Plugoftimes },
+                                                            { "RC1_塗佈壓力設定", RC1_CoatingPressureSetting },
+                                                            { "RC1_基板厚度設定", RC1_PanelThicknessSetting },
+                                                            { "RC1_塞孔刮刀壓力設定", RC1_Blade_Pressure },
+                                                            { "RC1_入料下降位置設定", RC1_LocationOfDrop },
+                                                            { "RC1_左前D.BAR壓力設定", RC1_D_BarPressureSetting1 },
+                                                            { "RC1_右前D.BAR壓力設定", RC1_D_BarPressureSetting2 },
+                                                            { "RC1_左後D.BAR壓力設定", RC1_D_BarPressureSetting3 },
+                                                            { "RC1_右後D.BAR壓力設定", RC1_D_BarPressureSetting4 },
+                                                            { "RC1_烘烤時間設定", RC1_BakingTimeSetting },
+                                                            { "RC1_第1段溫度設定值", RC1_TemperatureSV1 },
+                                                            { "RC1_第2段溫度設定值", RC1_TemperatureSV2 },
+                                                            { "RC1_塗佈使用", RC1_UseCoating },
+                                                            { "RC1_塞孔使用", RC1_UsePlug },
+                                                            { "RC1_標準墨重", RC1_StandardInk },
+                                                            { "RC1_墨重誤差值", RC1_DifferenceOfInk },
+                                                            { "RC2_塗佈次數", RC2_Coatingoftimes },
+                                                            { "RC2_塗佈速度設定", RC2_CoatingSpeedSetting },
+                                                            { "RC2_板面夾持距離", RC2_BoardClampingDistance },
+                                                            { "RC2_塞孔次數", RC2_Plugoftimes },
+                                                            { "RC2_塗佈壓力設定", RC2_CoatingPressureSetting },
+                                                            { "RC2_基板厚度設定", RC2_PanelThicknessSetting },
+                                                            { "RC2_塞孔刮刀壓力設定", RC2_Blade_Pressure },
+                                                            { "RC2_入料下降位置設定", RC2_LocationOfDrop },
+                                                            { "RC2_左前D.BAR壓力設定", RC2_D_BarPressureSetting1 },
+                                                            { "RC2_右前D.BAR壓力設定", RC2_D_BarPressureSetting2 },
+                                                            { "RC2_左後D.BAR壓力設定", RC2_D_BarPressureSetting3 },
+                                                            { "RC2_右後D.BAR壓力設定", RC2_D_BarPressureSetting4 },
+                                                            { "RC2_烘烤時間設定", RC2_BakingTimeSetting },
+                                                            { "RC2_第1段溫度設定值", RC2_TemperatureSV1 },
+                                                            { "RC2_第2段溫度設定值", RC2_TemperatureSV2 },
+                                                            { "RC2_塗佈使用", RC2_UseCoating },
+                                                            { "RC2_塞孔使用", RC2_UsePlug },
+                                                            { "RC2_標準墨重", RC2_StandardInk },
+                                                            { "RC2_墨重誤差值", RC2_DifferenceOfInk },
+                                                            { "RC3_塗佈次數", RC3_Coatingoftimes },
+                                                            { "RC3_塗佈速度設定", RC3_CoatingSpeedSetting },
+                                                            { "RC3_板面夾持距離", RC3_BoardClampingDistance },
+                                                            { "RC3_塞孔次數", RC3_Plugoftimes },
+                                                            { "RC3_塗佈壓力設定", RC3_CoatingPressureSetting },
+                                                            { "RC3_基板厚度設定", RC3_PanelThicknessSetting },
+                                                            { "RC3_塞孔刮刀壓力設定", RC3_Blade_Pressure },
+                                                            { "RC3_入料下降位置設定", RC3_LocationOfDrop },
+                                                            { "RC3_左前D.BAR壓力設定", RC3_D_BarPressureSetting1 },
+                                                            { "RC3_右前D.BAR壓力設定", RC3_D_BarPressureSetting2 },
+                                                            { "RC3_左後D.BAR壓力設定", RC3_D_BarPressureSetting3 },
+                                                            { "RC3_右後D.BAR壓力設定", RC3_D_BarPressureSetting4 },
+                                                            { "RC3_烘烤時間設定", RC3_BakingTimeSetting },
+                                                            { "RC3_第1段溫度設定值", RC3_TemperatureSV1 },
+                                                            { "RC3_第2段溫度設定值", RC3_TemperatureSV2 },
+                                                            { "RC3_塗佈使用", RC3_UseCoating },
+                                                            { "RC3_塞孔使用", RC3_UsePlug },
+                                                            { "RC3_標準墨重", RC3_StandardInk },
+                                                            { "RC3_墨重誤差值", RC3_DifferenceOfInk },
+                                                            };
     public bool SetByDictionary(Dictionary<string, string> dic)
     {
         var type = GetType();

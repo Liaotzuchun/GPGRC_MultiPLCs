@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GPGO_MultiPLCs", "GPGO_MultiPLCs\GPGO_MultiPLCs.csproj", "{6336CCC9-C993-4B18-BDD2-11D0309C8F21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GPGRC_MultiPLCs", "GPGO_MultiPLCs\GPGRC_MultiPLCs.csproj", "{6336CCC9-C993-4B18-BDD2-11D0309C8F21}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{20E9985E-9126-41A1-8C7C-DCE04B1744A8}"
 	ProjectSection(SolutionItems) = preProject

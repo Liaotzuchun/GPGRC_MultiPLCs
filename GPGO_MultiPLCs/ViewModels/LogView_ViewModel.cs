@@ -5,12 +5,12 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using GPGO_MultiPLCs.Models;
+using GPGRC_MultiPLCs.Models;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
 using Serilog;
 
-namespace GPGO_MultiPLCs.ViewModels;
+namespace GPGRC_MultiPLCs.ViewModels;
 
 /// <summary>紀錄/檢視系統事件</summary>
 public class LogView_ViewModel : DataCollectionByDate<LogEvent>

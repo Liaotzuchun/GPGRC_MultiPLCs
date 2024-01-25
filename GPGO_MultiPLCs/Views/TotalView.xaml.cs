@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace GPGO_MultiPLCs.Views;
+namespace GPGRC_MultiPLCs.Views;
 
 /// <summary>TotalView.xaml 的互動邏輯</summary>
 public partial class TotalView

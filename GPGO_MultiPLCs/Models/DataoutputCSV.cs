@@ -9,7 +9,7 @@ using GPMVVM.Models;
 using GPMVVM.PooledCollections;
 using Serilog;
 
-namespace GPGO_MultiPLCs.Models;
+namespace GPGRC_MultiPLCs.Models;
 
 public class DataoutputCSV
 {

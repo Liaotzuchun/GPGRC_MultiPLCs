@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using GPGO_MultiPLCs.Models;
+using GPGRC_MultiPLCs.Models;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
 using Serilog;
 
-namespace GPGO_MultiPLCs.ViewModels;
+namespace GPGRC_MultiPLCs.ViewModels;
 
 /// <summary>配方管理</summary>
 public class RecipeControl_ViewModel : RecipeModel<PLC_Recipe>

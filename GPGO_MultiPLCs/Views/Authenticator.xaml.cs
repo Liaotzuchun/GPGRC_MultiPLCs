@@ -8,7 +8,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace GPGO_MultiPLCs.Views;
+namespace GPGRC_MultiPLCs.Views;
 
 /// <summary>Authenticator.xaml 的互動邏輯</summary>
 public partial class Authenticator

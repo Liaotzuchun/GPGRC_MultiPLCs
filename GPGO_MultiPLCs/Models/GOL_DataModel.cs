@@ -2,7 +2,7 @@
 using GPMVVM.Models;
 using PLCService;
 
-namespace GPGO_MultiPLCs.Models;
+namespace GPGRC_MultiPLCs.Models;
 
 public class GOL_DataModel : PLCDataProvider
 {
@@ -71,152 +71,152 @@ public class GOL_DataModel : PLCDataProvider
     #endregion
 
     #region 配方實際值   
-    /// <summary>第1段烘烤溫度</summary>
-    [PLCData(DataType.D, 700, 20, LogType.None)]
-    public double TopTemperatureSetpoint_1SV
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
+    ///// <summary>第1段烘烤溫度</summary>
+    //[PLCData(DataType.D, 700, 20, LogType.None)]
+    //public double TopTemperatureSetpoint_1SV
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
 
-    /// <summary>第2段烘烤溫度</summary>
-    [PLCData(DataType.D, 701, 20, LogType.None)]
-    public double TopTemperatureSetpoint_2SV
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
+    ///// <summary>第2段烘烤溫度</summary>
+    //[PLCData(DataType.D, 701, 20, LogType.None)]
+    //public double TopTemperatureSetpoint_2SV
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
 
-    /// <summary>第3段烘烤溫度</summary>
-    [PLCData(DataType.D, 702, 20, LogType.None)]
-    public double TopTemperatureSetpoint_3SV
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
+    ///// <summary>第3段烘烤溫度</summary>
+    //[PLCData(DataType.D, 702, 20, LogType.None)]
+    //public double TopTemperatureSetpoint_3SV
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
 
-    /// <summary>第4段烘烤溫度</summary>
-    [PLCData(DataType.D, 703, 20, LogType.None)]
-    public double TopTemperatureSetpoint_4SV
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
+    ///// <summary>第4段烘烤溫度</summary>
+    //[PLCData(DataType.D, 703, 20, LogType.None)]
+    //public double TopTemperatureSetpoint_4SV
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
 
-    /// <summary>第5段烘烤溫度</summary>
-    [PLCData(DataType.D, 704, 20, LogType.None)]
-    public double TopTemperatureSetpoint_5SV
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
+    ///// <summary>第5段烘烤溫度</summary>
+    //[PLCData(DataType.D, 704, 20, LogType.None)]
+    //public double TopTemperatureSetpoint_5SV
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
 
-    /// <summary>第6段烘烤溫度</summary>
-    [PLCData(DataType.D, 705, 20, LogType.None)]
-    public double TopTemperatureSetpoint_6SV
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
+    ///// <summary>第6段烘烤溫度</summary>
+    //[PLCData(DataType.D, 705, 20, LogType.None)]
+    //public double TopTemperatureSetpoint_6SV
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
 
-    /// <summary>升溫時間1</summary>
-    [PLCData(DataType.D, 760, 0.1, LogType.None)]
-    public double TopRampTime_1SV
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
+    ///// <summary>升溫時間1</summary>
+    //[PLCData(DataType.D, 760, 0.1, LogType.None)]
+    //public double TopRampTime_1SV
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
 
-    /// <summary>升溫時間2</summary>
-    [PLCData(DataType.D, 761, 0.1, LogType.None)]
-    public double TopRampTime_2SV
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
+    ///// <summary>升溫時間2</summary>
+    //[PLCData(DataType.D, 761, 0.1, LogType.None)]
+    //public double TopRampTime_2SV
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
 
-    /// <summary>升溫時間3</summary>
-    [PLCData(DataType.D, 762, 0.1, LogType.None)]
-    public double TopRampTime_3SV
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
+    ///// <summary>升溫時間3</summary>
+    //[PLCData(DataType.D, 762, 0.1, LogType.None)]
+    //public double TopRampTime_3SV
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
 
-    /// <summary>升溫時間4</summary>
-    [PLCData(DataType.D, 763, 0.1, LogType.None)]
-    public double TopRampTime_4SV
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
+    ///// <summary>升溫時間4</summary>
+    //[PLCData(DataType.D, 763, 0.1, LogType.None)]
+    //public double TopRampTime_4SV
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
 
-    /// <summary>升溫時間5</summary>
-    [PLCData(DataType.D, 764, 0.1, LogType.None)]
-    public double TopRampTime_5SV
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
+    ///// <summary>升溫時間5</summary>
+    //[PLCData(DataType.D, 764, 0.1, LogType.None)]
+    //public double TopRampTime_5SV
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
 
-    /// <summary>升溫時間6</summary>
-    [PLCData(DataType.D, 765, 0.1, LogType.None)]
-    public double TopRampTime_6SV
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
+    ///// <summary>升溫時間6</summary>
+    //[PLCData(DataType.D, 765, 0.1, LogType.None)]
+    //public double TopRampTime_6SV
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
 
-    /// <summary>恆溫時間1</summary>
-    [PLCData(DataType.D, 715, 0.1, LogType.None)]
-    public double TopDwellTime_1SV
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
+    ///// <summary>恆溫時間1</summary>
+    //[PLCData(DataType.D, 715, 0.1, LogType.None)]
+    //public double TopDwellTime_1SV
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
 
-    /// <summary>恆溫時間2</summary>
-    [PLCData(DataType.D, 716, 0.1, LogType.None)]
-    public double TopDwellTime_2SV
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
+    ///// <summary>恆溫時間2</summary>
+    //[PLCData(DataType.D, 716, 0.1, LogType.None)]
+    //public double TopDwellTime_2SV
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
 
-    /// <summary>恆溫時間3</summary>
-    [PLCData(DataType.D, 717, 0.1, LogType.None)]
-    public double TopDwellTime_3SV
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
+    ///// <summary>恆溫時間3</summary>
+    //[PLCData(DataType.D, 717, 0.1, LogType.None)]
+    //public double TopDwellTime_3SV
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
 
-    /// <summary>恆溫時間4</summary>
-    [PLCData(DataType.D, 718, 0.1, LogType.None)]
-    public double TopDwellTime_4SV
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
+    ///// <summary>恆溫時間4</summary>
+    //[PLCData(DataType.D, 718, 0.1, LogType.None)]
+    //public double TopDwellTime_4SV
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
 
-    /// <summary>恆溫時間5</summary>
-    [PLCData(DataType.D, 719, 0.1, LogType.None)]
-    public double TopDwellTime_5SV
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
+    ///// <summary>恆溫時間5</summary>
+    //[PLCData(DataType.D, 719, 0.1, LogType.None)]
+    //public double TopDwellTime_5SV
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
 
-    /// <summary>恆溫時間6</summary>
-    [PLCData(DataType.D, 720, 0.1, LogType.None)]
-    public double TopDwellTime_6SV
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
+    ///// <summary>恆溫時間6</summary>
+    //[PLCData(DataType.D, 720, 0.1, LogType.None)]
+    //public double TopDwellTime_6SV
+    //{
+    //    get => Get<double>();
+    //    set => Set(value);
+    //}
     #endregion
 
-    #region 配方設定值 上爐
+    #region 配方設定值
     /// <summary>配方名</summary>
     [PLCData(DataType.D, 780, 16, LogType.RecipeSet)]
     public string RecipeName
@@ -224,342 +224,170 @@ public class GOL_DataModel : PLCDataProvider
         get => Get<string>();
         set => Set(value);
     }
-
-    /// <summary>降溫溫度</summary>
-    [PLCData(DataType.D, 777, 1, LogType.RecipeSet)]
-    public double CoolingTemperature
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>降溫時間</summary>
-    [PLCData(DataType.D, 776, 0.1, LogType.RecipeSet)]
-    public double CoolingTime
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    ///// <summary>氮氣模式</summary>
-    //[PLCBitData(DataType.D, 789, 0, LogType.RecipeSet)]
-    //public bool NitrogenMode
-    //{
-    //    get => Get<bool>();
-    //    set => Set(value);
-    //}
-
-    /// <summary>充氣逾時時間</summary>
-    [PLCData(DataType.D, 2990, 1.0, LogType.RecipeSet)]
-    public double InflatingTime
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>含氧量設定</summary>
-    [PLCData(DataType.D, 753, 0.1, LogType.RecipeSet)]
-    public double OxygenContentSet
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>使用段數</summary>
-    [PLCData(DataType.D, 775, 1, LogType.RecipeSet)]
-    public short SegmentCounts
-    {
-        get => Get<short>();
-        set => Set(value);
-    }
-
-    /// <summary>目標溫度1</summary>
-    [PLCData(DataType.D, 700, 1, LogType.RecipeSet)]
-    public double TemperatureSetpoint_1
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>目標溫度2</summary>
-    [PLCData(DataType.D, 701, 1, LogType.RecipeSet)]
-    public double TemperatureSetpoint_2
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>目標溫度3</summary>
-    [PLCData(DataType.D, 702, 1, LogType.RecipeSet)]
-    public double TemperatureSetpoint_3
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>目標溫度4</summary>
-    [PLCData(DataType.D, 703, 1, LogType.RecipeSet)]
-    public double TemperatureSetpoint_4
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>目標溫度5</summary>
-    [PLCData(DataType.D, 704, 1, LogType.RecipeSet)]
-    public double TemperatureSetpoint_5
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>目標溫度6</summary>
-    [PLCData(DataType.D, 705, 1, LogType.RecipeSet)]
-    public double TemperatureSetpoint_6
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>升溫時間1</summary>
-    [PLCData(DataType.D, 760, 0.1, LogType.RecipeSet)]
-    public double RampTime_1
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>升溫時間2</summary>
-    [PLCData(DataType.D, 761, 0.1, LogType.RecipeSet)]
-    public double RampTime_2
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>升溫時間3</summary>
-    [PLCData(DataType.D, 762, 0.1, LogType.RecipeSet)]
-    public double RampTime_3
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>升溫時間4</summary>
-    [PLCData(DataType.D, 763, 0.1, LogType.RecipeSet)]
-    public double RampTime_4
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>升溫時間5</summary>
-    [PLCData(DataType.D, 764, 0.1, LogType.RecipeSet)]
-    public double RampTime_5
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>升溫時間6</summary>
-    [PLCData(DataType.D, 765, 0.1, LogType.RecipeSet)]
-    public double RampTime_6
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>升溫警報時間1</summary>
-    [PLCData(DataType.D, 730, 0.1, LogType.RecipeSet)]
-    public double RampAlarm_1
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>升溫警報時間2</summary>
-    [PLCData(DataType.D, 731, 0.1, LogType.RecipeSet)]
-    public double RampAlarm_2
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>升溫警報時間3</summary>
-    [PLCData(DataType.D, 732, 0.1, LogType.RecipeSet)]
-    public double RampAlarm_3
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>升溫警報時間4</summary>
-    [PLCData(DataType.D, 733, 0.1, LogType.RecipeSet)]
-    public double RampAlarm_4
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>升溫警報時間5</summary>
-    [PLCData(DataType.D, 734, 0.1, LogType.RecipeSet)]
-    public double RampAlarm_5
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>升溫警報時間6</summary>
-    [PLCData(DataType.D, 735, 0.1, LogType.RecipeSet)]
-    public double RampAlarm_6
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>恆溫時間1</summary>
-    [PLCData(DataType.D, 715, 0.1, LogType.RecipeSet)]
-    public double DwellTime_1
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>恆溫時間2</summary>
-    [PLCData(DataType.D, 716, 0.1, LogType.RecipeSet)]
-    public double DwellTime_2
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>恆溫時間3</summary>
-    [PLCData(DataType.D, 717, 0.1, LogType.RecipeSet)]
-    public double DwellTime_3
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>恆溫時間4</summary>
-    [PLCData(DataType.D, 718, 0.1, LogType.RecipeSet)]
-    public double DwellTime_4
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>恆溫時間5</summary>
-    [PLCData(DataType.D, 719, 0.1, LogType.RecipeSet)]
-    public double DwellTime_5
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>恆溫時間6</summary>
-    [PLCData(DataType.D, 720, 0.1, LogType.RecipeSet)]
-    public double DwellTime_6
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>恆溫警報時間1</summary>
-    [PLCData(DataType.D, 745, 0.1, LogType.RecipeSet)]
-    public double DwellAlarm_1
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>恆溫警報時間2</summary>
-    [PLCData(DataType.D, 746, 0.1, LogType.RecipeSet)]
-    public double DwellAlarm_2
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>恆溫警報時間3</summary>
-    [PLCData(DataType.D, 747, 0.1, LogType.RecipeSet)]
-    public double DwellAlarm_3
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>恆溫警報時間4</summary>
-    [PLCData(DataType.D, 748, 0.1, LogType.RecipeSet)]
-    public double DwellAlarm_4
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>恆溫警報時間5</summary>
-    [PLCData(DataType.D, 749, 0.1, LogType.RecipeSet)]
-    public double DwellAlarm_5
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>恆溫警報時間6</summary>
-    [PLCData(DataType.D, 750, 0.1, LogType.RecipeSet)]
-    public double DwellAlarm_6
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>恆溫時間Offset1</summary>
-    [PLCData(DataType.D, 793, 0.1, LogType.RecipeSet)]
-    public double DwellTimeOffset_1
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>恆溫時間Offset2</summary>
-    [PLCData(DataType.D, 794, 0.1, LogType.RecipeSet)]
-    public double DwellTimeOffset_2
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>恆溫時間Offset3</summary>
-    [PLCData(DataType.D, 795, 0.1, LogType.RecipeSet)]
-    public double DwellTimeOffset_3
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>恆溫時間Offset4</summary>
-    [PLCData(DataType.D, 796, 0.1, LogType.RecipeSet)]
-    public double DwellTimeOffset_4
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>恆溫時間Offset5</summary>
-    [PLCData(DataType.D, 797, 0.1, LogType.RecipeSet)]
-    public double DwellTimeOffset_5
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>恆溫時間Offset6</summary>
-    [PLCData(DataType.D, 798, 0.1, LogType.RecipeSet)]
-    public double DwellTimeOffset_6
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
+    #region 主控PLC
+    //#region Coater1
+    ///// <summary>塗佈次數</summary>
+    //[PLCData(DataType.D, 700, LogType.RecipeSet)] public double RC1_Coatingoftimes { get => Get<double>(); set => Set(value); }
+    ///// <summary>塗佈速度設定</summary>
+    //[PLCData(DataType.D, 701, LogType.RecipeSet)] public double RC1_CoatingSpeedSetting { get => Get<double>(); set => Set(value); }
+    ///// <summary>板面夾持距離設定</summary>
+    //[PLCData(DataType.D, 702, LogType.RecipeSet)] public double RC1_BoardClampingDistance { get => Get<double>(); set => Set(value); }
+    ///// <summary>塞孔次數設定</summary>
+    //[PLCData(DataType.D, 703, LogType.RecipeSet)] public double RC1_Plugoftimes { get => Get<double>(); set => Set(value); }
+    ///// <summary>塗佈壓力設定</summary>
+    //[PLCData(DataType.D, 704, LogType.RecipeSet)] public double RC1_CoatingPressureSetting { get => Get<double>(); set => Set(value); }
+    ///// <summary>基板厚度設定</summary>
+    //[PLCData(DataType.D, 705, LogType.RecipeSet)] public double RC1_PanelThicknessSetting { get => Get<double>(); set => Set(value); }
+    ///// <summary>入料下降位置設定</summary>
+    //[PLCData(DataType.D, 706, LogType.RecipeSet)] public double RC1_LocationOfDrop { get => Get<double>(); set => Set(value); }
+    ///// <summary>左前D.BAR壓力設定</summary>
+    //[PLCData(DataType.D, 707, LogType.RecipeSet)] public double RC1_D_BarPressureSetting1 { get => Get<double>(); set => Set(value); }
+    ///// <summary>右前D.BAR壓力設定</summary>
+    //[PLCData(DataType.D, 708, LogType.RecipeSet)] public double RC1_D_BarPressureSetting2 { get => Get<double>(); set => Set(value); }
+    ///// <summary>左後D.BAR壓力設定</summary>
+    //[PLCData(DataType.D, 709, LogType.RecipeSet)] public double RC1_D_BarPressureSetting3 { get => Get<double>(); set => Set(value); }
+    ///// <summary>右後D.BAR壓力設定</summary>
+    //[PLCData(DataType.D, 710, LogType.RecipeSet)] public double RC1_D_BarPressureSetting4 { get => Get<double>(); set => Set(value); }
+    ///// <summary>塞孔刮刀壓力設定</summary>
+    //[PLCData(DataType.D, 711, LogType.RecipeSet)] public double RC1_Blade_Pressure { get => Get<double>(); set => Set(value); }
+    ///// <summary>烘烤時間設定</summary>
+    //[PLCData(DataType.D, 712, LogType.RecipeSet)] public double RC1_BakingTimeSetting { get => Get<double>(); set => Set(value); }
+    ///// <summary>第1段溫度設定值</summary>
+    //[PLCData(DataType.D, 713, LogType.RecipeSet)] public double RC1_TemperatureSV1 { get => Get<double>(); set => Set(value); }
+    ///// <summary>第2段溫度設定值</summary>
+    //[PLCData(DataType.D, 714, LogType.RecipeSet)] public double RC1_TemperatureSV2 { get => Get<double>(); set => Set(value); }
+    ///// <summary>塗佈使用</summary>
+    //[PLCData(DataType.D, 715, LogType.RecipeSet)] public double RC1_UseCoating { get => Get<double>(); set => Set(value); }
+    ///// <summary>塞孔使用</summary>
+    //[PLCData(DataType.D, 716, LogType.RecipeSet)] public double RC1_UsePlug { get => Get<double>(); set => Set(value); }
+    ///// <summary>標準墨重</summary>
+    //[PLCData(DataType.D, 717, LogType.RecipeSet)] public double RC1_StandardInk { get => Get<double>(); set => Set(value); }
+    ///// <summary>墨重誤差值</summary>
+    //[PLCData(DataType.D, 718, LogType.RecipeSet)] public double RC1_DifferenceOfInk { get => Get<double>(); set => Set(value); }
+    //#endregion
+    //#region Coater2
+    ///// <summary>塗佈次數</summary>
+    //[PLCData(DataType.D, 719, LogType.RecipeSet)] public double RC2_Coatingoftimes { get => Get<double>(); set => Set(value); }
+    ///// <summary>塗佈速度設定</summary>
+    //[PLCData(DataType.D, 720, LogType.RecipeSet)] public double RC2_CoatingSpeedSetting { get => Get<double>(); set => Set(value); }
+    ///// <summary>板面夾持距離設定</summary>
+    //[PLCData(DataType.D, 721, LogType.RecipeSet)] public double RC2_BoardClampingDistance { get => Get<double>(); set => Set(value); }
+    ///// <summary>塞孔次數設定</summary>
+    //[PLCData(DataType.D, 722, LogType.RecipeSet)] public double RC2_Plugoftimes { get => Get<double>(); set => Set(value); }
+    ///// <summary>塗佈壓力設定</summary>
+    //[PLCData(DataType.D, 723, LogType.RecipeSet)] public double RC2_CoatingPressureSetting { get => Get<double>(); set => Set(value); }
+    ///// <summary>基板厚度設定</summary>
+    //[PLCData(DataType.D, 724, LogType.RecipeSet)] public double RC2_PanelThicknessSetting { get => Get<double>(); set => Set(value); }
+    ///// <summary>入料下降位置設定</summary>
+    //[PLCData(DataType.D, 725, LogType.RecipeSet)] public double RC2_LocationOfDrop { get => Get<double>(); set => Set(value); }
+    ///// <summary>左前D.BAR壓力設定</summary>
+    //[PLCData(DataType.D, 726, LogType.RecipeSet)] public double RC2_D_BarPressureSetting1 { get => Get<double>(); set => Set(value); }
+    ///// <summary>右前D.BAR壓力設定</summary>
+    //[PLCData(DataType.D, 727, LogType.RecipeSet)] public double RC2_D_BarPressureSetting2 { get => Get<double>(); set => Set(value); }
+    ///// <summary>左後D.BAR壓力設定</summary>
+    //[PLCData(DataType.D, 728, LogType.RecipeSet)] public double RC2_D_BarPressureSetting3 { get => Get<double>(); set => Set(value); }
+    ///// <summary>右後D.BAR壓力設定</summary>
+    //[PLCData(DataType.D, 729, LogType.RecipeSet)] public double RC2_D_BarPressureSetting4 { get => Get<double>(); set => Set(value); }
+    ///// <summary>塞孔刮刀壓力設定</summary>
+    //[PLCData(DataType.D, 730, LogType.RecipeSet)] public double RC2_Blade_Pressure { get => Get<double>(); set => Set(value); }
+    ///// <summary>烘烤時間設定</summary>
+    //[PLCData(DataType.D, 731, LogType.RecipeSet)] public double RC2_BakingTimeSetting { get => Get<double>(); set => Set(value); }
+    ///// <summary>第1段溫度設定值</summary>
+    //[PLCData(DataType.D, 732, LogType.RecipeSet)] public double RC2_TemperatureSV1 { get => Get<double>(); set => Set(value); }
+    ///// <summary>第2段溫度設定值</summary>
+    //[PLCData(DataType.D, 733, LogType.RecipeSet)] public double RC2_TemperatureSV2 { get => Get<double>(); set => Set(value); }
+    ///// <summary>塗佈使用</summary>
+    //[PLCData(DataType.D, 734, LogType.RecipeSet)] public double RC2_UseCoating { get => Get<double>(); set => Set(value); }
+    ///// <summary>塞孔使用</summary>
+    //[PLCData(DataType.D, 735, LogType.RecipeSet)] public double RC2_UsePlug { get => Get<double>(); set => Set(value); }
+    ///// <summary>標準墨重</summary>
+    //[PLCData(DataType.D, 736, LogType.RecipeSet)] public double RC2_StandardInk { get => Get<double>(); set => Set(value); }
+    ///// <summary>墨重誤差值</summary>
+    //[PLCData(DataType.D, 737, LogType.RecipeSet)] public double RC2_DifferenceOfInk { get => Get<double>(); set => Set(value); }
+    //#endregion
+    //#region Coater3
+    ///// <summary>塗佈次數</summary>
+    //[PLCData(DataType.D, 738, LogType.RecipeSet)] public double RC3_Coatingoftimes { get => Get<double>(); set => Set(value); }
+    ///// <summary>塗佈速度設定</summary>
+    //[PLCData(DataType.D, 739, LogType.RecipeSet)] public double RC3_CoatingSpeedSetting { get => Get<double>(); set => Set(value); }
+    ///// <summary>板面夾持距離設定</summary>
+    //[PLCData(DataType.D, 740, LogType.RecipeSet)] public double RC3_BoardClampingDistance { get => Get<double>(); set => Set(value); }
+    ///// <summary>塞孔次數設定</summary>
+    //[PLCData(DataType.D, 741, LogType.RecipeSet)] public double RC3_Plugoftimes { get => Get<double>(); set => Set(value); }
+    ///// <summary>塗佈壓力設定</summary>
+    //[PLCData(DataType.D, 742, LogType.RecipeSet)] public double RC3_CoatingPressureSetting { get => Get<double>(); set => Set(value); }
+    ///// <summary>基板厚度設定</summary>
+    //[PLCData(DataType.D, 743, LogType.RecipeSet)] public double RC3_PanelThicknessSetting { get => Get<double>(); set => Set(value); }
+    ///// <summary>入料下降位置設定</summary>
+    //[PLCData(DataType.D, 744, LogType.RecipeSet)] public double RC3_LocationOfDrop { get => Get<double>(); set => Set(value); }
+    ///// <summary>左前D.BAR壓力設定</summary>
+    //[PLCData(DataType.D, 745, LogType.RecipeSet)] public double RC3_D_BarPressureSetting1 { get => Get<double>(); set => Set(value); }
+    ///// <summary>右前D.BAR壓力設定</summary>
+    //[PLCData(DataType.D, 746, LogType.RecipeSet)] public double RC3_D_BarPressureSetting2 { get => Get<double>(); set => Set(value); }
+    ///// <summary>左後D.BAR壓力設定</summary>
+    //[PLCData(DataType.D, 747, LogType.RecipeSet)] public double RC3_D_BarPressureSetting3 { get => Get<double>(); set => Set(value); }
+    ///// <summary>右後D.BAR壓力設定</summary>
+    //[PLCData(DataType.D, 748, LogType.RecipeSet)] public double RC3_D_BarPressureSetting4 { get => Get<double>(); set => Set(value); }
+    ///// <summary>塞孔刮刀壓力設定</summary>
+    //[PLCData(DataType.D, 749, LogType.RecipeSet)] public double RC3_Blade_Pressure { get => Get<double>(); set => Set(value); }
+    ///// <summary>烘烤時間設定</summary>
+    //[PLCData(DataType.D, 750, LogType.RecipeSet)] public double RC3_BakingTimeSetting { get => Get<double>(); set => Set(value); }
+    ///// <summary>第1段溫度設定值</summary>
+    //[PLCData(DataType.D, 751, LogType.RecipeSet)] public double RC3_TemperatureSV1 { get => Get<double>(); set => Set(value); }
+    ///// <summary>第2段溫度設定值</summary>
+    //[PLCData(DataType.D, 752, LogType.RecipeSet)] public double RC3_TemperatureSV2 { get => Get<double>(); set => Set(value); }
+    ///// <summary>塗佈使用</summary>
+    //[PLCData(DataType.D, 753, LogType.RecipeSet)] public double RC3_UseCoating { get => Get<double>(); set => Set(value); }
+    ///// <summary>塞孔使用</summary>
+    //[PLCData(DataType.D, 754, LogType.RecipeSet)] public double RC3_UsePlug { get => Get<double>(); set => Set(value); }
+    ///// <summary>標準墨重</summary>
+    //[PLCData(DataType.D, 755, LogType.RecipeSet)] public double RC3_StandardInk { get => Get<double>(); set => Set(value); }
+    ///// <summary>墨重誤差值</summary>
+    //[PLCData(DataType.D, 756, LogType.RecipeSet)] public double RC3_DifferenceOfInk { get => Get<double>(); set => Set(value); }
+    //#endregion
+    #endregion
+    #region 無主控
+    #region Coater
+    /// <summary>塗佈次數</summary>
+    [PLCData(DataType.D, 700, LogType.RecipeSet)] public double Coatingoftimes { get => Get<double>(); set => Set(value); }
+    /// <summary>塗佈速度設定</summary>
+    [PLCData(DataType.D, 701, LogType.RecipeSet)] public double CoatingSpeedSetting { get => Get<double>(); set => Set(value); }
+    /// <summary>板面夾持距離設定</summary>
+    [PLCData(DataType.D, 702, LogType.RecipeSet)] public double BoardClampingDistance { get => Get<double>(); set => Set(value); }
+    /// <summary>塞孔次數設定</summary>
+    [PLCData(DataType.D, 703, LogType.RecipeSet)] public double Plugoftimes { get => Get<double>(); set => Set(value); }
+    /// <summary>塗佈壓力設定</summary>
+    [PLCData(DataType.D, 704, LogType.RecipeSet)] public double CoatingPressureSetting { get => Get<double>(); set => Set(value); }
+    /// <summary>基板厚度設定</summary>
+    [PLCData(DataType.D, 705, LogType.RecipeSet)] public double PanelThicknessSetting { get => Get<double>(); set => Set(value); }
+    /// <summary>入料下降位置設定</summary>
+    [PLCData(DataType.D, 706, LogType.RecipeSet)] public double LocationOfDrop { get => Get<double>(); set => Set(value); }
+    /// <summary>左前D.BAR壓力設定</summary>
+    [PLCData(DataType.D, 707, LogType.RecipeSet)] public double D_BarPressureSetting1 { get => Get<double>(); set => Set(value); }
+    /// <summary>右前D.BAR壓力設定</summary>
+    [PLCData(DataType.D, 708, LogType.RecipeSet)] public double D_BarPressureSetting2 { get => Get<double>(); set => Set(value); }
+    /// <summary>左後D.BAR壓力設定</summary>
+    [PLCData(DataType.D, 709, LogType.RecipeSet)] public double D_BarPressureSetting3 { get => Get<double>(); set => Set(value); }
+    /// <summary>右後D.BAR壓力設定</summary>
+    [PLCData(DataType.D, 710, LogType.RecipeSet)] public double D_BarPressureSetting4 { get => Get<double>(); set => Set(value); }
+    /// <summary>塞孔刮刀壓力設定</summary>
+    [PLCData(DataType.D, 711, LogType.RecipeSet)] public double Blade_Pressure { get => Get<double>(); set => Set(value); }
+    /// <summary>烘烤時間設定</summary>
+    [PLCData(DataType.D, 712, LogType.RecipeSet)] public double BakingTimeSetting { get => Get<double>(); set => Set(value); }
+    /// <summary>第1段溫度設定值</summary>
+    [PLCData(DataType.D, 713, LogType.RecipeSet)] public double TemperatureSV1 { get => Get<double>(); set => Set(value); }
+    /// <summary>第2段溫度設定值</summary>
+    [PLCData(DataType.D, 714, LogType.RecipeSet)] public double TemperatureSV2 { get => Get<double>(); set => Set(value); }
+    /// <summary>塗佈使用</summary>
+    [PLCData(DataType.D, 715, LogType.RecipeSet)] public double UseCoating { get => Get<double>(); set => Set(value); }
+    /// <summary>塞孔使用</summary>
+    [PLCData(DataType.D, 716, LogType.RecipeSet)] public double UsePlug { get => Get<double>(); set => Set(value); }
+    /// <summary>標準墨重</summary>
+    [PLCData(DataType.D, 717, LogType.RecipeSet)] public double StandardInk { get => Get<double>(); set => Set(value); }
+    /// <summary>墨重誤差值</summary>
+    [PLCData(DataType.D, 718, LogType.RecipeSet)] public double DifferenceOfInk { get => Get<double>(); set => Set(value); }
+    #endregion
+    #endregion
     #endregion
 
     #region 警報
@@ -753,8 +581,31 @@ public class GOL_DataModel : PLCDataProvider
         get => Get<float>();
         set => Set(value);
     }
+    #endregion
 
+    #region Coater追板
+    [PLCData(DataType.D, 10000, 16, LogType.CustomData)]
+    public string PanelID
+    {
+        get => Get<string>();
+        set => Set(value);
+    }
+    /// <summary> 入料 </summary>
+    [PLCBit(BitType.M, 100, LogType.CustomData)] public bool FeedInlet { get => Get<bool>(); set => Set(value); }
 
+    /// <summary> 入料到等待塗佈 </summary>
+    [PLCBit(BitType.M, 112, LogType.CustomData)] public bool FeedToWait { get => Get<bool>(); set => Set(value); }
 
+    /// <summary> 等待塗佈到前秤 </summary>
+    [PLCBit(BitType.M, 113, LogType.CustomData)] public bool WaitToFrontWeight { get => Get<bool>(); set => Set(value); }
+
+    /// <summary> 前秤到塗佈中 </summary>
+    [PLCBit(BitType.M, 114, LogType.CustomData)] public bool FrontWeightToCoater { get => Get<bool>(); set => Set(value); }
+
+    /// <summary> 塗佈中到後秤 </summary>
+    [PLCBit(BitType.M, 115, LogType.CustomData)] public bool CoaterToBackWeight { get => Get<bool>(); set => Set(value); }
+
+    /// <summary> 後秤到夾式爐 </summary>
+    [PLCBit(BitType.M, 116, LogType.CustomData)] public bool BackWeightToOven { get => Get<bool>(); set => Set(value); }
     #endregion
 }

@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace GPGO_MultiPLCs.Views;
+namespace GPGRC_MultiPLCs.Views;
 
 /// <summary>OvenEditView.xaml 的互動邏輯</summary>
 public partial class OvenEditView : UserControl

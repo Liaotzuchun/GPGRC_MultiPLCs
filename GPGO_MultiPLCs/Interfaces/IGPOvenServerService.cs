@@ -4,9 +4,9 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
-using GPGO_MultiPLCs.Models;
+using GPGRC_MultiPLCs.Models;
 
-namespace GPGO_MultiPLCs.Interfaces;
+namespace GPGRC_MultiPLCs.Interfaces;
 [ServiceContract]
 public interface IGPOvenServerService
 {

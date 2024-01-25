@@ -7,7 +7,7 @@ using System.Windows.Threading;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
 
-namespace GPGO_MultiPLCs.ViewModels;
+namespace GPGRC_MultiPLCs.ViewModels;
 
 /// <summary>主視窗</summary>
 public class MainWindow_ViewModel : ObservableObject

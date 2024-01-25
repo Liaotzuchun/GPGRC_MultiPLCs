@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace GPGO_MultiPLCs.Views;
+namespace GPGRC_MultiPLCs.Views;
 
 public class DoublesTakeCount : IMultiValueConverter
 {

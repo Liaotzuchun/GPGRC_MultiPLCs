@@ -6,7 +6,7 @@ using GPMVVM.Helpers;
 using GPMVVM.Models;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace GPGO_MultiPLCs.Models;
+namespace GPGRC_MultiPLCs.Models;
 //! 此區是烘烤時的溫度和事件紀錄資料模型
 
 /// <summary>溫度紀錄</summary>

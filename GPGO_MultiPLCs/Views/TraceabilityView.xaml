@@ -1,17 +1,17 @@
-﻿<UserControl x:Class="GPGO_MultiPLCs.Views.TraceabilityView"
+﻿<UserControl x:Class="GPGRC_MultiPLCs.Views.TraceabilityView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:gpmodels="clr-namespace:GPMVVM.Models;assembly=GPMVVM"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:models="clr-namespace:GPGO_MultiPLCs.Models"
+             xmlns:models="clr-namespace:GPGRC_MultiPLCs.Models"
              xmlns:oxyPlot="clr-namespace:OxyPlot;assembly=OxyPlot"
              xmlns:oxyShared="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf.Shared"
              xmlns:oxyWpf="http://oxyplot.org/skiawpf"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:views="clr-namespace:GPMVVM.Views;assembly=GPMVVM"
-             xmlns:vm="clr-namespace:GPGO_MultiPLCs.ViewModels"
+             xmlns:vm="clr-namespace:GPGRC_MultiPLCs.ViewModels"
              xmlns:wpf="http://oxyplot.org/wpf"
              d:DataContext="{d:DesignInstance vm:TraceabilityView_ViewModel}"
              d:DesignHeight="450"
@@ -469,7 +469,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>-->
-                    <DataGridTemplateColumn Width="Auto"
+                    <!--<DataGridTemplateColumn Width="Auto"
                                             HeaderStyle="{StaticResource ColumnFilterStyle}"
                                             Visibility="{Binding OvenCount, Source={StaticResource Mediator}, Mode=OneWay, Converter={StaticResource IsMoreThanValueVis}, ConverterParameter={StaticResource two}}">
                         <DataGridTemplateColumn.Header>
@@ -482,7 +482,7 @@
                                 <TextBlock Text="{Binding StationNumber, Mode=OneWay}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    </DataGridTemplateColumn>-->
                     <!--<DataGridTemplateColumn Width="100"
                                             MinWidth="40">
                         <DataGridTemplateColumn.Header>

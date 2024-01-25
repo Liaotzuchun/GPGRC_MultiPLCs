@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace GPGO_MultiPLCs.Views;
+namespace GPGRC_MultiPLCs.Views;
 
 /// <summary>PairValuesControl.xaml 的互動邏輯</summary>
 public partial class PairValuesControl : UserControl

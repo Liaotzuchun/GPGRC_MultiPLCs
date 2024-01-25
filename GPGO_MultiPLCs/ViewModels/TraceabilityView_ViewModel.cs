@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using GPGO_MultiPLCs.Models;
+using GPGRC_MultiPLCs.Models;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
 using GPMVVM.PooledCollections;
@@ -19,7 +19,7 @@ using OxyPlot.Legends;
 using OxyPlot.Series;
 using Serilog;
 
-namespace GPGO_MultiPLCs.ViewModels;
+namespace GPGRC_MultiPLCs.ViewModels;
 
 public enum ChartMode
 {

@@ -9,7 +9,7 @@ using OxyPlot.Series;
 using HorizontalAlignment = OxyPlot.HorizontalAlignment;
 using VerticalAlignment = OxyPlot.VerticalAlignment;
 
-namespace GPGO_MultiPLCs.Models;
+namespace GPGRC_MultiPLCs.Models;
 
 public class ProcessChartModel
 {

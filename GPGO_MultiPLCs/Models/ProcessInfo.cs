@@ -5,7 +5,7 @@ using GPMVVM.Helpers;
 using GPMVVM.Models;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace GPGO_MultiPLCs.Models;
+namespace GPGRC_MultiPLCs.Models;
 
 /// <summary>機台資訊</summary>
 [BsonIgnoreExtraElements]
