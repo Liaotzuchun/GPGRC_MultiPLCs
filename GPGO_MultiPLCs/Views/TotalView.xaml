@@ -176,451 +176,477 @@
                         <Grid Grid.Column="0">
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <Border Grid.Row="0"
-                                        Grid.Column="0"
-                                        Grid.ColumnSpan="2"
-                                        Background="{StaticResource WindowBackgroundBrush2}"
-                                        BorderThickness="0,0,1,1"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontSize="30">
-                                               <Run Text="塗佈一" />
-                                    </TextBlock>
-                                </Border>
-                                <Border Grid.Row="0"
-                                        Grid.Column="2"
-                                        Grid.ColumnSpan="2"
-                                        Background="{StaticResource WindowBackgroundBrush2}"
-                                        BorderThickness="0,0,1,1"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               FontSize="30"
-                                               VerticalAlignment="Center">
-                                               <Run Text="塗佈二" />
-                                    </TextBlock>
-                                </Border>
-                                <Border Grid.Row="0"
-                                        Grid.Column="4"
-                                        Grid.ColumnSpan="2"
-                                        Background="{StaticResource WindowBackgroundBrush2}"
-                                        BorderThickness="0,0,1,1"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               FontSize="30"
-                                               VerticalAlignment="Center">
-                                               <Run Text="塗佈三" />
-                                    </TextBlock>
-                                </Border>
-                                <Border Grid.Row="0"
-                                        Grid.Column="6"
-                                        Grid.ColumnSpan="2"
-                                        Background="{StaticResource WindowBackgroundBrush2}"
-                                        BorderThickness="0,0,1,1"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               FontSize="30"
-                                               VerticalAlignment="Center">
-                                               <Run Text="夾式爐" />
-                                    </TextBlock>
-                                </Border>
-                                <Border Grid.Row="1"
-                                        Grid.Column="0"
-                                        BorderThickness="1,0,1,1"
-                                        Background="{StaticResource WindowBackgroundBrush2}"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="入料" />
-                                </Border>
-                                <Border Grid.Row="2"
-                                        Grid.Column="0"
-                                        BorderThickness="1,0,1,1"
-                                        Background="{StaticResource WindowBackgroundBrush2}"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="等待塗佈" />
-                                </Border>
-                                <Border Grid.Row="3"
-                                        Grid.Column="0"
-                                        Background="{StaticResource WindowBackgroundBrush2}"
-                                        BorderThickness="1,0,1,1"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="前秤" />
-                                </Border>
-                                <Border Grid.Row="4"
-                                        Grid.Column="0"
-                                        BorderThickness="1,0,1,1"
-                                        Background="{StaticResource WindowBackgroundBrush2}"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="塗佈中" />
-                                </Border>
-                                <Border Grid.Row="5"
-                                        Grid.Column="0"
-                                        BorderThickness="1,0,1,1"
-                                        Background="{StaticResource WindowBackgroundBrush2}"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="後秤" />
-                                </Border>
-                                <Border Grid.Row="1"
-                                        Grid.Column="2"
-                                        Background="{StaticResource WindowBackgroundBrush2}"
-                                        BorderThickness="1,0,1,1"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="等待塗佈" />
-                                </Border>
-                                <Border Grid.Row="2"
-                                        Grid.Column="2"
-                                        BorderThickness="1,0,1,1"
-                                        Background="{StaticResource WindowBackgroundBrush2}"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="前秤" />
-                                </Border>
-                                <Border Grid.Row="3"
-                                        Grid.Column="2"
-                                        BorderThickness="1,0,1,1"
-                                        Background="{StaticResource WindowBackgroundBrush2}"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="塗佈中" />
-                                </Border>
-                                <Border Grid.Row="4"
-                                        Grid.Column="2"
-                                        BorderThickness="1,0,1,1"
-                                        Background="{StaticResource WindowBackgroundBrush2}"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="後秤" />
-                                </Border>
-                                <Border Grid.Row="1"
-                                        Grid.Column="4"
-                                        BorderThickness="1,0,1,1"
-                                        Background="{StaticResource WindowBackgroundBrush2}"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="等待塗佈" />
-                                </Border>
-                                <Border Grid.Row="2"
-                                        Grid.Column="4"
-                                        BorderThickness="1,0,1,1"
-                                        Background="{StaticResource WindowBackgroundBrush2}"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="前秤" />
-                                </Border>
-                                <Border Grid.Row="3"
-                                        Grid.Column="4"
-                                        BorderThickness="1,0,1,1"
-                                        Background="{StaticResource WindowBackgroundBrush2}"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="塗佈中" />
-                                </Border>
-                                <Border Grid.Row="4"
-                                        Grid.Column="4"
-                                        BorderThickness="1,0,1,1"
-                                        Background="{StaticResource WindowBackgroundBrush2}"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="後秤" />
-                                </Border>
-                                <Border Grid.Row="1"
-                                        Grid.Column="1"
-                                        BorderThickness="1,0,1,1"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="{Binding Coater1Panel[0] }" />
-                                </Border>
-                                <Border Grid.Row="2"
-                                        Grid.Column="1"
-                                        BorderThickness="1,0,1,1"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="{Binding  Coater1Panel[1]}" />
-                                </Border>
-                                <Border Grid.Row="3"
-                                        Grid.Column="1"
-                                        BorderThickness="1,0,1,1"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="{Binding  Coater1Panel[2]}" />
-                                </Border>
-                                <Border Grid.Row="4"
-                                        Grid.Column="1"
-                                        BorderThickness="1,0,1,1"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="{Binding  Coater1Panel[3]}" />
-                                </Border>
-                                <Border Grid.Row="5"
-                                        Grid.Column="1"
-                                        BorderThickness="1,0,1,1"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="{Binding  Coater1Panel[4]}" />
-                                </Border>
-                                
-                                <Border Grid.Row="6"
-                                        Grid.Column="0"
-                                        Grid.ColumnSpan="2"
-                                        BorderThickness="1,0,1,1"
-                                        Background="{StaticResource WindowBackgroundBrush2}"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="夾式爐" />
-                                </Border>
-                                <ScrollViewer Grid.Row="7"
-                                              Grid.Column="0"
-                                              Grid.ColumnSpan="2"
-                                              Grid.RowSpan="5">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"></ColumnDefinition>
-                                            <ColumnDefinition Width="2*"></ColumnDefinition>
-                                        </Grid.ColumnDefinitions>
-                                        <ItemsControl Grid.Column="0"
-                                                      ItemsSource="{Binding Coater1Items}">
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <Border BorderThickness="1,0,1,1"
-                                                            Background="{StaticResource WindowBackgroundBrush2}"
-                                                            Style="{StaticResource ValueBorder}">
-                                                        <StackPanel>
-                                                            <TextBlock HorizontalAlignment="Center"
-                                                                       VerticalAlignment="Center">
-                                                                   <Run Text="{Binding Num}" />
-                                                            </TextBlock>
-                                                        </StackPanel>
-                                                    </Border>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
-                                        <ItemsControl Grid.Column="1"
-                                                      ItemsSource="{Binding Coater1Items}">
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <Border BorderThickness="1,0,1,1"
-                                                            Style="{StaticResource ValueBorder}">
-                                                        <StackPanel>
-                                                            <TextBlock HorizontalAlignment="Center"
-                                                                       VerticalAlignment="Center">
-                                                                   <Run Text="{Binding PanelName}" />
-                                                            </TextBlock>
-                                                        </StackPanel>
-                                                    </Border>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
-                                    </Grid>
-                                </ScrollViewer>
+                                    <RowDefinition Height="10*"/>
+                                    <RowDefinition Height="10*"/>
+                                    <RowDefinition Height="10*"/>
+                                </Grid.RowDefinitions>                             
+                                <Grid Grid.Row="0"
+                                      Grid.Column="0"
+                                      Background="{StaticResource WindowBackgroundBrush6}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Border Grid.Row="0"
+                                            Grid.RowSpan="2"
+                                            Grid.Column="0"
+                                            Background="{StaticResource WindowBackgroundBrush2}"
+                                            BorderThickness="0,0,1,1"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="30"
+                                                   TextWrapping="Wrap"
+                                                   Text="塗佈一" />
+                                    </Border>
+                                    <Border Grid.Row="0"
+                                            Grid.Column="1"
+                                            BorderThickness="1,0,1,1"
+                                            Background="{StaticResource WindowBackgroundBrush2}"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="入料" />
+                                    </Border>
+                                    <Border Grid.Row="0"
+                                            Grid.Column="2"
+                                            BorderThickness="1,0,1,1"
+                                            Background="{StaticResource WindowBackgroundBrush2}"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="等待塗佈" />
+                                    </Border>
+                                    <Border Grid.Row="0"
+                                            Grid.Column="3"
+                                            Background="{StaticResource WindowBackgroundBrush2}"
+                                            BorderThickness="1,0,1,1"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="前秤" />
+                                    </Border>
+                                    <Border Grid.Row="0"
+                                            Grid.Column="4"
+                                            BorderThickness="1,0,1,1"
+                                            Background="{StaticResource WindowBackgroundBrush2}"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="塗佈中" />
+                                    </Border>
+                                    <Border Grid.Row="0"
+                                            Grid.Column="5"
+                                            BorderThickness="0,0,0,1"
+                                            Background="{StaticResource WindowBackgroundBrush2}"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="後秤" />
+                                    </Border>
+                                    <Border Grid.Row="0"
+                                            Grid.Column="6"
+                                            Grid.ColumnSpan="2"
+                                            BorderThickness="1,0,1,1"
+                                            Background="{StaticResource WindowBackgroundBrush2}"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="夾式爐" />
+                                    </Border>
+                                    <Border Grid.Row="1"
+                                            Grid.Column="1"
+                                            BorderThickness="1,0,1,1"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding Coater1Panel[0] }" />
+                                    </Border>
+                                    <Border Grid.Row="1"
+                                            Grid.Column="2"
+                                            BorderThickness="1,0,1,1"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding  Coater1Panel[1]}" />
+                                    </Border>
+                                    <Border Grid.Row="1"
+                                            Grid.Column="3"
+                                            BorderThickness="1,0,1,1"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding  Coater1Panel[2]}" />
+                                    </Border>
+                                    <Border Grid.Row="1"
+                                            Grid.Column="4"
+                                            BorderThickness="1,0,1,1"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding  Coater1Panel[3]}" />
+                                    </Border>
+                                    <Border Grid.Row="1"
+                                            Grid.Column="5"
+                                            BorderThickness="0,0,1,0"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding  Coater1Panel[4]}" />
+                                    </Border>
+                                    <ScrollViewer Grid.Row="1"
+                                                  Grid.Column="6"
+                                                  Grid.ColumnSpan="2">
+                                        <Grid >
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="4*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <ItemsControl Grid.Column="0"
+                                                          ItemsSource="{Binding Coater1Items}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Border BorderThickness="1,0,1,1"
+                                                                Background="{StaticResource WindowBackgroundBrush2}"
+                                                                Style="{StaticResource ValueBorder}">
+                                                            <StackPanel>
+                                                                <TextBlock HorizontalAlignment="Center"
+                                                                           VerticalAlignment="Center"
+                                                                           Text="{Binding Num}" />
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                            <ItemsControl Grid.Column="1"
+                                                          ItemsSource="{Binding Coater1Items}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Border BorderThickness="1,0,1,1"
+                                                                Style="{StaticResource ValueBorder}">
+                                                            <StackPanel>
+                                                                <TextBlock HorizontalAlignment="Center"
+                                                                           VerticalAlignment="Center"
+                                                                           Text="{Binding PanelName}" />
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </Grid>
+                                    </ScrollViewer>
+                                </Grid>
+                                <Grid Grid.Row="1"
+                                      Grid.Column="0"
+                                      Background="{StaticResource WindowBackgroundBrush6}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50" />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition  Height="30"/>
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Border Grid.Row="0"
+                                            Grid.RowSpan="2"
+                                            Grid.Column="0"
+                                            Background="{StaticResource WindowBackgroundBrush2}"
+                                            BorderThickness="0,0,1,1"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   FontSize="30"
+                                                   VerticalAlignment="Center"
+                                                   TextWrapping="Wrap"
+                                                   Text="塗佈二" />
+                                    </Border>
+                                    <Border Grid.Row="0"
+                                            Grid.Column="1"
+                                            Background="{StaticResource WindowBackgroundBrush2}"
+                                            BorderThickness="1,0,1,1"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="等待塗佈" />
+                                    </Border>
+                                    <Border Grid.Row="0"
+                                            Grid.Column="2"                                            
+                                            BorderThickness="1,0,1,1"
+                                            Background="{StaticResource WindowBackgroundBrush2}"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="前秤" />
+                                    </Border>
+                                    <Border Grid.Row="0"
+                                            Grid.Column="3"                                            
+                                            BorderThickness="1,0,1,1"
+                                            Background="{StaticResource WindowBackgroundBrush2}"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="塗佈中" />
+                                    </Border>
+                                    <Border Grid.Row="0"
+                                            Grid.Column="4"                                            
+                                            BorderThickness="1,0,1,1"
+                                            Background="{StaticResource WindowBackgroundBrush2}"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="後秤" />
+                                    </Border>
+                                    <Border Grid.Row="1"
+                                            Grid.Column="1"
+                                            BorderThickness="1,0,1,1"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding  Coater2Panel[0]}" />
+                                    </Border>
+                                    <Border Grid.Row="1"
+                                            Grid.Column="2"
+                                            BorderThickness="1,0,1,1"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding  Coater2Panel[1]}" />
+                                    </Border>
+                                    <Border Grid.Row="1"
+                                            Grid.Column="3"
+                                            BorderThickness="1,0,1,1"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding  Coater2Panel[2]}" />
+                                    </Border>
+                                    <Border Grid.Row="1"
+                                            Grid.Column="4"
+                                            BorderThickness="1,0,1,1"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding  Coater2Panel[3]}" />
+                                    </Border>
 
-                                <Border Grid.Row="1"
-                                        Grid.Column="3"
-                                        BorderThickness="1,0,1,1"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="{Binding  Coater2Panel[0]}" />
-                                </Border>
-                                <Border Grid.Row="2"
-                                        Grid.Column="3"
-                                        BorderThickness="1,0,1,1"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="{Binding  Coater2Panel[1]}" />
-                                </Border>
-                                <Border Grid.Row="3"
-                                        Grid.Column="3"
-                                        BorderThickness="1,0,1,1"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="{Binding  Coater2Panel[2]}" />
-                                </Border>
-                                <Border Grid.Row="4"
-                                        Grid.Column="3"
-                                        BorderThickness="1,0,1,1"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="{Binding  Coater2Panel[3]}" />
-                                </Border>
+                                    <Border Grid.Row="0"
+                                            Grid.Column="5"
+                                            Grid.ColumnSpan="3"
+                                            BorderThickness="0,1,1,1"
+                                            Background="{StaticResource WindowBackgroundBrush2}"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="夾式爐" />
+                                    </Border>
+                                    <ScrollViewer Grid.Row="1"
+                                                  Grid.Column="5"
+                                                  Grid.ColumnSpan="3">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <ItemsControl Grid.Column="0"
+                                                          ItemsSource="{Binding Coater2Items}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Border BorderThickness="1,0,1,1"
+                                                                Background="{StaticResource WindowBackgroundBrush2}"
+                                                                Style="{StaticResource ValueBorder}">
+                                                            <StackPanel>
+                                                                <TextBlock HorizontalAlignment="Center"
+                                                                           VerticalAlignment="Center"
+                                                                           Text="{Binding Num}" />
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                            <ItemsControl Grid.Column="1"
+                                                          ItemsSource="{Binding Coater2Items}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Border BorderThickness="1,0,1,1"
+                                                                Style="{StaticResource ValueBorder}">
+                                                            <StackPanel>
+                                                                <TextBlock HorizontalAlignment="Center"
+                                                                           VerticalAlignment="Center"
+                                                                           Text="{Binding PanelName}" />
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </Grid>
+                                    </ScrollViewer>
+                                </Grid>
+                                <Grid Grid.Row="2"
+                                      Grid.Column="0"
+                                      Background="{StaticResource WindowBackgroundBrush6}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition  Height="30"/>
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Row="0"
+                                            Grid.RowSpan="2"
+                                            Grid.Column="0"
+                                            Background="{StaticResource WindowBackgroundBrush2}"
+                                            BorderThickness="0,0,1,1"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   FontSize="30"
+                                                   TextWrapping="Wrap"
+                                                   VerticalAlignment="Center"
+                                                   Text="塗佈三" />
+                                    </Border>
+                                    <Border Grid.Row="0"
+                                            Grid.Column="1"
+                                            BorderThickness="1,0,1,1"
+                                            Background="{StaticResource WindowBackgroundBrush2}"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="等待塗佈" />
+                                    </Border>
+                                    <Border Grid.Row="0"
+                                            Grid.Column="2"
+                                            BorderThickness="1,0,1,1"
+                                            Background="{StaticResource WindowBackgroundBrush2}"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="前秤" />
+                                    </Border>
+                                    <Border Grid.Row="0"
+                                            Grid.Column="3"
+                                            BorderThickness="1,0,1,1"
+                                            Background="{StaticResource WindowBackgroundBrush2}"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="塗佈中" />
+                                    </Border>
+                                    <Border Grid.Row="0"
+                                            Grid.Column="4"
+                                            BorderThickness="1,0,1,1"
+                                            Background="{StaticResource WindowBackgroundBrush2}"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="後秤" />
+                                    </Border>
 
-                                <Border Grid.Row="6"
-                                        Grid.Column="2"
-                                        Grid.ColumnSpan="2"
-                                        BorderThickness="1,0,1,1"
-                                        Background="{StaticResource WindowBackgroundBrush2}"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="夾式爐" />
-                                </Border>
-                                <ScrollViewer Grid.Row="7"
-                                              Grid.Column="2"
-                                              Grid.ColumnSpan="2"
-                                              Grid.RowSpan="5">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"></ColumnDefinition>
-                                            <ColumnDefinition Width="2*"></ColumnDefinition>
-                                        </Grid.ColumnDefinitions>
-                                        <ItemsControl Grid.Column="0"
-                                                      ItemsSource="{Binding Coater2Items}">
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <Border BorderThickness="1,0,1,1"
-                                                            Background="{StaticResource WindowBackgroundBrush2}"
-                                                            Style="{StaticResource ValueBorder}">
-                                                        <StackPanel>
-                                                            <TextBlock HorizontalAlignment="Center"
-                                                                       VerticalAlignment="Center"
-                                                                       Text="{Binding Num}" />
-                                                        </StackPanel>
-                                                    </Border>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
-                                        <ItemsControl Grid.Column="1"
-                                                      ItemsSource="{Binding Coater2Items}">
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <Border BorderThickness="1,0,1,1"
-                                                            Style="{StaticResource ValueBorder}">
-                                                        <StackPanel>
-                                                            <TextBlock HorizontalAlignment="Center"
-                                                                       VerticalAlignment="Center"
-                                                                       Text="{Binding PanelName}" />
-                                                        </StackPanel>
-                                                    </Border>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
-                                    </Grid>
-                                </ScrollViewer>
-                                
-                                
-                                <Border Grid.Row="1"
-                                        Grid.Column="5"
-                                        BorderThickness="1,0,1,1"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="{Binding  Coater3Panel[0]}" />
-                                </Border>
-                                <Border Grid.Row="2"
-                                        Grid.Column="5"
-                                        BorderThickness="1,0,1,1"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="{Binding  Coater3Panel[1]}" />
-                                </Border>
-                                <Border Grid.Row="3"
-                                        Grid.Column="5"
-                                        BorderThickness="1,0,1,1"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="{Binding  Coater3Panel[2]}" />
-                                </Border>
-                                <Border Grid.Row="4"
-                                        Grid.Column="5"
-                                        BorderThickness="1,0,1,1"
-                                        Style="{StaticResource ValueBorder}">
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               Text="{Binding  Coater3Panel[3]}" />
-                                </Border>
-                                <ScrollViewer Grid.Row="1"
-                                              Grid.Column="6"
-                                              Grid.ColumnSpan="2"
-                                              Grid.RowSpan="11">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"></ColumnDefinition>
-                                            <ColumnDefinition Width="2*"></ColumnDefinition>
-                                        </Grid.ColumnDefinitions>
-                                        <ItemsControl Grid.Column="0"
-                                                      ItemsSource="{Binding Coater3Items}">
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <Border BorderThickness="1,0,1,1"
-                                                            Background="{StaticResource WindowBackgroundBrush2}"
-                                                            Style="{StaticResource ValueBorder}">
-                                                        <StackPanel>
-                                                            <TextBlock HorizontalAlignment="Center"
-                                                                       VerticalAlignment="Center"
-                                                                       Text="{Binding Num}" />
-                                                        </StackPanel>
-                                                    </Border>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
-                                        <ItemsControl Grid.Column="1"
-                                                      ItemsSource="{Binding Coater3Items}">
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <Border BorderThickness="1,0,1,1"
-                                                            Style="{StaticResource ValueBorder}">
-                                                        <StackPanel>
-                                                            <TextBlock HorizontalAlignment="Center"
-                                                                       VerticalAlignment="Center"
-                                                                       Text="{Binding PanelName}" />
-                                                        </StackPanel>
-                                                    </Border>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
-                                    </Grid>
-                                </ScrollViewer>
+                                    <Border Grid.Row="1"
+                                            Grid.Column="1"
+                                            BorderThickness="1,0,1,1"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding  Coater3Panel[0]}" />
+                                    </Border>
+                                    <Border Grid.Row="1"
+                                            Grid.Column="2"
+                                            BorderThickness="1,0,1,1"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding  Coater3Panel[1]}" />
+                                    </Border>
+                                    <Border Grid.Row="1"
+                                            Grid.Column="3"
+                                            BorderThickness="1,0,1,1"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding  Coater3Panel[2]}" />
+                                    </Border>
+                                    <Border Grid.Row="1"
+                                            Grid.Column="4"
+                                            BorderThickness="1,0,1,1"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding  Coater3Panel[3]}" />
+                                    </Border>
+                                    <Border Grid.Row="0"
+                                            Grid.Column="5"
+                                            Grid.ColumnSpan="3"
+                                            Background="{StaticResource WindowBackgroundBrush2}"
+                                            BorderThickness="1"
+                                            Style="{StaticResource ValueBorder}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   FontSize="15"
+                                                   VerticalAlignment="Center"
+                                                   Text="夾式爐" />
+                                    </Border>
+                                    <ScrollViewer Grid.Row="1"
+                                                  Grid.Column="5"
+                                                  Grid.ColumnSpan="3">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <ItemsControl Grid.Column="0"
+                                                          ItemsSource="{Binding Coater3Items}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Border BorderThickness="1,0,1,1"
+                                                                Background="{StaticResource WindowBackgroundBrush2}"
+                                                                Style="{StaticResource ValueBorder}">
+                                                            <StackPanel>
+                                                                <TextBlock HorizontalAlignment="Center"
+                                                                           VerticalAlignment="Center"
+                                                                           Text="{Binding Num}" />
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                            <ItemsControl Grid.Column="1"
+                                                          ItemsSource="{Binding Coater3Items}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Border BorderThickness="1,0,1,1"
+                                                                Style="{StaticResource ValueBorder}">
+                                                            <StackPanel>
+                                                                <TextBlock HorizontalAlignment="Center"
+                                                                           VerticalAlignment="Center"
+                                                                           Text="{Binding PanelName}" />
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </Grid>
+                                    </ScrollViewer>
+                                </Grid>
                             </Grid>
                         </Grid>
                     </GroupBox>

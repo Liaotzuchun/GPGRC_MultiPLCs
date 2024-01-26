@@ -58,7 +58,7 @@
                             </Border>
                         </StackPanel>
                     </GroupBox.Header>
-                    <!--<Grid Background="{StaticResource WindowBackgroundBrush2}">
+                    <Grid Background="{StaticResource WindowBackgroundBrush2}">
                         <ItemsControl ItemsSource="{Binding RecipeItem}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
@@ -97,8 +97,8 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                    </Grid>-->
-                    <Grid    Background="{StaticResource WindowBackgroundBrush6}"
+                    </Grid>
+                    <!--<Grid    Background="{StaticResource WindowBackgroundBrush6}"
                              ClipToBounds="True"
                              IsEnabled="{Binding Converter={StaticResource IsNotNull}, Mode=OneWay}"
                              TextElement.FontSize="14"
@@ -126,6 +126,7 @@
                                 BorderThickness="1,0,1,1"
                                 Style="{StaticResource ValueBorder}">
                             <TextBlock HorizontalAlignment="Center"
+                                       TextWrapping="Wrap"
                                        VerticalAlignment="Center"
                                        Text="塗佈次數" />
                         </Border>
@@ -141,6 +142,7 @@
                                 BorderThickness="1,0,1,1"
                                 Style="{StaticResource ValueBorder}">
                             <TextBlock HorizontalAlignment="Center"
+                                       TextWrapping="Wrap"
                                        VerticalAlignment="Center"
                                        Text="塗佈速度設定" />
                         </Border>
@@ -156,6 +158,7 @@
                                 BorderThickness="1,0,1,1"
                                 Style="{StaticResource ValueBorder}">
                             <TextBlock HorizontalAlignment="Center"
+                                       TextWrapping="Wrap"
                                        VerticalAlignment="Center"
                                        Text="板面夾持距離" />
                         </Border>
@@ -171,6 +174,7 @@
                                 BorderThickness="1,0,1,1"
                                 Style="{StaticResource ValueBorder}">
                             <TextBlock HorizontalAlignment="Center"
+                                       TextWrapping="Wrap"
                                        VerticalAlignment="Center"
                                        Text="塞孔次數" />
                         </Border>
@@ -186,6 +190,7 @@
                                 BorderThickness="1,0,1,1"
                                 Style="{StaticResource ValueBorder}">
                             <TextBlock HorizontalAlignment="Center"
+                                       TextWrapping="Wrap"
                                        VerticalAlignment="Center"
                                        Text="塗佈壓力設定" />
                         </Border>
@@ -201,6 +206,7 @@
                                 BorderThickness="1,0,1,1"
                                 Style="{StaticResource ValueBorder}">
                             <TextBlock HorizontalAlignment="Center"
+                                       TextWrapping="Wrap"
                                        VerticalAlignment="Center"
                                        Text="基板厚度設定" />
                         </Border>
@@ -216,8 +222,9 @@
                                 BorderThickness="1,0,1,1"
                                 Style="{StaticResource ValueBorder}">
                             <TextBlock HorizontalAlignment="Center"
+                                       TextWrapping="Wrap"
                                        VerticalAlignment="Center"
-                                       Text="入料下降&#10;位置設定" />
+                                       Text="入料下降位置設定" />
                         </Border>
                         <Border Grid.Row="1"
                                 Grid.Column="5"
@@ -231,8 +238,9 @@
                                 BorderThickness="1,0,1,1"
                                 Style="{StaticResource ValueBorder}">
                             <TextBlock HorizontalAlignment="Center"
+                                       TextWrapping="Wrap"
                                        VerticalAlignment="Center"
-                                       Text="塞孔刮刀&#10;壓力設定" />
+                                       Text="塞孔刮刀壓力設定" />
                         </Border>
                         <Border Grid.Row="1"
                                 Grid.Column="7"
@@ -247,8 +255,9 @@
                                 BorderThickness="1,0,1,1"
                                 Style="{StaticResource ValueBorder}">
                             <TextBlock HorizontalAlignment="Center"
+                                       TextWrapping="Wrap"
                                        VerticalAlignment="Center"
-                                       Text="左前D.BAR&#10;  壓力設定" />
+                                       Text="左前D.BAR壓力設定" />
                         </Border>
                         <Border Grid.Row="2"
                                 Grid.Column="1"
@@ -264,7 +273,8 @@
                                 Style="{StaticResource ValueBorder}">
                             <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
-                                       Text="右前D.BAR&#10;  壓力設定" />
+                                       TextWrapping="Wrap"
+                                       Text="右前D.BAR壓力設定" />
                         </Border>
                         <Border Grid.Row="2"
                                 Grid.Column="3"
@@ -278,8 +288,9 @@
                                 BorderThickness="1,0,1,1"
                                 Style="{StaticResource ValueBorder}">
                             <TextBlock HorizontalAlignment="Center"
+                                       TextWrapping="Wrap"
                                        VerticalAlignment="Center"
-                                       Text="左後D.BAR&#10;  壓力設定" />
+                                       Text="左後D.BAR壓力設定" />
                         </Border>
                         <Border Grid.Row="2"
                                 Grid.Column="5"
@@ -293,8 +304,9 @@
                                 BorderThickness="1,0,1,1"
                                 Style="{StaticResource ValueBorder}">
                             <TextBlock HorizontalAlignment="Center"
+                                       TextWrapping="Wrap"
                                        VerticalAlignment="Center"
-                                       Text="右後D.BAR&#10;  壓力設定" />
+                                       Text="右後D.BAR壓力設定" />
                         </Border>
                         <Border Grid.Row="2"
                                 Grid.Column="7"
@@ -308,6 +320,7 @@
                                 BorderThickness="1,0,1,1"
                                 Style="{StaticResource ValueBorder}">
                             <TextBlock HorizontalAlignment="Center"
+                                       TextWrapping="Wrap"
                                        VerticalAlignment="Center"
                                        Text="烘烤時間設定" />
                         </Border>
@@ -323,6 +336,7 @@
                                 BorderThickness="1,0,1,1"
                                 Style="{StaticResource ValueBorder}">
                             <TextBlock HorizontalAlignment="Center"
+                                       TextWrapping="Wrap"
                                        VerticalAlignment="Center"
                                        Text="第1段溫度SV" />
                         </Border>
@@ -338,6 +352,7 @@
                                 BorderThickness="1,0,1,1"
                                 Style="{StaticResource ValueBorder}">
                             <TextBlock HorizontalAlignment="Center"
+                                       TextWrapping="Wrap"
                                        VerticalAlignment="Center"
                                        Text="第2段溫度SV" />
                         </Border>
@@ -353,6 +368,7 @@
                                 BorderThickness="1,0,1,1"
                                 Style="{StaticResource ValueBorder}">
                             <TextBlock HorizontalAlignment="Center"
+                                       TextWrapping="Wrap"
                                        VerticalAlignment="Center"
                                        Text="塗佈使用" />
                         </Border>
@@ -368,6 +384,7 @@
                                 BorderThickness="1,0,1,1"
                                 Style="{StaticResource ValueBorder}">
                             <TextBlock HorizontalAlignment="Center"
+                                       TextWrapping="Wrap"
                                        VerticalAlignment="Center"
                                        Text="塞孔使用" />
                         </Border>
@@ -383,6 +400,7 @@
                                 BorderThickness="1,0,1,1"
                                 Style="{StaticResource ValueBorder}">
                             <TextBlock HorizontalAlignment="Center"
+                                       TextWrapping="Wrap"
                                        VerticalAlignment="Center"
                                        Text="標準墨重" />
                         </Border>
@@ -398,6 +416,7 @@
                                 BorderThickness="1,0,1,1"
                                 Style="{StaticResource ValueBorder}">
                             <TextBlock HorizontalAlignment="Center"
+                                       TextWrapping="Wrap"
                                        VerticalAlignment="Center"
                                        Text="墨重誤差值" />
                         </Border>
@@ -407,7 +426,7 @@
                                 Style="{StaticResource ValueBorder}">
                             <local:PairValuesControl Value1="{Binding DifferenceOfInk, Mode=OneWay, StringFormat=\{0:F1\}}" />
                         </Border>
-                    </Grid>
+                    </Grid>-->
                 </GroupBox>
                 <GroupBox Grid.Column="1"
                           Margin="0,6,6,6"
@@ -419,57 +438,52 @@
                           IsEnabled="{Binding Converter={StaticResource IsNotNull}, Mode=OneWay}"
                           TextElement.FontSize="14"
                           TextElement.FontWeight="Bold">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="2*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <Border Grid.Row="0"
-                                Grid.Column="0"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="第一段溫度PV" />
-                        </Border>
-                        <Border Grid.Row="0"
-                                Grid.Column="1"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:LevelsProgressBar Margin="-2,-2,-2,-12"
-                                                     Maximum="260"
-                                                     Minimum="0"
-                                                     Unit="°C"
-                                                     Value="{Binding RC1_Coatingoftimes, Mode=OneWay}">
-                            </views:LevelsProgressBar>
-                        </Border>
-                        <Border Grid.Row="1"
-                                Grid.Column="0"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="第二段溫度PV" />
-                        </Border>
-                        <Border Grid.Row="1"
-                                Grid.Column="1"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:LevelsProgressBar Margin="-2,-2,-2,-12"
-                                                     Maximum="260"
-                                                     Minimum="0"
-                                                     Unit="°C"
-                                                     Value="{Binding RC1_Coatingoftimes, Mode=OneWay}">
-                            </views:LevelsProgressBar>
-                        </Border>
+                        <Grid Background="{StaticResource WindowBackgroundBrush6}"
+                              ClipToBounds="True"
+                              IsEnabled="{Binding Converter={StaticResource IsNotNull}, Mode=OneWay}"
+                              TextElement.FontSize="14"
+                              TextElement.FontWeight="Bold">
+                            <ItemsControl ItemsSource="{Binding TemperatureItems}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="1" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderThickness="1,0,1,1"
+                                                Style="{StaticResource ValueBorder}">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Border Grid.Column="0"
+                                                        Background="{StaticResource WindowBackgroundBrush2}"
+                                                        BorderThickness="1,0,1,1"
+                                                        Style="{StaticResource ValueBorder}">
+                                                    <TextBlock Grid.Column="0"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               Background="{StaticResource WindowBackgroundBrush2}"
+                                                               Text="{Binding TemperatureDESC, Mode=OneWay}" />
+                                                </Border>
+                                                <Border Grid.Column="1"
+                                                        BorderThickness="0,0,1,1"
+                                                        Style="{StaticResource ValueBorder}">
+                                                    <views:LevelsProgressBar Margin="-2,-2,-2,-12"
+                                                                             Maximum="260"
+                                                                             Minimum="0"
+                                                                             Unit="°C"
+                                                                             Value="{Binding TemperatureValue, Mode=OneWay}">
+                                                    </views:LevelsProgressBar>
+                                                </Border>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
                     </Grid>
                 </GroupBox>
             </Grid>

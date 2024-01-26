@@ -378,14 +378,20 @@ public class GOL_DataModel : PLCDataProvider
     [PLCData(DataType.D, 713, LogType.RecipeSet)] public double TemperatureSV1 { get => Get<double>(); set => Set(value); }
     /// <summary>第2段溫度設定值</summary>
     [PLCData(DataType.D, 714, LogType.RecipeSet)] public double TemperatureSV2 { get => Get<double>(); set => Set(value); }
+    /// <summary>第3段溫度設定值</summary>
+    [PLCData(DataType.D, 715, LogType.RecipeSet)] public double TemperatureSV3 { get => Get<double>(); set => Set(value); }
+    /// <summary>第4段溫度設定值</summary>
+    [PLCData(DataType.D, 716, LogType.RecipeSet)] public double TemperatureSV4 { get => Get<double>(); set => Set(value); }
+    /// <summary>第5段溫度設定值</summary>
+    [PLCData(DataType.D, 717, LogType.RecipeSet)] public double TemperatureSV5 { get => Get<double>(); set => Set(value); }
     /// <summary>塗佈使用</summary>
-    [PLCData(DataType.D, 715, LogType.RecipeSet)] public double UseCoating { get => Get<double>(); set => Set(value); }
+    [PLCData(DataType.D, 718, LogType.RecipeSet)] public double UseCoating { get => Get<double>(); set => Set(value); }
     /// <summary>塞孔使用</summary>
-    [PLCData(DataType.D, 716, LogType.RecipeSet)] public double UsePlug { get => Get<double>(); set => Set(value); }
+    [PLCData(DataType.D, 719, LogType.RecipeSet)] public double UsePlug { get => Get<double>(); set => Set(value); }
     /// <summary>標準墨重</summary>
-    [PLCData(DataType.D, 717, LogType.RecipeSet)] public double StandardInk { get => Get<double>(); set => Set(value); }
+    [PLCData(DataType.D, 720, LogType.RecipeSet)] public double StandardInk { get => Get<double>(); set => Set(value); }
     /// <summary>墨重誤差值</summary>
-    [PLCData(DataType.D, 718, LogType.RecipeSet)] public double DifferenceOfInk { get => Get<double>(); set => Set(value); }
+    [PLCData(DataType.D, 721, LogType.RecipeSet)] public double DifferenceOfInk { get => Get<double>(); set => Set(value); }
     #endregion
     #endregion
     #endregion

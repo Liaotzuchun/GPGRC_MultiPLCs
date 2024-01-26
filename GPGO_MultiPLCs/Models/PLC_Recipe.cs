@@ -392,6 +392,21 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     [JsonIgnore]
     public double RC3_TemperatureSV2_Min => 0.0;
     [JsonIgnore]
+    public double RC3_TemperatureSV3_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC3_TemperatureSV3_Min => 0.0;
+    [JsonIgnore]
+    public double RC3_TemperatureSV4_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC3_TemperatureSV4_Min => 0.0;
+    [JsonIgnore]
+    public double RC3_TemperatureSV5_Max => 999.9;
+
+    [JsonIgnore]
+    public double RC3_TemperatureSV5_Min => 0.0;
+    [JsonIgnore]
     public double RC3_UseCoating_Max => 999.9;
 
     [JsonIgnore]
@@ -1975,6 +1990,69 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             else if (value < RC3_TemperatureSV2_Min)
             {
                 value = RC3_TemperatureSV2_Min;
+            }
+
+            Set(value);
+        }
+    }
+    [OrderIndex(5)]
+    [LanguageTranslator("TemperatureSV3", "第3段溫度設定值", "第3段溫度設定值")]
+    public double RC3_TemperatureSV3
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
+
+            if (value > RC3_TemperatureSV3_Max)
+            {
+                value = RC3_TemperatureSV3_Max;
+            }
+            else if (value < RC3_TemperatureSV3_Min)
+            {
+                value = RC3_TemperatureSV3_Min;
+            }
+
+            Set(value);
+        }
+    }
+    [OrderIndex(5)]
+    [LanguageTranslator("TemperatureSV4", "第4段溫度設定值", "第4段溫度設定值")]
+    public double RC3_TemperatureSV4
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
+
+            if (value > RC3_TemperatureSV4_Max)
+            {
+                value = RC3_TemperatureSV4_Max;
+            }
+            else if (value < RC3_TemperatureSV4_Min)
+            {
+                value = RC3_TemperatureSV4_Min;
+            }
+
+            Set(value);
+        }
+    }
+    [OrderIndex(5)]
+    [LanguageTranslator("TemperatureSV5", "第5段溫度設定值", "第5段溫度設定值")]
+    public double RC3_TemperatureSV5
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
+
+            if (value > RC3_TemperatureSV5_Max)
+            {
+                value = RC3_TemperatureSV5_Max;
+            }
+            else if (value < RC3_TemperatureSV5_Min)
+            {
+                value = RC3_TemperatureSV5_Min;
             }
 
             Set(value);

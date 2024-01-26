@@ -92,11 +92,7 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
     public string[] Coater1Panel
     {
         get => Get<string[]>();
-        set
-        {
-            Set(value);
-            NotifyPropertyChanged(nameof(Coater1Panel));
-        }
+        set => Set(value);
     }
     public string[] Coater2Panel
     {
@@ -728,15 +724,15 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                             else
                             {
                                 Coater1Panel[Coaterindex] = Coater1Panel[Coaterindex - 1];
-                                Coater1Panel[Coaterindex - 1] = "";
+                                Coater1Panel[Coaterindex - 1] = null;
                             }
                         }
-                        else if (e.Item2 == nameof(plc.BackWeightToOven) && !string.IsNullOrEmpty(Coater1Panel[4]))
+                        else if (e.Item2 == nameof(plc.BackWeightToOven) && Coater1Panel[4] is not null)
                         {
                             _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
                             {
                                 Coater1Items.Add(new CoaterItem { Num = Coater1Items.Count + 1, PanelName = Coater1Panel[4] });
-                                Coater1Panel[4] = "";
+                                Coater1Panel[4] = null;
                             });
                         }
                     }
@@ -787,7 +783,7 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                             {
 
                             }
-                            else if (Coaterindex == 1)
+                            else if (Coaterindex == 1 && !string.IsNullOrEmpty(Coater2Items[0].PanelName))
                             {
                                 _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
                                     {

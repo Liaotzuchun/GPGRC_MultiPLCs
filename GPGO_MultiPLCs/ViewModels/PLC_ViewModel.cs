@@ -55,6 +55,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     private          DateTime                OfflineTime    = DateTime.MaxValue;
     private          TextBox?                inputFocusTB;
     public ObservableCollection<Item> RecipeItem { get; set; }
+    public ObservableCollection<TemperatureItem> TemperatureItems { get; set; }
 
     #region webservice 功能
     public RelayCommand TopCheckButton { get; }
@@ -556,6 +557,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
 
         #endregion 註冊PLC事件
         RecipeItem = InitalItems(plcindex);
+        TemperatureItems = InitalTemperatureItem(plcindex);
     }
 
     private async void InputReFocus()
@@ -812,10 +814,31 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             set => Set(value);
         }
     }
+    public class TemperatureItem : ObservableObject
+    {
+        public string TemperatureDESC
+        {
+            get => Get<string>();
+            set => Set(value);
+        }
 
+        public string TemperatureValue
+        {
+            get => Get<string>();
+            set => Set(value);
+        }
+    }
+
+    /// <summary>
+    /// 資料蒐集 顯示UI
+    /// </summary>
+    /// <param name="plcindex"></param>
+    /// <returns></returns>
     private ObservableCollection<Item> InitalItems(int plcindex)
     {
         var items = new ObservableCollection<Item>();
+
+        //三台PLC配方點位都是一樣，但客戶某幾段沒有要全看
         var recipeData = new Dictionary<string, double>
         {
             { "塗佈次數", Coatingoftimes },
@@ -831,12 +854,12 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             { "右後D.BAR壓力設定", D_BarPressureSetting4 },
             { "塞孔刮刀壓力設定", Blade_Pressure },
             { "烘烤時間設定", BakingTimeSetting },
-            { "第1段溫度設定值", TemperatureSV1 },
-            { "第2段溫度設定值", TemperatureSV2 },
             { "塗佈使用", UseCoating },
             { "塞孔使用", UsePlug },
             { "標準墨重", StandardInk },
-            { "墨重誤差值", DifferenceOfInk }
+            { "墨重誤差值", DifferenceOfInk },
+            { "第1段溫度設定值", TemperatureSV1 },
+            { "第2段溫度設定值", TemperatureSV2 },
         };
         if (plcindex == 0)
         {
@@ -858,12 +881,47 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             {
                 items.Add(new Item { RecipeDESC = kvp.Key, RecipeValue = kvp.Value.ToString() });
             }
-            items.Add(new Item { RecipeDESC = "墨重誤差值test1", RecipeValue = TemperatureSV1.ToString() });
-            items.Add(new Item { RecipeDESC = "墨重誤差值test2", RecipeValue = TemperatureSV1.ToString() });
-            items.Add(new Item { RecipeDESC = "墨重誤差值test3", RecipeValue = TemperatureSV1.ToString() });
+            items.Add(new Item { RecipeDESC = "第3段溫度設定值", RecipeValue = TemperatureSV3.ToString() });
+            items.Add(new Item { RecipeDESC = "第4段溫度設定值", RecipeValue = TemperatureSV4.ToString() });
+            items.Add(new Item { RecipeDESC = "第5段溫度設定值", RecipeValue = TemperatureSV5.ToString() });
 
         }
         NotifyPropertyChanged(nameof(RecipeItem));
+        return items;
+    }
+    private ObservableCollection<TemperatureItem> InitalTemperatureItem(int plcindex)
+    {
+        var items = new ObservableCollection<TemperatureItem>();
+        var TemperatureData = new Dictionary<string, double>
+        {
+            { "第1段溫度實際值", TemperatureSV1 },
+            { "第2段溫度實際值", TemperatureSV2 },
+        };
+        if (plcindex == 0)
+        {
+            foreach (var kvp in TemperatureData)
+            {
+                items.Add(new TemperatureItem { TemperatureDESC = kvp.Key, TemperatureValue = kvp.Value.ToString() });
+            }
+        }
+        else if (plcindex == 1)
+        {
+            foreach (var kvp in TemperatureData)
+            {
+                items.Add(new TemperatureItem { TemperatureDESC = kvp.Key, TemperatureValue = kvp.Value.ToString() });
+            }
+        }
+        else if (plcindex == 2)
+        {
+            foreach (var kvp in TemperatureData)
+            {
+                items.Add(new TemperatureItem { TemperatureDESC = kvp.Key, TemperatureValue = kvp.Value.ToString() });
+            }
+            items.Add(new TemperatureItem { TemperatureDESC = "第3段溫度實際值", TemperatureValue = TemperatureSV3.ToString() });
+            items.Add(new TemperatureItem { TemperatureDESC = "第4段溫度實際值", TemperatureValue = TemperatureSV4.ToString() });
+            items.Add(new TemperatureItem { TemperatureDESC = "第5段溫度實際值", TemperatureValue = TemperatureSV5.ToString() });
+        }
+        NotifyPropertyChanged(nameof(TemperatureItems));
         return items;
     }
     #region Interface Implementations

@@ -23,8 +23,13 @@
         <Grid Margin="0,0,4,0"
               Background="{StaticResource WindowBackgroundBrush6}"
               IsEnabled="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}">
-            <TabControl FontSize="30">
-                <TabItem Header="塗佈一">
+            <Grid.RowDefinitions>
+                <RowDefinition Height = "*"/>
+                <RowDefinition Height = "*"/>
+                <RowDefinition Height = "*"/>
+            </Grid.RowDefinitions>
+                <GroupBox Grid.Row="0"
+                          Header="Coater1">
                     <Grid Background="{StaticResource WindowBackgroundBrush6}"
                           ClipToBounds="True"
                           DataContext="{Binding SelectedRecipe, Mode=OneWay}"
@@ -543,1050 +548,1130 @@
                             </views:SpinControl>
                         </Border>
                     </Grid>
-                </TabItem>
-                <TabItem Header="塗佈二">
-                    <Grid Background="{StaticResource WindowBackgroundBrush6}"
-                          ClipToBounds="True"
-                          DataContext="{Binding SelectedRecipe, Mode=OneWay}"
-                          IsEnabled="{Binding Converter={StaticResource IsNotNull}, Mode=OneWay}"
-                          TextElement.FontSize="14"
-                          TextElement.FontWeight="Bold">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <Border Grid.Row="0"
-                                Grid.Column="0"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="塗佈次數" />
-                        </Border>
-                        <Border Grid.Row="0"
-                                Grid.Column="1"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC2_Coatingoftimes_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC2_Coatingoftimes_Min, Mode=OneWay}"
-                                               Value="{Binding RC2_Coatingoftimes, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC2_Coatingoftimes_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC2_Coatingoftimes_Min, Mode=OneWay}"
-                                                      Text="{Binding RC2_Coatingoftimes, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="0"
-                                Grid.Column="2"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="塗佈速度設定" />
-                        </Border>
-                        <Border Grid.Row="0"
-                                Grid.Column="3"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC2_CoatingSpeedSetting_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC2_CoatingSpeedSetting_Min, Mode=OneWay}"
-                                               Value="{Binding RC2_CoatingSpeedSetting, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding RC2_CoatingSpeedSetting_Max, Mode=OneWay}"
-                                                      Min="{Binding RC2_CoatingSpeedSetting_Min, Mode=OneWay}"
-                                                      Text="{Binding RC2_CoatingSpeedSetting, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="0"
-                                Grid.Column="4"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="板面夾持距離" />
-                        </Border>
-                        <Border Grid.Row="0"
-                                Grid.Column="5"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC2_BoardClampingDistance_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC2_BoardClampingDistance_Min, Mode=OneWay}"
-                                               Value="{Binding RC2_BoardClampingDistance, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC2_BoardClampingDistance_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC2_BoardClampingDistance_Min, Mode=OneWay}"
-                                                      Text="{Binding RC2_BoardClampingDistance, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="0"
-                                Grid.Column="6"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="塞孔次數" />
-                        </Border>
-                        <Border Grid.Row="0"
-                                Grid.Column="7"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC2_Plugoftimes_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC2_Plugoftimes_Min, Mode=OneWay}"
-                                               Value="{Binding RC2_Plugoftimes, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC2_Plugoftimes_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC2_Plugoftimes_Min, Mode=OneWay}"
-                                                      Text="{Binding RC2_Plugoftimes, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="1"
-                                Grid.Column="0"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="塗佈壓力設定" />
-                        </Border>
-                        <Border Grid.Row="1"
-                                Grid.Column="1"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC2_CoatingPressureSetting_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC2_CoatingPressureSetting_Min, Mode=OneWay}"
-                                               Value="{Binding RC2_CoatingPressureSetting, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC2_CoatingPressureSetting_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC2_CoatingPressureSetting_Min, Mode=OneWay}"
-                                                      Text="{Binding RC2_CoatingPressureSetting, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="1"
-                                Grid.Column="2"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="基板厚度設定" />
-                        </Border>
-                        <Border Grid.Row="1"
-                                Grid.Column="3"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC2_PanelThicknessSetting_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC2_PanelThicknessSetting_Min, Mode=OneWay}"
-                                               Value="{Binding RC2_PanelThicknessSetting, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC2_PanelThicknessSetting_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC2_PanelThicknessSetting_Min, Mode=OneWay}"
-                                                      Text="{Binding RC2_PanelThicknessSetting, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="1"
-                                Grid.Column="4"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="入料下降位置設定" />
-                        </Border>
-                        <Border Grid.Row="1"
-                                Grid.Column="5"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC2_LocationOfDrop_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC2_LocationOfDrop_Min, Mode=OneWay}"
-                                               Value="{Binding RC2_LocationOfDrop, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC2_LocationOfDrop_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC2_LocationOfDrop_Min, Mode=OneWay}"
-                                                      Text="{Binding RC2_LocationOfDrop, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="1"
-                                Grid.Column="6"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="塞孔刮刀壓力設定" />
-                        </Border>
-                        <Border Grid.Row="1"
-                                Grid.Column="7"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC2_Blade_Pressure_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC2_Blade_Pressure_Min, Mode=OneWay}"
-                                               Value="{Binding RC2_Blade_Pressure, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC2_Blade_Pressure_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC2_Blade_Pressure_Min, Mode=OneWay}"
-                                                      Text="{Binding RC2_Blade_Pressure, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="2"
-                                Grid.Column="0"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="左前D.BAR壓力設定" />
-                        </Border>
-                        <Border Grid.Row="2"
-                                Grid.Column="1"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC2_D_BarPressureSetting1_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC2_D_BarPressureSetting1_Min, Mode=OneWay}"
-                                               Value="{Binding RC2_D_BarPressureSetting1, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC2_D_BarPressureSetting1_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC2_D_BarPressureSetting1_Min, Mode=OneWay}"
-                                                      Text="{Binding RC2_D_BarPressureSetting1, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="2"
-                                Grid.Column="2"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="右前D.BAR壓力設定" />
-                        </Border>
-                        <Border Grid.Row="2"
-                                Grid.Column="3"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC2_D_BarPressureSetting2_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC2_D_BarPressureSetting2_Min, Mode=OneWay}"
-                                               Value="{Binding RC2_D_BarPressureSetting2, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC2_D_BarPressureSetting2_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC2_D_BarPressureSetting2_Min, Mode=OneWay}"
-                                                      Text="{Binding RC2_D_BarPressureSetting2, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="2"
-                                Grid.Column="4"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="左後D.BAR壓力設定" />
-                        </Border>
-                        <Border Grid.Row="2"
-                                Grid.Column="5"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC2_D_BarPressureSetting3_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC2_D_BarPressureSetting3_Min, Mode=OneWay}"
-                                               Value="{Binding RC2_D_BarPressureSetting3, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC2_D_BarPressureSetting3_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC2_D_BarPressureSetting3_Min, Mode=OneWay}"
-                                                      Text="{Binding RC2_D_BarPressureSetting3, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="2"
-                                Grid.Column="6"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="右後D.BAR壓力設定" />
-                        </Border>
-                        <Border Grid.Row="2"
-                                Grid.Column="7"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC2_D_BarPressureSetting4_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC2_D_BarPressureSetting4_Min, Mode=OneWay}"
-                                               Value="{Binding RC2_D_BarPressureSetting4, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC2_D_BarPressureSetting4_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC2_D_BarPressureSetting4_Min, Mode=OneWay}"
-                                                      Text="{Binding RC2_D_BarPressureSetting4, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="3"
-                                Grid.Column="0"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="烘烤時間設定" />
-                        </Border>
-                        <Border Grid.Row="3"
-                                Grid.Column="1"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC2_BakingTimeSetting_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC2_BakingTimeSetting_Min, Mode=OneWay}"
-                                               Value="{Binding RC2_BakingTimeSetting, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC2_BakingTimeSetting_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC2_BakingTimeSetting_Min, Mode=OneWay}"
-                                                      Text="{Binding RC2_BakingTimeSetting, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="3"
-                                Grid.Column="2"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="第1段溫度設定值" />
-                        </Border>
-                        <Border Grid.Row="3"
-                                Grid.Column="3"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC2_TemperatureSV1_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC2_TemperatureSV1_Min, Mode=OneWay}"
-                                               Value="{Binding RC2_TemperatureSV1, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC2_TemperatureSV1_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC2_TemperatureSV1_Min, Mode=OneWay}"
-                                                      Text="{Binding RC2_TemperatureSV1, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="3"
-                                Grid.Column="4"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="第2段溫度設定值" />
-                        </Border>
-                        <Border Grid.Row="3"
-                                Grid.Column="5"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC2_TemperatureSV2_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC2_TemperatureSV2_Min, Mode=OneWay}"
-                                               Value="{Binding RC2_TemperatureSV2, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC2_TemperatureSV2_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC2_TemperatureSV2_Min, Mode=OneWay}"
-                                                      Text="{Binding RC2_TemperatureSV2, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="3"
-                                Grid.Column="6"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="塗佈使用" />
-                        </Border>
-                        <Border Grid.Row="3"
-                                Grid.Column="7"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC2_UseCoating_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC2_UseCoating_Min, Mode=OneWay}"
-                                               Value="{Binding RC2_UseCoating, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC2_UseCoating_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC2_UseCoating_Min, Mode=OneWay}"
-                                                      Text="{Binding RC2_UseCoating, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="4"
-                                Grid.Column="0"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="塞孔使用" />
-                        </Border>
-                        <Border Grid.Row="4"
-                                Grid.Column="1"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC2_UsePlug_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC2_UsePlug_Min, Mode=OneWay}"
-                                               Value="{Binding RC2_UsePlug, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC2_UsePlug_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC2_UsePlug_Min, Mode=OneWay}"
-                                                      Text="{Binding RC2_UsePlug, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="4"
-                                Grid.Column="2"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="標準墨重" />
-                        </Border>
-                        <Border Grid.Row="4"
-                                Grid.Column="3"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC2_StandardInk_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC2_StandardInk_Min, Mode=OneWay}"
-                                               Value="{Binding RC2_StandardInk, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC2_StandardInk_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC2_StandardInk_Min, Mode=OneWay}"
-                                                      Text="{Binding RC2_StandardInk, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="4"
-                                Grid.Column="4"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="墨重誤差值" />
-                        </Border>
-                        <Border Grid.Row="4"
-                                Grid.Column="5"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC2_DifferenceOfInk_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC2_DifferenceOfInk_Min, Mode=OneWay}"
-                                               Value="{Binding RC2_DifferenceOfInk, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC2_DifferenceOfInk_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC2_DifferenceOfInk_Min, Mode=OneWay}"
-                                                      Text="{Binding RC2_DifferenceOfInk, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        
-                    </Grid>
-                </TabItem>
-                <TabItem Height="80" 
-                         Header="塗佈三">
-                    <Grid Background="{StaticResource WindowBackgroundBrush6}"
-                          ClipToBounds="True"
-                          DataContext="{Binding SelectedRecipe, Mode=OneWay}"
-                          IsEnabled="{Binding Converter={StaticResource IsNotNull}, Mode=OneWay}"
-                          TextElement.FontSize="14"
-                          TextElement.FontWeight="Bold">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <Border Grid.Row="0"
-                                Grid.Column="0"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="塗佈次數" />
-                        </Border>
-                        <Border Grid.Row="0"
-                                Grid.Column="1"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC3_Coatingoftimes_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC3_Coatingoftimes_Min, Mode=OneWay}"
-                                               Value="{Binding RC3_Coatingoftimes, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC3_Coatingoftimes_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC3_Coatingoftimes_Min, Mode=OneWay}"
-                                                      Text="{Binding RC3_Coatingoftimes, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="0"
-                                Grid.Column="2"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="塗佈速度設定" />
-                        </Border>
-                        <Border Grid.Row="0"
-                                Grid.Column="3"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC3_CoatingSpeedSetting_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC3_CoatingSpeedSetting_Min, Mode=OneWay}"
-                                               Value="{Binding RC3_CoatingSpeedSetting, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding RC3_CoatingSpeedSetting_Max, Mode=OneWay}"
-                                                      Min="{Binding RC3_CoatingSpeedSetting_Min, Mode=OneWay}"
-                                                      Text="{Binding RC3_CoatingSpeedSetting, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="0"
-                                Grid.Column="4"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="板面夾持距離" />
-                        </Border>
-                        <Border Grid.Row="0"
-                                Grid.Column="5"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC3_BoardClampingDistance_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC3_BoardClampingDistance_Min, Mode=OneWay}"
-                                               Value="{Binding RC3_BoardClampingDistance, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC3_BoardClampingDistance_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC3_BoardClampingDistance_Min, Mode=OneWay}"
-                                                      Text="{Binding RC3_BoardClampingDistance, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="0"
-                                Grid.Column="6"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="塞孔次數" />
-                        </Border>
-                        <Border Grid.Row="0"
-                                Grid.Column="7"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC3_Plugoftimes_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC3_Plugoftimes_Min, Mode=OneWay}"
-                                               Value="{Binding RC3_Plugoftimes, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC3_Plugoftimes_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC3_Plugoftimes_Min, Mode=OneWay}"
-                                                      Text="{Binding RC3_Plugoftimes, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="1"
-                                Grid.Column="0"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="塗佈壓力設定" />
-                        </Border>
-                        <Border Grid.Row="1"
-                                Grid.Column="1"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC3_CoatingPressureSetting_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC3_CoatingPressureSetting_Min, Mode=OneWay}"
-                                               Value="{Binding RC3_CoatingPressureSetting, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC3_CoatingPressureSetting_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC3_CoatingPressureSetting_Min, Mode=OneWay}"
-                                                      Text="{Binding RC3_CoatingPressureSetting, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="1"
-                                Grid.Column="2"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="基板厚度設定" />
-                        </Border>
-                        <Border Grid.Row="1"
-                                Grid.Column="3"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC3_PanelThicknessSetting_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC3_PanelThicknessSetting_Min, Mode=OneWay}"
-                                               Value="{Binding RC3_PanelThicknessSetting, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC3_PanelThicknessSetting_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC3_PanelThicknessSetting_Min, Mode=OneWay}"
-                                                      Text="{Binding RC3_PanelThicknessSetting, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="1"
-                                Grid.Column="4"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="入料下降位置設定" />
-                        </Border>
-                        <Border Grid.Row="1"
-                                Grid.Column="5"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC3_LocationOfDrop_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC3_LocationOfDrop_Min, Mode=OneWay}"
-                                               Value="{Binding RC3_LocationOfDrop, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC3_LocationOfDrop_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC3_LocationOfDrop_Min, Mode=OneWay}"
-                                                      Text="{Binding RC3_LocationOfDrop, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="1"
-                                Grid.Column="6"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="塞孔刮刀壓力設定" />
-                        </Border>
-                        <Border Grid.Row="1"
-                                Grid.Column="7"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC3_Blade_Pressure_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC3_Blade_Pressure_Min, Mode=OneWay}"
-                                               Value="{Binding RC3_Blade_Pressure, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC3_Blade_Pressure_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC3_Blade_Pressure_Min, Mode=OneWay}"
-                                                      Text="{Binding RC3_Blade_Pressure, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="2"
-                                Grid.Column="0"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="左前D.BAR壓力設定" />
-                        </Border>
-                        <Border Grid.Row="2"
-                                Grid.Column="1"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC3_D_BarPressureSetting1_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC3_D_BarPressureSetting1_Min, Mode=OneWay}"
-                                               Value="{Binding RC3_D_BarPressureSetting1, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC3_D_BarPressureSetting1_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC3_D_BarPressureSetting1_Min, Mode=OneWay}"
-                                                      Text="{Binding RC3_D_BarPressureSetting1, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="2"
-                                Grid.Column="2"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="右前D.BAR壓力設定" />
-                        </Border>
-                        <Border Grid.Row="2"
-                                Grid.Column="3"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC3_D_BarPressureSetting2_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC3_D_BarPressureSetting2_Min, Mode=OneWay}"
-                                               Value="{Binding RC3_D_BarPressureSetting2, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC3_D_BarPressureSetting2_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC3_D_BarPressureSetting2_Min, Mode=OneWay}"
-                                                      Text="{Binding RC3_D_BarPressureSetting2, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="2"
-                                Grid.Column="4"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="左後D.BAR壓力設定" />
-                        </Border>
-                        <Border Grid.Row="2"
-                                Grid.Column="5"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC3_D_BarPressureSetting3_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC3_D_BarPressureSetting3_Min, Mode=OneWay}"
-                                               Value="{Binding RC3_D_BarPressureSetting3, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC3_D_BarPressureSetting3_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC3_D_BarPressureSetting3_Min, Mode=OneWay}"
-                                                      Text="{Binding RC3_D_BarPressureSetting3, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="2"
-                                Grid.Column="6"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="右後D.BAR壓力設定" />
-                        </Border>
-                        <Border Grid.Row="2"
-                                Grid.Column="7"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC3_D_BarPressureSetting4_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC3_D_BarPressureSetting4_Min, Mode=OneWay}"
-                                               Value="{Binding RC3_D_BarPressureSetting4, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC3_D_BarPressureSetting4_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC3_D_BarPressureSetting4_Min, Mode=OneWay}"
-                                                      Text="{Binding RC3_D_BarPressureSetting4, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="3"
-                                Grid.Column="0"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="烘烤時間設定" />
-                        </Border>
-                        <Border Grid.Row="3"
-                                Grid.Column="1"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC3_BakingTimeSetting_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC3_BakingTimeSetting_Min, Mode=OneWay}"
-                                               Value="{Binding RC3_BakingTimeSetting, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC3_BakingTimeSetting_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC3_BakingTimeSetting_Min, Mode=OneWay}"
-                                                      Text="{Binding RC3_BakingTimeSetting, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="3"
-                                Grid.Column="2"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="第1段溫度設定值" />
-                        </Border>
-                        <Border Grid.Row="3"
-                                Grid.Column="3"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC3_TemperatureSV1_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC3_TemperatureSV1_Min, Mode=OneWay}"
-                                               Value="{Binding RC3_TemperatureSV1, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC3_TemperatureSV1_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC3_TemperatureSV1_Min, Mode=OneWay}"
-                                                      Text="{Binding RC3_TemperatureSV1, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="3"
-                                Grid.Column="4"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="第2段溫度設定值" />
-                        </Border>
-                        <Border Grid.Row="3"
-                                Grid.Column="5"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC3_TemperatureSV2_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC3_TemperatureSV2_Min, Mode=OneWay}"
-                                               Value="{Binding RC3_TemperatureSV2, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC3_TemperatureSV2_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC3_TemperatureSV2_Min, Mode=OneWay}"
-                                                      Text="{Binding RC3_TemperatureSV2, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="3"
-                                Grid.Column="6"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="塗佈使用" />
-                        </Border>
-                        <Border Grid.Row="3"
-                                Grid.Column="7"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC3_UseCoating_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC3_UseCoating_Min, Mode=OneWay}"
-                                               Value="{Binding RC3_UseCoating, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC3_UseCoating_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC3_UseCoating_Min, Mode=OneWay}"
-                                                      Text="{Binding RC3_UseCoating, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="4"
-                                Grid.Column="0"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="塞孔使用" />
-                        </Border>
-                        <Border Grid.Row="4"
-                                Grid.Column="1"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC3_UsePlug_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC3_UsePlug_Min, Mode=OneWay}"
-                                               Value="{Binding RC3_UsePlug, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC3_UsePlug_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC3_UsePlug_Min, Mode=OneWay}"
-                                                      Text="{Binding RC3_UsePlug, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="4"
-                                Grid.Column="2"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="標準墨重" />
-                        </Border>
-                        <Border Grid.Row="4"
-                                Grid.Column="3"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC3_StandardInk_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC3_StandardInk_Min, Mode=OneWay}"
-                                               Value="{Binding RC3_StandardInk, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC3_StandardInk_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC3_StandardInk_Min, Mode=OneWay}"
-                                                      Text="{Binding RC3_StandardInk, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                        <Border Grid.Row="4"
-                                Grid.Column="4"
-                                Background="{StaticResource WindowBackgroundBrush2}"
-                                BorderThickness="1,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <TextBlock HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="墨重誤差值" />
-                        </Border>
-                        <Border Grid.Row="4"
-                                Grid.Column="5"
-                                BorderThickness="0,0,1,1"
-                                Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC3_DifferenceOfInk_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC3_DifferenceOfInk_Min, Mode=OneWay}"
-                                               Value="{Binding RC3_DifferenceOfInk, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC3_DifferenceOfInk_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC3_DifferenceOfInk_Min, Mode=OneWay}"
-                                                      Text="{Binding RC3_DifferenceOfInk, Mode=TwoWay}" />
-                            </views:SpinControl>
-                        </Border>
-                    </Grid>
-                </TabItem>
-            </TabControl>
+                </GroupBox>
+                <GroupBox Grid.Row="1"
+                      Header="Coater2">
+                        <Grid Background="{StaticResource WindowBackgroundBrush6}"
+                              ClipToBounds="True"
+                              DataContext="{Binding SelectedRecipe, Mode=OneWay}"
+                              IsEnabled="{Binding Converter={StaticResource IsNotNull}, Mode=OneWay}"
+                              TextElement.FontSize="14"
+                              TextElement.FontWeight="Bold">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="塗佈次數" />
+                            </Border>
+                            <Border Grid.Row="0"
+                                    Grid.Column="1"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC2_Coatingoftimes_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC2_Coatingoftimes_Min, Mode=OneWay}"
+                                                   Value="{Binding RC2_Coatingoftimes, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC2_Coatingoftimes_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC2_Coatingoftimes_Min, Mode=OneWay}"
+                                                          Text="{Binding RC2_Coatingoftimes, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="0"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="塗佈速度設定" />
+                            </Border>
+                            <Border Grid.Row="0"
+                                    Grid.Column="3"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC2_CoatingSpeedSetting_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC2_CoatingSpeedSetting_Min, Mode=OneWay}"
+                                                   Value="{Binding RC2_CoatingSpeedSetting, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding RC2_CoatingSpeedSetting_Max, Mode=OneWay}"
+                                                          Min="{Binding RC2_CoatingSpeedSetting_Min, Mode=OneWay}"
+                                                          Text="{Binding RC2_CoatingSpeedSetting, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="0"
+                                    Grid.Column="4"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="板面夾持距離" />
+                            </Border>
+                            <Border Grid.Row="0"
+                                    Grid.Column="5"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC2_BoardClampingDistance_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC2_BoardClampingDistance_Min, Mode=OneWay}"
+                                                   Value="{Binding RC2_BoardClampingDistance, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC2_BoardClampingDistance_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC2_BoardClampingDistance_Min, Mode=OneWay}"
+                                                          Text="{Binding RC2_BoardClampingDistance, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="0"
+                                    Grid.Column="6"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="塞孔次數" />
+                            </Border>
+                            <Border Grid.Row="0"
+                                    Grid.Column="7"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC2_Plugoftimes_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC2_Plugoftimes_Min, Mode=OneWay}"
+                                                   Value="{Binding RC2_Plugoftimes, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC2_Plugoftimes_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC2_Plugoftimes_Min, Mode=OneWay}"
+                                                          Text="{Binding RC2_Plugoftimes, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="1"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="塗佈壓力設定" />
+                            </Border>
+                            <Border Grid.Row="1"
+                                    Grid.Column="1"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC2_CoatingPressureSetting_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC2_CoatingPressureSetting_Min, Mode=OneWay}"
+                                                   Value="{Binding RC2_CoatingPressureSetting, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC2_CoatingPressureSetting_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC2_CoatingPressureSetting_Min, Mode=OneWay}"
+                                                          Text="{Binding RC2_CoatingPressureSetting, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="1"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="基板厚度設定" />
+                            </Border>
+                            <Border Grid.Row="1"
+                                    Grid.Column="3"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC2_PanelThicknessSetting_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC2_PanelThicknessSetting_Min, Mode=OneWay}"
+                                                   Value="{Binding RC2_PanelThicknessSetting, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC2_PanelThicknessSetting_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC2_PanelThicknessSetting_Min, Mode=OneWay}"
+                                                          Text="{Binding RC2_PanelThicknessSetting, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="1"
+                                    Grid.Column="4"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="入料下降位置設定" />
+                            </Border>
+                            <Border Grid.Row="1"
+                                    Grid.Column="5"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC2_LocationOfDrop_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC2_LocationOfDrop_Min, Mode=OneWay}"
+                                                   Value="{Binding RC2_LocationOfDrop, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC2_LocationOfDrop_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC2_LocationOfDrop_Min, Mode=OneWay}"
+                                                          Text="{Binding RC2_LocationOfDrop, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="1"
+                                    Grid.Column="6"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="塞孔刮刀壓力設定" />
+                            </Border>
+                            <Border Grid.Row="1"
+                                    Grid.Column="7"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC2_Blade_Pressure_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC2_Blade_Pressure_Min, Mode=OneWay}"
+                                                   Value="{Binding RC2_Blade_Pressure, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC2_Blade_Pressure_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC2_Blade_Pressure_Min, Mode=OneWay}"
+                                                          Text="{Binding RC2_Blade_Pressure, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="2"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="左前D.BAR壓力設定" />
+                            </Border>
+                            <Border Grid.Row="2"
+                                    Grid.Column="1"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC2_D_BarPressureSetting1_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC2_D_BarPressureSetting1_Min, Mode=OneWay}"
+                                                   Value="{Binding RC2_D_BarPressureSetting1, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC2_D_BarPressureSetting1_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC2_D_BarPressureSetting1_Min, Mode=OneWay}"
+                                                          Text="{Binding RC2_D_BarPressureSetting1, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="2"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="右前D.BAR壓力設定" />
+                            </Border>
+                            <Border Grid.Row="2"
+                                    Grid.Column="3"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC2_D_BarPressureSetting2_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC2_D_BarPressureSetting2_Min, Mode=OneWay}"
+                                                   Value="{Binding RC2_D_BarPressureSetting2, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC2_D_BarPressureSetting2_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC2_D_BarPressureSetting2_Min, Mode=OneWay}"
+                                                          Text="{Binding RC2_D_BarPressureSetting2, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="2"
+                                    Grid.Column="4"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="左後D.BAR壓力設定" />
+                            </Border>
+                            <Border Grid.Row="2"
+                                    Grid.Column="5"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC2_D_BarPressureSetting3_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC2_D_BarPressureSetting3_Min, Mode=OneWay}"
+                                                   Value="{Binding RC2_D_BarPressureSetting3, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC2_D_BarPressureSetting3_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC2_D_BarPressureSetting3_Min, Mode=OneWay}"
+                                                          Text="{Binding RC2_D_BarPressureSetting3, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="2"
+                                    Grid.Column="6"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="右後D.BAR壓力設定" />
+                            </Border>
+                            <Border Grid.Row="2"
+                                    Grid.Column="7"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC2_D_BarPressureSetting4_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC2_D_BarPressureSetting4_Min, Mode=OneWay}"
+                                                   Value="{Binding RC2_D_BarPressureSetting4, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC2_D_BarPressureSetting4_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC2_D_BarPressureSetting4_Min, Mode=OneWay}"
+                                                          Text="{Binding RC2_D_BarPressureSetting4, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="3"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="烘烤時間設定" />
+                            </Border>
+                            <Border Grid.Row="3"
+                                    Grid.Column="1"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC2_BakingTimeSetting_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC2_BakingTimeSetting_Min, Mode=OneWay}"
+                                                   Value="{Binding RC2_BakingTimeSetting, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC2_BakingTimeSetting_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC2_BakingTimeSetting_Min, Mode=OneWay}"
+                                                          Text="{Binding RC2_BakingTimeSetting, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="3"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="第1段溫度設定值" />
+                            </Border>
+                            <Border Grid.Row="3"
+                                    Grid.Column="3"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC2_TemperatureSV1_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC2_TemperatureSV1_Min, Mode=OneWay}"
+                                                   Value="{Binding RC2_TemperatureSV1, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC2_TemperatureSV1_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC2_TemperatureSV1_Min, Mode=OneWay}"
+                                                          Text="{Binding RC2_TemperatureSV1, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="3"
+                                    Grid.Column="4"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="第2段溫度設定值" />
+                            </Border>
+                            <Border Grid.Row="3"
+                                    Grid.Column="5"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC2_TemperatureSV2_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC2_TemperatureSV2_Min, Mode=OneWay}"
+                                                   Value="{Binding RC2_TemperatureSV2, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC2_TemperatureSV2_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC2_TemperatureSV2_Min, Mode=OneWay}"
+                                                          Text="{Binding RC2_TemperatureSV2, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="3"
+                                    Grid.Column="6"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="塗佈使用" />
+                            </Border>
+                            <Border Grid.Row="3"
+                                    Grid.Column="7"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC2_UseCoating_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC2_UseCoating_Min, Mode=OneWay}"
+                                                   Value="{Binding RC2_UseCoating, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC2_UseCoating_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC2_UseCoating_Min, Mode=OneWay}"
+                                                          Text="{Binding RC2_UseCoating, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="4"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="塞孔使用" />
+                            </Border>
+                            <Border Grid.Row="4"
+                                    Grid.Column="1"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC2_UsePlug_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC2_UsePlug_Min, Mode=OneWay}"
+                                                   Value="{Binding RC2_UsePlug, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC2_UsePlug_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC2_UsePlug_Min, Mode=OneWay}"
+                                                          Text="{Binding RC2_UsePlug, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="4"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="標準墨重" />
+                            </Border>
+                            <Border Grid.Row="4"
+                                    Grid.Column="3"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC2_StandardInk_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC2_StandardInk_Min, Mode=OneWay}"
+                                                   Value="{Binding RC2_StandardInk, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC2_StandardInk_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC2_StandardInk_Min, Mode=OneWay}"
+                                                          Text="{Binding RC2_StandardInk, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="4"
+                                    Grid.Column="4"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="墨重誤差值" />
+                            </Border>
+                            <Border Grid.Row="4"
+                                    Grid.Column="5"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC2_DifferenceOfInk_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC2_DifferenceOfInk_Min, Mode=OneWay}"
+                                                   Value="{Binding RC2_DifferenceOfInk, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC2_DifferenceOfInk_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC2_DifferenceOfInk_Min, Mode=OneWay}"
+                                                          Text="{Binding RC2_DifferenceOfInk, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+
+                        </Grid>
+                </GroupBox>
+                <GroupBox Grid.Row="2"
+                      Header="Coater3">
+                        <Grid Background="{StaticResource WindowBackgroundBrush6}"
+                              ClipToBounds="True"
+                              DataContext="{Binding SelectedRecipe, Mode=OneWay}"
+                              IsEnabled="{Binding Converter={StaticResource IsNotNull}, Mode=OneWay}"
+                              TextElement.FontSize="14"
+                              TextElement.FontWeight="Bold">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="塗佈次數" />
+                            </Border>
+                            <Border Grid.Row="0"
+                                    Grid.Column="1"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC3_Coatingoftimes_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC3_Coatingoftimes_Min, Mode=OneWay}"
+                                                   Value="{Binding RC3_Coatingoftimes, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC3_Coatingoftimes_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC3_Coatingoftimes_Min, Mode=OneWay}"
+                                                          Text="{Binding RC3_Coatingoftimes, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="0"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="塗佈速度設定" />
+                            </Border>
+                            <Border Grid.Row="0"
+                                    Grid.Column="3"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC3_CoatingSpeedSetting_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC3_CoatingSpeedSetting_Min, Mode=OneWay}"
+                                                   Value="{Binding RC3_CoatingSpeedSetting, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding RC3_CoatingSpeedSetting_Max, Mode=OneWay}"
+                                                          Min="{Binding RC3_CoatingSpeedSetting_Min, Mode=OneWay}"
+                                                          Text="{Binding RC3_CoatingSpeedSetting, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="0"
+                                    Grid.Column="4"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="板面夾持距離" />
+                            </Border>
+                            <Border Grid.Row="0"
+                                    Grid.Column="5"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC3_BoardClampingDistance_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC3_BoardClampingDistance_Min, Mode=OneWay}"
+                                                   Value="{Binding RC3_BoardClampingDistance, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC3_BoardClampingDistance_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC3_BoardClampingDistance_Min, Mode=OneWay}"
+                                                          Text="{Binding RC3_BoardClampingDistance, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="0"
+                                    Grid.Column="6"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="塞孔次數" />
+                            </Border>
+                            <Border Grid.Row="0"
+                                    Grid.Column="7"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC3_Plugoftimes_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC3_Plugoftimes_Min, Mode=OneWay}"
+                                                   Value="{Binding RC3_Plugoftimes, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC3_Plugoftimes_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC3_Plugoftimes_Min, Mode=OneWay}"
+                                                          Text="{Binding RC3_Plugoftimes, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="1"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="塗佈壓力設定" />
+                            </Border>
+                            <Border Grid.Row="1"
+                                    Grid.Column="1"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC3_CoatingPressureSetting_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC3_CoatingPressureSetting_Min, Mode=OneWay}"
+                                                   Value="{Binding RC3_CoatingPressureSetting, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC3_CoatingPressureSetting_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC3_CoatingPressureSetting_Min, Mode=OneWay}"
+                                                          Text="{Binding RC3_CoatingPressureSetting, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="1"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="基板厚度設定" />
+                            </Border>
+                            <Border Grid.Row="1"
+                                    Grid.Column="3"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC3_PanelThicknessSetting_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC3_PanelThicknessSetting_Min, Mode=OneWay}"
+                                                   Value="{Binding RC3_PanelThicknessSetting, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC3_PanelThicknessSetting_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC3_PanelThicknessSetting_Min, Mode=OneWay}"
+                                                          Text="{Binding RC3_PanelThicknessSetting, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="1"
+                                    Grid.Column="4"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="入料下降位置設定" />
+                            </Border>
+                            <Border Grid.Row="1"
+                                    Grid.Column="5"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC3_LocationOfDrop_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC3_LocationOfDrop_Min, Mode=OneWay}"
+                                                   Value="{Binding RC3_LocationOfDrop, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC3_LocationOfDrop_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC3_LocationOfDrop_Min, Mode=OneWay}"
+                                                          Text="{Binding RC3_LocationOfDrop, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="1"
+                                    Grid.Column="6"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="塞孔刮刀壓力設定" />
+                            </Border>
+                            <Border Grid.Row="1"
+                                    Grid.Column="7"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC3_Blade_Pressure_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC3_Blade_Pressure_Min, Mode=OneWay}"
+                                                   Value="{Binding RC3_Blade_Pressure, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC3_Blade_Pressure_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC3_Blade_Pressure_Min, Mode=OneWay}"
+                                                          Text="{Binding RC3_Blade_Pressure, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="2"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="左前D.BAR壓力設定" />
+                            </Border>
+                            <Border Grid.Row="2"
+                                    Grid.Column="1"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC3_D_BarPressureSetting1_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC3_D_BarPressureSetting1_Min, Mode=OneWay}"
+                                                   Value="{Binding RC3_D_BarPressureSetting1, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC3_D_BarPressureSetting1_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC3_D_BarPressureSetting1_Min, Mode=OneWay}"
+                                                          Text="{Binding RC3_D_BarPressureSetting1, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="2"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="右前D.BAR壓力設定" />
+                            </Border>
+                            <Border Grid.Row="2"
+                                    Grid.Column="3"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC3_D_BarPressureSetting2_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC3_D_BarPressureSetting2_Min, Mode=OneWay}"
+                                                   Value="{Binding RC3_D_BarPressureSetting2, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC3_D_BarPressureSetting2_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC3_D_BarPressureSetting2_Min, Mode=OneWay}"
+                                                          Text="{Binding RC3_D_BarPressureSetting2, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="2"
+                                    Grid.Column="4"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="左後D.BAR壓力設定" />
+                            </Border>
+                            <Border Grid.Row="2"
+                                    Grid.Column="5"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC3_D_BarPressureSetting3_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC3_D_BarPressureSetting3_Min, Mode=OneWay}"
+                                                   Value="{Binding RC3_D_BarPressureSetting3, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC3_D_BarPressureSetting3_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC3_D_BarPressureSetting3_Min, Mode=OneWay}"
+                                                          Text="{Binding RC3_D_BarPressureSetting3, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="2"
+                                    Grid.Column="6"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="右後D.BAR壓力設定" />
+                            </Border>
+                            <Border Grid.Row="2"
+                                    Grid.Column="7"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC3_D_BarPressureSetting4_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC3_D_BarPressureSetting4_Min, Mode=OneWay}"
+                                                   Value="{Binding RC3_D_BarPressureSetting4, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC3_D_BarPressureSetting4_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC3_D_BarPressureSetting4_Min, Mode=OneWay}"
+                                                          Text="{Binding RC3_D_BarPressureSetting4, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="3"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="烘烤時間設定" />
+                            </Border>
+                            <Border Grid.Row="3"
+                                    Grid.Column="1"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC3_BakingTimeSetting_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC3_BakingTimeSetting_Min, Mode=OneWay}"
+                                                   Value="{Binding RC3_BakingTimeSetting, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC3_BakingTimeSetting_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC3_BakingTimeSetting_Min, Mode=OneWay}"
+                                                          Text="{Binding RC3_BakingTimeSetting, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+
+                            <Border Grid.Row="3"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="塗佈使用" />
+                            </Border>
+                            <Border Grid.Row="3"
+                                    Grid.Column="3"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC3_UseCoating_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC3_UseCoating_Min, Mode=OneWay}"
+                                                   Value="{Binding RC3_UseCoating, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC3_UseCoating_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC3_UseCoating_Min, Mode=OneWay}"
+                                                          Text="{Binding RC3_UseCoating, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="3"
+                                    Grid.Column="4"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="塞孔使用" />
+                            </Border>
+                            <Border Grid.Row="3"
+                                    Grid.Column="5"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC3_UsePlug_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC3_UsePlug_Min, Mode=OneWay}"
+                                                   Value="{Binding RC3_UsePlug, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC3_UsePlug_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC3_UsePlug_Min, Mode=OneWay}"
+                                                          Text="{Binding RC3_UsePlug, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="3"
+                                    Grid.Column="6"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="標準墨重" />
+                            </Border>
+                            <Border Grid.Row="3"
+                                    Grid.Column="7"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC3_StandardInk_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC3_StandardInk_Min, Mode=OneWay}"
+                                                   Value="{Binding RC3_StandardInk, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC3_StandardInk_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC3_StandardInk_Min, Mode=OneWay}"
+                                                          Text="{Binding RC3_StandardInk, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="4"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="墨重誤差值" />
+                            </Border>
+                            <Border Grid.Row="4"
+                                    Grid.Column="1"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC3_DifferenceOfInk_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC3_DifferenceOfInk_Min, Mode=OneWay}"
+                                                   Value="{Binding RC3_DifferenceOfInk, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC3_DifferenceOfInk_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC3_DifferenceOfInk_Min, Mode=OneWay}"
+                                                          Text="{Binding RC3_DifferenceOfInk, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="4"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="第1段溫度設定值" />
+                            </Border>
+                            <Border Grid.Row="4"
+                                    Grid.Column="3"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC3_TemperatureSV1_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC3_TemperatureSV1_Min, Mode=OneWay}"
+                                                   Value="{Binding RC3_TemperatureSV1, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC3_TemperatureSV1_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC3_TemperatureSV1_Min, Mode=OneWay}"
+                                                          Text="{Binding RC3_TemperatureSV1, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="4"
+                                    Grid.Column="4"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="第2段溫度設定值" />
+                            </Border>
+                            <Border Grid.Row="4"
+                                    Grid.Column="5"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC3_TemperatureSV2_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC3_TemperatureSV2_Min, Mode=OneWay}"
+                                                   Value="{Binding RC3_TemperatureSV2, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC3_TemperatureSV2_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC3_TemperatureSV2_Min, Mode=OneWay}"
+                                                          Text="{Binding RC3_TemperatureSV2, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="4"
+                                    Grid.Column="6"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="第3段溫度設定值" />
+                            </Border>
+                            <Border Grid.Row="4"
+                                    Grid.Column="7"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC3_TemperatureSV3_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC3_TemperatureSV3_Min, Mode=OneWay}"
+                                                   Value="{Binding RC3_TemperatureSV3, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC3_TemperatureSV3_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC3_TemperatureSV3_Min, Mode=OneWay}"
+                                                          Text="{Binding RC3_TemperatureSV3, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="5"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="第4段溫度設定值" />
+                            </Border>
+                            <Border Grid.Row="5"
+                                    Grid.Column="1"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC3_TemperatureSV4_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC3_TemperatureSV4_Min, Mode=OneWay}"
+                                                   Value="{Binding RC3_TemperatureSV4, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC3_TemperatureSV4_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC3_TemperatureSV4_Min, Mode=OneWay}"
+                                                          Text="{Binding RC3_TemperatureSV4, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="5"
+                                    Grid.Column="2"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="第5段溫度設定值" />
+                            </Border>
+                            <Border Grid.Row="5"
+                                    Grid.Column="3"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC3_TemperatureSV5_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC3_TemperatureSV5_Min, Mode=OneWay}"
+                                                   Value="{Binding RC3_TemperatureSV5, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC3_TemperatureSV5_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC3_TemperatureSV5_Min, Mode=OneWay}"
+                                                          Text="{Binding RC3_TemperatureSV5, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                        </Grid>
+                </GroupBox>
         </Grid>
         <Grid Grid.Column="1"
               IsEnabled="{Binding Standby, Mode=OneWay}">
