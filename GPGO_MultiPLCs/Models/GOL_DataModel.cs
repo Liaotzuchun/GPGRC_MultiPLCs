@@ -71,149 +71,45 @@ public class GOL_DataModel : PLCDataProvider
     #endregion
 
     #region 配方實際值   
-    ///// <summary>第1段烘烤溫度</summary>
-    //[PLCData(DataType.D, 700, 20, LogType.None)]
-    //public double TopTemperatureSetpoint_1SV
-    //{
-    //    get => Get<double>();
-    //    set => Set(value);
-    //}
+    /// <summary>第1段烘烤溫度</summary>
+    [PLCData(DataType.D, 700, 20, LogType.None)]
+    public double TemperaturePV1
+    {
+        get => Get<double>();
+        set => Set(value);
+    }
 
-    ///// <summary>第2段烘烤溫度</summary>
-    //[PLCData(DataType.D, 701, 20, LogType.None)]
-    //public double TopTemperatureSetpoint_2SV
-    //{
-    //    get => Get<double>();
-    //    set => Set(value);
-    //}
+    /// <summary>第2段烘烤溫度</summary>
+    [PLCData(DataType.D, 701, 20, LogType.None)]
+    public double TemperaturePV2
+    {
+        get => Get<double>();
+        set => Set(value);
+    }
 
-    ///// <summary>第3段烘烤溫度</summary>
-    //[PLCData(DataType.D, 702, 20, LogType.None)]
-    //public double TopTemperatureSetpoint_3SV
-    //{
-    //    get => Get<double>();
-    //    set => Set(value);
-    //}
+    /// <summary>第3段烘烤溫度</summary>
+    [PLCData(DataType.D, 702, 20, LogType.None)]
+    public double TemperaturePV3
+    {
+        get => Get<double>();
+        set => Set(value);
+    }
 
-    ///// <summary>第4段烘烤溫度</summary>
-    //[PLCData(DataType.D, 703, 20, LogType.None)]
-    //public double TopTemperatureSetpoint_4SV
-    //{
-    //    get => Get<double>();
-    //    set => Set(value);
-    //}
+    /// <summary>第4段烘烤溫度</summary>
+    [PLCData(DataType.D, 703, 20, LogType.None)]
+    public double TemperaturePV4
+    {
+        get => Get<double>();
+        set => Set(value);
+    }
 
-    ///// <summary>第5段烘烤溫度</summary>
-    //[PLCData(DataType.D, 704, 20, LogType.None)]
-    //public double TopTemperatureSetpoint_5SV
-    //{
-    //    get => Get<double>();
-    //    set => Set(value);
-    //}
-
-    ///// <summary>第6段烘烤溫度</summary>
-    //[PLCData(DataType.D, 705, 20, LogType.None)]
-    //public double TopTemperatureSetpoint_6SV
-    //{
-    //    get => Get<double>();
-    //    set => Set(value);
-    //}
-
-    ///// <summary>升溫時間1</summary>
-    //[PLCData(DataType.D, 760, 0.1, LogType.None)]
-    //public double TopRampTime_1SV
-    //{
-    //    get => Get<double>();
-    //    set => Set(value);
-    //}
-
-    ///// <summary>升溫時間2</summary>
-    //[PLCData(DataType.D, 761, 0.1, LogType.None)]
-    //public double TopRampTime_2SV
-    //{
-    //    get => Get<double>();
-    //    set => Set(value);
-    //}
-
-    ///// <summary>升溫時間3</summary>
-    //[PLCData(DataType.D, 762, 0.1, LogType.None)]
-    //public double TopRampTime_3SV
-    //{
-    //    get => Get<double>();
-    //    set => Set(value);
-    //}
-
-    ///// <summary>升溫時間4</summary>
-    //[PLCData(DataType.D, 763, 0.1, LogType.None)]
-    //public double TopRampTime_4SV
-    //{
-    //    get => Get<double>();
-    //    set => Set(value);
-    //}
-
-    ///// <summary>升溫時間5</summary>
-    //[PLCData(DataType.D, 764, 0.1, LogType.None)]
-    //public double TopRampTime_5SV
-    //{
-    //    get => Get<double>();
-    //    set => Set(value);
-    //}
-
-    ///// <summary>升溫時間6</summary>
-    //[PLCData(DataType.D, 765, 0.1, LogType.None)]
-    //public double TopRampTime_6SV
-    //{
-    //    get => Get<double>();
-    //    set => Set(value);
-    //}
-
-    ///// <summary>恆溫時間1</summary>
-    //[PLCData(DataType.D, 715, 0.1, LogType.None)]
-    //public double TopDwellTime_1SV
-    //{
-    //    get => Get<double>();
-    //    set => Set(value);
-    //}
-
-    ///// <summary>恆溫時間2</summary>
-    //[PLCData(DataType.D, 716, 0.1, LogType.None)]
-    //public double TopDwellTime_2SV
-    //{
-    //    get => Get<double>();
-    //    set => Set(value);
-    //}
-
-    ///// <summary>恆溫時間3</summary>
-    //[PLCData(DataType.D, 717, 0.1, LogType.None)]
-    //public double TopDwellTime_3SV
-    //{
-    //    get => Get<double>();
-    //    set => Set(value);
-    //}
-
-    ///// <summary>恆溫時間4</summary>
-    //[PLCData(DataType.D, 718, 0.1, LogType.None)]
-    //public double TopDwellTime_4SV
-    //{
-    //    get => Get<double>();
-    //    set => Set(value);
-    //}
-
-    ///// <summary>恆溫時間5</summary>
-    //[PLCData(DataType.D, 719, 0.1, LogType.None)]
-    //public double TopDwellTime_5SV
-    //{
-    //    get => Get<double>();
-    //    set => Set(value);
-    //}
-
-    ///// <summary>恆溫時間6</summary>
-    //[PLCData(DataType.D, 720, 0.1, LogType.None)]
-    //public double TopDwellTime_6SV
-    //{
-    //    get => Get<double>();
-    //    set => Set(value);
-    //}
+    /// <summary>第5段烘烤溫度</summary>
+    [PLCData(DataType.D, 704, 20, LogType.None)]
+    public double TemperaturePV5
+    {
+        get => Get<double>();
+        set => Set(value);
+    }
     #endregion
 
     #region 配方設定值
@@ -428,46 +324,6 @@ public class GOL_DataModel : PLCDataProvider
     #endregion
 
     #region 機台狀態
-    /// <summary>程式結束警報時間</summary>
-    [PLCData(DataType.D, 157, 0.1, LogType.EquipmentConstants)]
-    public double ProgramEndWarningTime
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    /// <summary>綠燈</summary>
-    [PLCBit(BitType.Y, 4, LogType.None)]
-    public bool GreenLight
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-
-    /// <summary>黃燈</summary>
-    [PLCBit(BitType.Y, 5, LogType.None)]
-    public bool YellowLight
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-
-    /// <summary>紅燈</summary>
-    [PLCBit(BitType.Y, 6, LogType.None)]
-    public bool RedLight
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-
-    /// <summary>藍燈</summary>
-    [PLCBit(BitType.Y, 39, LogType.None)]
-    public bool BlueLight
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-
     /// <summary>自動模式</summary>
     [PLCBit(BitType.M, 50, LogType.StatusVariables)]
     public bool AutoMode
@@ -477,7 +333,7 @@ public class GOL_DataModel : PLCDataProvider
     }
 
     [PLCBit(BitType.M, 51, LogType.StatusVariables)]
-    public bool TopAutoMode_Start
+    public bool AutoMode_Start
     {
         get => Get<bool>();
         set => Set(value);
@@ -485,7 +341,7 @@ public class GOL_DataModel : PLCDataProvider
 
     /// <summary>程式結束(程式結束會早於AutoMode_Stop)</summary>
     [PLCBit(BitType.M, 209, LogType.StatusVariables)]
-    public bool TopProcessComplete
+    public bool ProcessComplete
     {
         get => Get<bool>();
         set => Set(value);
@@ -493,53 +349,15 @@ public class GOL_DataModel : PLCDataProvider
 
     /// <summary>自動模式停止(需要手動按)</summary>
     [PLCBit(BitType.M, 52, LogType.StatusVariables)]
-    public bool TopAutoMode_Stop
+    public bool AutoMode_Stop
     {
         get => Get<bool>();
-        set => Set(value);
-    }
-
-    [PLCBit(BitType.M, 341, LogType.StatusVariables)]
-    public bool RemoteMode
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-
-    /// <summary>溫控器實際溫度</summary>
-    [PLCData(DataType.D, 64, 1, LogType.StatusVariables)]
-    public double PV_TopThermostatTemperature
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-
-    ///// <summary>氮氣流量(L/m)</summary>
-    //[PLCData(DataType.D, 47, LogType.StatusVariables)]
-    //public double TopNitrogenFlow
-    //{
-    //    get => Get<double>();
-    //    set => Set(value);
-    //}
-
-    ///// <summary>含氧量(%)</summary>
-    //[PLCData(DataType.D, 213, 0.1, LogType.StatusVariables)]
-    //public double OxygenContent
-    //{
-    //    get => Get<double>();
-    //    set => Set(value);
-    //}
-
-    /// <summary>RackID</summary>
-    public string RackID
-    {
-        get => Get<string>();
         set => Set(value);
     }
 
     /// <summary>設備狀態，0:停機(STOP)、1:自動(IDLE)、2:自動啟動(RUN)、3:異常(DOWN)、4:保養(PM))</summary>
     [PLCData(DataType.D, 28, LogType.StatusVariables)]
-    public short TopEquipmentState
+    public short EquipmentState
     {
         get => Get<short>();
         set => Set(value);
@@ -552,46 +370,17 @@ public class GOL_DataModel : PLCDataProvider
         get => Get<short>();
         set => Set(value);
     }
-    /// <summary>狀態  0:未知、1:無框、2:空框、3:有料未烘烤、4:有料烘烤OK、5:有料烘烤NG、6:烘烤中  (有料:框+基板) </summary>
-    [PLCData(DataType.D, 58, LogType.StatusVariables)]
-    public short TopStatus
-    {
-        get => Get<short>();
-        set => Set(value);
-    }
-    /// <summary>連線模式 </summary>
-    [PLCData(DataType.D, 121, LogType.StatusVariables)]
-    public short TopPCtoPLC
-    {
-        get => Get<short>();
-        set => Set(value);
-    }
-
-    public string EquipmentName
-    {
-        get => Get<string>();
-        set => Set(value);
-    }
-
-    /// <summary>烘烤剩餘時間</summary>
-    [PLCData(DataType.D, 153, 0.1, LogType.StatusVariables)]
-    public float RemainTime
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
-
-    [PLCData(DataType.D, 412, 0.1, LogType.StatusVariables)]
-    public float TotalTime
-    {
-        get => Get<float>();
-        set => Set(value);
-    }
     #endregion
 
     #region Coater追板
     [PLCData(DataType.D, 10000, 16, LogType.CustomData)]
     public string PanelID
+    {
+        get => Get<string>();
+        set => Set(value);
+    }
+    [PLCData(DataType.D, 20000, 16, LogType.CustomData)]
+    public string LotID
     {
         get => Get<string>();
         set => Set(value);

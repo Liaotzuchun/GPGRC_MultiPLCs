@@ -270,7 +270,7 @@
                                             Style="{StaticResource ValueBorder}">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   Text="{Binding Coater1Panel[0] }" />
+                                                   Text="{Binding Coater1Panel[0].PanelName }" />
                                     </Border>
                                     <Border Grid.Row="1"
                                             Grid.Column="2"
@@ -278,7 +278,7 @@
                                             Style="{StaticResource ValueBorder}">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   Text="{Binding  Coater1Panel[1]}" />
+                                                   Text="{Binding  Coater1Panel[1].PanelName}" />
                                     </Border>
                                     <Border Grid.Row="1"
                                             Grid.Column="3"
@@ -286,7 +286,7 @@
                                             Style="{StaticResource ValueBorder}">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   Text="{Binding  Coater1Panel[2]}" />
+                                                   Text="{Binding  Coater1Panel[2].PanelName}" />
                                     </Border>
                                     <Border Grid.Row="1"
                                             Grid.Column="4"
@@ -294,7 +294,7 @@
                                             Style="{StaticResource ValueBorder}">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   Text="{Binding  Coater1Panel[3]}" />
+                                                   Text="{Binding  Coater1Panel[3].PanelName}" />
                                     </Border>
                                     <Border Grid.Row="1"
                                             Grid.Column="5"
@@ -302,7 +302,7 @@
                                             Style="{StaticResource ValueBorder}">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   Text="{Binding  Coater1Panel[4]}" />
+                                                   Text="{Binding  Coater1Panel[4].PanelName}" />
                                     </Border>
                                     <ScrollViewer Grid.Row="1"
                                                   Grid.Column="6"
@@ -417,7 +417,7 @@
                                             Style="{StaticResource ValueBorder}">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   Text="{Binding  Coater2Panel[0]}" />
+                                                   Text="{Binding  Coater2Panel[0].PanelName}" />
                                     </Border>
                                     <Border Grid.Row="1"
                                             Grid.Column="2"
@@ -425,7 +425,7 @@
                                             Style="{StaticResource ValueBorder}">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   Text="{Binding  Coater2Panel[1]}" />
+                                                   Text="{Binding  Coater2Panel[1].PanelName}" />
                                     </Border>
                                     <Border Grid.Row="1"
                                             Grid.Column="3"
@@ -433,7 +433,7 @@
                                             Style="{StaticResource ValueBorder}">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   Text="{Binding  Coater2Panel[2]}" />
+                                                   Text="{Binding  Coater2Panel[2].PanelName}" />
                                     </Border>
                                     <Border Grid.Row="1"
                                             Grid.Column="4"
@@ -441,7 +441,7 @@
                                             Style="{StaticResource ValueBorder}">
                                         <TextBlock HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   Text="{Binding  Coater2Panel[3]}" />
+                                                   Text="{Binding  Coater2Panel[3].PanelName}" />
                                     </Border>
 
                                     <Border Grid.Row="0"
@@ -651,12 +651,12 @@
                         </Grid>
                     </GroupBox>
                 </Grid>
-
                 <GroupBox Grid.Row="0"
                           Grid.RowSpan="2"
                           Grid.Column="2"
                           Margin="3,3,3,3"
-                          Header="配方功能">
+                          Header="配方功能"
+                          IsEnabled="{Binding User.Level, Source={StaticResource Mediator}, Converter={StaticResource IsMoreThanValue}, ConverterParameter=2, Mode=OneWay}">
                     <Grid Grid.Column="1">
                         <Grid.RowDefinitions>
                             <RowDefinition></RowDefinition>

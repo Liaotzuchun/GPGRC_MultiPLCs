@@ -1143,42 +1143,35 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     public double TemperatureSV1
     {
         get => Get<double>();
-        set
-        {
-            value = Math.Round(value, MidpointRounding.AwayFromZero);
-
-            if (value > TemperatureSV1_Max)
-            {
-                value = TemperatureSV1_Max;
-            }
-            else if (value < TemperatureSV1_Min)
-            {
-                value = TemperatureSV1_Min;
-            }
-
-            Set(value);
-        }
+        set => Set(value);
     }
     [OrderIndex(5)]
     [LanguageTranslator("TemperatureSV2", "第2段溫度設定值", "第2段溫度設定值")]
     public double TemperatureSV2
     {
         get => Get<double>();
-        set
-        {
-            value = Math.Round(value, MidpointRounding.AwayFromZero);
-
-            if (value > TemperatureSV2_Max)
-            {
-                value = TemperatureSV2_Max;
-            }
-            else if (value < TemperatureSV2_Min)
-            {
-                value = TemperatureSV2_Min;
-            }
-
-            Set(value);
-        }
+        set => Set(value);
+    }
+    [OrderIndex(5)]
+    [LanguageTranslator("TemperatureSV3", "第3段溫度設定值", "第3段溫度設定值")]
+    public double TemperatureSV3
+    {
+        get => Get<double>();
+        set => Set(value);
+    }
+    [OrderIndex(5)]
+    [LanguageTranslator("TemperatureSV4", "第4段溫度設定值", "第4段溫度設定值")]
+    public double TemperatureSV4
+    {
+        get => Get<double>();
+        set => Set(value);
+    }
+    [OrderIndex(5)]
+    [LanguageTranslator("TemperatureSV5", "第5段溫度設定值", "第5段溫度設定值")]
+    public double TemperatureSV5
+    {
+        get => Get<double>();
+        set => Set(value);
     }
     [OrderIndex(5)]
     [LanguageTranslator("UseCoating", "塗佈使用", "塗佈使用")]
@@ -2199,6 +2192,9 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         RC3_BakingTimeSetting = 0;
         RC3_TemperatureSV1 = 0;
         RC3_TemperatureSV2 = 0;
+        RC3_TemperatureSV3 = 0;
+        RC3_TemperatureSV4 = 0;
+        RC3_TemperatureSV5 = 0;
         RC3_UseCoating = 0;
         RC3_UsePlug = 0;
         RC3_StandardInk = 0;
@@ -2262,6 +2258,9 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
                                                       RC3_BakingTimeSetting.ToString("0.0") == other.RC3_BakingTimeSetting.ToString("0.0") &&
                                                       RC3_TemperatureSV1.ToString("0.0") == other.RC3_TemperatureSV1.ToString("0.0") &&
                                                       RC3_TemperatureSV2.ToString("0.0") == other.RC3_TemperatureSV2.ToString("0.0") &&
+                                                      RC3_TemperatureSV3.ToString("0.0") == other.RC3_TemperatureSV3.ToString("0.0") &&
+                                                      RC3_TemperatureSV4.ToString("0.0") == other.RC3_TemperatureSV4.ToString("0.0") &&
+                                                      RC3_TemperatureSV5.ToString("0.0") == other.RC3_TemperatureSV5.ToString("0.0") &&
                                                       RC3_UseCoating.ToString("0.0") == other.RC3_UseCoating.ToString("0.0") &&
                                                       RC3_UsePlug.ToString("0.0") == other.RC3_UsePlug.ToString("0.0") &&
                                                       RC3_StandardInk.ToString("0.0") == other.RC3_StandardInk.ToString("0.0") &&
@@ -2324,6 +2323,9 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         RC3_BakingTimeSetting = RC3_BakingTimeSetting,
         RC3_TemperatureSV1 = RC3_TemperatureSV1,
         RC3_TemperatureSV2 = RC3_TemperatureSV2,
+        RC3_TemperatureSV3 = RC3_TemperatureSV3,
+        RC3_TemperatureSV4 = RC3_TemperatureSV4,
+        RC3_TemperatureSV5 = RC3_TemperatureSV5,
         RC3_UseCoating = RC3_UseCoating,
         RC3_UsePlug = RC3_UsePlug,
         RC3_StandardInk = RC3_StandardInk,
@@ -2385,6 +2387,9 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         RC3_BakingTimeSetting = recipe.RC3_BakingTimeSetting;
         RC3_TemperatureSV1 = recipe.RC3_TemperatureSV1;
         RC3_TemperatureSV2 = recipe.RC3_TemperatureSV2;
+        RC3_TemperatureSV3 = recipe.RC3_TemperatureSV3;
+        RC3_TemperatureSV4 = recipe.RC3_TemperatureSV4;
+        RC3_TemperatureSV5 = recipe.RC3_TemperatureSV5;
         RC3_UseCoating = recipe.RC3_UseCoating;
         RC3_UsePlug = recipe.RC3_UsePlug;
         RC3_StandardInk = recipe.RC3_StandardInk;
@@ -2520,6 +2525,9 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
              { nameof(BakingTimeSetting), RC3_BakingTimeSetting },
              { nameof(TemperatureSV1), RC3_TemperatureSV1 },
              { nameof(TemperatureSV2), RC3_TemperatureSV2 },
+             { nameof(TemperatureSV3), RC3_TemperatureSV3 },
+             { nameof(TemperatureSV4), RC3_TemperatureSV4 },
+             { nameof(TemperatureSV5), RC3_TemperatureSV5 },
              { nameof(UseCoating), RC3_UseCoating },
              { nameof(UsePlug), RC3_UsePlug },
              { nameof(StandardInk), RC3_StandardInk },
@@ -2606,6 +2614,9 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
                                                             { "RC3_烘烤時間設定", RC3_BakingTimeSetting },
                                                             { "RC3_第1段溫度設定值", RC3_TemperatureSV1 },
                                                             { "RC3_第2段溫度設定值", RC3_TemperatureSV2 },
+                                                            { "RC3_第3段溫度設定值", RC3_TemperatureSV3 },
+                                                            { "RC3_第4段溫度設定值", RC3_TemperatureSV4 },
+                                                            { "RC3_第5段溫度設定值", RC3_TemperatureSV5 },
                                                             { "RC3_塗佈使用", RC3_UseCoating },
                                                             { "RC3_塞孔使用", RC3_UsePlug },
                                                             { "RC3_標準墨重", RC3_StandardInk },

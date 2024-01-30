@@ -89,28 +89,25 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
         get => Get<bool>();
         set => Set(value);
     }
-    public string[] Coater1Panel
+    //public string[] Coater1Panel
+    //{
+    //    get => Get<string[]>();
+    //    set => Set(value);
+    //}
+    public List<CoaterItem> Coater1Panel
     {
-        get => Get<string[]>();
+        get => Get<List<CoaterItem>>();
         set => Set(value);
     }
-    public string[] Coater2Panel
+    public List<CoaterItem> Coater2Panel
     {
-        get => Get<string[]>();
-        set
-        {
-            Set(value);
-            NotifyPropertyChanged(nameof(Coater2Panel));
-        }
+        get => Get<List<CoaterItem>>();
+        set => Set(value);
     }
-    public string[] Coater3Panel
+    public List<CoaterItem> Coater3Panel
     {
-        get => Get<string[]>();
-        set
-        {
-            Set(value);
-            NotifyPropertyChanged(nameof(Coater3Panel));
-        }
+        get => Get<List<CoaterItem>>();
+        set => Set(value);
     }
     public ObservableCollection<CoaterItem> Coater1Items
     {
@@ -698,7 +695,11 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
             //! PLC事件紀錄
             plc.EventHappened += e => EventHappened?.Invoke((index, e.type, e.time, e.note, e.tag, e.value));
 
-            var panelIndexMap = new Dictionary<string, int>
+
+
+            plc.PanelMoveHappened += e =>
+            {
+                var panelIndexMap = new Dictionary<string, int>
                                                    {
                                                        { nameof(plc.FeedInlet), 0 },
                                                        { nameof(plc.FeedToWait), 1 },
@@ -706,9 +707,6 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                                                        { nameof(plc.FrontWeightToCoater), 3 },
                                                        { nameof(plc.CoaterToBackWeight), 4 },
                                                    };
-
-            plc.PanelMoveHappened += e =>
-            {
                 try
                 {
                     if (e.Item1 == 0)
@@ -719,7 +717,7 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
 
                             if (Coaterindex == 0)
                             {
-                                Coater1Panel[0] = plc.PanelID;
+                                Coater1Panel[0] = new CoaterItem { Num = 0, PanelName = plc.PanelID };
                             }
                             else
                             {
@@ -731,7 +729,7 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                         {
                             _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
                             {
-                                Coater1Items.Add(new CoaterItem { Num = Coater1Items.Count + 1, PanelName = Coater1Panel[4] });
+                                Coater1Items.Add(new CoaterItem { Num = Coater1Items.Count + 1, PanelName = Coater1Panel[4].PanelName });
                                 Coater1Panel[4] = null;
                             });
                         }
@@ -749,7 +747,7 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                             {
                                 _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
                                     {
-                                        Coater2Panel[0] = Coater1Items[0].PanelName;
+                                        Coater2Panel[0] = new CoaterItem { Num = 0, PanelName = Coater1Items[0].PanelName };
 
                                         for (var i = 0; i < Coater1Items.Count - 1; i++)
                                         {
@@ -762,15 +760,15 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                             else
                             {
                                 Coater2Panel[Coaterindex - 1] = Coater2Panel[Coaterindex - 2];
-                                Coater2Panel[Coaterindex - 2] = "";
+                                Coater2Panel[Coaterindex - 2] = null;
                             }
                         }
-                        else if (e.Item2 == nameof(plc.BackWeightToOven) && !string.IsNullOrEmpty(Coater2Panel[3]))
+                        else if (e.Item2 == nameof(plc.BackWeightToOven) && Coater2Panel[3] is not null)
                         {
                             _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
                             {
-                                Coater2Items.Add(new CoaterItem { Num = Coater2Items.Count + 1, PanelName = Coater2Panel[3] });
-                                Coater2Panel[3] = "";
+                                Coater2Items.Add(new CoaterItem { Num = Coater2Items.Count + 1, PanelName = Coater2Panel[3].PanelName });
+                                Coater2Panel[3] = null;
                             });
                         }
                     }
@@ -787,7 +785,7 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                             {
                                 _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
                                     {
-                                        Coater3Panel[0] = Coater2Items[0].PanelName;
+                                        Coater3Panel[0] = new CoaterItem { Num = 0, PanelName = Coater2Items[0].PanelName };
 
                                         for (var i = 0; i < Coater2Items.Count - 1; i++)
                                         {
@@ -800,15 +798,15 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                             else
                             {
                                 Coater3Panel[Coaterindex - 1] = Coater3Panel[Coaterindex - 2];
-                                Coater3Panel[Coaterindex - 2] = "";
+                                Coater3Panel[Coaterindex - 2] = null;
                             }
                         }
-                        else if (e.Item2 == nameof(plc.BackWeightToOven) && !string.IsNullOrEmpty(Coater3Panel[3]))
+                        else if (e.Item2 == nameof(plc.BackWeightToOven) && Coater3Panel[3] is not null)
                         {
                             _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
                             {
-                                Coater3Items.Add(new CoaterItem { Num = Coater3Items.Count + 1, PanelName = Coater3Panel[3] });
-                                Coater3Panel[3] = "";
+                                Coater3Items.Add(new CoaterItem { Num = Coater3Items.Count + 1, PanelName = Coater3Panel[3].PanelName });
+                                Coater3Panel[3] = null;
                             });
                         }
                     }
@@ -866,12 +864,25 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
 
     private void InitialStringItem()
     {
-        Coater1Panel = new string[5];
-        Coater2Panel = new string[4];
-        Coater3Panel = new string[4];
         Coater1Items = [];
         Coater2Items = [];
         Coater3Items = [];
+        Coater1Panel = [];
+        Coater2Panel = [];
+        Coater3Panel = [];
+        Coater1Panel.Add(null);
+        Coater1Panel.Add(null);
+        Coater1Panel.Add(null);
+        Coater1Panel.Add(null);
+        Coater1Panel.Add(null);
+        Coater2Panel.Add(null);
+        Coater2Panel.Add(null);
+        Coater2Panel.Add(null);
+        Coater2Panel.Add(null);
+        Coater3Panel.Add(null);
+        Coater3Panel.Add(null);
+        Coater3Panel.Add(null);
+        Coater3Panel.Add(null);
     }
 
     /// <summary>讀取財產編號</summary>

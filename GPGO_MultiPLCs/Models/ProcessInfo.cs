@@ -144,6 +144,27 @@ public class BaseInfo : ObservableObject
         get => Get<double>();
         set => Set(value);
     }
+    [GPIgnore]
+    [LanguageTranslator("CoaterEmptyPanelWeight", "乾板重", "乾板重")]
+    public double CoaterEmptyPanelWeight
+    {
+        get => Get<double>();
+        set => Set(value);
+    }
+    [GPIgnore]
+    [LanguageTranslator("CoaterAfterCoaterWeight", "塗佈後重", "塗佈後重")]
+    public double CoaterAfterCoaterWeight
+    {
+        get => Get<double>();
+        set => Set(value);
+    }
+    [GPIgnore]
+    [LanguageTranslator("CoaterOilWeight", "油墨重", "油墨重")]
+    public double CoaterOilWeight
+    {
+        get => Get<double>();
+        set => Set(value);
+    }
 
     public BaseInfo()
     {

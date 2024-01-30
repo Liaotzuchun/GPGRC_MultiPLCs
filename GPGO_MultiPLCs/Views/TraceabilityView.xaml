@@ -519,7 +519,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>-->
-                    <DataGridTemplateColumn  Width="*"
+                    <DataGridTemplateColumn  Width="300"
                                              HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
                             <ContentControl Content="{StaticResource RecipeFilterData}"
@@ -530,6 +530,50 @@
                             <DataTemplate DataType="models:ProcessInfo">
                                 <TextBlock Text="{Binding Recipe.RecipeName, Mode=OneWay, FallbackValue={x:Null}}"
                                            TextTrimming="CharacterEllipsis" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="100"
+                                            MinWidth="60">
+                        <DataGridTemplateColumn.Header>
+                            <TextBlock Text="{DynamicResource 站}" />
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="models:ProcessInfo">
+                                <TextBlock Text="{Binding Station, Mode=OneWay}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="300"
+                                            MinWidth="60">
+                        <DataGridTemplateColumn.Header>
+                            <TextBlock Text="{DynamicResource 乾板重}" />
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="models:ProcessInfo">
+                                <TextBlock Text="{Binding CoaterEmptyPanelWeight, Mode=OneWay}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="300"
+                                            MinWidth="60">
+                        <DataGridTemplateColumn.Header>
+                            <TextBlock Text="{DynamicResource 塗佈後重}" />
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="models:ProcessInfo">
+                                <TextBlock Text="{Binding CoaterAfterCoaterWeight, Mode=OneWay}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="300"
+                                            MinWidth="60">
+                        <DataGridTemplateColumn.Header>
+                            <TextBlock Text="{DynamicResource 油墨重}" />
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="models:ProcessInfo">
+                                <TextBlock Text="{Binding CoaterOilWeight, Mode=OneWay}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -560,7 +604,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>-->
-                    <DataGridTemplateColumn Width="300"
+                    <!--<DataGridTemplateColumn Width="300"
                                             MinWidth="60">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource 開始時間}" />
@@ -592,7 +636,7 @@
                                 <TextBlock Text="{Binding TotalRampTime, Mode=OneWay}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    </DataGridTemplateColumn>-->
                 </DataGrid.Columns>
                 <DataGrid.RowStyle>
                     <Style TargetType="{x:Type DataGridRow}">

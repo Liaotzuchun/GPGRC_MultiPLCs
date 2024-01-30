@@ -130,34 +130,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     /// <summary>取得是否正在紀錄溫度</summary>
     public bool IsExecuting => ExecutingTask?.Status is TaskStatus.Running or TaskStatus.WaitingForActivation or TaskStatus.WaitingToRun;
 
-    /// <summary>生產進度</summary>
-    public double Progress
-    {
-        get
-        {
-            if (!ConnectionStatus.CurrentValue || !IsExecuting)
-            {
-                return 0.0;
-            }
-
-            var val = 1.0 - RemainTime / TotalTime;
-            return double.IsNaN(val) || double.IsInfinity(val) || val <= 0.0 ? 0.0 :
-                   val >= 1.0 ? 1.0 : val;
-        }
-    }
-
-    /// <summary>進度狀態</summary>
-    public Status EquipmentStatus => !ConnectionStatus.CurrentValue ?
-                                         Status.離線 :
-                                         TopEquipmentState switch
-                                         {
-                                             0 => Status.待命,
-                                             1 => Status.運轉中,
-                                             2 => Status.停止,
-                                             3 => Status.錯誤,
-                                             _ => Status.未知
-                                         };
-
     /// <summary>OP輸入的配方名稱</summary>
     public string InputRecipeName
     {
@@ -336,17 +308,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         Dialog = dialog;
         ConnectionStatus.ValueChanged += status =>
                                          {
-                                             NotifyPropertyChanged(nameof(EquipmentStatus));
-                                             NotifyPropertyChanged(nameof(Progress));
-
-                                             //EventHappened?.Invoke((status ? EventType.StatusChanged : EventType.Alarm, DateTime.Now, "Connection Status", string.Empty, status));
-                                             //if (IsExecuting)
-                                             //{
-                                             //    AddProcessEvent((status ? EventType.StatusChanged : EventType.Alarm, DateTime.Now, "Connection Status", string.Empty, status));
-                                             //}
-
                                              SV_Changed?.Invoke("OnlineStatus", status);
-                                             InvokeSECSEvent?.Invoke("OnlineStatusChanged");
                                              OfflineTime = status ? DateTime.MaxValue : DateTime.Now;
                                          };
 
@@ -381,9 +343,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                               isCheckin = true;
 
                                               OvenInfo.OperatorID = InputOperatorID;
-                                              RackID = OvenInfo.TempProducts.FirstOrDefault()?.LotID ?? string.Empty;
                                               DoorLock = true;
-                                              CheckIn?.Invoke((opid: OvenInfo.OperatorID, rackid: RackID));
                                           });
 
         CheckIsExecutingCommand = new RelayCommand(e =>
@@ -431,97 +391,28 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                 if (value is bool val)
                                 {
                                     EventHappened?.Invoke(eventval!);
-                                    if (IsExecuting)
-                                    {
-                                        AddProcessEvent(eventval!);
-                                    }
-
-                                    if (name == nameof(TopAutoMode_Start))
-                                    {
-                                        Log.Debug("TopAutoMode_Start :" + eventval);
-                                        if (!val)
-                                        {
-                                            return;
-                                        }
-                                        TopDataUploadTimeevent?.Invoke(PLCIndex);
-                                        //TopAutoMode_Stop = false;
-                                        _ = StartPP();
-                                    }
-                                    else if (name == nameof(TopProcessComplete))
-                                    {
-                                        Log.Debug("TopProcessComplete :" + eventval);
-                                        if (!val)
-                                        {
-                                            return;
-                                        }
-                                        OvenInfo.TopIsFinished = true;
-                                        //TopAutoMode_Start = false;
-                                        TopCheckButtonEnabled = true;
-                                        _ = StopPP();
-
-                                    }
-                                    else if (name == nameof(TopAutoMode_Stop))
-                                    {
-                                        Log.Debug("TopAutoMode_Stop :" + eventval);
-                                        if (!val)
-                                        {
-                                            return;
-                                        }
-                                        //TopAutoMode_Start = false;
-                                        TopCheckButtonEnabled = true;
-                                        _ = StopPP();
-                                    }
                                 }
                                 else if (value is short sv)
                                 {
-                                    if (name == nameof(TopEquipmentState))
-                                    {
-                                        SV_Changed?.Invoke($"Previous{name}", oldvalue!);
 
-                                        EventHappened?.Invoke(eventval!);
-                                        if (IsExecuting)
-                                        {
-                                            AddProcessEvent(eventval!);
-                                        }
-
-                                        NotifyPropertyChanged(nameof(EquipmentStatus));
-                                    }
-                                    else if (name == nameof(ProcessState))
-                                    {
-                                        EventHappened?.Invoke(eventval!);
-                                        if (IsExecuting)
-                                        {
-                                            AddProcessEvent(eventval!);
-                                        }
-                                    }
                                 }
                             }
                             else if (LogType == LogType.Alert)
                             {
                                 var eventval = (EventType.Alert, nowtime, name, $"{(BitType)type!}{Subscriptions!.First()}{(SubPosition > -1 ? $"-{SubPosition:X}" : string.Empty)}", value);
                                 EventHappened?.Invoke(eventval!);
-                                if (IsExecuting)
-                                {
-                                    AddProcessEvent(eventval!);
-                                }
 
                                 if (value is bool boolval)
                                 {
-                                    InvokeSECSAlarm?.Invoke(name, boolval);
                                 }
                             }
                             else if (LogType == LogType.Alarm)
                             {
                                 var eventval = (EventType.Alarm, nowtime, name, $"{(BitType)type!}{Subscriptions!.First()}{(SubPosition > -1 ? $"-{SubPosition:X}" : string.Empty)}", value);
                                 EventHappened?.Invoke(eventval!);
-                                if (IsExecuting)
-                                {
-                                    AddProcessEvent(eventval!);
-                                }
 
                                 if (value is bool boolval)
                                 {
-                                    InvokeSECSAlarm?.Invoke(name, boolval);
                                 }
                             }
                             else if (LogType == LogType.RecipeSet) //PLC配方"設定值"改變時
@@ -600,25 +491,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         return result;
     }
 
-    private void AddProcessEvent((EventType type, DateTime addtime, string note, string tag, object value) eventdata)
-    {
-        if (!IsExecuting)
-        {
-            return;
-        }
-
-        ManualRecord = true;
-        var (type, addtime, note, tag, value) = eventdata;
-        OvenInfo.EventList.Add(new LogEvent
-        {
-            Type = type,
-            AddedTime = addtime,
-            Description = note,
-            TagCode = tag,
-            Value = value
-        });
-    }
-
     /// <summary>重設CancellationTokenSource狀態</summary>
     /// <param name="act">取消動作時執行的委派</param>
     private void ResetStopTokenSource(Action? act = null)
@@ -632,85 +504,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             ppCTS.Token.Register(act);
         }
     }
-    /// <summary>開始記錄</summary>
-    /// <param name="ct">取消任務的token</param>
-    /// <returns></returns>
-    private async Task StartRecoder(CancellationToken ct)
-    {
-        OvenInfo.Clear();
-        CheckRecipeCTS.Cancel();
 
-        foreach (var product in OvenInfo.TempProducts)
-        {
-            OvenInfo.Products.Add(product);
-        }
-
-        void AddTemperatures(bool keypoint,
-                             DateTime addtime,
-                             double t0,
-                             //double t1,
-                             //double t2,
-                             //double t3,
-                             //double t4,
-                             //double t5,
-                             //double t6,
-                             //double t7,
-                             //double t8,
-                             double oxy)
-        {
-            var record = new RecordTemperatures
-            {
-                KeyPoint                 = keypoint,
-                AddedTime                = addtime,
-                PV_ThermostatTemperature = t0,
-                //OvenTemperatures_1       = t1,
-                //OvenTemperatures_2       = t2,
-                //OvenTemperatures_3       = t3,
-                //OvenTemperatures_4       = t4,
-                //OvenTemperatures_5       = t5,
-                //OvenTemperatures_6       = t6,
-                //OvenTemperatures_7       = t7,
-                //OvenTemperatures_8       = t8,
-                OxygenContent            = oxy
-            };
-
-            OvenInfo.RecordTemperatures.Add(record);
-            OvenInfo.ChartModel.AddData(record);
-        }
-
-        OvenInfo.StartTime = DateTime.Now;
-        var nt                     = OvenInfo.StartTime;
-        var n                      = TimeSpan.FromSeconds(RecordDelay); //! 每delay週期紀錄一次
-        var _ThermostatTemperature = PV_TopThermostatTemperature;
-        //var _OvenTemperature_1     = OvenTemperature_1;
-        //var _OvenTemperature_2     = OvenTemperature_2;
-        //var _OvenTemperature_3     = OvenTemperature_3;
-        //var _OvenTemperature_4     = OvenTemperature_4;
-        //var _OvenTemperature_5     = OvenTemperature_5;
-        //var _OvenTemperature_6     = OvenTemperature_6;
-        //var _OvenTemperature_7     = OvenTemperature_7;
-        //var _OvenTemperature_8     = OvenTemperature_8;
-        //var _OxygenContent         = OxygenContent;
-
-        //AddTemperatures(true,
-        //                OvenInfo.StartTime,
-        //                _ThermostatTemperature
-        //                //_OvenTemperature_1,
-        //                //_OvenTemperature_2,
-        //                //_OvenTemperature_3,
-        //                //_OvenTemperature_4,
-        //                //_OvenTemperature_5,
-        //                //_OvenTemperature_6,
-        //                //_OvenTemperature_7,
-        //                //_OvenTemperature_8,
-        //                //OxygenContent
-        //                );
-
-        await OneScheduler.StartNew(() =>
-                                    {
-                                    },
-                                    ct);
-    }
     public bool WebRecipetoPLC(string RecipeName, string part)
     {
         try
@@ -744,41 +538,10 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             return false;
         }
     }
-    private async Task StartPP()
-    {
-        //await StopPP(); //! 需先確認PP已停止
-        ResetStopTokenSource();
-        ExecutingTask = StartRecoder(ppCTS.Token);
-        Dialog.Show(new Dictionary<Language, string>
-                        {
-                            { Language.TW,  $"開始烘烤" },
-                            { Language.CHS, $"开始烘烤" }
-                        });
-        //TopCheckin = DateTime.Now;
-        NotifyPropertyChanged(nameof(IsExecuting));
-    }
-    private async Task StopPP()
-    {
-        ppCTS.Cancel();
-        //! 結束生產，填入資料
-        //OvenInfo.StartTime = TopCheckin;
-        OvenInfo.EndTime = DateTime.Now;
-        OvenInfo.Recipe = GetRecipeCoater();
-        OvenInfo.Qty = OvenInfo.TopTempQuantity;
-        //OvenInfo.LotID = TopWorkOrder;
-        //OvenInfo.Part = TopPartID;
-        //OvenInfo.OperatorID = TopOPID;
-        OvenInfo.TotalRampTime = (OvenInfo.EndTime - OvenInfo.StartTime).TotalMinutes;
-        _ = ExecutingFinished?.Invoke(OvenInfo.Copy()!);
-        NotifyPropertyChanged(nameof(IsExecuting));
-        await ExecutingTask;
-    }
 
     public PLC_Recipe GetRecipeCoater() => new PLC_Recipe
     {
-        //NitrogenMode = NitrogenMode,
         RecipeName = RecipeName,
-        //RC1_Coatingoftimes = RC1_Coatingoftimes,
     };
 
     public async Task<SetRecipeResult> SetRecipeAsync(PLC_Recipe? recipe)
@@ -839,27 +602,27 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         var items = new ObservableCollection<Item>();
 
         //三台PLC配方點位都是一樣，但客戶某幾段沒有要全看
-        var recipeData = new Dictionary<string, double>
+        var recipeData = new Dictionary<string, string>
         {
-            { "塗佈次數", Coatingoftimes },
-            { "塗佈速度設定", CoatingSpeedSetting },
-            { "板面夾持距離設定", BoardClampingDistance },
-            { "塞孔次數設定", Plugoftimes },
-            { "塗佈壓力設定", CoatingPressureSetting },
-            { "基板厚度設定", PanelThicknessSetting },
-            { "入料下降位置設定", LocationOfDrop },
-            { "左前D.BAR壓力設定", D_BarPressureSetting1 },
-            { "右前D.BAR壓力設定", D_BarPressureSetting2 },
-            { "左後D.BAR壓力設定", D_BarPressureSetting3 },
-            { "右後D.BAR壓力設定", D_BarPressureSetting4 },
-            { "塞孔刮刀壓力設定", Blade_Pressure },
-            { "烘烤時間設定", BakingTimeSetting },
-            { "塗佈使用", UseCoating },
-            { "塞孔使用", UsePlug },
-            { "標準墨重", StandardInk },
-            { "墨重誤差值", DifferenceOfInk },
-            { "第1段溫度設定值", TemperatureSV1 },
-            { "第2段溫度設定值", TemperatureSV2 },
+            { "塗佈使用", UseCoating == 0 ? "OK" : "NG"  },
+            { "塞孔使用", UsePlug == 0 ? "OK" : "NG"  },
+            { "塗佈次數", Coatingoftimes.ToString() },
+            { "塞孔次數設定", Plugoftimes.ToString() },
+            { "塗佈速度設定", CoatingSpeedSetting.ToString() },
+            { "塞孔刮刀壓力設定", Blade_Pressure.ToString() },
+            { "塗佈壓力設定", CoatingPressureSetting.ToString() },
+            { "基板厚度設定", PanelThicknessSetting.ToString() },
+            { "入料下降位置設定", LocationOfDrop.ToString() },
+            { "板面夾持距離設定", BoardClampingDistance.ToString() },
+            { "左前D.BAR壓力設定", D_BarPressureSetting1.ToString() },
+            { "右前D.BAR壓力設定", D_BarPressureSetting2.ToString() },
+            { "左後D.BAR壓力設定", D_BarPressureSetting3.ToString() },
+            { "右後D.BAR壓力設定", D_BarPressureSetting4.ToString() },
+            { "標準墨重", StandardInk.ToString() },
+            { "墨重誤差值", DifferenceOfInk.ToString() },
+            { "烘烤時間設定", BakingTimeSetting.ToString() },
+            { "第1段溫度設定值", TemperatureSV1.ToString() },
+            { "第2段溫度設定值", TemperatureSV2.ToString() },
         };
         if (plcindex == 0)
         {
@@ -894,8 +657,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         var items = new ObservableCollection<TemperatureItem>();
         var TemperatureData = new Dictionary<string, double>
         {
-            { "第1段溫度實際值", TemperatureSV1 },
-            { "第2段溫度實際值", TemperatureSV2 },
+            { "第1段溫度實際值", TemperaturePV1 },
+            { "第2段溫度實際值", TemperaturePV2 },
         };
         if (plcindex == 0)
         {
@@ -917,9 +680,9 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             {
                 items.Add(new TemperatureItem { TemperatureDESC = kvp.Key, TemperatureValue = kvp.Value.ToString() });
             }
-            items.Add(new TemperatureItem { TemperatureDESC = "第3段溫度實際值", TemperatureValue = TemperatureSV3.ToString() });
-            items.Add(new TemperatureItem { TemperatureDESC = "第4段溫度實際值", TemperatureValue = TemperatureSV4.ToString() });
-            items.Add(new TemperatureItem { TemperatureDESC = "第5段溫度實際值", TemperatureValue = TemperatureSV5.ToString() });
+            items.Add(new TemperatureItem { TemperatureDESC = "第3段溫度實際值", TemperatureValue = TemperaturePV3.ToString() });
+            items.Add(new TemperatureItem { TemperatureDESC = "第4段溫度實際值", TemperatureValue = TemperaturePV4.ToString() });
+            items.Add(new TemperatureItem { TemperatureDESC = "第5段溫度實際值", TemperatureValue = TemperaturePV5.ToString() });
         }
         NotifyPropertyChanged(nameof(TemperatureItems));
         return items;
