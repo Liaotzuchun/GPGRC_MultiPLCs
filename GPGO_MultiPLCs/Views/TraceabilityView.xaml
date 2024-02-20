@@ -429,7 +429,7 @@
                       SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
                       SelectedItem="{Binding SelectedProcessInfo, Mode=OneWayToSource}">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Width="300"
+                    <DataGridTemplateColumn Width="*"
                                             MinWidth="60">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource 紀錄時間}" />
@@ -519,7 +519,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>-->
-                    <DataGridTemplateColumn  Width="300"
+                    <DataGridTemplateColumn  Width="*"
                                              HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
                             <ContentControl Content="{StaticResource RecipeFilterData}"
@@ -533,7 +533,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="100"
+                    <DataGridTemplateColumn Width="*"
                                             MinWidth="60">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource 站}" />
@@ -544,7 +544,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="300"
+                    <DataGridTemplateColumn Width="2*"
                                             MinWidth="60">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource 乾板重}" />
@@ -555,7 +555,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="300"
+                    <DataGridTemplateColumn Width="2*"
                                             MinWidth="60">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource 塗佈後重}" />
@@ -566,7 +566,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="300"
+                    <DataGridTemplateColumn Width="2*"
                                             MinWidth="60">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource 油墨重}" />

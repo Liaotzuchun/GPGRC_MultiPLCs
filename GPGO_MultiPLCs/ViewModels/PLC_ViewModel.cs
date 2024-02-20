@@ -44,6 +44,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public event Func<string, bool>?                                                             CheckUser;
     public event Func<string, PLC_Recipe?>?                                                      GetRecipe;
     public event Func<bool>                                                                      bChangeStatusevent;
+    public event Func<(int StationIndex, ProcessInfo Info), Task<int>>?                          AddRecordToDB;
+
 
     private readonly CountDownTimer          countDownTimer = new();
     private readonly IDialogService          Dialog;
@@ -430,6 +432,13 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                     if (val)
                                     {
                                         PanelMoveHappened?.Invoke((plcindex, name));
+                                        if (name == nameof(BackWeightToOven))
+                                        {
+                                            OvenInfo.CoaterAfterCoaterWeight = 0;
+                                            OvenInfo.CoaterEmptyPanelWeight = 0;
+                                            OvenInfo.CoaterOilWeight = 0;
+                                            _ = ExecutingFinished?.Invoke(OvenInfo.Copy()!);
+                                        }
                                     }
                                 }
                             }
@@ -604,8 +613,8 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
         //三台PLC配方點位都是一樣，但客戶某幾段沒有要全看
         var recipeData = new Dictionary<string, string>
         {
-            { "塗佈使用", UseCoating == 0 ? "OK" : "NG"  },
-            { "塞孔使用", UsePlug == 0 ? "OK" : "NG"  },
+            { "塗佈使用", UseCoating == 0 ? "使用" : "不使用"  },
+            { "塞孔使用", UsePlug == 0 ? "使用" : "不使用"  },
             { "塗佈次數", Coatingoftimes.ToString() },
             { "塞孔次數設定", Plugoftimes.ToString() },
             { "塗佈速度設定", CoatingSpeedSetting.ToString() },

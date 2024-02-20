@@ -502,13 +502,13 @@ public sealed class Mediator : ObservableObject
                 }
             });
 
-            //using (await lockobj.LockAsync())
-            //{
-            //    await TraceVM.AddToDBAsync(stationIndex, info);
+            using (await lockobj.LockAsync())
+            {
+                await TraceVM.AddToDBAsync(stationIndex, info);
 
-            //    //! 輸出欣興CSV紀錄
-            //    await CsvCreator.AddInfo(info, AuthenticatorVM.Settings.DataOutputPath);
-            //}
+                //! 輸出欣興CSV紀錄
+                await CsvCreator.AddInfo(info, AuthenticatorVM.Settings.DataOutputPath);
+            }
 
             return await TraceVM.CheckProductions(stationIndex);
         };
@@ -1246,7 +1246,8 @@ public sealed class Mediator : ObservableObject
     #endregion
 
     #region 資料定時上傳
-    private string GetDataTimeXml(string sTitle, string sMacCode, DataUpload[] sItem)
+    private string GetDataTimeXml
+        (string sTitle, string sMacCode, DataUpload[] sItem)
     {
         var doc = new XmlDocument();
         var declaration = doc.CreateXmlDeclaration("1.0", "UTF-8", null);

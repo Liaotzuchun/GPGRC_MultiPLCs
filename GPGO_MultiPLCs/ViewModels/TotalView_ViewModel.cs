@@ -626,11 +626,6 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                               {
                               };
 
-            //寫入手臂 PLC[0]
-            plc.WriteToRB += e =>
-            {
-            };
-
             //! PLC讀取配方內容時
             plc.GetRecipe += recipeName => string.IsNullOrEmpty(recipeName) ? null : GetRecipe?.Invoke(recipeName);
 
@@ -644,27 +639,6 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
             plc.ExecutingFinished += async baseInfo =>
                                      {
                                          var product = new ProcessInfo(baseInfo);
-
-                                         if (baseInfo.TopIsFinished)
-                                         {
-                                             dialog.Show(new Dictionary<Language, string>
-                                                         {
-                                                             { Language.TW, $"已完成烘烤！" },
-                                                             { Language.CHS, $"已完成烘烤！" },
-                                                             { Language.EN, $"Oven No{index + 1}has been finished!" }
-                                                         },
-                                             TimeSpan.FromSeconds(2));
-                                         }
-                                         else
-                                         {
-                                             dialog.Show(new Dictionary<Language, string>
-                                                         {
-                                                             { Language.TW, $"已完成烘烤！" },
-                                                             { Language.CHS, $"已完成烘烤！" },
-                                                             { Language.EN, $"Oven No{index + 1}has been finished!" }
-                                                         },
-                                              TimeSpan.FromSeconds(2));
-                                         }
 
                                          if (AddRecordToDB != null)
                                          {
@@ -694,8 +668,6 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                                     };
             //! PLC事件紀錄
             plc.EventHappened += e => EventHappened?.Invoke((index, e.type, e.time, e.note, e.tag, e.value));
-
-
 
             plc.PanelMoveHappened += e =>
             {

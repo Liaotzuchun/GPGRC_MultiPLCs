@@ -251,6 +251,10 @@ public class ProcessInfo : BaseInfo, ILogData
     [OrderIndex(-10)]
     [LanguageTranslator("Recorded", "紀錄時間", "纪录时间")]
     public DateTime AddedTime { get; set; }
+    /// <summary>站</summary>
+    [OrderIndex(-10)]
+    [LanguageTranslator("Station", "站", "站")]
+    public int Station { get; set; }
 
     /// <summary>PLC站號</summary>
     [GPIgnore]
