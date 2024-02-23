@@ -12,7 +12,6 @@ using GPMVVM.Helpers;
 using GPMVVM.Models;
 using GPMVVM.PooledCollections;
 using OfficeOpenXml;
-using OfficeOpenXml.Style;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Legends;
@@ -456,30 +455,6 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
 
         BeginIndexChanged += _ => UpdateAct();
         EndIndexChanged += _ => UpdateAct();
-    }
-
-    private void CellLink(ExcelRangeBase cells)
-    {
-        cells.Style.Font.Color.SetColor(Color.Blue);
-        cells.Style.Font.UnderLine = false;
-    }
-
-    private void CellHeader(ExcelRangeBase cells)
-    {
-        cells.Style.Fill.PatternType = ExcelFillStyle.Solid;
-        cells.Style.Fill.BackgroundColor.SetColor(Color.GreenYellow);
-        cells.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-        cells.Style.Border.Left.Style = ExcelBorderStyle.Thin;
-        cells.Style.Border.Right.Style = ExcelBorderStyle.Thin;
-        cells.Style.Border.Top.Style = ExcelBorderStyle.Thin;
-    }
-
-    private void CellBorder(ExcelRangeBase cells)
-    {
-        cells.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-        cells.Style.Border.Left.Style = ExcelBorderStyle.Thin;
-        cells.Style.Border.Right.Style = ExcelBorderStyle.Thin;
-        cells.Style.Border.Top.Style = ExcelBorderStyle.Thin;
     }
 
     private async Task<bool> SaveToCSV(string path)

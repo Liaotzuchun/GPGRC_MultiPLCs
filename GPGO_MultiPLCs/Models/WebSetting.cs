@@ -1,13 +1,13 @@
-﻿using MongodbConnect.DataClass;
+﻿using GPMVVM.Helpers;
 
 namespace GPGRC_MultiPLCs.Models;
-public class WebSetting : MongodbDataBaseClass
+public class WebSetting : ObservableObject
 {
     public string EquipmentID { get; set; }
     public string iMESURL { get; set; }
-    public string CallCarrierID { get; set; }
-    public string OutCarrierID { get; set; }
-    public string NGCarrierID { get; set; }
+    //public string CallCarrierID { get; set; }
+    //public string OutCarrierID { get; set; }
+    //public string NGCarrierID { get; set; }
     public int AVGTime { get; set; }
     public int Timeout { get; set; }
 
@@ -21,9 +21,9 @@ public class WebSetting : MongodbDataBaseClass
     {
         EquipmentID = equipmentID;
         iMESURL = imesurl;
-        CallCarrierID = callcarrierID;
-        OutCarrierID = outcarrierID;
-        NGCarrierID = ngcarrierID;
+        //CallCarrierID = callcarrierID;
+        //OutCarrierID = outcarrierID;
+        //NGCarrierID = ngcarrierID;
         AVGTime = aVGTime;
         Timeout = timeOut;
         UseHeart = useheart;

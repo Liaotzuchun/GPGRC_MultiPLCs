@@ -3,7 +3,10 @@ using System.Net;
 using System.Threading.Tasks;
 using GPGRC_MultiPLCs.Models;
 using GPMVVM.Models;
-using MongodbConnect;
+using MongoDB.Driver;
+
+
+//using MongodbConnect;
 using Serilog;
 
 namespace GPGRC_MultiPLCs.ViewModels;
@@ -68,32 +71,9 @@ public class Authenticator_ViewModel : AuthenticatorModel
 
     private void SaveData()
     {
+        var db = new MongoClient("mongodb://localhost:27017").GetDatabase("GP_GRC");
         var tmp = new WebSetting(Settings.EquipmentID,Settings.iMESURL,Settings.CallCarrierID,Settings.OutCarrierID,Settings.NGCarrierID,Settings.AVGTime,Settings.TimeOut,Settings.UseHeart,Settings.HeartTime,Settings.HeartContent,Settings.HeartPort,Settings.HeartService);
-        var tmpbefore = FindInfo("GP", "WebSetting");
-        if (tmpbefore != null)
-        {
-            DBConnect.DeleteData("GP", "WebSetting", tmpbefore);
-        }
-        DBConnect.InsertData("GP", "WebSetting", tmp);
-    }
-
-    public WebSetting FindInfo(string DBName, string CollectionName)
-    {
-        try
-        {
-            var singleInfo = DBConnect.FindDataOne<WebSetting>(DBName, CollectionName, _ => true);
-
-            if (singleInfo != null)
-            {
-                return singleInfo;
-            }
-            return null;
-        }
-        catch (Exception ex)
-        {
-            Log.Error($"[{DateTime.Now}]---DataBaseError{ex.Message}");
-            return null;
-        }
-
+        db.GetCollection<WebSetting>("WebSetting").DeleteMany(n => n.EquipmentID != "");
+        db.GetCollection<WebSetting>("WebSetting").InsertOne(tmp);
     }
 }

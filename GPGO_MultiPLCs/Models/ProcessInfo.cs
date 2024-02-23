@@ -107,12 +107,6 @@ public class BaseInfo : ObservableObject
     }
 
     [GPIgnore]
-    public ObservableConcurrentCollection<ProductInfo> TopTempProducts
-    {
-        get => Get<ObservableConcurrentCollection<ProductInfo>>()!;
-        set => Set(value);
-    }
-    [GPIgnore]
     public ObservableConcurrentCollection<ProductInfo> TempProducts
     {
         get => Get<ObservableConcurrentCollection<ProductInfo>>()!;
@@ -134,16 +128,8 @@ public class BaseInfo : ObservableObject
     }
 
     public int TempQuantity => TempProducts.Sum(x => x.Quantity);
-    public int TopTempQuantity => TopTempProducts.Sum(x => x.Quantity);
     public int Quantity => Products.Sum(x => x.Quantity);
 
-    [GPIgnore]
-    [LanguageTranslator("Total Time", "總烘烤時間", "总烘烤时间")]
-    public double TotalRampTime
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
     [GPIgnore]
     [LanguageTranslator("CoaterEmptyPanelWeight", "乾板重", "乾板重")]
     public double CoaterEmptyPanelWeight
@@ -165,7 +151,10 @@ public class BaseInfo : ObservableObject
         get => Get<double>();
         set => Set(value);
     }
-
+    /// <summary>站</summary>
+    [OrderIndex(-10)]
+    [LanguageTranslator("Station", "站", "站")]
+    public int Station { get; set; }
     public BaseInfo()
     {
         Recipe = new PLC_Recipe();
@@ -173,7 +162,6 @@ public class BaseInfo : ObservableObject
         RecordTemperatures = new List<RecordTemperatures>();
         Products = new ObservableConcurrentCollection<ProductInfo>();
         TempProducts = new ObservableConcurrentCollection<ProductInfo>();
-        TopTempProducts = new ObservableConcurrentCollection<ProductInfo>();
 
         Products.CollectionChanged += (_, _) =>
                                       {
@@ -182,10 +170,6 @@ public class BaseInfo : ObservableObject
         TempProducts.CollectionChanged += (_, _) =>
                                           {
                                               NotifyPropertyChanged(nameof(TempQuantity));
-                                          };
-        TopTempProducts.CollectionChanged += (_, _) =>
-                                          {
-                                              NotifyPropertyChanged(nameof(TopTempQuantity));
                                           };
     }
 
@@ -198,7 +182,6 @@ public class BaseInfo : ObservableObject
 
         StartTime = new DateTime();
         EndTime = new DateTime();
-        TotalRampTime = 0.0;
         TopIsFinished = false;
     }
 }
@@ -251,10 +234,7 @@ public class ProcessInfo : BaseInfo, ILogData
     [OrderIndex(-10)]
     [LanguageTranslator("Recorded", "紀錄時間", "纪录时间")]
     public DateTime AddedTime { get; set; }
-    /// <summary>站</summary>
-    [OrderIndex(-10)]
-    [LanguageTranslator("Station", "站", "站")]
-    public int Station { get; set; }
+
 
     /// <summary>PLC站號</summary>
     [GPIgnore]

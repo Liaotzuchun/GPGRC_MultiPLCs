@@ -379,12 +379,14 @@ public class GOL_DataModel : PLCDataProvider
         get => Get<string>();
         set => Set(value);
     }
+
     [PLCData(DataType.D, 20000, 16, LogType.CustomData)]
     public string LotID
     {
         get => Get<string>();
         set => Set(value);
     }
+
     /// <summary> 入料 </summary>
     [PLCBit(BitType.M, 100, LogType.CustomData)] public bool FeedInlet { get => Get<bool>(); set => Set(value); }
 

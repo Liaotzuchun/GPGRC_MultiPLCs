@@ -46,7 +46,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
     public event Func<bool>                                                                      bChangeStatusevent;
     public event Func<(int StationIndex, ProcessInfo Info), Task<int>>?                          AddRecordToDB;
 
-
     private readonly CountDownTimer          countDownTimer = new();
     private readonly IDialogService          Dialog;
     private readonly TaskFactory             OneScheduler = new(new StaTaskScheduler(1));
@@ -437,6 +436,7 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
                                             OvenInfo.CoaterAfterCoaterWeight = 0;
                                             OvenInfo.CoaterEmptyPanelWeight = 0;
                                             OvenInfo.CoaterOilWeight = 0;
+                                            OvenInfo.Station = plcindex + 1;
                                             _ = ExecutingFinished?.Invoke(OvenInfo.Copy()!);
                                         }
                                     }
@@ -498,20 +498,6 @@ public sealed class PLC_ViewModel : GOL_DataModel, IDisposable
             AutoMode = true;
         }
         return result;
-    }
-
-    /// <summary>重設CancellationTokenSource狀態</summary>
-    /// <param name="act">取消動作時執行的委派</param>
-    private void ResetStopTokenSource(Action? act = null)
-    {
-        ppCTS.Dispose();
-
-        ppCTS = new CancellationTokenSource();
-
-        if (act != null)
-        {
-            ppCTS.Token.Register(act);
-        }
     }
 
     public bool WebRecipetoPLC(string RecipeName, string part)
