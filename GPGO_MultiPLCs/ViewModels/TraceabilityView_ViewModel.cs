@@ -262,7 +262,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                                   { Language.CHS, $"档案已输出至\n{path}" },
                                                                   { Language.EN, $"The file has been output to\n{path}" }
                                                               },
-                                                               TimeSpan.FromSeconds(6));
+                                                               TimeSpan.FromSeconds(6));     
                                               }
                                           });
 
