@@ -5,10 +5,10 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:models="clr-namespace:GPGRC_MultiPLCs.Models"
-             xmlns:models1="clr-namespace:GPMVVM.Models;assembly=GPMVVM"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:views="clr-namespace:GPMVVM.Views;assembly=GPMVVM"
              xmlns:vm="clr-namespace:GPGRC_MultiPLCs.ViewModels"
+             xmlns:models1="clr-namespace:GPMVVM.Models;assembly=GPMVVM.Core"
              d:DataContext="{d:DesignInstance vm:LogView_ViewModel}"
              d:DesignHeight="450"
              d:DesignWidth="800"
@@ -23,8 +23,10 @@
     <UserControl.Resources>
         <Style x:Key="ColumnFilterStyle"
                TargetType="DataGridColumnHeader">
-            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
+            <Setter Property="HorizontalContentAlignment"
+                    Value="Stretch" />
+            <Setter Property="KeyboardNavigation.TabNavigation"
+                    Value="None" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
@@ -43,7 +45,7 @@
         <views:FilterGroupProxy x:Key="TypeFilterData"
                                 Data="{Binding TypeFilter, Mode=OneWay}" />
         <DataTemplate x:Key="EqualFilterTemplate"
-                      DataType="models1:EqualFilter">
+                      DataType="{x:Type models1:EqualFilter}">
             <MenuItem Header="{Binding Value, Mode=OneWay, Converter={views:StringToResource}}"
                       IsCheckable="True"
                       IsChecked="{Binding IsEnabled, Mode=TwoWay}"
@@ -377,18 +379,20 @@
               Margin="0,4,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition />
+                <RowDefinition Height="54" />
+                <RowDefinition />
             </Grid.RowDefinitions>
             <DataGrid x:Name="dg1"
                       AutoGenerateColumns="False"
                       BorderThickness="0"
-                      FontSize="25"
+                      FontSize="12"
                       HorizontalScrollBarVisibility="Disabled"
-                      ItemsSource="{Binding ViewResults, Mode=OneWay, IsAsync=True}"
+                      ItemsSource="{Binding ViewResults_On, Mode=OneWay, IsAsync=True}"
                       SelectedCellsChanged="dg1_SelectedCellsChanged"
                       SelectedIndex="{Binding SelectedIndex1, Mode=TwoWay}">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn x:Name="dc1"
-                                            Width="300"
+                                            Width="Auto"
                                             MinWidth="60">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource 紀錄時間}" />
@@ -399,7 +403,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="300"
+                    <DataGridTemplateColumn Width="Auto"
                                             MinWidth="60">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{DynamicResource 以前}" />
@@ -410,7 +414,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <!--<DataGridTemplateColumn Width="150"
+                    <DataGridTemplateColumn Width="Auto"
                                             HeaderStyle="{StaticResource ColumnFilterStyle}"
                                             Visibility="{Binding OvenCount, Source={StaticResource Mediator}, Mode=OneWay, Converter={StaticResource IsMoreThanValueVis}, ConverterParameter={StaticResource two}}">
                         <DataGridTemplateColumn.Header>
@@ -423,8 +427,8 @@
                                 <TextBlock Text="{Binding StationNumber, Mode=OneWay}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>-->
-                    <DataGridTemplateColumn Width="200"
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="Auto"
                                             HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
                             <ContentControl Content="{StaticResource TypeFilterData}"
@@ -437,7 +441,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="300"
+                    <DataGridTemplateColumn Width="Auto"
                                             MinWidth="60"
                                             MaxWidth="240"
                                             CellTemplateSelector="{StaticResource LogTypeTemplateSelector}">
@@ -462,34 +466,27 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            <!--<Grid Grid.Row="1">
+            <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                   
+                    <ColumnDefinition Width="{Binding ActualWidth, ConverterParameter=1, Converter={StaticResource AddValue}, ElementName=dc1, Mode=OneWay}"
+                                      MinWidth="80" />
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto"
                                       MinWidth="80" />
                     <ColumnDefinition Width="Auto"
                                       MinWidth="80" />
+                    <ColumnDefinition Width="80" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="24" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                --><!--<Border Background="{StaticResource WindowBackgroundBrush2}"
+                <Border Background="{StaticResource WindowBackgroundBrush2}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
                         BorderThickness="0,1,1,1">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                Text="{DynamicResource 歷時}" />
-                </Border>--><!--
-                <Border Grid.Row="0"
-                        Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush2}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="0,1,1,1">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{DynamicResource 配方}" />
                 </Border>
                 <Border Grid.Row="0"
                         Grid.Column="1"
@@ -498,7 +495,7 @@
                         BorderThickness="0,1,1,1">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               Text="{DynamicResource 操作員}" />
+                               Text="{DynamicResource 配方}" />
                 </Border>
                 <Border Grid.Row="0"
                         Grid.Column="2"
@@ -507,9 +504,18 @@
                         BorderThickness="0,1,1,1">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
+                               Text="{DynamicResource 操作員}" />
+                </Border>
+                <Border Grid.Row="0"
+                        Grid.Column="3"
+                        Background="{StaticResource WindowBackgroundBrush2}"
+                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                        BorderThickness="0,1,1,1">
+                    <TextBlock HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
                                Text="{DynamicResource 數量}" />
                 </Border>
-                --><!--<Border Grid.Row="1"
+                <Border Grid.Row="1"
                         Grid.Column="0"
                         Background="{StaticResource WindowBackgroundBrush6}"
                         BorderBrush="{StaticResource WindowBackgroundBrush4}"
@@ -527,15 +533,6 @@
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>
-                </Border>--><!--
-                <Border Grid.Row="1"
-                        Grid.Column="0"
-                        Background="{StaticResource WindowBackgroundBrush6}"
-                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
-                        BorderThickness="0,0,1,1">
-                    <TextBlock HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{Binding SelectedProcessInfo.Recipe.RecipeName, Mode=OneWay, FallbackValue={x:Static system:String.Empty}}" />
                 </Border>
                 <Border Grid.Row="1"
                         Grid.Column="1"
@@ -544,7 +541,7 @@
                         BorderThickness="0,0,1,1">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               Text="{Binding SelectedProcessInfo.OperatorID, Mode=OneWay, FallbackValue={x:Static system:String.Empty}}" />
+                               Text="{Binding SelectedProcessInfo.Recipe.RecipeName, Mode=OneWay, FallbackValue={x:Static system:String.Empty}}" />
                 </Border>
                 <Border Grid.Row="1"
                         Grid.Column="2"
@@ -553,17 +550,26 @@
                         BorderThickness="0,0,1,1">
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
+                               Text="{Binding SelectedProcessInfo.OperatorID, Mode=OneWay, FallbackValue={x:Static system:String.Empty}}" />
+                </Border>
+                <Border Grid.Row="1"
+                        Grid.Column="3"
+                        Background="{StaticResource WindowBackgroundBrush6}"
+                        BorderBrush="{StaticResource WindowBackgroundBrush4}"
+                        BorderThickness="0,0,1,1">
+                    <TextBlock HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
                                Text="{Binding SelectedProcessInfo.Quantity, Mode=OneWay, FallbackValue=0}" />
                 </Border>
-                --><!--<Button Grid.Row="0"
+                <Button Grid.Row="0"
                         Grid.RowSpan="2"
                         Grid.Column="4"
                         Command="{Binding GoCommand, Mode=OneWay}"
                         Content="{DynamicResource 詳情}"
                         FontSize="16"
-                        IsEnabled="{Binding SelectedProcessInfo, Converter={StaticResource IsNotNull}, Mode=OneWay}" />--><!--
-            </Grid>-->
-            <!--<DataGrid x:Name="dg2"
+                        IsEnabled="{Binding SelectedProcessInfo, Converter={StaticResource IsNotNull}, Mode=OneWay}" />
+            </Grid>
+            <DataGrid x:Name="dg2"
                       Grid.Row="2"
                       AutoGenerateColumns="False"
                       BorderThickness="0"
@@ -594,7 +600,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="Auto"
+                    <!--<DataGridTemplateColumn Width="Auto"
                                             HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
                             <ContentControl Content="{StaticResource OvenFilterData}"
@@ -606,7 +612,7 @@
                                 <TextBlock Text="{Binding StationNumber, Mode=OneWay}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    </DataGridTemplateColumn>-->
                     <DataGridTemplateColumn Width="Auto"
                                             HeaderStyle="{StaticResource ColumnFilterStyle}">
                         <DataGridTemplateColumn.Header>
@@ -644,7 +650,7 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
-            </DataGrid>-->
+            </DataGrid>
         </Grid>
     </Grid>
 </UserControl>

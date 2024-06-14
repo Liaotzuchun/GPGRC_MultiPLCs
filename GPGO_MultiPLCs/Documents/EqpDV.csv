@@ -1,0 +1,3 @@
+Name,ID,Type,Length,Unit,Definition
+Oven1_ProcessData,100,ASCII,65535,,Oven1_ProcessData
+Oven2_ProcessData,200,ASCII,65535,,Oven2_ProcessData

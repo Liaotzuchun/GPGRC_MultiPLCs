@@ -10,7 +10,6 @@ using System.Windows;
 using GPGRC_MultiPLCs.Models;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
-using GPMVVM.PooledCollections;
 using OfficeOpenXml;
 using OxyPlot;
 using OxyPlot.Axes;

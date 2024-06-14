@@ -13,16 +13,11 @@
              d:DesignHeight="800"
              d:DesignWidth="900"
              mc:Ignorable="d">
-
     <UserControl.Resources>
         <local:EqualBrush x:Key="EqualBrush" />
     </UserControl.Resources>
     <Grid>
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>

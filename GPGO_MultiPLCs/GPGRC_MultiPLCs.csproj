@@ -19,6 +19,35 @@
 	  <Compile Remove="Models\WebRecipe.cs" />
 	  <Compile Remove="Models\WebServiceFunc.cs" />
 	</ItemGroup>
+	<ItemGroup>
+	  <COMReference Include="QGACTIVEXLib">
+	    <WrapperTool>tlbimp</WrapperTool>
+	    <VersionMinor>0</VersionMinor>
+	    <VersionMajor>1</VersionMajor>
+	    <Guid>dcf453ea-d30f-47d6-a916-cfd254b85739</Guid>
+	    <Lcid>0</Lcid>
+	    <Isolated>false</Isolated>
+	    <EmbedInteropTypes>true</EmbedInteropTypes>
+	  </COMReference>
+	  <COMReference Include="QSACTIVEXLib">
+	    <WrapperTool>tlbimp</WrapperTool>
+	    <VersionMinor>0</VersionMinor>
+	    <VersionMajor>1</VersionMajor>
+	    <Guid>b25f3585-0060-40de-b95f-80146b9365e6</Guid>
+	    <Lcid>0</Lcid>
+	    <Isolated>false</Isolated>
+	    <EmbedInteropTypes>true</EmbedInteropTypes>
+	  </COMReference>
+	  <COMReference Include="QSXACTIVEXLib">
+	    <WrapperTool>tlbimp</WrapperTool>
+	    <VersionMinor>0</VersionMinor>
+	    <VersionMajor>1</VersionMajor>
+	    <Guid>39bf2142-bb18-43a5-9512-cab02fcbb5b8</Guid>
+	    <Lcid>0</Lcid>
+	    <Isolated>false</Isolated>
+	    <EmbedInteropTypes>true</EmbedInteropTypes>
+	  </COMReference>
+	</ItemGroup>
 
 	<ItemGroup>
 		<Resource Include="GP.ico" />
@@ -26,9 +55,10 @@
 
 	<ItemGroup>
 		<PackageReference Include="EPPlus" Version="6.2.4" />
-		<PackageReference Include="GPMVVM" Version="23.11.27.14" />
-		<PackageReference Include="GPMVVM.Core" Version="23.11.27.14" />
-		<PackageReference Include="GPMVVM.MongoDB" Version="23.11.27.14" />
+		<PackageReference Include="GPMVVM" Version="24.6.7.16" />
+		<PackageReference Include="GPMVVM.Core" Version="24.6.7.16" />
+		<PackageReference Include="GPMVVM.MongoDB" Version="24.6.7.16" />
+		<PackageReference Include="GPMVVM.SECSGEM" Version="24.6.7.16" />
 		<PackageReference Include="OxyPlot.SkiaSharp.Wpf" Version="2.1.2" />
 		<PackageReference Include="RawInput.Sharp" Version="0.1.1" />
 	</ItemGroup>

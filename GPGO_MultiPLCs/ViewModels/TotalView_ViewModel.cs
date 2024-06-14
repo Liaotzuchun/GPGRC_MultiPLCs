@@ -11,10 +11,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using GP_GRC.Models;
 using GPGRC_MultiPLCs.Models;
-//using GPMVVM.Core.Models.SECS;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
-using GPMVVM.PooledCollections;
+using GPMVVM.Models.SECS;
+using GPMVVM.Models.SECS.ITRISecs;
+using GPMVVM.SECSGEM;
 using PLCService;
 #pragma warning disable VSTHRD101
 
@@ -41,7 +42,7 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
     private readonly Timer Checker;
     private readonly AsyncOperation? asyncOperation;
     private readonly int             threadid;
-
+    public GRC_SecsGem SecsGemEquipment { get; }
     public Language Language = Language.TW;
     public IGate Gate { get; }
     public ObservableConcurrentQueue<LogEvent> QueueMessages { get; } = new();
@@ -51,49 +52,9 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
     public RelayCommand TestPanelCommand { get; }
     public RelayCommand InitialPanelCommand { get; }
     public RelayCommand GoDetailCommand { get; }
-    public RelayCommand GoMesCommand { get; }
     public RelayCommand LoadedCommand { get; }
-    public RelayCommand DataUpload10Command { get; }
-    public RelayCommand DataUpload20Command { get; }
-    public RelayCommand DataUpload30Command { get; }
-    public RelayCommand DataUpload40Command { get; }
-    public RelayCommand DataUpload50Command { get; }
-    public RelayCommand DataUpload60Command { get; }
-    public RelayCommand DataUpload70Command { get; }
-    public RelayCommand DataUpload80Command { get; }
-    public RelayCommand DataUpload90Command { get; }
-    public RelayCommand DataUpload100Command { get; }
-    public RelayCommand DataUpload110Command { get; }
-    public RelayCommand DataUpload120Command { get; }
-    public RelayCommand DataUpload130Command { get; }
-    public RelayCommand DataUpload140Command { get; }
-    public RelayCommand DataUpload150Command { get; }
-    public RelayCommand DataUpload160Command { get; }
-    public RelayCommand DataUpload170Command { get; }
-    public RelayCommand DataUpload180Command { get; }
-    public RelayCommand DataUpload190Command { get; }
-    public RelayCommand DataUpload200Command { get; }
-    public RelayCommand LocalIngredients { get; }
-
-    public event Func<Task> LocalIngredientsevent;
-
-    public event Action<int> ChangeStatusevent;
-
-    public bool RadioButton90Check
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    public bool RadioButton100Check
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    //public string[] Coater1Panel
-    //{
-    //    get => Get<string[]>();
-    //    set => Set(value);
-    //}
+    public AsyncCommand SendTerminalMessageCommand { get; }
+    public RelayCommand SecsReStartCommand { get; }
     public List<CoaterItem> Coater1Panel
     {
         get => Get<List<CoaterItem>>();
@@ -126,7 +87,7 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
     }
     /// <summary>所有PLC</summary>
     public IList<PLC_ViewModel> PLC_All { get; }
-
+    public bool[] PLCIsBusy { get; }
     public IList<PLC_ViewModel> PLC_All_View => OvenCount > PLC_All.Count ? PLC_All : PLC_All.Take(OvenCount).ToList();
 
     /// <summary>檢視詳細資訊的PLC</summary>
@@ -189,77 +150,64 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
         get => Get<int>();
         set => Set(value);
     }
-    #region 本地下配方輸入資料
-    public string LocalLot
+    public bool SECS_ENABLE
     {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
+        get => Get<bool>();
+        set
+        {
+            if (!SecsGemEquipment.Enable(value))
+            {
+                Dialog?.Show(value ?
+                                 new Dictionary<Language, string>
+                                 {
+                                     { Language.TW, "無法啟用連線" },
+                                     { Language.CHS, "无法启用联机" },
+                                     { Language.EN, "Unable to enable connection" }
+                                 } :
+                                 new Dictionary<Language, string>
+                                 {
+                                     { Language.TW, "無法中止連線" },
+                                     { Language.CHS, "无法中止联机" },
+                                     { Language.EN, "Unable to disable connection" }
+                                 });
+            }
+        }
     }
-    public string LocalRecipe
+
+    public bool SECS_Communicating
     {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
-    }
-    public string LocalUser
-    {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
-    }
-    public string LocalPartID
-    {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
-    }
-    public string LocalPanelCount
-    {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
-    }
-    public string LocalProcessID
-    {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
-    }
-    #endregion
-    #region 顯示配方訊息
-    public string ShowOPID
-    {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
-    }
-    public string ShowLot
-    {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
-    }
-    public string ShowPartID
-    {
-        get => Get<string>() ?? string.Empty;
+        get => Get<bool>();
         set => Set(value);
     }
 
-    public string ShowProcessID
+    public bool SECS_ONLINE
     {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
-    }
-    public string ShowPanelCount
-    {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
+        get => Get<bool>();
+        set
+        {
+            if (!SECS_ENABLE)
+            {
+                return;
+            }
+
+            SecsGemEquipment.Online(value);
+        }
     }
 
-    public string ShowRecipeID
+    public bool SECS_REMOTE
     {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
+        get => Get<bool>();
+        set
+        {
+            if (!SECS_ENABLE || !SECS_ONLINE)
+            {
+                return;
+            }
+
+            SecsGemEquipment.Remote(value);
+        }
     }
-    public DateTime ShowCheckin
-    {
-        get => Get<DateTime>();
-        set => Set(value);
-    }
-    #endregion
+
     public TotalView_ViewModel(int count, IGate gate, IPAddress plcaddress, IDialogService dialog)
     {
         asyncOperation = AsyncOperationManager.CreateOperation(null);
@@ -268,17 +216,534 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
         OvenCount = count;
         PLC_All = new PLC_ViewModel[count];
         PLCIndex = 0;
+        var v = Assembly.GetExecutingAssembly().GetName().Version;
+        SecsGemEquipment = new GRC_SecsGem("0", "GPGRC", $"{v.Major}.{v.Minor}.{v.Build}");
+        SecsGemEquipment.HSMSParameters.RegisterChanged();
+
+        SecsGemEquipment.TerminalMessageRecived += async message =>
+        {
+            if (Dialog == null)
+            {
+                return;
+            }
+
+            var eventval = (-1, EventType.SECSCommand, DateTime.Now, nameof(SECSGEM.TerminalMessageRecived), "", message);
+            EventHappened?.Invoke(eventval);
+
+            if (await dialog.Show(new Dictionary<Language, string>
+                                                                             {
+                                                                                 { Language.TW, $"{DateTime.Now:M/d HH:mm:ss} 終端訊息：\n{message}" },
+                                                                                 { Language.CHS, $"{DateTime.Now:M/d HH:mm:ss} 终端讯息：\n{message}" },
+                                                                                 { Language.EN, $"{DateTime.Now:M/d HH:mm:ss} TerminalMessage：\n{message}" }
+                                                                             },
+                                  false,
+                                  TimeSpan.FromDays(1),
+                                  DialogMsgType.Alert))
+            {
+                SecsGemEquipment.TerminalMessageConfirm();
+
+                var (result1, input1) = await dialog.ShowWithInput(new Dictionary<Language, string>
+                                                                                                              {
+                                                                                                                  { Language.TW, "欲回覆之訊息：" },
+                                                                                                                  { Language.CHS, "欲回复之讯息：" },
+                                                                                                                  { Language.EN, "Please enter the message you want to reply：" }
+                                                                                                              },
+                                                                   new Dictionary<Language, string>
+                                                                   {
+                                                                                                                  { Language.TW, "終端訊息" },
+                                                                                                                  { Language.CHS, "终端讯息" },
+                                                                                                                  { Language.EN, "Terminal Message" }
+                                                                   },
+                                                                   true);
+
+                if (result1 && input1 is string msg)
+                {
+                    SecsGemEquipment.SendTerminalMessage(msg);
+                }
+            }
+        };
+
+        SecsGemEquipment.ECChange += _ =>
+        {
+        };
+
+        SecsGemEquipment.UpsertUnformattedPP += e =>
+        {
+            var (ppid, ppbody) = e;
+            var eventval = (-1, EventType.SECSCommand, DateTime.Now, nameof(SECSGEM.UpsertUnformattedPP), "", ppid);
+            EventHappened?.Invoke(eventval);
+            if (ppbody.JsonToObject<PLC_Recipe>() is { } recipe)
+            {
+                recipe.RecipeName = ppid;
+                recipe.Editor = "SECSGEM-HOST";
+                recipe.EditorLevel = UserLevel.Manager;
+
+                return UpsertRecipe != null && UpsertRecipe.Invoke(recipe);
+            }
+
+            return false;
+        };
+
+        SecsGemEquipment.UpsertFormattedPP += e =>
+        {
+            var (ppid, _, recipedic) = e;
+            var recipe   = new PLC_Recipe(ppid, "SECSGEM-HOST", UserLevel.Manager);
+            var eventval = (-1, EventType.SECSCommand, DateTime.Now, nameof(SECSGEM.UpsertFormattedPP), "", recipe.RecipeName);
+            EventHappened?.Invoke(eventval);
+
+            return recipe.SetByDictionary(recipedic) && UpsertRecipe != null && UpsertRecipe.Invoke(recipe);
+        };
+
+        SecsGemEquipment.DeletePP += recipeName =>
+        {
+            var eventval = (-1, EventType.SECSCommand, DateTime.Now, nameof(SECSGEM.DeletePP), "", recipeName);
+            EventHappened?.Invoke(eventval);
+
+            return DeleteRecipe != null && DeleteRecipe.Invoke(recipeName);
+        };
+
+        SecsGemEquipment.START_Command += index =>
+        {
+            if (!SECS_REMOTE)
+            {
+                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.START_Command), "不在SECS_REMOTE", index);
+                EventHappened?.Invoke(eventval);
+                return HCACKValule.CantPerform;
+            }
+
+            if (index >= PLC_All.Count)
+            {
+                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.START_Command), "Index超過PLC總數", index);
+                EventHappened?.Invoke(eventval);
+                return HCACKValule.ParameterInvalid;
+            }
+
+            if (PLCIsBusy[index])
+            {
+                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.START_Command), "正在執行其他Command", index);
+                EventHappened?.Invoke(eventval);
+
+                dialog.Show(new Dictionary<Language, string>
+                                                              {
+                                                                  { Language.TW, "START: 正在執行其他Command" },
+                                                                  { Language.CHS, "START: 正在执行其他Command" },
+                                                                  { Language.EN, "START: Other command is being executed" }
+                                                              },
+                            DialogMsgType.Alert);
+
+                return HCACKValule.CantPerform;
+            }
+
+            var plc = PLC_All[index];
+
+            if (!Gate.GateStatus.CurrentValue || !plc.ConnectionStatus.CurrentValue)
+            {
+                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.START_Command), "PLC離線", index);
+                EventHappened?.Invoke(eventval);
+
+                dialog.Show(new Dictionary<Language, string>
+                                                              {
+                                                                  { Language.TW, "START: PLC離線" },
+                                                                  { Language.CHS, "START: PLC脱机" },
+                                                                  { Language.EN, "START: PLC is offline." }
+                                                              },
+                            DialogMsgType.Alert);
+
+                return HCACKValule.CantPerform;
+            }
+
+            if (plc.IsExecuting)
+            {
+                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.START_Command), "仍在烘烤中", index);
+                EventHappened?.Invoke(eventval);
+
+                dialog.Show(new Dictionary<Language, string>
+                                                              {
+                                                                  { Language.TW, "START: 仍在烘烤中" },
+                                                                  { Language.CHS, "START: 仍在烘烤中" },
+                                                                  { Language.EN, "START: Oven is executing." }
+                                                              },
+                            DialogMsgType.Alert);
+
+                return HCACKValule.CantPerform;
+            }
+
+            if (plc.EmergencyStop || plc.PowerPhaseError || plc.OTPTemperatureError || plc.CirculatingFanCurrentError || plc.ELBtrip)
+            {
+                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.START_Command), "烤箱狀態異常", index);
+                EventHappened?.Invoke(eventval);
+
+                dialog.Show(new Dictionary<Language, string>
+                                                              {
+                                                                  { Language.TW, "START: 烤箱狀態異常" },
+                                                                  { Language.CHS, "START: 烤箱状态异常" },
+                                                                  { Language.EN, "START: Oven status abnormal." }
+                                                              },
+                            DialogMsgType.Alert);
+
+                return HCACKValule.CantPerform;
+            }
+
+            if (plc.DoorNotOpen)
+            {
+                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.START_Command), "停止後未開門", index);
+                EventHappened?.Invoke(eventval);
+
+                dialog.Show(new Dictionary<Language, string>
+                                                              {
+                                                                  { Language.TW, "START: 停止後未開門" },
+                                                                  { Language.CHS, "START: 停止后未开门" },
+                                                                  { Language.EN, "START: The door did not open after stopped." }
+                                                              },
+                            DialogMsgType.Alert);
+
+                return HCACKValule.CantPerform;
+            }
+
+            PLCIsBusy[index] = true;
+
+            if (!plc.AutoMode && plc.ManualSetByPropertiesWithCheck(new Dictionary<string, object> { { nameof(PLC_ViewModel.AutoMode), true } }).Result.Count > 0)
+            {
+                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.START_Command), "無法切換自動模式", index);
+                EventHappened?.Invoke(eventval);
+
+                dialog.Show(new Dictionary<Language, string>
+                                                              {
+                                                                  { Language.TW, "START: 無法切換自動模式" },
+                                                                  { Language.CHS, "START: 无法切换自动模式" },
+                                                                  { Language.EN, "START: Unable switch to AutoMode." }
+                                                              },
+                            DialogMsgType.Alert);
+
+                PLCIsBusy[index] = false;
+                return HCACKValule.CantPerform;
+            }
+
+            if (plc.ManualSetByPropertiesWithCheck(new Dictionary<string, object> { { nameof(PLC_ViewModel.AutoMode_Start), true } }).Result.Count > 0)
+            {
+                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.START_Command), "AutoMode_Start設定失敗", index);
+                EventHappened?.Invoke(eventval);
+
+                dialog.Show(new Dictionary<Language, string>
+                                                              {
+                                                                  { Language.TW, "START: AutoMode_Start設定失敗" },
+                                                                  { Language.CHS, "START: AutoMode_Start设定失败" },
+                                                                  { Language.EN, "START: Set \"AutoMode_Start\" failed." }
+                                                              },
+                            DialogMsgType.Alert);
+
+                PLCIsBusy[index] = false;
+                return HCACKValule.CantPerform;
+            }
+
+            var eventval1 = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.START_Command), "啟動成功", index);
+            EventHappened?.Invoke(eventval1);
+
+            PLCIsBusy[index] = false;
+            return HCACKValule.Acknowledge;
+        };
+
+        SecsGemEquipment.STOP_Command += index =>
+        {
+            if (!SECS_REMOTE)
+            {
+                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.STOP_Command), "不在SECS_REMOTE", index);
+                EventHappened?.Invoke(eventval);
+                return HCACKValule.CantPerform;
+            }
+
+            if (index >= PLC_All.Count)
+            {
+                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.STOP_Command), "Index超過PLC總數", index);
+                EventHappened?.Invoke(eventval);
+                return HCACKValule.ParameterInvalid;
+            }
+
+            if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue)
+            {
+                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.STOP_Command), "PLC離線", index);
+                EventHappened?.Invoke(eventval);
+                return HCACKValule.CantPerform;
+            }
+
+            if (!PLC_All[index].ProcessComplete)
+            {
+                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.STOP_Command), "烘烤程序未完成", index);
+                EventHappened?.Invoke(eventval);
+                return HCACKValule.CantPerform;
+            }
+
+            var eventval1 = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.STOP_Command), "", index);
+            EventHappened?.Invoke(eventval1);
+            PLC_All[index].AutoMode_Start = false;
+
+            return HCACKValule.Acknowledge;
+        };
+
+        SecsGemEquipment.PPSELECT_Command += (index, name) =>
+        {
+            var msg = $"{index}:{name}";
+
+            if (!SECS_REMOTE)
+            {
+                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.PPSELECT_Command), "不在SECS_REMOTE", msg);
+                EventHappened?.Invoke(eventval);
+                return HCACKValule.CantPerform;
+            }
+
+            if (index >= PLC_All.Count)
+            {
+                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.PPSELECT_Command), "Index超過PLC總數", msg);
+                EventHappened?.Invoke(eventval);
+                return HCACKValule.ParameterInvalid;
+            }
+
+            if (PLCIsBusy[index])
+            {
+                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.PPSELECT_Command), "正在執行其他Command", msg);
+                EventHappened?.Invoke(eventval);
+
+                dialog.Show(new Dictionary<Language, string>
+                                                                 {
+                                                                     { Language.TW, "PPSELECT: 正在執行其他Command" },
+                                                                     { Language.CHS, "PPSELECT: 正在执行其他Command" },
+                                                                     { Language.EN, "PPSELECT: Other command is being executed" }
+                                                                 },
+                            DialogMsgType.Alert);
+
+                return HCACKValule.CantPerform;
+            }
+
+            var plc = PLC_All[index];
+
+            if (!Gate.GateStatus.CurrentValue || !plc.ConnectionStatus.CurrentValue)
+            {
+                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.PPSELECT_Command), "PLC離線", msg);
+                EventHappened?.Invoke(eventval);
+
+                dialog.Show(new Dictionary<Language, string>
+                                                                 {
+                                                                     { Language.TW, "PPSELECT: PLC離線" },
+                                                                     { Language.CHS, "PPSELECT: PLC脱机" },
+                                                                     { Language.EN, "PPSELECT: PLC is offline." }
+                                                                 },
+                            DialogMsgType.Alert);
+
+                return HCACKValule.CantPerform;
+            }
+
+            if (plc.IsExecuting)
+            {
+                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.PPSELECT_Command), "仍在烘烤中", msg);
+                EventHappened?.Invoke(eventval);
+
+                dialog.Show(new Dictionary<Language, string>
+                                                                 {
+                                                                     { Language.TW, "PPSELECT: 仍在烘烤中" },
+                                                                     { Language.CHS, "PPSELECT: 仍在烘烤中" },
+                                                                     { Language.EN, "PPSELECT: Oven is executing." }
+                                                                 },
+                            DialogMsgType.Alert);
+
+                return HCACKValule.CantPerform;
+            }
+
+            PLCIsBusy[index] = true;
+
+            if (GetRecipe?.Invoke(name) is not { } recipe)
+            {
+                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.PPSELECT_Command), "配方不存在", msg);
+                EventHappened?.Invoke(eventval);
+
+                dialog.Show(new Dictionary<Language, string>
+                                                                 {
+                                                                     { Language.TW, "PPSELECT: 配方不存在" },
+                                                                     { Language.CHS, "PPSELECT: 配方不存在" },
+                                                                     { Language.EN, "PPSELECT: The PP does not exist." }
+                                                                 },
+                            DialogMsgType.Alert);
+
+                PLCIsBusy[Index] = false;
+                return HCACKValule.NoObjectExists;
+            }
+
+            var eventval1 = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.PPSELECT_Command), "", msg);
+            EventHappened?.Invoke(eventval1);
+
+            var result = plc.WriteRecipeToPlcAsync(recipe).Result;
+
+            PLCIsBusy[Index] = false;
+            return result == SetRecipeResult.成功 ? HCACKValule.Acknowledge : HCACKValule.CantPerform;
+        };
+
+        SecsGemEquipment.ADDLOT_Command += (index, lot) =>
+        {
+            var (lotID, partID, layer, quantity) = lot;
+            var unit = quantity > 1 ? "pcs" : "pc";
+            var msg  = $"{index}:{lotID}-{partID}-{layer}-{quantity}{unit}";
+
+            if (!SECS_REMOTE)
+            {
+                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.ADDLOT_Command), "不在SECS_REMOTE", msg);
+                EventHappened?.Invoke(eventval);
+                return HCACKValule.CantPerform;
+            }
+
+            if (index >= PLC_All.Count || lot is { layer: <= 0 or > 8 } or { quantity: <= 0 })
+            {
+                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.ADDLOT_Command), "參數不正確", msg);
+                EventHappened?.Invoke(eventval);
+                return HCACKValule.ParameterInvalid;
+            }
+
+            if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue)
+            {
+                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.ADDLOT_Command), "PLC離線", msg);
+                EventHappened?.Invoke(eventval);
+
+                dialog.Show(new Dictionary<Language, string>
+                                                               {
+                                                                   { Language.TW, "ADDLOT: PLC離線" },
+                                                                   { Language.CHS, "ADDLOT: PLC脱机" },
+                                                                   { Language.EN, "ADDLOT: PLC is offline." }
+                                                               },
+                            DialogMsgType.Alert);
+
+                return HCACKValule.CantPerform;
+            }
+
+            if (PLC_All[index].IsExecuting)
+            {
+                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.ADDLOT_Command), "仍在烘烤中", msg);
+                EventHappened?.Invoke(eventval);
+
+                dialog.Show(new Dictionary<Language, string>
+                                                               {
+                                                                   { Language.TW, "ADDLOT: 仍在烘烤中" },
+                                                                   { Language.CHS, "ADDLOT: 仍在烘烤中" },
+                                                                   { Language.EN, "ADDLOT: Oven is executing." }
+                                                               },
+                            DialogMsgType.Alert);
+
+                return HCACKValule.CantPerform;
+            }
+
+            PLC_All[index].AddLOT(lotID, partID, layer, quantity);
+            var eventval1 = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.ADDLOT_Command), "", msg);
+            EventHappened?.Invoke(eventval1);
+
+            SecsGemEquipment.InvokeEvent($"Oven{index + 1}_LotAdded");
+            return HCACKValule.Acknowledge;
+        };
+
+        SecsGemEquipment.CANCEL_Command += index =>
+        {
+            if (!SECS_REMOTE)
+            {
+                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.CANCEL_Command), "不在SECS_REMOTE", index);
+                EventHappened?.Invoke(eventval);
+                return HCACKValule.CantPerform;
+            }
+
+            if (index >= PLC_All.Count)
+            {
+                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.CANCEL_Command), "Index超過PLC總數", index);
+                EventHappened?.Invoke(eventval);
+                return HCACKValule.ParameterInvalid;
+            }
+
+            if (PLC_All[index].IsExecuting)
+            {
+                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.CANCEL_Command), "仍在烘烤中", index);
+                EventHappened?.Invoke(eventval);
+                return HCACKValule.CantPerform;
+            }
+
+            var eventval1 = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.CANCEL_Command), "", index);
+            EventHappened?.Invoke(eventval1);
+
+            PLC_All[index].ClearInput();
+            SecsGemEquipment.InvokeEvent($"Oven{index + 1}_LotRemoved");
+            SecsGemEquipment.InvokeEvent($"Oven{index + 1}_CancelCheckIn");
+            return HCACKValule.Acknowledge;
+        };
+
+        SecsGemEquipment.CommEnable_Changed += boolval =>
+        {
+            if (SECS_ENABLE == boolval)
+            {
+                return; //! 確定值變
+            }
+            Set(boolval, nameof(SECS_ENABLE)); //! 避免直接設定值觸發動作（直接設定值是給OP操作界面用的）
+
+            var eventval = (-1, EventType.StatusChanged, DateTime.Now, nameof(SECS_ENABLE), "", boolval);
+            EventHappened?.Invoke(eventval);
+        };
+
+        SecsGemEquipment.Communicating_Changed += boolval =>
+        {
+            if (SECS_Communicating == boolval)
+            {
+                return; //! 確定值變
+            }
+            Set(boolval, nameof(SECS_Communicating)); //! 避免直接設定值觸發動作（直接設定值是給OP操作界面用的）
+
+            var eventval = (-1, EventType.StatusChanged, DateTime.Now, nameof(SECS_Communicating), "", boolval);
+            EventHappened?.Invoke(eventval);
+        };
+
+        SecsGemEquipment.ONLINE_Changed += online =>
+        {
+            if (SECS_ONLINE == online)
+            {
+                return; //! 確定值變
+            }
+            Set(online, nameof(SECS_ONLINE)); //! 避免直接設定值觸發動作（直接設定值是給OP操作界面用的）
+
+            var eventval = (-1, EventType.StatusChanged, DateTime.Now, nameof(SECS_ONLINE), "", online);
+            EventHappened?.Invoke(eventval);
+        };
+
+        SecsGemEquipment.GO_Local += () =>
+        {
+            if (!SECS_REMOTE)
+            {
+                return; //! 確定值變
+            }
+            Set(false, nameof(SECS_REMOTE)); //! 避免直接設定值觸發動作（直接設定值是給OP操作界面用的）
+            foreach (var plc in PLC_All)
+            {
+                plc.RemoteMode = true;
+            }
+
+            var eventval = (-1, EventType.StatusChanged, DateTime.Now, "SECS_LOCAL", "", true);
+            EventHappened?.Invoke(eventval);
+        };
+
+        SecsGemEquipment.GO_Remote += () =>
+        {
+            if (SECS_REMOTE)
+            {
+                return; //! 確定值變
+            }
+            Set(true, nameof(SECS_REMOTE)); //! 避免直接設定值觸發動作（直接設定值是給OP操作界面用的）
+            foreach (var plc in PLC_All)
+            {
+                plc.RemoteMode = true;
+            }
+
+            var eventval = (-1, EventType.StatusChanged, DateTime.Now, nameof(SECS_REMOTE), "", true);
+            EventHappened?.Invoke(eventval);
+        };
+
         Mode = 0;
         EqpState = 1;
         InitialStringItem();
         Status = -1;
-        var v = Assembly.GetExecutingAssembly().GetName().Version;
         threadid = Thread.CurrentThread.ManagedThreadId;
         BackCommand = new RelayCommand(index => Index = index != null && int.TryParse(index.ToString(), out var i) ? i : 0);
 
         GoDetailCommand = new RelayCommand(_ => Index = 1);
-
-        GoMesCommand = new RelayCommand(_ => Index = 2);
 
         LoadedCommand = new RelayCommand(e =>
                                          {
@@ -290,281 +755,50 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                                                  }
                                              }
                                          });
-        #region 智能狀態
-        DataUpload10Command = new RelayCommand(_ =>
+        SendTerminalMessageCommand = new AsyncCommand(async _ =>
         {
-            ChangeStatusevent?.Invoke(10);
-        });
-        DataUpload120Command = new RelayCommand(_ =>
+            var (result1, input1) = await dialog.ShowWithInput(new Dictionary<Language, string>
+                                                                                                             {
+                                                                                                                 { Language.TW, "請輸入欲發送之訊息：" },
+                                                                                                                 { Language.CHS, "请输入欲发送之讯息：" },
+                                                                                                                 { Language.EN, "Please enter the message you want to send：" }
+                                                                                                             },
+                                                               new Dictionary<Language, string>
+                                                               {
+                                                                                                                 { Language.TW, "終端訊息" },
+                                                                                                                 { Language.CHS, "终端讯息" },
+                                                                                                                 { Language.EN, "Terminal Message" }
+                                                               },
+                                                               true);
+
+            if (result1 && input1 is string msg)
+            {
+                SecsGemEquipment.SendTerminalMessage(msg);
+            }
+        },
+                                                     null);
+
+        SecsReStartCommand = new RelayCommand(_ =>
         {
-            ChangeStatusevent?.Invoke(20);
+            SecsGemEquipment.ReStartSecsgem();
+            SecsGemEquipment.Enable(true);
+            SecsGemEquipment.Online(true);
         });
-        DataUpload30Command = new RelayCommand(_ =>
-        {
-            ChangeStatusevent?.Invoke(30);
-        });
-        DataUpload40Command = new RelayCommand(_ =>
-        {
-            ChangeStatusevent?.Invoke(40);
-        });
-        DataUpload50Command = new RelayCommand(_ =>
-        {
-            ChangeStatusevent?.Invoke(50);
-        });
-        DataUpload60Command = new RelayCommand(_ =>
-        {
-            ChangeStatusevent?.Invoke(60);
-        });
-        DataUpload70Command = new RelayCommand(_ =>
-        {
-            ChangeStatusevent?.Invoke(70);
-        });
-        DataUpload80Command = new RelayCommand(_ =>
-        {
-            ChangeStatusevent?.Invoke(80);
-        });
-        DataUpload90Command = new RelayCommand(_ =>
-        {
-            ChangeStatusevent?.Invoke(90);
-        });
-        DataUpload100Command = new RelayCommand(_ =>
-        {
-            ChangeStatusevent?.Invoke(100);
-        });
-        DataUpload110Command = new RelayCommand(_ =>
-        {
-            ChangeStatusevent?.Invoke(110);
-        });
-        DataUpload120Command = new RelayCommand(_ =>
-        {
-            ChangeStatusevent?.Invoke(120);
-        });
-        DataUpload130Command = new RelayCommand(_ =>
-        {
-            ChangeStatusevent?.Invoke(130);
-        });
-        DataUpload140Command = new RelayCommand(_ =>
-        {
-            ChangeStatusevent?.Invoke(140);
-        });
-        DataUpload150Command = new RelayCommand(_ =>
-        {
-            ChangeStatusevent?.Invoke(150);
-        });
-        DataUpload160Command = new RelayCommand(_ =>
-        {
-            ChangeStatusevent?.Invoke(160);
-        });
-        DataUpload170Command = new RelayCommand(_ =>
-        {
-            ChangeStatusevent?.Invoke(170);
-        });
-        DataUpload180Command = new RelayCommand(_ =>
-        {
-            ChangeStatusevent?.Invoke(180);
-        });
-        DataUpload190Command = new RelayCommand(_ =>
-        {
-            ChangeStatusevent?.Invoke(190);
-        });
-        DataUpload200Command = new RelayCommand(_ =>
-        {
-            ChangeStatusevent?.Invoke(200);
-        });
-        #endregion
+
         PropertyChanged += (_, e) =>
-               {
-               };
-        //var address = plcaddress.GetAddressBytes();
-        #region 遠端下配方 還在改
-        //TopIngredients = new RelayCommand(async _ =>
-        //{
-
-        //    if (TopBarcode is null or "")
-        //    {
-        //        dialog.Show(new Dictionary<Language, string>
-        //                                                                    {
-        //                                                                        { Language.TW,  "請刷入工單號！" },
-        //                                                                        { Language.CHS, "请刷入工单号！" }
-        //                                                                    });
-        //        return;
-        //    }
-        //    if (TopPCtoPLC != 1)
-        //    {
-        //        dialog.Show(new Dictionary<Language, string>
-        //                                                                    {
-        //                                                                        { Language.TW,  "未在PC連線模式" },
-        //                                                                        { Language.CHS, "未在PC連線模式" }
-        //    });
-        //        return;
-        //    }
-        //    if (!bChangeStatusevent.Invoke())
-        //    {
-        //        dialog.Show(new Dictionary<Language, string>
-        //                                                                    {
-        //                                                                        { Language.TW,  "智能单元状态不在可下方配方状态" },
-        //                                                                        { Language.CHS, "智能单元状态不在可下方配方状态" }
-        //    });
-        //        return;
-        //    }
-        //    var result = TopTaskControlevent?.Invoke();
-
-        //    if (result == "-1")
-        //    {
-        //        dialog.Show(new Dictionary<Language, string>
-        //                                                                        {
-        //                                                                            { Language.TW,  "工单品质暂停" },
-        //                                                                            { Language.CHS, "工单品质暂停" }
-        //                                                                        });
-        //        return;
-        //    }
-        //    else if (result == "0")
-        //    {
-        //        await Task.Run(() => TopIngredientsevent?.Invoke());
-
-        //        if (GetRecipe?.Invoke(TopRecipeID) is not { } recipe1)
-        //        {
-        //            Dialog.Show(new Dictionary<Language, string>
-        //                {
-        //                    { Language.TW, "配方讀取錯誤" },
-        //                    { Language.CHS, "配方读取错误" },
-        //                    { Language.EN, "Recipe loaded Fail" }
-        //                });
-        //            return;
-        //        }
-        //        if (!await Dialog.Show(new Dictionary<Language, string>
-        //                       {
-        //                           { Language.TW, "請確認配方內容：" },
-        //                           { Language.CHS, "请确认配方内容：" }
-        //                       },
-        //                               recipe1.ToShowDictionary(),
-        //                               true,
-        //                               TimeSpan.FromMilliseconds(int.MaxValue),
-        //                               DialogMsgType.Alert))
-        //            return;
-        //        var recipe = TopRecipeID;
-        //        var part = TopPartID;
-        //        var panelcount = Convert.ToInt32(TopPanelCount);
-        //        var lot = TopWorkOrder;
-        //        if (!WebRecipetoPLC(recipe, part))
-        //            return;
-        //    }
-        //});
-
-        #endregion
-        LocalIngredients = new RelayCommand(async _ =>
         {
-            if (LocalLot is null or "")
+            if (e.PropertyName is nameof(SECS_ENABLE) or nameof(SECS_Communicating) or nameof(SECS_ONLINE) or nameof(SECS_REMOTE))
             {
-                dialog.Show(new Dictionary<Language, string>
-                                                                            {
-                                                                                { Language.TW,  "請刷入工單號！" },
-                                                                                { Language.CHS, "请刷入工单号！" }
-                                                                            });
-                return;
+                var val  = SECS_ENABLE && SECS_Communicating && SECS_ONLINE;
+                var val2 = val         && SECS_REMOTE;
+                foreach (var plc in PLC_All)
+                {
+                    plc.SecsIsOnline = val;
+                    plc.SecsIsRemoteOnline = val2;
+                }
             }
-            if (LocalRecipe is null or "")
-            {
-                dialog.Show(new Dictionary<Language, string>
-                                                                            {
-                                                                                { Language.TW,  "請輸入配方！" },
-                                                                                { Language.CHS, "请输入配方！" }
-                                                                            });
-                return;
-            }
-            if (LocalPartID is null or "")
-            {
-                dialog.Show(new Dictionary<Language, string>
-                                                                            {
-                                                                                { Language.TW,  "請輸入物资编码！" },
-                                                                                { Language.CHS, "请输入物资编码！" }
-                                                                            });
-                return;
-            }
-            if (LocalProcessID is null or "")
-            {
-                dialog.Show(new Dictionary<Language, string>
-                                                                            {
-                                                                                { Language.TW,  "請輸入工序编码！" },
-                                                                                { Language.CHS, "请输入工序编码！" }
-                                                                            });
-                return;
-            }
-            if (LocalPanelCount is null or "")
-            {
-                dialog.Show(new Dictionary<Language, string>
-                                                                            {
-                                                                                { Language.TW,  "請輸入計畫加工板數！" },
-                                                                                { Language.CHS, "请输入計畫加工板數！" }
-                                                                            });
-                return;
-            }
-            if (LocalUser is null or "")
-            {
-                dialog.Show(new Dictionary<Language, string>
-                                                                            {
-                                                                                { Language.TW,  "請刷入操作人員工號！" },
-                                                                                { Language.CHS, "請刷入操作人員工号！" }
-                                                                            });
-                return;
-            }
-
-            try
-            {
-                var check = Convert.ToInt32(LocalPanelCount);
-            }
-            catch
-            {
-                dialog.Show(new Dictionary<Language, string>
-                                                                            {
-                                                                                { Language.TW,  "板數輸入錯誤！" },
-                                                                                { Language.CHS, "板数输入错误！" }
-                                                                            });
-                return;
-            }
-            //if (TopPCtoPLC == 0)
-            //{
-            //    dialog.Show(new Dictionary<Language, string>
-            //                                                                {
-            //                                                                    { Language.TW,  "未在PC連線模式" },
-            //                                                                    { Language.CHS, "未在PC連線模式"  }
-            //                                                                });
-            //    return;
-            //}
-            if (GetRecipe?.Invoke(LocalRecipe) is not { } recipe1)
-            {
-                Dialog.Show(new Dictionary<Language, string>
-                        {
-                            { Language.TW, "配方讀取錯誤" },
-                            { Language.CHS, "配方读取错误" },
-                            { Language.EN, "Recipe loaded Fail" }
-                        });
-
-                return;
-            }
-            var abb = recipe1.ToShowDictionary();
-            if (!await Dialog.Show(new Dictionary<Language, string>
-                               {
-                                   { Language.TW, "請確認配方內容：" },
-                                   { Language.CHS, "请确认配方内容：" }
-                               },
-                                   recipe1.ToShowDictionary(),
-                                   true,
-                                   TimeSpan.FromMilliseconds(int.MaxValue),
-                                   DialogMsgType.Alert))
-            {
-                return;
-            }
-            var recipe = LocalRecipe;
-            var lot = LocalLot;
-            var part = LocalPartID;
-            var panelcount = Convert.ToInt32(LocalPanelCount);
-            PLC_All[0].WebRecipetoPLC(recipe, lot);
-            PLC_All[1].WebRecipetoPLC(recipe, lot);
-            PLC_All[2].WebRecipetoPLC(recipe, lot);
-
-            LocalIngredientsevent?.Invoke();
-        });
+        };
+        //var address = plcaddress.GetAddressBytes();
 
         //! 註冊PLC事件需引發的動作
         for (var i = 0; i < count; i++)
@@ -572,7 +806,7 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
             var plc = new PLC_ViewModel(dialog,
                                         Gate,
                                         i,
-                                        "GOL",
+                                        "GRC",
                                         (bits_shift: new Dictionary<BitType, int>
                                                      {
                                                          { BitType.B, 0 },
@@ -603,19 +837,22 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
             plc.CheckUser += op => CheckUser != null && CheckUser.Invoke(op);
 
             plc.CheckIn += e =>
-                           {
-                               var (opid, rackid) = e;
-                           };
+            {
+                var (opid, rackid) = e;
+                SecsGemEquipment.UpdateSV($"Coater{index + 1}_OperatorID", opid);
+                SecsGemEquipment.UpdateSV($"Coater{index + 1}_RackID", rackid);
+                SecsGemEquipment.InvokeEvent($"Coater{index + 1}_RackInput");
+            };
 
             //! 取消投產
             plc.CancelCheckIn += _ =>
-                                 {
-                                 };
-
-            plc.CheckOut += _ =>
             {
-
+                SecsGemEquipment.UpdateSV($"Coater{index + 1}_RackID", string.Empty);
+                SecsGemEquipment.InvokeEvent($"Coater{index + 1}_CancelCheckIn");
             };
+
+            plc.CheckOut += _ => SecsGemEquipment.InvokeEvent($"Coater{index + 1}_RackOutput");
+
 
             plc.LotAdded += lotid =>
                             {
@@ -639,6 +876,15 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
             plc.ExecutingFinished += async baseInfo =>
                                      {
                                          var product = new ProcessInfo(baseInfo);
+
+                                         try
+                                         {
+                                             SecsGemEquipment.UpdateDV($"Coater{index + 1}_ProcessData", baseInfo.ToJson());
+                                         }
+                                         catch
+                                         {
+                                             // ignored
+                                         }
 
                                          if (AddRecordToDB != null)
                                          {
@@ -668,6 +914,24 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                                     };
             //! PLC事件紀錄
             plc.EventHappened += e => EventHappened?.Invoke((index, e.type, e.time, e.note, e.tag, e.value));
+
+            plc.SV_Changed += (name, value) =>
+            {
+                if (name == nameof(PLC_ViewModel.EquipmentState))
+                {
+                    SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PROCESS_STATE, value);
+                }
+                else if (name == $"Previous{nameof(PLC_ViewModel.EquipmentState)}")
+                {
+                    SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PREVIOUS_PROCESS_STATE, value);
+                }
+                else if (name == nameof(PLC_ViewModel.RecipeName))
+                {
+                    SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PP_EXEC_NAME, value);
+                }
+
+                SecsGemEquipment.UpdateSV($"Coater{index + 1}_{name}", value);
+            };
 
             plc.PanelMoveHappened += e =>
             {
@@ -810,9 +1074,9 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                             {
                                 if (Gate.GateStatus.CurrentValue)
                                 {
-                                    for (var i = 0; i < OvenCount; i++)
+                                    foreach (var plc in PLC_All)
                                     {
-                                        PLC_All[i].Check = PLC_All[i].Check == 1 ? (short)0 : (short)1;
+                                        plc.Check = !plc.Check;
                                     }
                                 }
                                 else if (Gate.Connect(new Dictionary<string, string>
@@ -904,7 +1168,7 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
 
                     for (var i = vals.Length; i < PLC_All.Count; i++)
                     {
-                        PLC_All[i].OvenInfo.MachineCode = $"Oven{i + 1}";
+                        PLC_All[i].OvenInfo.MachineCode = $"Coater{i + 1}";
                     }
                 }
             }
@@ -916,7 +1180,7 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
 
         for (var i = 0; i < PLC_All.Count; i++)
         {
-            PLC_All[i].OvenInfo.MachineCode = $"Oven{i + 1}";
+            PLC_All[i].OvenInfo.MachineCode = $"Coater{i + 1}";
         }
     }
     /// <summary>儲存財產編號</summary>
@@ -938,7 +1202,8 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
     {
         try
         {
-            PLC_All.Select(x => x.OvenInfo.MachineCode).ToArray().WriteToJsonFile(path);
+            using var MachineCodes = PLC_All.Select(x => x.OvenInfo.MachineCode).ToPooledList();
+            MachineCodes.WriteToJsonFile(path);
         }
         catch
         {
@@ -1016,5 +1281,11 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                 plc.Recipe_Names = names;
             }
         }
+    }
+    public void InvokeRecipe(string name, PPStatus status)
+    {
+        SecsGemEquipment.UpdateDV("GemPPChangeName", name);
+        SecsGemEquipment.UpdateDV("GemPPChangeStatus", (int)status);
+        SecsGemEquipment.InvokeEvent("GemProcessProgramChange");
     }
 }

@@ -197,9 +197,7 @@
                 </Border.Visibility>
             </Border>
             <Grid>
-                <views:ScreenKeyboard Height="420"
-                                      Width="1000"
-                                      UILanguage="{Binding Language, Source={StaticResource Mediator}, Mode=OneWay}" />
+                <views:ScreenKeyboard UILanguage="{Binding Language, Source={StaticResource Mediator}, Mode=OneWay}" />
                 <local:Authenticator x:Name="Authenticator"
                                      DataContext="{Binding AuthenticatorVM, Source={StaticResource Mediator}, Mode=OneTime}" />
                 <views:GlobalDialog x:Name="GlobalDialog"

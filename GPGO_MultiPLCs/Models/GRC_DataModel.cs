@@ -4,15 +4,15 @@ using PLCService;
 
 namespace GPGRC_MultiPLCs.Models;
 
-public class GOL_DataModel : PLCDataProvider
+public class GRC_DataModel : PLCDataProvider
 {
-    public GOL_DataModel(IGate plcGate, int plcIndex, string plcTag, (Dictionary<BitType, int> bits_shift, Dictionary<DataType, int> datas_shift) shift = new()) : base(plcGate, plcIndex, plcTag, shift) { }
+    public GRC_DataModel(IGate plcGate, int plcIndex, string plcTag, (Dictionary<BitType, int> bits_shift, Dictionary<DataType, int> datas_shift) shift = new()) : base(plcGate, plcIndex, plcTag, shift) { }
 
     #region PC=>PLC
     [PLCData(DataType.D, 120, LogType.None)]
-    public short Check
+    public bool Check
     {
-        get => Get<short>();
+        get => Get<bool>();
         set => Set(value);
     }
 
@@ -72,7 +72,7 @@ public class GOL_DataModel : PLCDataProvider
 
     #region 配方實際值   
     /// <summary>第1段烘烤溫度</summary>
-    [PLCData(DataType.D, 700, 20, LogType.None)]
+    [PLCData(DataType.D, 2700, 20, LogType.RecipeSet)]
     public double TemperaturePV1
     {
         get => Get<double>();
@@ -80,7 +80,7 @@ public class GOL_DataModel : PLCDataProvider
     }
 
     /// <summary>第2段烘烤溫度</summary>
-    [PLCData(DataType.D, 701, 20, LogType.None)]
+    [PLCData(DataType.D, 2701, 20, LogType.RecipeSet)]
     public double TemperaturePV2
     {
         get => Get<double>();
@@ -88,7 +88,7 @@ public class GOL_DataModel : PLCDataProvider
     }
 
     /// <summary>第3段烘烤溫度</summary>
-    [PLCData(DataType.D, 702, 20, LogType.None)]
+    [PLCData(DataType.D, 2702, 20, LogType.RecipeSet)]
     public double TemperaturePV3
     {
         get => Get<double>();
@@ -96,7 +96,7 @@ public class GOL_DataModel : PLCDataProvider
     }
 
     /// <summary>第4段烘烤溫度</summary>
-    [PLCData(DataType.D, 703, 20, LogType.None)]
+    [PLCData(DataType.D, 2703, 20, LogType.RecipeSet)]
     public double TemperaturePV4
     {
         get => Get<double>();
@@ -104,7 +104,7 @@ public class GOL_DataModel : PLCDataProvider
     }
 
     /// <summary>第5段烘烤溫度</summary>
-    [PLCData(DataType.D, 704, 20, LogType.None)]
+    [PLCData(DataType.D, 2704, 20, LogType.RecipeSet)]
     public double TemperaturePV5
     {
         get => Get<double>();
@@ -293,6 +293,55 @@ public class GOL_DataModel : PLCDataProvider
     #endregion
 
     #region 警報
+    /// <summary>緊急停止</summary>
+    [PLCBit(BitType.M, 700, LogType.Alarm)]
+    public bool EmergencyStop
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+    /// <summary>電源相位異常</summary>
+    [PLCBit(BitType.M, 702, LogType.Alarm)]
+    public bool PowerPhaseError
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+    /// <summary>OTP超溫異常</summary>
+    [PLCBit(BitType.M, 703, LogType.Alarm)]
+    public bool OTPTemperatureError
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+    /// <summary>循環風車電流異常</summary>
+    [PLCBit(BitType.M, 704, LogType.Alarm)]
+    public bool CirculatingFanCurrentError
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+    /// <summary>電熱ELB跳脫</summary>
+    [PLCBit(BitType.M, 719, LogType.Alarm)]
+    public bool ELBtrip
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+    /// <summary>停止後未開門狀態</summary>
+    [PLCBit(BitType.M, 80, LogType.StatusVariables)]
+    public bool DoorNotOpen
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+
+    [PLCData(DataType.D, 4140, LogType.None)]
+    public short Quantity
+    {
+        get => Get<short>();
+        set => Set(value);
+    }
     [PLCBit(BitType.M, 240, LogType.Alarm)] public bool M240 { get => Get<bool>(); set => Set(value); }
     [PLCBit(BitType.M, 250, LogType.Alarm)] public bool M250 { get => Get<bool>(); set => Set(value); }
     [PLCBit(BitType.M, 302, LogType.Alarm)] public bool M302 { get => Get<bool>(); set => Set(value); }
@@ -339,6 +388,12 @@ public class GOL_DataModel : PLCDataProvider
         set => Set(value);
     }
 
+    [PLCBit(BitType.M, 341, LogType.StatusVariables)]
+    public bool RemoteMode
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
     /// <summary>程式結束(程式結束會早於AutoMode_Stop)</summary>
     [PLCBit(BitType.M, 209, LogType.StatusVariables)]
     public bool ProcessComplete
@@ -368,6 +423,13 @@ public class GOL_DataModel : PLCDataProvider
     public short ProcessState
     {
         get => Get<short>();
+        set => Set(value);
+    }
+
+    /// <summary>RackID</summary>
+    public string RackID
+    {
+        get => Get<string>();
         set => Set(value);
     }
     #endregion

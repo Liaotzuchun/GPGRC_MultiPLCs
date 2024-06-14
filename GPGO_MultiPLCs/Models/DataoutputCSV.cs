@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
-using GPMVVM.PooledCollections;
 using Serilog;
 
 namespace GPGRC_MultiPLCs.Models;
