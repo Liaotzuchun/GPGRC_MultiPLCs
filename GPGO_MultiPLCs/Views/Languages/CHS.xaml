@@ -335,5 +335,6 @@
     <sys:String x:Key="Quantity">数量</sys:String>
     <sys:String x:Key="操作人員">操作人員</sys:String>
     <sys:String x:Key="DataTimes">资料上报频率</sys:String>
+    <sys:String x:Key="塗佈">塗佈</sys:String>
 
 </ResourceDictionary>

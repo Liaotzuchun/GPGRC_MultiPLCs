@@ -240,4 +240,6 @@
     <sys:String x:Key="靜音">Silent</sys:String>
     <sys:String x:Key="本地">Local</sys:String>
     <sys:String x:Key="遠端">Remote</sys:String>
+    <sys:String x:Key="塗佈">塗佈</sys:String>
+
 </ResourceDictionary>

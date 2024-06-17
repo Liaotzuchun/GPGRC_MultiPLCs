@@ -1082,7 +1082,7 @@
                                     <DataGridTemplateColumn Width="Auto"
                                                             Visibility="{Binding OvenCount, Source={StaticResource Mediator}, Mode=OneWay, Converter={StaticResource IsMoreThanValueVis}, ConverterParameter={StaticResource two}}">
                                         <DataGridTemplateColumn.Header>
-                                            <TextBlock Text="{DynamicResource 烤箱}" />
+                                            <TextBlock Text="{DynamicResource 塗佈}" />
                                         </DataGridTemplateColumn.Header>
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate DataType="models:LogEvent">

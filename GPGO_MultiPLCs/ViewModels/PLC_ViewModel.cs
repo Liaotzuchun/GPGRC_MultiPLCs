@@ -318,7 +318,7 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
                     {
                         if (r == name) //! 100%符合的優先
                         {
-                            var result   = await SetRecipeDialogAsync(name);
+                            var result   = await SetRecipeDialogAsync(name,plcindex);
                             var eventval = (EventType.Operator, DateTime.Now, "SetRecipe", "", $"{name}:{result}");
                             EventHappened?.Invoke(eventval);
                             return;
@@ -333,7 +333,7 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
                     if (matches.Count > 0)
                     {
                         var ppname   = matches[0];
-                        var result   = await SetRecipeDialogAsync(ppname);
+                        var result   = await SetRecipeDialogAsync(ppname,plcindex);
                         var eventval = (EventType.Operator, DateTime.Now, "SetRecipe", "", $"{ppname}:{result}");
                         EventHappened?.Invoke(eventval);
                         return;
@@ -615,18 +615,20 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
 
     public async Task<SetRecipeResult> WriteRecipeToPlcAsync(PLC_Recipe recipe)
     {
-        if (AutoMode)
-        {
-            AutoMode = false;
-            await Task.Delay(900).ConfigureAwait(false);
-        }
-
-        //if (RecipeCompare(recipe))
-        //{
-        //    AutoMode = true;
-        //    return SetRecipeResult.無需變更;
-        //}
         var errs = await ManualSetByPropertiesWithCheck(recipe.ToDictionary()).ConfigureAwait(false);
+
+        var result = errs.Count == 0 ? SetRecipeResult.成功 : SetRecipeResult.比對不相符;
+        if (result == SetRecipeResult.成功)
+        {
+            AutoMode = true;
+        }
+        return result;
+    }
+
+    //多顆PLC配方寫入
+    public async Task<SetRecipeResult> WriteRecipeToPlcAsync(PLC_Recipe recipe, int plcindex)
+    {
+        var errs = await ManualSetByPropertiesWithCheck(recipe.ToDictionary(plcindex)).ConfigureAwait(false);
 
         var result = errs.Count == 0 ? SetRecipeResult.成功 : SetRecipeResult.比對不相符;
         if (result == SetRecipeResult.成功)
@@ -879,7 +881,7 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
         });
     }
 
-    private async Task<SetRecipeResult> SetRecipeDialogAsync(string recipeName)
+    private async Task<SetRecipeResult> SetRecipeDialogAsync(string recipeName, int plcindex)
     {
         if (GetRecipe?.Invoke(recipeName) is not { } recipe)
         {
@@ -897,30 +899,15 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
         {
             Dialog.Show(new Dictionary<Language, string>
                         {
-                            { Language.TW, "烤箱未在Remote模式" },
-                            { Language.CHS, "烤箱未在Remote模式" },
-                            { Language.EN, "Oven is not in Remote Mode" }
+                            { Language.TW,  $"Coater{plcindex}未在Remote模式" },
+                            { Language.CHS, $"Coater{plcindex}未在Remote模式" },
+                            { Language.EN,  $"Coater{plcindex} is not in Remote Mode" }
                         });
 
             return SetRecipeResult.條件不允許;
         }
-
-        //var result =  !await Dialog.Show(new Dictionary<Language, string>
-        //                          {
-        //                              { Language.TW, "請確認配方內容：" },
-        //                              { Language.CHS, "请确认配方内容：" },
-        //                              { Language.EN, "Please confirm this recipe:" }
-        //                          },
-        //                          recipe,
-        //                          true,
-        //                          TimeSpan.FromMilliseconds(int.MaxValue),
-        //                          DialogMsgType.Alert,
-        //                          null);
-        //if (!
-        //    result)
-        //    return SetRecipeResult.條件不允許;
-        //else
-        return await WriteRecipeToPlcAsync(recipe).ConfigureAwait(false);
+        var a =  await WriteRecipeToPlcAsync(recipe, plcindex).ConfigureAwait(false);
+        return await WriteRecipeToPlcAsync(recipe, plcindex).ConfigureAwait(false);
     }
 
     #region Interface Implementations

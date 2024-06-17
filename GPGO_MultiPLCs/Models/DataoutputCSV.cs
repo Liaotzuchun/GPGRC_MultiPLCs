@@ -20,80 +20,80 @@ public class DataoutputCSV
 
     public DataoutputCSV() => UpdateLanguage(Language.TW);
 
-    private async Task DataMethod(ProcessInfo info, string folder, string filename)
-    {
-        folder = folder.Trim().TrimEnd('\\');
-        if (!Directory.Exists(folder))
-        {
-            try
-            {
-                Directory.CreateDirectory(folder);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "Data資料夾不存在且無法創建");
-                return;
-            }
-        }
-        else
-        {
-            foreach (var file in Directory.GetFiles(folder))
-            {
-                var fi = new FileInfo(file);
-                if (fi.CreationTime < DateTime.Now.AddMonths(-3))
-                {
-                    try
-                    {
-                        fi.Delete();
-                    }
-                    catch
+    //private async Task DataMethod(ProcessInfo info, string folder, string filename)
+    //{
+    //    folder = folder.Trim().TrimEnd('\\');
+    //    if (!Directory.Exists(folder))
+    //    {
+    //        try
+    //        {
+    //            Directory.CreateDirectory(folder);
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            Log.Error(ex, "Data資料夾不存在且無法創建");
+    //            return;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        foreach (var file in Directory.GetFiles(folder))
+    //        {
+    //            var fi = new FileInfo(file);
+    //            if (fi.CreationTime < DateTime.Now.AddMonths(-3))
+    //            {
+    //                try
+    //                {
+    //                    fi.Delete();
+    //                }
+    //                catch
 
-                    {
-                        // ignored
-                    }
-                }
-            }
-        }
+    //                {
+    //                    // ignored
+    //                }
+    //            }
+    //        }
+    //    }
 
-        var sb       = new StringBuilder();
-        var datapath = $"{folder}\\{filename}.csv";
+    //    var sb       = new StringBuilder();
+    //    var datapath = $"{folder}\\{filename}.csv";
 
-        if (!File.Exists(datapath))
-        {
-            sb.AppendLine(DataTitles);
-        }
+    //    if (!File.Exists(datapath))
+    //    {
+    //        sb.AppendLine(DataTitles);
+    //    }
 
-        var recipe = info.Recipe?.ToDictionary() ?? new Dictionary<string, object>();
-        foreach (var product in info.Products)
-        {
-            using var vals = new[]
-                             {
-                                 info.AddedTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                                 info.StartTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                                 info.EndTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                                 product.PartID,
-                                 product.LotID,
-                                 product.Quantity.ToString(),
-                                 info.OvenCode,
-                                 product.Layer.ToString(),
-                                 info.OperatorID,
-                                 info.TopIsFinished.ToString()
-                             }.Concat(recipe.Values)
-                              .ToPooledList();
+    //    var recipe = info.Recipe?.ToDictionary() ?? new Dictionary<string, object>();
+    //    foreach (var product in info.Products)
+    //    {
+    //        using var vals = new[]
+    //                         {
+    //                             info.AddedTime.ToString("yyyy-MM-dd HH:mm:ss"),
+    //                             info.StartTime.ToString("yyyy-MM-dd HH:mm:ss"),
+    //                             info.EndTime.ToString("yyyy-MM-dd HH:mm:ss"),
+    //                             product.PartID,
+    //                             product.LotID,
+    //                             product.Quantity.ToString(),
+    //                             info.OvenCode,
+    //                             product.Layer.ToString(),
+    //                             info.OperatorID,
+    //                             info.TopIsFinished.ToString()
+    //                         }.Concat(recipe.Values)
+    //                          .ToPooledList();
 
-            sb.AppendLine(string.Join(",", vals));
-        }
+    //        sb.AppendLine(string.Join(",", vals));
+    //    }
 
-        try
-        {
-            using var outputFile = new StreamWriter(datapath, true, Encoding.UTF8);
-            await outputFile.WriteAsync(sb.ToString());
-        }
-        catch (Exception ex)
-        {
-            Log.Error(ex, "Data CSV寫入失敗");
-        }
-    }
+    //    try
+    //    {
+    //        using var outputFile = new StreamWriter(datapath, true, Encoding.UTF8);
+    //        await outputFile.WriteAsync(sb.ToString());
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        Log.Error(ex, "Data CSV寫入失敗");
+    //    }
+    //}
 
     private async Task RecordMethod(BaseInfo info, string folder, string filename)
     {
@@ -252,47 +252,47 @@ public class DataoutputCSV
         }
     }
 
-    public async Task AddInfo(ProcessInfo info, string folderpath)
-    {
-        var outpath = folderpath.Trim().TrimEnd('\\');
+    //public async Task AddInfo(ProcessInfo info, string folderpath)
+    //{
+    //    var outpath = folderpath.Trim().TrimEnd('\\');
 
-        if (!Directory.Exists(outpath))
-        {
-            try
-            {
-                Directory.CreateDirectory(outpath);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "CSV資料夾不存在且無法創建");
-                return;
-            }
-        }
-        else
-        {
-            foreach (var file in Directory.GetFiles(outpath))
-            {
-                var fi = new FileInfo(file);
-                if (fi.CreationTime < DateTime.Now.AddMonths(-3))
-                {
-                    try
-                    {
-                        fi.Delete();
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
-                }
-            }
-        }
+    //    if (!Directory.Exists(outpath))
+    //    {
+    //        try
+    //        {
+    //            Directory.CreateDirectory(outpath);
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            Log.Error(ex, "CSV資料夾不存在且無法創建");
+    //            return;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        foreach (var file in Directory.GetFiles(outpath))
+    //        {
+    //            var fi = new FileInfo(file);
+    //            if (fi.CreationTime < DateTime.Now.AddMonths(-3))
+    //            {
+    //                try
+    //                {
+    //                    fi.Delete();
+    //                }
+    //                catch
+    //                {
+    //                    // ignored
+    //                }
+    //            }
+    //        }
+    //    }
 
-        var datafolder   = $"{outpath}\\Data\\";
-        var recordfolder = $"{outpath}\\Record\\";
-        var d            = $"{DateTime.Now:yyyy-MM-dd}";
-        await DataMethod(info, datafolder, d);
-        await RecordMethod(info, recordfolder, d);
-    }
+    //    var datafolder   = $"{outpath}\\Data\\";
+    //    var recordfolder = $"{outpath}\\Record\\";
+    //    var d            = $"{DateTime.Now:yyyy-MM-dd}";
+    //    await DataMethod(info, datafolder, d);
+    //    await RecordMethod(info, recordfolder, d);
+    //}
 
     public async Task ExportRecipe(IEnumerable<PLC_Recipe> recipies, string folderpath)
     {

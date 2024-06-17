@@ -415,6 +415,8 @@ public sealed class Mediator : ObservableObject
         TotalVM.CheckRecipeCommand_KeyIn += e =>
         {
             TotalVM.PLC_All[0].CheckRecipeCommand_KeyIn.Execute(e);
+            TotalVM.PLC_All[1].CheckRecipeCommand_KeyIn.Execute(e);
+            TotalVM.PLC_All[2].CheckRecipeCommand_KeyIn.Execute(e);
         }
         ;
 
@@ -445,7 +447,7 @@ public sealed class Mediator : ObservableObject
                 await TraceVM.AddToDBAsync(stationIndex, info);
 
                 //! 輸出欣興CSV紀錄
-                await CsvCreator.AddInfo(info, AuthenticatorVM.Settings.DataOutputPath);
+                //await CsvCreator.AddInfo(info, AuthenticatorVM.Settings.DataOutputPath);
             }
 
             return await TraceVM.CheckProductions(stationIndex);

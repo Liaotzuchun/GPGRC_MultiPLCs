@@ -435,21 +435,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     [LanguageTranslator("Recipe Name", "配方名稱", "配方名称")]
     public override string RecipeName { get; set; } = string.Empty;
 
-    [JsonIgnore]
-    [OrderIndex(0)]
-    [LanguageTranslator("Updated Time", "更新時間", "更新时间")]
-    public override DateTime Updated { get; set; }
-
-    [JsonIgnore]
-    [OrderIndex(1)]
-    [LanguageTranslator("Editor", "修改者", "修改者")]
-    public override string Editor { get; set; } = string.Empty;
-
-    [JsonIgnore]
-    [OrderIndex(2)]
-    [LanguageTranslator("Editor Level", "權限", "权限")]
-    public override UserLevel EditorLevel { get; set; }
-
     [OrderIndex(3)]
     [LanguageTranslator("Coatingoftimes", "塗佈次數", "塗佈次數")]
     public double RC1_Coatingoftimes
@@ -2398,67 +2383,71 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         EditorLevel = level;
     }
 
-    public Dictionary<string, object> ToDictionary() => new()
-                                                        {
-                                                            { nameof(RecipeName), RecipeName },
-                                                            { nameof(Coatingoftimes), RC1_Coatingoftimes },
-                                                            { nameof(CoatingSpeedSetting), RC1_CoatingSpeedSetting },
-                                                            { nameof(BoardClampingDistance), RC1_BoardClampingDistance },
-                                                            { nameof(Plugoftimes), RC1_Plugoftimes },
-                                                            { nameof(CoatingPressureSetting), RC1_CoatingPressureSetting },
-                                                            { nameof(PanelThicknessSetting), RC1_PanelThicknessSetting },
-                                                            { nameof(LocationOfDrop), RC1_LocationOfDrop },
-                                                            { nameof(Blade_Pressure), RC1_Blade_Pressure },
-                                                            { nameof(D_BarPressureSetting1), RC1_D_BarPressureSetting1 },
-                                                            { nameof(D_BarPressureSetting2), RC1_D_BarPressureSetting2 },
-                                                            { nameof(D_BarPressureSetting3), RC1_D_BarPressureSetting3 },
-                                                            { nameof(D_BarPressureSetting4), RC1_D_BarPressureSetting4 },
-                                                            { nameof(BakingTimeSetting), RC1_BakingTimeSetting },
-                                                            { nameof(TemperatureSV1), RC1_TemperatureSV1 },
-                                                            { nameof(TemperatureSV2), RC1_TemperatureSV2 },
-                                                            { nameof(UseCoating), RC1_UseCoating },
-                                                            { nameof(UsePlug), RC1_UsePlug },
-                                                            { nameof(StandardInk), RC1_StandardInk },
-                                                            { nameof(DifferenceOfInk), RC1_DifferenceOfInk },
-                                                            //{ nameof(RC2_Coatingoftimes), RC2_Coatingoftimes },
-                                                            //{ nameof(RC2_CoatingSpeedSetting), RC2_CoatingSpeedSetting },
-                                                            //{ nameof(RC2_BoardClampingDistance), RC2_BoardClampingDistance },
-                                                            //{ nameof(RC2_Plugoftimes), RC2_Plugoftimes },
-                                                            //{ nameof(RC2_CoatingPressureSetting), RC2_CoatingPressureSetting },
-                                                            //{ nameof(RC2_PanelThicknessSetting), RC2_PanelThicknessSetting },
-                                                            //{ nameof(RC2_LocationOfDrop), RC2_LocationOfDrop },
-                                                            //{ nameof(RC2_Blade_Pressure), RC2_Blade_Pressure },
-                                                            //{ nameof(RC2_D_BarPressureSetting1), RC2_D_BarPressureSetting1 },
-                                                            //{ nameof(RC2_D_BarPressureSetting2), RC2_D_BarPressureSetting2 },
-                                                            //{ nameof(RC2_D_BarPressureSetting3), RC2_D_BarPressureSetting3 },
-                                                            //{ nameof(RC2_D_BarPressureSetting4), RC2_D_BarPressureSetting4 },
-                                                            //{ nameof(RC2_BakingTimeSetting), RC2_BakingTimeSetting },
-                                                            //{ nameof(RC2_TemperatureSV1), RC2_TemperatureSV1 },
-                                                            //{ nameof(RC2_TemperatureSV2), RC2_TemperatureSV2 },
-                                                            //{ nameof(RC2_UseCoating), RC2_UseCoating },
-                                                            //{ nameof(RC2_UsePlug), RC2_UsePlug },
-                                                            //{ nameof(RC2_StandardInk), RC2_StandardInk },
-                                                            //{ nameof(RC2_DifferenceOfInk), RC2_DifferenceOfInk },
-                                                            //{ nameof(RC3_Coatingoftimes), RC3_Coatingoftimes },
-                                                            //{ nameof(RC3_CoatingSpeedSetting), RC3_CoatingSpeedSetting },
-                                                            //{ nameof(RC3_BoardClampingDistance), RC3_BoardClampingDistance },
-                                                            //{ nameof(RC3_Plugoftimes), RC3_Plugoftimes },
-                                                            //{ nameof(RC3_CoatingPressureSetting), RC3_CoatingPressureSetting },
-                                                            //{ nameof(RC3_PanelThicknessSetting), RC3_PanelThicknessSetting },
-                                                            //{ nameof(RC3_LocationOfDrop), RC3_LocationOfDrop },
-                                                            //{ nameof(RC3_Blade_Pressure), RC3_Blade_Pressure },
-                                                            //{ nameof(RC3_D_BarPressureSetting1), RC3_D_BarPressureSetting1 },
-                                                            //{ nameof(RC3_D_BarPressureSetting2), RC3_D_BarPressureSetting2 },
-                                                            //{ nameof(RC3_D_BarPressureSetting3), RC3_D_BarPressureSetting3 },
-                                                            //{ nameof(RC3_D_BarPressureSetting4), RC3_D_BarPressureSetting4 },
-                                                            //{ nameof(RC3_BakingTimeSetting), RC3_BakingTimeSetting },
-                                                            //{ nameof(RC3_TemperatureSV1), RC3_TemperatureSV1 },
-                                                            //{ nameof(RC3_TemperatureSV2), RC3_TemperatureSV2 },
-                                                            //{ nameof(RC3_UseCoating), RC3_UseCoating },
-                                                            //{ nameof(RC3_UsePlug), RC3_UsePlug },
-                                                            //{ nameof(RC3_StandardInk), RC3_StandardInk },
-                                                            //{ nameof(RC3_DifferenceOfInk), RC3_DifferenceOfInk },
-                                                            };
+    public Dictionary<string, object> ToDictionary()
+    {
+
+        return new()
+          {
+              { nameof(RecipeName), RecipeName},
+              { nameof(Coatingoftimes), RC1_Coatingoftimes },
+              { nameof(CoatingSpeedSetting), RC1_CoatingSpeedSetting },
+              { nameof(BoardClampingDistance), RC1_BoardClampingDistance },
+              { nameof(Plugoftimes), RC1_Plugoftimes },
+              { nameof(CoatingPressureSetting), RC1_CoatingPressureSetting },
+              { nameof(PanelThicknessSetting), RC1_PanelThicknessSetting },
+              { nameof(LocationOfDrop), RC1_LocationOfDrop },
+              { nameof(Blade_Pressure), RC1_Blade_Pressure },
+              { nameof(D_BarPressureSetting1), RC1_D_BarPressureSetting1 },
+              { nameof(D_BarPressureSetting2), RC1_D_BarPressureSetting2 },
+              { nameof(D_BarPressureSetting3), RC1_D_BarPressureSetting3 },
+              { nameof(D_BarPressureSetting4), RC1_D_BarPressureSetting4 },
+              { nameof(BakingTimeSetting), RC1_BakingTimeSetting },
+              { nameof(TemperatureSV1), RC1_TemperatureSV1 },
+              { nameof(TemperatureSV2), RC1_TemperatureSV2 },
+              { nameof(UseCoating), RC1_UseCoating },
+              { nameof(UsePlug), RC1_UsePlug },
+              { nameof(StandardInk), RC1_StandardInk },
+              { nameof(DifferenceOfInk), RC1_DifferenceOfInk },
+              //{ nameof(RC2_Coatingoftimes), RC2_Coatingoftimes },
+              //{ nameof(RC2_CoatingSpeedSetting), RC2_CoatingSpeedSetting },
+              //{ nameof(RC2_BoardClampingDistance), RC2_BoardClampingDistance },
+              //{ nameof(RC2_Plugoftimes), RC2_Plugoftimes },
+              //{ nameof(RC2_CoatingPressureSetting), RC2_CoatingPressureSetting },
+              //{ nameof(RC2_PanelThicknessSetting), RC2_PanelThicknessSetting },
+              //{ nameof(RC2_LocationOfDrop), RC2_LocationOfDrop },
+              //{ nameof(RC2_Blade_Pressure), RC2_Blade_Pressure },
+              //{ nameof(RC2_D_BarPressureSetting1), RC2_D_BarPressureSetting1 },
+              //{ nameof(RC2_D_BarPressureSetting2), RC2_D_BarPressureSetting2 },
+              //{ nameof(RC2_D_BarPressureSetting3), RC2_D_BarPressureSetting3 },
+              //{ nameof(RC2_D_BarPressureSetting4), RC2_D_BarPressureSetting4 },
+              //{ nameof(RC2_BakingTimeSetting), RC2_BakingTimeSetting },
+              //{ nameof(RC2_TemperatureSV1), RC2_TemperatureSV1 },
+              //{ nameof(RC2_TemperatureSV2), RC2_TemperatureSV2 },
+              //{ nameof(RC2_UseCoating), RC2_UseCoating },
+              //{ nameof(RC2_UsePlug), RC2_UsePlug },
+              //{ nameof(RC2_StandardInk), RC2_StandardInk },
+              //{ nameof(RC2_DifferenceOfInk), RC2_DifferenceOfInk },
+              //{ nameof(RC3_Coatingoftimes), RC3_Coatingoftimes },
+              //{ nameof(RC3_CoatingSpeedSetting), RC3_CoatingSpeedSetting },
+              //{ nameof(RC3_BoardClampingDistance), RC3_BoardClampingDistance },
+              //{ nameof(RC3_Plugoftimes), RC3_Plugoftimes },
+              //{ nameof(RC3_CoatingPressureSetting), RC3_CoatingPressureSetting },
+              //{ nameof(RC3_PanelThicknessSetting), RC3_PanelThicknessSetting },
+              //{ nameof(RC3_LocationOfDrop), RC3_LocationOfDrop },
+              //{ nameof(RC3_Blade_Pressure), RC3_Blade_Pressure },
+              //{ nameof(RC3_D_BarPressureSetting1), RC3_D_BarPressureSetting1 },
+              //{ nameof(RC3_D_BarPressureSetting2), RC3_D_BarPressureSetting2 },
+              //{ nameof(RC3_D_BarPressureSetting3), RC3_D_BarPressureSetting3 },
+              //{ nameof(RC3_D_BarPressureSetting4), RC3_D_BarPressureSetting4 },
+              //{ nameof(RC3_BakingTimeSetting), RC3_BakingTimeSetting },
+              //{ nameof(RC3_TemperatureSV1), RC3_TemperatureSV1 },
+              //{ nameof(RC3_TemperatureSV2), RC3_TemperatureSV2 },
+              //{ nameof(RC3_UseCoating), RC3_UseCoating },
+              //{ nameof(RC3_UsePlug), RC3_UsePlug },
+              //{ nameof(RC3_StandardInk), RC3_StandardInk },
+              //{ nameof(RC3_DifferenceOfInk), RC3_DifferenceOfInk },
+};
+    }
     public Dictionary<string, object> ToDictionary(int i) => i switch
     {
         0 => new Dictionary<string, object>
@@ -2533,30 +2522,8 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
              { nameof(StandardInk), RC3_StandardInk },
              { nameof(DifferenceOfInk), RC3_DifferenceOfInk },
         },
-        // 可以根據需要添加其他 case
         _ => throw new ArgumentException("不支援的 plcindex 值"),
     };
-    //{ nameof(RecipeName), RecipeName },
-    //{ nameof(Coatingoftimes), RC1_Coatingoftimes },
-    //{ nameof(CoatingSpeedSetting), RC1_CoatingSpeedSetting },
-    //{ nameof(BoardClampingDistance), RC1_BoardClampingDistance },
-    //{ nameof(Plugoftimes), RC1_Plugoftimes },
-    //{ nameof(CoatingPressureSetting), RC1_CoatingPressureSetting },
-    //{ nameof(PanelThicknessSetting), RC1_PanelThicknessSetting },
-    //{ nameof(LocationOfDrop), RC1_LocationOfDrop },
-    //{ nameof(Blade_Pressure), RC1_Blade_Pressure },
-    //{ nameof(D_BarPressureSetting1), RC1_D_BarPressureSetting1 },
-    //{ nameof(D_BarPressureSetting2), RC1_D_BarPressureSetting2 },
-    //{ nameof(D_BarPressureSetting3), RC1_D_BarPressureSetting3 },
-    //{ nameof(D_BarPressureSetting4), RC1_D_BarPressureSetting4 },
-    //{ nameof(BakingTimeSetting), RC1_BakingTimeSetting },
-    //{ nameof(TemperatureSV1), RC1_TemperatureSV1 },
-    //{ nameof(TemperatureSV2), RC1_TemperatureSV2 },
-    //{ nameof(UseCoating), RC1_UseCoating },
-    //{ nameof(UsePlug), RC1_UsePlug },
-    //{ nameof(StandardInk), RC1_StandardInk },
-    //{ nameof(DifferenceOfInk), RC1_DifferenceOfInk },
-
 
     public Dictionary<string, object> ToShowDictionary() => new()
                                                         {

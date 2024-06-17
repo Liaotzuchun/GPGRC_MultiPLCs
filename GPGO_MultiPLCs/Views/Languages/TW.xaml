@@ -339,6 +339,7 @@
     <sys:String x:Key="站">站</sys:String>
     <sys:String x:Key="乾板重">乾板重</sys:String>
     <sys:String x:Key="塗佈後重">塗佈後重</sys:String>
+    <sys:String x:Key="塗佈">塗佈</sys:String>
     <sys:String x:Key="油墨重">油墨重</sys:String>
 
 </ResourceDictionary>

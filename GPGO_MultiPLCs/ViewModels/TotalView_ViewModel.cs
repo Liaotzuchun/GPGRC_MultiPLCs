@@ -775,8 +775,33 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
             NotifyPropertyChanged(nameof(PPNameList));
             NotifyPropertyChanged(nameof(LocalRecipe));
         });
-        CheckRecipeCommand = new RelayCommand(_ =>
+
+        CheckRecipeCommand = new RelayCommand(async _ =>
         {
+            if (GetRecipe?.Invoke(LocalRecipe) is not { } recipe1)
+            {
+                Dialog.Show(new Dictionary<Language, string>
+                        {
+                            { Language.TW, "配方讀取錯誤" },
+                            { Language.CHS, "配方读取错误" },
+                            { Language.EN, "Recipe loaded Fail" }
+                        });
+
+                return;
+            }
+            var abb = recipe1.ToShowDictionary();
+            if (!await Dialog.Show(new Dictionary<Language, string>
+                               {
+                                   { Language.TW, "請確認配方內容：" },
+                                   { Language.CHS, "请确认配方内容：" }
+                               },
+                                   recipe1.ToShowDictionary(),
+                                   true,
+                                   TimeSpan.FromMilliseconds(int.MaxValue),
+                                   DialogMsgType.Alert))
+            {
+                return;
+            }
             CheckRecipeCommand_KeyIn?.Invoke(LocalRecipe);
         });
 
@@ -845,10 +870,7 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                                                           { DataType.D, 0 },
                                                           { DataType.W, 0 }
                                                       })); //! 可指定PLC點位位移
-            //if (i == 0)
             plc.OvenInfo.OvenCode = $"Coater" + (i + 1);
-            //else
-            //    plc.OvenInfo.OvenCode = $"右炉";
 
             PLC_All[i] = plc;
             var index = i;
