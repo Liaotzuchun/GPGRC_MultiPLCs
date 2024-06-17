@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Schedulers;
 using System.Windows.Controls;
@@ -48,8 +47,6 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
     private readonly TaskFactory             OneScheduler = new(new StaTaskScheduler(1));
     private          bool                    isCheckin;
     private          bool                    ManualRecord;
-    private          CancellationTokenSource CheckRecipeCTS = new();
-    private          CancellationTokenSource ppCTS          = new();
     private          DateTime                OfflineTime    = DateTime.MaxValue;
     private          TextBox?                inputFocusTB;
     public ObservableCollection<Item> RecipeItem { get; set; }
@@ -71,6 +68,7 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
     /// <summary>投產</summary>
     public RelayCommand CheckInCommand { get; }
     public CommandWithResult<bool> CheckInDialogCommand { get; }
+    public RelayCommand GetRecipeCommand { get; }
     public RelayCommand CheckRecipeCommand_KeyIn { get; }
     public RelayCommand CheckRecipeCommand_KeyLeave { get; }
     public RelayCommand AddLotCommand { get; }
@@ -313,26 +311,6 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
             {
                 name = name.Trim();
 
-                //if (OvenInfo.TempProducts.Count > 0 && name != RecipeName)
-                //{
-                //    //! 欣興要求比對配方不同跳出異常
-
-                //    ClearInput2();
-
-                //    await Task.Delay(150);
-                //    Keyboard.ClearFocus();
-
-                //    dialog.Show(new Dictionary<Language, string>
-                //                {
-                //                    { Language.TW, "配方比對異常！" },
-                //                    { Language.CHS, "配方比对异常！" },
-                //                    { Language.EN, "Recipe is abnormal!" }
-                //                },
-                //                DialogMsgType.Alarm);
-
-                //    return;
-                //}
-
                 if (Recipe_Names != null)
                 {
                     using var matches = new PooledList<string>();
@@ -367,38 +345,38 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
             }
         });
 
-        //CheckInDialogCommand = new CommandWithResult<bool>(_ => false);
+        CheckInDialogCommand = new CommandWithResult<bool>(_ => false);
 
-        //CheckInCommand = new RelayCommand(_ =>
-        //{
-        //    if (SecsIsRemoteOnline)
-        //    {
-        //        if (IsCheckin)
-        //        {
-        //            CancelCheckInCommand?.Execute(null);
-        //        }
-        //        else
-        //        {
-        //            IsCheckin = true;
-        //            OvenInfo.OperatorID = InputOperatorID;
-        //            RackID = OvenInfo.TempProducts.FirstOrDefault()?.LotID ?? string.Empty;
-        //            DoorLock = true;
-        //            CheckIn?.Invoke((opid: OvenInfo.OperatorID, rackid: RackID));
+        CheckInCommand = new RelayCommand(_ =>
+        {
+            if (SecsIsRemoteOnline)
+            {
+                if (IsCheckin)
+                {
+                    CancelCheckInCommand?.Execute(null);
+                }
+                else
+                {
+                    IsCheckin = true;
+                    OvenInfo.OperatorID = InputOperatorID;
+                    RackID = OvenInfo.TempProducts.FirstOrDefault()?.LotID ?? string.Empty;
+                    DoorLock = true;
+                    CheckIn?.Invoke((opid: OvenInfo.OperatorID, rackid: RackID));
 
-        //            var eventval = (EventType.Operator, DateTime.Now, nameof(CheckInCommand), "", "");
-        //            EventHappened?.Invoke(eventval);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        CancelCheckIn?.Invoke(OvenInfo.RackID);
-        //        ClearInput();
-        //        InvokeSECSEvent?.Invoke("LotRemoved");
+                    var eventval = (EventType.Operator, DateTime.Now, nameof(CheckInCommand), "", "");
+                    EventHappened?.Invoke(eventval);
+                }
+            }
+            else
+            {
+                CancelCheckIn?.Invoke(OvenInfo.RackID);
+                ClearInput();
+                InvokeSECSEvent?.Invoke("LotRemoved");
 
-        //        var eventval = (EventType.Operator, DateTime.Now, nameof(CancelCheckIn), "", "");
-        //        EventHappened?.Invoke(eventval);
-        //    }
-        //});
+                var eventval = (EventType.Operator, DateTime.Now, nameof(CancelCheckIn), "", "");
+                EventHappened?.Invoke(eventval);
+            }
+        });
 
         CancelCheckInCommand = new RelayCommand(_ =>
         {
@@ -520,6 +498,12 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
             }
         });
 
+        //GetRecipeCommand = new RelayCommand(_ =>
+        //{
+        //    NotifyPropertyChanged(nameof(PPNameList));
+        //    NotifyPropertyChanged(nameof(LocalRecipe));
+        //    //TopLocalRecipe = PPNameList.
+        //});
         #region 註冊PLC事件
         //! 只有有註冊PLC點位的值變事件
         ValueChanged += (LogType, data) =>
@@ -636,8 +620,14 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
             AutoMode = false;
             await Task.Delay(900).ConfigureAwait(false);
         }
-        var a = recipe.ToDictionary(PLCIndex);
-        var errs = await ManualSetByPropertiesWithCheck(recipe.ToDictionary(PLCIndex)).ConfigureAwait(false);
+
+        //if (RecipeCompare(recipe))
+        //{
+        //    AutoMode = true;
+        //    return SetRecipeResult.無需變更;
+        //}
+        var errs = await ManualSetByPropertiesWithCheck(recipe.ToDictionary()).ConfigureAwait(false);
+
         var result = errs.Count == 0 ? SetRecipeResult.成功 : SetRecipeResult.比對不相符;
         if (result == SetRecipeResult.成功)
         {
@@ -668,7 +658,43 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
                         });
         return SetRecipeResult.成功;
     }
-
+    //private bool RecipeCompare(PLC_Recipe recipe) => NitrogenMode == recipe.NitrogenMode &&
+    //                                                OxygenContentSet.ToString("0.0") == recipe.OxygenContentSet.ToString("0.0") &&
+    //                                                (RecipeName.Length > 16 ? RecipeName[..16] : RecipeName) == (recipe.RecipeName.Length > 16 ? recipe.RecipeName[..16] : recipe.RecipeName) && //! 只最多比對16個字(PLC的配方名長度)
+    //                                                DwellTime_1.ToString("0.0") == recipe.DwellTime_1.ToString("0.0") &&
+    //                                                DwellTime_2.ToString("0.0") == recipe.DwellTime_2.ToString("0.0") &&
+    //                                                DwellTime_3.ToString("0.0") == recipe.DwellTime_3.ToString("0.0") &&
+    //                                                DwellTime_4.ToString("0.0") == recipe.DwellTime_4.ToString("0.0") &&
+    //                                                DwellTime_5.ToString("0.0") == recipe.DwellTime_5.ToString("0.0") &&
+    //                                                DwellTime_6.ToString("0.0") == recipe.DwellTime_6.ToString("0.0") &&
+    //                                                DwellAlarm_1.ToString("0.0") == recipe.DwellAlarm_1.ToString("0.0") &&
+    //                                                DwellAlarm_2.ToString("0.0") == recipe.DwellAlarm_2.ToString("0.0") &&
+    //                                                DwellAlarm_3.ToString("0.0") == recipe.DwellAlarm_3.ToString("0.0") &&
+    //                                                DwellAlarm_4.ToString("0.0") == recipe.DwellAlarm_4.ToString("0.0") &&
+    //                                                DwellAlarm_5.ToString("0.0") == recipe.DwellAlarm_5.ToString("0.0") &&
+    //                                                DwellAlarm_6.ToString("0.0") == recipe.DwellAlarm_6.ToString("0.0") &&
+    //                                                CoolingTime.ToString("0.0") == recipe.CoolingTime.ToString("0.0") &&
+    //                                                CoolingTemperature.ToString("0.0") == recipe.CoolingTemperature.ToString("0.0") &&
+    //                                                RampTime_1.ToString("0.0") == recipe.RampTime_1.ToString("0.0") &&
+    //                                                RampTime_2.ToString("0.0") == recipe.RampTime_2.ToString("0.0") &&
+    //                                                RampTime_3.ToString("0.0") == recipe.RampTime_3.ToString("0.0") &&
+    //                                                RampTime_4.ToString("0.0") == recipe.RampTime_4.ToString("0.0") &&
+    //                                                RampTime_5.ToString("0.0") == recipe.RampTime_5.ToString("0.0") &&
+    //                                                RampTime_6.ToString("0.0") == recipe.RampTime_6.ToString("0.0") &&
+    //                                                RampAlarm_1.ToString("0.0") == recipe.RampAlarm_1.ToString("0.0") &&
+    //                                                RampAlarm_2.ToString("0.0") == recipe.RampAlarm_2.ToString("0.0") &&
+    //                                                RampAlarm_3.ToString("0.0") == recipe.RampAlarm_3.ToString("0.0") &&
+    //                                                RampAlarm_4.ToString("0.0") == recipe.RampAlarm_4.ToString("0.0") &&
+    //                                                RampAlarm_5.ToString("0.0") == recipe.RampAlarm_5.ToString("0.0") &&
+    //                                                RampAlarm_6.ToString("0.0") == recipe.RampAlarm_6.ToString("0.0") &&
+    //                                                InflatingTime.ToString("0") == recipe.InflatingTime.ToString("0") &&
+    //                                                TemperatureSetpoint_1.ToString("0.0") == recipe.TemperatureSetpoint_1.ToString("0.0") &&
+    //                                                TemperatureSetpoint_2.ToString("0.0") == recipe.TemperatureSetpoint_2.ToString("0.0") &&
+    //                                                TemperatureSetpoint_3.ToString("0.0") == recipe.TemperatureSetpoint_3.ToString("0.0") &&
+    //                                                TemperatureSetpoint_4.ToString("0.0") == recipe.TemperatureSetpoint_4.ToString("0.0") &&
+    //                                                TemperatureSetpoint_5.ToString("0.0") == recipe.TemperatureSetpoint_5.ToString("0.0") &&
+    //                                                TemperatureSetpoint_6.ToString("0.0") == recipe.TemperatureSetpoint_6.ToString("0.0") &&
+    //                                                SegmentCounts == recipe.SegmentCounts;
     public class Item : ObservableObject
     {
         public string RecipeDESC
@@ -867,18 +893,6 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
             return SetRecipeResult.條件不允許;
         }
 
-        if (IsExecuting)
-        {
-            Dialog.Show(new Dictionary<Language, string>
-                        {
-                            { Language.TW, "烤箱仍在烘烤`" },
-                            { Language.CHS, "烤箱仍在烘烤" },
-                            { Language.EN, "Oven is still executing" }
-                        });
-
-            return SetRecipeResult.條件不允許;
-        }
-
         if (!RemoteMode)
         {
             Dialog.Show(new Dictionary<Language, string>
@@ -891,25 +905,26 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
             return SetRecipeResult.條件不允許;
         }
 
-        CheckRecipeCTS.Dispose();
-        CheckRecipeCTS = new CancellationTokenSource();
-        return !await Dialog.Show(new Dictionary<Language, string>
-                                  {
-                                      { Language.TW, "請確認配方內容：" },
-                                      { Language.CHS, "请确认配方内容：" },
-                                      { Language.EN, "Please confirm this recipe:" }
-                                  },
-                                  recipe,
-                                  true,
-                                  TimeSpan.FromMilliseconds(int.MaxValue),
-                                  DialogMsgType.Alert,
-                                  CheckRecipeCTS.Token) ?
-                   SetRecipeResult.條件不允許 :
-                   await WriteRecipeToPlcAsync(recipe).ConfigureAwait(false);
+        //var result =  !await Dialog.Show(new Dictionary<Language, string>
+        //                          {
+        //                              { Language.TW, "請確認配方內容：" },
+        //                              { Language.CHS, "请确认配方内容：" },
+        //                              { Language.EN, "Please confirm this recipe:" }
+        //                          },
+        //                          recipe,
+        //                          true,
+        //                          TimeSpan.FromMilliseconds(int.MaxValue),
+        //                          DialogMsgType.Alert,
+        //                          null);
+        //if (!
+        //    result)
+        //    return SetRecipeResult.條件不允許;
+        //else
+        return await WriteRecipeToPlcAsync(recipe).ConfigureAwait(false);
     }
 
     #region Interface Implementations
-    public void Dispose() => ppCTS.Dispose();
+    public void Dispose() => Dispose();
     #endregion
 
 }

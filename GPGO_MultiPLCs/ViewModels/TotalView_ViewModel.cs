@@ -30,6 +30,8 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
     public event Func<string, bool>                                                                                CheckUser;
     public event Func<string, bool>?                                                                               DeleteRecipe;
     public event Func<string, PLC_Recipe?>?                                                                        GetRecipe;
+    public event Func<List<string>>?                                                                               GetRecipeList;
+    public event Action<string>?                                                                               CheckRecipeCommand_KeyIn;
 
     /// <summary>財產編號儲存位置</summary>
     private const string AssetNumbersPath = "AssetNumbers";
@@ -55,6 +57,18 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
     public RelayCommand LoadedCommand { get; }
     public AsyncCommand SendTerminalMessageCommand { get; }
     public RelayCommand SecsReStartCommand { get; }
+    public RelayCommand GetRecipeCommand { get; }
+    public RelayCommand CheckRecipeCommand { get; }
+
+    public List<string> PPNameList
+    {
+        get => GetRecipeList?.Invoke();
+    }
+    public string LocalRecipe
+    {
+        get => Get<string>() ?? string.Empty;
+        set => Set(value);
+    }
     public List<CoaterItem> Coater1Panel
     {
         get => Get<List<CoaterItem>>();
@@ -755,6 +769,17 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                                                  }
                                              }
                                          });
+
+        GetRecipeCommand = new RelayCommand(_ =>
+        {
+            NotifyPropertyChanged(nameof(PPNameList));
+            NotifyPropertyChanged(nameof(LocalRecipe));
+        });
+        CheckRecipeCommand = new RelayCommand(_ =>
+        {
+            CheckRecipeCommand_KeyIn?.Invoke(LocalRecipe);
+        });
+
         SendTerminalMessageCommand = new AsyncCommand(async _ =>
         {
             var (result1, input1) = await dialog.ShowWithInput(new Dictionary<Language, string>
@@ -915,6 +940,10 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
             //! PLC事件紀錄
             plc.EventHappened += e => EventHappened?.Invoke((index, e.type, e.time, e.note, e.tag, e.value));
 
+            plc.InvokeSECSEvent += EventName => SecsGemEquipment.InvokeEvent($"Oven{index + 1}_{EventName}");
+
+            plc.InvokeSECSAlarm += (AlarmName, val) => SecsGemEquipment.InvokeAlarm($"Oven{index + 1}_{AlarmName}", val);
+
             plc.SV_Changed += (name, value) =>
             {
                 if (name == nameof(PLC_ViewModel.EquipmentState))
@@ -1056,6 +1085,9 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                 }
             };
         }
+
+        SecsGemEquipment.Enable(true);
+        SecsGemEquipment.Online(true);
 
         #region PLCGate事件通知
         Gate.GateStatus.ValueChanged += status =>

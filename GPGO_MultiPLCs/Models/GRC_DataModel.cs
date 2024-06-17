@@ -432,6 +432,21 @@ public class GRC_DataModel : PLCDataProvider
         get => Get<string>();
         set => Set(value);
     }
+
+    /// <summary>允許停止</summary>
+    [PLCBit(BitType.M, 209, LogType.StatusVariables)]
+    public bool AllowStop
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+
+    /// <summary>程式結束</summary>
+    public bool ProgramStop
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
     #endregion
 
     #region Coater追板
