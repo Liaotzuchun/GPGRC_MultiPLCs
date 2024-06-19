@@ -26,7 +26,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height = "*"/>
                 <RowDefinition Height = "*"/>
-                <RowDefinition Height = "*"/>
+                <RowDefinition Height = "1.5*"/>
             </Grid.RowDefinitions>
                 <GroupBox Grid.Row="0"
                           Header="Coater1">
@@ -456,18 +456,9 @@
                                 Grid.Column="7"
                                 BorderThickness="0,0,1,1"
                                 Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC1_UseCoating_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC1_UseCoating_Min, Mode=OneWay}"
-                                               Value="{Binding RC1_UseCoating, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC1_UseCoating_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC1_UseCoating_Min, Mode=OneWay}"
-                                                      Text="{Binding RC1_UseCoating, Mode=TwoWay}" />
-                            </views:SpinControl>
+                                <CheckBox IsChecked="{Binding RC1_UseCoating, Mode=TwoWay}">
+                                    <TextBlock Text="是否使用"></TextBlock>
+                                </CheckBox>
                         </Border>
                         <Border Grid.Row="4"
                                 Grid.Column="0"
@@ -482,18 +473,9 @@
                                 Grid.Column="1"
                                 BorderThickness="0,0,1,1"
                                 Style="{StaticResource ValueBorder}">
-                            <views:SpinControl Maximum="{Binding RC1_UsePlug_Max, Mode=OneWay}"
-                                               Minimum="{Binding RC1_UsePlug_Min, Mode=OneWay}"
-                                                 Value="{Binding RC1_UsePlug, Mode=TwoWay}">
-                                <views:SpinControl.SmallChange>
-                                    <system:Double>1</system:Double>
-                                </views:SpinControl.SmallChange>
-                                <views:NumericTextBox BorderThickness="0"
-                                                      IntOnly="True"
-                                                      Max="{Binding  RC1_UsePlug_Max, Mode=OneWay}"
-                                                      Min="{Binding  RC1_UsePlug_Min, Mode=OneWay}"
-                                                      Text="{Binding RC1_UsePlug, Mode=TwoWay}" />
-                            </views:SpinControl>
+                                <CheckBox IsChecked="{Binding RC1_UsePlug, Mode=TwoWay}">
+                                    <TextBlock Text="是否使用"></TextBlock>
+                                </CheckBox>
                         </Border>
                         <Border Grid.Row="4"
                                 Grid.Column="2"
@@ -977,18 +959,9 @@
                                     Grid.Column="7"
                                     BorderThickness="0,0,1,1"
                                     Style="{StaticResource ValueBorder}">
-                                <views:SpinControl Maximum="{Binding RC2_UseCoating_Max, Mode=OneWay}"
-                                                   Minimum="{Binding RC2_UseCoating_Min, Mode=OneWay}"
-                                                   Value="{Binding RC2_UseCoating, Mode=TwoWay}">
-                                    <views:SpinControl.SmallChange>
-                                        <system:Double>1</system:Double>
-                                    </views:SpinControl.SmallChange>
-                                    <views:NumericTextBox BorderThickness="0"
-                                                          IntOnly="True"
-                                                          Max="{Binding  RC2_UseCoating_Max, Mode=OneWay}"
-                                                          Min="{Binding  RC2_UseCoating_Min, Mode=OneWay}"
-                                                          Text="{Binding RC2_UseCoating, Mode=TwoWay}" />
-                                </views:SpinControl>
+                                    <CheckBox IsChecked="{Binding RC2_UseCoating, Mode=TwoWay}">
+                                        <TextBlock Text="是否使用"></TextBlock>
+                                    </CheckBox>
                             </Border>
                             <Border Grid.Row="4"
                                     Grid.Column="0"
@@ -1003,18 +976,9 @@
                                     Grid.Column="1"
                                     BorderThickness="0,0,1,1"
                                     Style="{StaticResource ValueBorder}">
-                                <views:SpinControl Maximum="{Binding RC2_UsePlug_Max, Mode=OneWay}"
-                                                   Minimum="{Binding RC2_UsePlug_Min, Mode=OneWay}"
-                                                   Value="{Binding RC2_UsePlug, Mode=TwoWay}">
-                                    <views:SpinControl.SmallChange>
-                                        <system:Double>1</system:Double>
-                                    </views:SpinControl.SmallChange>
-                                    <views:NumericTextBox BorderThickness="0"
-                                                          IntOnly="True"
-                                                          Max="{Binding  RC2_UsePlug_Max, Mode=OneWay}"
-                                                          Min="{Binding  RC2_UsePlug_Min, Mode=OneWay}"
-                                                          Text="{Binding RC2_UsePlug, Mode=TwoWay}" />
-                                </views:SpinControl>
+                                    <CheckBox IsChecked="{Binding RC2_UsePlug, Mode=TwoWay}">
+                                        <TextBlock Text="是否使用"></TextBlock>
+                                    </CheckBox>
                             </Border>
                             <Border Grid.Row="4"
                                     Grid.Column="2"
@@ -1090,6 +1054,7 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
+                                <RowDefinition />
                                 <RowDefinition />
                                 <RowDefinition />
                                 <RowDefinition />
@@ -1449,18 +1414,9 @@
                                     Grid.Column="3"
                                     BorderThickness="0,0,1,1"
                                     Style="{StaticResource ValueBorder}">
-                                <views:SpinControl Maximum="{Binding RC3_UseCoating_Max, Mode=OneWay}"
-                                                   Minimum="{Binding RC3_UseCoating_Min, Mode=OneWay}"
-                                                   Value="{Binding RC3_UseCoating, Mode=TwoWay}">
-                                    <views:SpinControl.SmallChange>
-                                        <system:Double>1</system:Double>
-                                    </views:SpinControl.SmallChange>
-                                    <views:NumericTextBox BorderThickness="0"
-                                                          IntOnly="True"
-                                                          Max="{Binding  RC3_UseCoating_Max, Mode=OneWay}"
-                                                          Min="{Binding  RC3_UseCoating_Min, Mode=OneWay}"
-                                                          Text="{Binding RC3_UseCoating, Mode=TwoWay}" />
-                                </views:SpinControl>
+                                    <CheckBox IsChecked="{Binding RC3_UseCoating, Mode=TwoWay}">
+                                        <TextBlock Text="是否使用"></TextBlock>
+                                    </CheckBox>
                             </Border>
                             <Border Grid.Row="3"
                                     Grid.Column="4"
@@ -1475,18 +1431,9 @@
                                     Grid.Column="5"
                                     BorderThickness="0,0,1,1"
                                     Style="{StaticResource ValueBorder}">
-                                <views:SpinControl Maximum="{Binding RC3_UsePlug_Max, Mode=OneWay}"
-                                                   Minimum="{Binding RC3_UsePlug_Min, Mode=OneWay}"
-                                                   Value="{Binding RC3_UsePlug, Mode=TwoWay}">
-                                    <views:SpinControl.SmallChange>
-                                        <system:Double>1</system:Double>
-                                    </views:SpinControl.SmallChange>
-                                    <views:NumericTextBox BorderThickness="0"
-                                                          IntOnly="True"
-                                                          Max="{Binding  RC3_UsePlug_Max, Mode=OneWay}"
-                                                          Min="{Binding  RC3_UsePlug_Min, Mode=OneWay}"
-                                                          Text="{Binding RC3_UsePlug, Mode=TwoWay}" />
-                                </views:SpinControl>
+                                    <CheckBox IsChecked="{Binding RC3_UsePlug, Mode=TwoWay}">
+                                        <TextBlock Text="是否使用"></TextBlock>
+                                    </CheckBox>
                             </Border>
                             <Border Grid.Row="3"
                                     Grid.Column="6"
@@ -1668,6 +1615,84 @@
                                                           Max="{Binding  RC3_TemperatureSV5_Max, Mode=OneWay}"
                                                           Min="{Binding  RC3_TemperatureSV5_Min, Mode=OneWay}"
                                                           Text="{Binding RC3_TemperatureSV5, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="5"
+                                    Grid.Column="4"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="第6段溫度設定值" />
+                            </Border>
+                            <Border Grid.Row="5"
+                                    Grid.Column="5"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC3_TemperatureSV6_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC3_TemperatureSV6_Min, Mode=OneWay}"
+                                                   Value="{Binding RC3_TemperatureSV6, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC3_TemperatureSV6_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC3_TemperatureSV6_Min, Mode=OneWay}"
+                                                          Text="{Binding RC3_TemperatureSV6, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="5"
+                                    Grid.Column="6"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="第7段溫度設定值" />
+                            </Border>
+                            <Border Grid.Row="5"
+                                    Grid.Column="7"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC3_TemperatureSV7_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC3_TemperatureSV7_Min, Mode=OneWay}"
+                                                   Value="{Binding RC3_TemperatureSV7, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC3_TemperatureSV7_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC3_TemperatureSV7_Min, Mode=OneWay}"
+                                                          Text="{Binding RC3_TemperatureSV7, Mode=TwoWay}" />
+                                </views:SpinControl>
+                            </Border>
+                            <Border Grid.Row="6"
+                                    Grid.Column="0"
+                                    Background="{StaticResource WindowBackgroundBrush2}"
+                                    BorderThickness="1,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="第8段溫度設定值" />
+                            </Border>
+                            <Border Grid.Row="6"
+                                    Grid.Column="1"
+                                    BorderThickness="0,0,1,1"
+                                    Style="{StaticResource ValueBorder}">
+                                <views:SpinControl Maximum="{Binding RC3_TemperatureSV8_Max, Mode=OneWay}"
+                                                   Minimum="{Binding RC3_TemperatureSV8_Min, Mode=OneWay}"
+                                                   Value="{Binding RC3_TemperatureSV8, Mode=TwoWay}">
+                                    <views:SpinControl.SmallChange>
+                                        <system:Double>1</system:Double>
+                                    </views:SpinControl.SmallChange>
+                                    <views:NumericTextBox BorderThickness="0"
+                                                          IntOnly="True"
+                                                          Max="{Binding  RC3_TemperatureSV8_Max, Mode=OneWay}"
+                                                          Min="{Binding  RC3_TemperatureSV8_Min, Mode=OneWay}"
+                                                          Text="{Binding RC3_TemperatureSV8, Mode=TwoWay}" />
                                 </views:SpinControl>
                             </Border>
                         </Grid>

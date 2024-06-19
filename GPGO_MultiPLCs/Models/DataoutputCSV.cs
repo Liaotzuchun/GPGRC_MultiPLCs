@@ -294,43 +294,43 @@ public class DataoutputCSV
     //    await RecordMethod(info, recordfolder, d);
     //}
 
-    public async Task ExportRecipe(IEnumerable<PLC_Recipe> recipies, string folderpath)
-    {
-        var outpath = folderpath.Trim().TrimEnd('\\');
+    //public async Task ExportRecipe(IEnumerable<PLC_Recipe> recipies, string folderpath)
+    //{
+    //    var outpath = folderpath.Trim().TrimEnd('\\');
 
-        if (!Directory.Exists(outpath))
-        {
-            try
-            {
-                Directory.CreateDirectory(outpath);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "CSV資料夾不存在且無法創建");
-                return;
-            }
-        }
+    //    if (!Directory.Exists(outpath))
+    //    {
+    //        try
+    //        {
+    //            Directory.CreateDirectory(outpath);
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            Log.Error(ex, "CSV資料夾不存在且無法創建");
+    //            return;
+    //        }
+    //    }
 
-        var datapath = $"{outpath}\\Recipe.csv";
-        var sb       = new StringBuilder();
-        sb.AppendLine(RecipeTitles);
+    //    var datapath = $"{outpath}\\Recipe.csv";
+    //    var sb       = new StringBuilder();
+    //    sb.AppendLine(RecipeTitles);
 
-        foreach (var recipe in recipies)
-        {
-            var _temp = recipe.ToDictionary();
-            sb.AppendLine(string.Join(",", _temp.Values));
-        }
+    //    foreach (var recipe in recipies)
+    //    {
+    //        var _temp = recipe.ToDictionary();
+    //        sb.AppendLine(string.Join(",", _temp.Values));
+    //    }
 
-        try
-        {
-            using var outputFile = new StreamWriter(datapath, false, Encoding.UTF8);
-            await outputFile.WriteAsync(sb.ToString());
-        }
-        catch (Exception ex)
-        {
-            Log.Error(ex, "Recipe CSV寫入失敗");
-        }
-    }
+    //    try
+    //    {
+    //        using var outputFile = new StreamWriter(datapath, false, Encoding.UTF8);
+    //        await outputFile.WriteAsync(sb.ToString());
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        Log.Error(ex, "Recipe CSV寫入失敗");
+    //    }
+    //}
 
     public void UpdateLanguage(Language lng)
     {

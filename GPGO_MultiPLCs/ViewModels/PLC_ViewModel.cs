@@ -321,6 +321,14 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
                             var result   = await SetRecipeDialogAsync(name,plcindex);
                             var eventval = (EventType.Operator, DateTime.Now, "SetRecipe", "", $"{name}:{result}");
                             EventHappened?.Invoke(eventval);
+                            if (result == SetRecipeResult.成功)
+                                dialog.Show(new Dictionary<Language, string>
+                                                                    {
+                                                                        { Language.TW,  $"Coater{plcindex + 1 } 配方切換成功" },
+                                                                        { Language.CHS, $"Coater{plcindex + 1 } 配方切换成功" },
+                                                                        { Language.EN,  $"Coater{plcindex + 1 } Recipe switching successful." }
+                                                                    },
+                                   DialogMsgType.Normal);
                             return;
                         }
 
@@ -521,28 +529,55 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
                                 if (value is bool val)
                                 {
                                     EventHappened?.Invoke(eventval!);
+                                    if (IsExecuting)
+                                    {
+                                        AddProcessEvent(eventval!);
+                                    }
                                 }
+
                                 else if (value is short sv)
                                 {
+                                    if (name == nameof(EquipmentState))
+                                    {
+                                        InvokeSECSEvent?.Invoke("EqpStatusChanged");
+                                        SV_Changed?.Invoke($"Previous{name}", oldvalue!);
 
+                                        EventHappened?.Invoke(eventval!);
+                                        if (IsExecuting)
+                                        {
+                                            AddProcessEvent(eventval!);
+                                        }
+
+                                        NotifyPropertyChanged(nameof(EquipmentStatus));
+                                    }
                                 }
                             }
                             else if (LogType == LogType.Alert)
                             {
                                 var eventval = (EventType.Alert, nowtime, name, $"{(BitType)type!}{Subscriptions!.First()}{(SubPosition > -1 ? $"-{SubPosition:X}" : string.Empty)}", value);
                                 EventHappened?.Invoke(eventval!);
+                                if (IsExecuting)
+                                {
+                                    AddProcessEvent(eventval!);
+                                }
 
                                 if (value is bool boolval)
                                 {
+                                    InvokeSECSAlarm?.Invoke(name, boolval);
                                 }
                             }
                             else if (LogType == LogType.Alarm)
                             {
                                 var eventval = (EventType.Alarm, nowtime, name, $"{(BitType)type!}{Subscriptions!.First()}{(SubPosition > -1 ? $"-{SubPosition:X}" : string.Empty)}", value);
                                 EventHappened?.Invoke(eventval!);
+                                if (IsExecuting)
+                                {
+                                    AddProcessEvent(eventval!);
+                                }
 
                                 if (value is bool boolval)
                                 {
+                                    InvokeSECSAlarm?.Invoke(name, boolval);
                                 }
                             }
                             else if (LogType == LogType.RecipeSet) //PLC配方"設定值"改變時
@@ -660,43 +695,7 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
                         });
         return SetRecipeResult.成功;
     }
-    //private bool RecipeCompare(PLC_Recipe recipe) => NitrogenMode == recipe.NitrogenMode &&
-    //                                                OxygenContentSet.ToString("0.0") == recipe.OxygenContentSet.ToString("0.0") &&
-    //                                                (RecipeName.Length > 16 ? RecipeName[..16] : RecipeName) == (recipe.RecipeName.Length > 16 ? recipe.RecipeName[..16] : recipe.RecipeName) && //! 只最多比對16個字(PLC的配方名長度)
-    //                                                DwellTime_1.ToString("0.0") == recipe.DwellTime_1.ToString("0.0") &&
-    //                                                DwellTime_2.ToString("0.0") == recipe.DwellTime_2.ToString("0.0") &&
-    //                                                DwellTime_3.ToString("0.0") == recipe.DwellTime_3.ToString("0.0") &&
-    //                                                DwellTime_4.ToString("0.0") == recipe.DwellTime_4.ToString("0.0") &&
-    //                                                DwellTime_5.ToString("0.0") == recipe.DwellTime_5.ToString("0.0") &&
-    //                                                DwellTime_6.ToString("0.0") == recipe.DwellTime_6.ToString("0.0") &&
-    //                                                DwellAlarm_1.ToString("0.0") == recipe.DwellAlarm_1.ToString("0.0") &&
-    //                                                DwellAlarm_2.ToString("0.0") == recipe.DwellAlarm_2.ToString("0.0") &&
-    //                                                DwellAlarm_3.ToString("0.0") == recipe.DwellAlarm_3.ToString("0.0") &&
-    //                                                DwellAlarm_4.ToString("0.0") == recipe.DwellAlarm_4.ToString("0.0") &&
-    //                                                DwellAlarm_5.ToString("0.0") == recipe.DwellAlarm_5.ToString("0.0") &&
-    //                                                DwellAlarm_6.ToString("0.0") == recipe.DwellAlarm_6.ToString("0.0") &&
-    //                                                CoolingTime.ToString("0.0") == recipe.CoolingTime.ToString("0.0") &&
-    //                                                CoolingTemperature.ToString("0.0") == recipe.CoolingTemperature.ToString("0.0") &&
-    //                                                RampTime_1.ToString("0.0") == recipe.RampTime_1.ToString("0.0") &&
-    //                                                RampTime_2.ToString("0.0") == recipe.RampTime_2.ToString("0.0") &&
-    //                                                RampTime_3.ToString("0.0") == recipe.RampTime_3.ToString("0.0") &&
-    //                                                RampTime_4.ToString("0.0") == recipe.RampTime_4.ToString("0.0") &&
-    //                                                RampTime_5.ToString("0.0") == recipe.RampTime_5.ToString("0.0") &&
-    //                                                RampTime_6.ToString("0.0") == recipe.RampTime_6.ToString("0.0") &&
-    //                                                RampAlarm_1.ToString("0.0") == recipe.RampAlarm_1.ToString("0.0") &&
-    //                                                RampAlarm_2.ToString("0.0") == recipe.RampAlarm_2.ToString("0.0") &&
-    //                                                RampAlarm_3.ToString("0.0") == recipe.RampAlarm_3.ToString("0.0") &&
-    //                                                RampAlarm_4.ToString("0.0") == recipe.RampAlarm_4.ToString("0.0") &&
-    //                                                RampAlarm_5.ToString("0.0") == recipe.RampAlarm_5.ToString("0.0") &&
-    //                                                RampAlarm_6.ToString("0.0") == recipe.RampAlarm_6.ToString("0.0") &&
-    //                                                InflatingTime.ToString("0") == recipe.InflatingTime.ToString("0") &&
-    //                                                TemperatureSetpoint_1.ToString("0.0") == recipe.TemperatureSetpoint_1.ToString("0.0") &&
-    //                                                TemperatureSetpoint_2.ToString("0.0") == recipe.TemperatureSetpoint_2.ToString("0.0") &&
-    //                                                TemperatureSetpoint_3.ToString("0.0") == recipe.TemperatureSetpoint_3.ToString("0.0") &&
-    //                                                TemperatureSetpoint_4.ToString("0.0") == recipe.TemperatureSetpoint_4.ToString("0.0") &&
-    //                                                TemperatureSetpoint_5.ToString("0.0") == recipe.TemperatureSetpoint_5.ToString("0.0") &&
-    //                                                TemperatureSetpoint_6.ToString("0.0") == recipe.TemperatureSetpoint_6.ToString("0.0") &&
-    //                                                SegmentCounts == recipe.SegmentCounts;
+
     public class Item : ObservableObject
     {
         public string RecipeDESC
@@ -738,8 +737,8 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
         //三台PLC配方點位都是一樣，但客戶某幾段沒有要全看
         var recipeData = new Dictionary<string, string>
         {
-            { "塗佈使用", UseCoating == 0 ? "使用" : "不使用"  },
-            { "塞孔使用", UsePlug == 0 ? "使用" : "不使用"  },
+            { "塗佈使用", UseCoating ? "使用" : "不使用"  },
+            { "塞孔使用", UsePlug ? "使用" : "不使用"  },
             { "塗佈次數", Coatingoftimes.ToString() },
             { "塞孔次數設定", Plugoftimes.ToString() },
             { "塗佈速度設定", CoatingSpeedSetting.ToString() },
@@ -781,6 +780,9 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
             items.Add(new Item { RecipeDESC = "第3段溫度設定值", RecipeValue = TemperatureSV3.ToString() });
             items.Add(new Item { RecipeDESC = "第4段溫度設定值", RecipeValue = TemperatureSV4.ToString() });
             items.Add(new Item { RecipeDESC = "第5段溫度設定值", RecipeValue = TemperatureSV5.ToString() });
+            items.Add(new Item { RecipeDESC = "第6段溫度設定值", RecipeValue = TemperatureSV6.ToString() });
+            items.Add(new Item { RecipeDESC = "第7段溫度設定值", RecipeValue = TemperatureSV7.ToString() });
+            items.Add(new Item { RecipeDESC = "第8段溫度設定值", RecipeValue = TemperatureSV8.ToString() });
 
         }
         NotifyPropertyChanged(nameof(RecipeItem));
@@ -817,6 +819,9 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
             items.Add(new TemperatureItem { TemperatureDESC = "第3段溫度實際值", TemperatureValue = TemperaturePV3.ToString() });
             items.Add(new TemperatureItem { TemperatureDESC = "第4段溫度實際值", TemperatureValue = TemperaturePV4.ToString() });
             items.Add(new TemperatureItem { TemperatureDESC = "第5段溫度實際值", TemperatureValue = TemperaturePV5.ToString() });
+            items.Add(new TemperatureItem { TemperatureDESC = "第6段溫度實際值", TemperatureValue = TemperaturePV6.ToString() });
+            items.Add(new TemperatureItem { TemperatureDESC = "第7段溫度實際值", TemperatureValue = TemperaturePV7.ToString() });
+            items.Add(new TemperatureItem { TemperatureDESC = "第8段溫度實際值", TemperatureValue = TemperaturePV8.ToString() });
         }
         NotifyPropertyChanged(nameof(TemperatureItems));
         return items;
@@ -906,7 +911,6 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
 
             return SetRecipeResult.條件不允許;
         }
-        var a =  await WriteRecipeToPlcAsync(recipe, plcindex).ConfigureAwait(false);
         return await WriteRecipeToPlcAsync(recipe, plcindex).ConfigureAwait(false);
     }
 

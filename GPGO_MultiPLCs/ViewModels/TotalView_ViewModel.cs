@@ -17,6 +17,7 @@ using GPMVVM.Models.SECS;
 using GPMVVM.Models.SECS.ITRISecs;
 using GPMVVM.SECSGEM;
 using PLCService;
+using Serilog;
 #pragma warning disable VSTHRD101
 
 namespace GPGRC_MultiPLCs.ViewModels;
@@ -31,8 +32,8 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
     public event Func<string, bool>?                                                                               DeleteRecipe;
     public event Func<string, PLC_Recipe?>?                                                                        GetRecipe;
     public event Func<List<string>>?                                                                               GetRecipeList;
-    public event Action<string>?                                                                               CheckRecipeCommand_KeyIn;
-
+    public event Action<string>?                                                                                   CheckRecipeCommand_KeyIn;
+     
     /// <summary>財產編號儲存位置</summary>
     private const string AssetNumbersPath = "AssetNumbers";
 
@@ -102,13 +103,13 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
     /// <summary>所有PLC</summary>
     public IList<PLC_ViewModel> PLC_All { get; }
     public bool[] PLCIsBusy { get; }
-    public IList<PLC_ViewModel> PLC_All_View => OvenCount > PLC_All.Count ? PLC_All : PLC_All.Take(OvenCount).ToList();
+    public IList<PLC_ViewModel> PLC_All_View => CoaterCount > PLC_All.Count ? PLC_All : PLC_All.Take(CoaterCount).ToList();
 
     /// <summary>檢視詳細資訊的PLC</summary>
     public PLC_ViewModel PLC_In_Focused => PLCIndex > -1 ? PLC_All[PLCIndex] : PLC_All[0];
 
 
-    public int OvenCount
+    public int CoaterCount
     {
         get => Get<int>();
         set
@@ -227,7 +228,7 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
         asyncOperation = AsyncOperationManager.CreateOperation(null);
         Gate = gate;
         Dialog = dialog;
-        OvenCount = count;
+        CoaterCount = count;
         PLC_All = new PLC_ViewModel[count];
         PLCIndex = 0;
         var v = Assembly.GetExecutingAssembly().GetName().Version;
@@ -962,9 +963,9 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
             //! PLC事件紀錄
             plc.EventHappened += e => EventHappened?.Invoke((index, e.type, e.time, e.note, e.tag, e.value));
 
-            plc.InvokeSECSEvent += EventName => SecsGemEquipment.InvokeEvent($"Oven{index + 1}_{EventName}");
+            plc.InvokeSECSEvent += EventName => SecsGemEquipment.InvokeEvent($"Coater{index + 1}_{EventName}");
 
-            plc.InvokeSECSAlarm += (AlarmName, val) => SecsGemEquipment.InvokeAlarm($"Oven{index + 1}_{AlarmName}", val);
+            plc.InvokeSECSAlarm += (AlarmName, val) => SecsGemEquipment.InvokeAlarm($"Coater{index + 1}_{AlarmName}", val);
 
             plc.SV_Changed += (name, value) =>
             {
@@ -972,21 +973,21 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                 {
                     SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PROCESS_STATE, value);
                 }
-                else if (name == $"Previous{nameof(PLC_ViewModel.EquipmentState)}")
-                {
-                    SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PREVIOUS_PROCESS_STATE, value);
-                }
+                //else if (name == $"Previous{nameof(PLC_ViewModel.EquipmentState)}")
+                //{
+                //    SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PREVIOUS_PROCESS_STATE, value);
+                //}
                 else if (name == nameof(PLC_ViewModel.RecipeName))
                 {
                     SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PP_EXEC_NAME, value);
                 }
-
-                SecsGemEquipment.UpdateSV($"Coater{index + 1}_{name}", value);
+                var result = SecsGemEquipment.UpdateSV($"Coater{index + 1}_{name}", value);
+                Log.Logger.Debug($"SECS UpdateSV Result. Name={$"Coater{index + 1}_{name}"}. Value={result}. ");
             };
 
             plc.PanelMoveHappened += e =>
-            {
-                var panelIndexMap = new Dictionary<string, int>
+                {
+                    var panelIndexMap = new Dictionary<string, int>
                                                    {
                                                        { nameof(plc.FeedInlet), 0 },
                                                        { nameof(plc.FeedToWait), 1 },
@@ -994,118 +995,118 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                                                        { nameof(plc.FrontWeightToCoater), 3 },
                                                        { nameof(plc.CoaterToBackWeight), 4 },
                                                    };
-                try
-                {
-                    if (e.Item1 == 0)
+                    try
                     {
-                        if (panelIndexMap.ContainsKey(e.Item2))
+                        if (e.Item1 == 0)
                         {
-                            var Coaterindex = panelIndexMap[e.Item2];
+                            if (panelIndexMap.ContainsKey(e.Item2))
+                            {
+                                var Coaterindex = panelIndexMap[e.Item2];
 
-                            if (Coaterindex == 0)
-                            {
-                                Coater1Panel[0] = new CoaterItem { Num = 0, PanelName = plc.PanelID };
+                                if (Coaterindex == 0)
+                                {
+                                    Coater1Panel[0] = new CoaterItem { Num = 0, PanelName = plc.PanelID };
+                                }
+                                else
+                                {
+                                    Coater1Panel[Coaterindex] = Coater1Panel[Coaterindex - 1];
+                                    Coater1Panel[Coaterindex - 1] = null;
+                                }
                             }
-                            else
-                            {
-                                Coater1Panel[Coaterindex] = Coater1Panel[Coaterindex - 1];
-                                Coater1Panel[Coaterindex - 1] = null;
-                            }
-                        }
-                        else if (e.Item2 == nameof(plc.BackWeightToOven) && Coater1Panel[4] is not null)
-                        {
-                            _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
-                            {
-                                Coater1Items.Add(new CoaterItem { Num = Coater1Items.Count + 1, PanelName = Coater1Panel[4].PanelName });
-                                Coater1Panel[4] = null;
-                            });
-                        }
-                    }
-                    else if (e.Item1 == 1)
-                    {
-                        if (panelIndexMap.ContainsKey(e.Item2))
-                        {
-                            var Coaterindex = panelIndexMap[e.Item2];
-                            if (Coaterindex == 0)
-                            {
-
-                            }
-                            else if (Coaterindex == 1)
+                            else if (e.Item2 == nameof(plc.BackWeightToOven) && Coater1Panel[4] is not null)
                             {
                                 _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
-                                    {
-                                        Coater2Panel[0] = new CoaterItem { Num = 0, PanelName = Coater1Items[0].PanelName };
+                                {
+                                    Coater1Items.Add(new CoaterItem { Num = Coater1Items.Count + 1, PanelName = Coater1Panel[4].PanelName });
+                                    Coater1Panel[4] = null;
+                                });
+                            }
+                        }
+                        else if (e.Item1 == 1)
+                        {
+                            if (panelIndexMap.ContainsKey(e.Item2))
+                            {
+                                var Coaterindex = panelIndexMap[e.Item2];
+                                if (Coaterindex == 0)
+                                {
 
-                                        for (var i = 0; i < Coater1Items.Count - 1; i++)
+                                }
+                                else if (Coaterindex == 1)
+                                {
+                                    _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
                                         {
-                                            Coater1Items[i] = Coater1Items[i + 1];
-                                            Coater1Items[i].Num = i + 1;
-                                        }
-                                        Coater1Items.RemoveAt(Coater1Items.Count - 1);
-                                    });
-                            }
-                            else
-                            {
-                                Coater2Panel[Coaterindex - 1] = Coater2Panel[Coaterindex - 2];
-                                Coater2Panel[Coaterindex - 2] = null;
-                            }
-                        }
-                        else if (e.Item2 == nameof(plc.BackWeightToOven) && Coater2Panel[3] is not null)
-                        {
-                            _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
-                            {
-                                Coater2Items.Add(new CoaterItem { Num = Coater2Items.Count + 1, PanelName = Coater2Panel[3].PanelName });
-                                Coater2Panel[3] = null;
-                            });
-                        }
-                    }
-                    else if (e.Item1 == 2)
-                    {
-                        if (panelIndexMap.ContainsKey(e.Item2))
-                        {
-                            var Coaterindex = panelIndexMap[e.Item2];
-                            if (Coaterindex == 0)
-                            {
+                                            Coater2Panel[0] = new CoaterItem { Num = 0, PanelName = Coater1Items[0].PanelName };
 
+                                            for (var i = 0; i < Coater1Items.Count - 1; i++)
+                                            {
+                                                Coater1Items[i] = Coater1Items[i + 1];
+                                                Coater1Items[i].Num = i + 1;
+                                            }
+                                            Coater1Items.RemoveAt(Coater1Items.Count - 1);
+                                        });
+                                }
+                                else
+                                {
+                                    Coater2Panel[Coaterindex - 1] = Coater2Panel[Coaterindex - 2];
+                                    Coater2Panel[Coaterindex - 2] = null;
+                                }
                             }
-                            else if (Coaterindex == 1 && !string.IsNullOrEmpty(Coater2Items[0].PanelName))
+                            else if (e.Item2 == nameof(plc.BackWeightToOven) && Coater2Panel[3] is not null)
                             {
                                 _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
-                                    {
-                                        Coater3Panel[0] = new CoaterItem { Num = 0, PanelName = Coater2Items[0].PanelName };
-
-                                        for (var i = 0; i < Coater2Items.Count - 1; i++)
-                                        {
-                                            Coater2Items[i] = Coater2Items[i + 1];
-                                            Coater2Items[i].Num = i + 1;
-                                        }
-                                        Coater2Items.RemoveAt(Coater2Items.Count - 1);
-                                    });
-                            }
-                            else
-                            {
-                                Coater3Panel[Coaterindex - 1] = Coater3Panel[Coaterindex - 2];
-                                Coater3Panel[Coaterindex - 2] = null;
+                                {
+                                    Coater2Items.Add(new CoaterItem { Num = Coater2Items.Count + 1, PanelName = Coater2Panel[3].PanelName });
+                                    Coater2Panel[3] = null;
+                                });
                             }
                         }
-                        else if (e.Item2 == nameof(plc.BackWeightToOven) && Coater3Panel[3] is not null)
+                        else if (e.Item1 == 2)
                         {
-                            _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
+                            if (panelIndexMap.ContainsKey(e.Item2))
                             {
-                                Coater3Items.Add(new CoaterItem { Num = Coater3Items.Count + 1, PanelName = Coater3Panel[3].PanelName });
-                                Coater3Panel[3] = null;
-                            });
-                        }
-                    }
-                    NotifyPropertyChanged(nameof(Coater1Panel));
-                    NotifyPropertyChanged(nameof(Coater2Panel));
-                    NotifyPropertyChanged(nameof(Coater3Panel));
-                }
-                catch
-                {
+                                var Coaterindex = panelIndexMap[e.Item2];
+                                if (Coaterindex == 0)
+                                {
 
-                }
-            };
+                                }
+                                else if (Coaterindex == 1 && !string.IsNullOrEmpty(Coater2Items[0].PanelName))
+                                {
+                                    _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
+                                        {
+                                            Coater3Panel[0] = new CoaterItem { Num = 0, PanelName = Coater2Items[0].PanelName };
+
+                                            for (var i = 0; i < Coater2Items.Count - 1; i++)
+                                            {
+                                                Coater2Items[i] = Coater2Items[i + 1];
+                                                Coater2Items[i].Num = i + 1;
+                                            }
+                                            Coater2Items.RemoveAt(Coater2Items.Count - 1);
+                                        });
+                                }
+                                else
+                                {
+                                    Coater3Panel[Coaterindex - 1] = Coater3Panel[Coaterindex - 2];
+                                    Coater3Panel[Coaterindex - 2] = null;
+                                }
+                            }
+                            else if (e.Item2 == nameof(plc.BackWeightToOven) && Coater3Panel[3] is not null)
+                            {
+                                _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
+                                {
+                                    Coater3Items.Add(new CoaterItem { Num = Coater3Items.Count + 1, PanelName = Coater3Panel[3].PanelName });
+                                    Coater3Panel[3] = null;
+                                });
+                            }
+                        }
+                        NotifyPropertyChanged(nameof(Coater1Panel));
+                        NotifyPropertyChanged(nameof(Coater2Panel));
+                        NotifyPropertyChanged(nameof(Coater3Panel));
+                    }
+                    catch
+                    {
+
+                    }
+                };
         }
 
         SecsGemEquipment.Enable(true);
@@ -1139,7 +1140,7 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                                                           { "frame", "MC3E" }
                                                       }))
                                 {
-                                    for (var i = 0; i < OvenCount; i++)
+                                    for (var i = 0; i < CoaterCount; i++)
                                     {
                                         Gate.SetReadListsByDataModels(PLC_All[i]); //! 連線並發送訂閱列表
                                     }

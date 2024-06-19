@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.ServiceModel;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -45,16 +44,6 @@ public sealed class Mediator : ObservableObject
         set { _closed = value; }
     }
 
-    public TcpClient mTcpClient
-    {
-        get => Get<TcpClient>();
-        set => Set(value);
-    }
-    public ServiceHost webServiceHost
-    {
-        get;
-        set;
-    }
     public Language Language
     {
         get => Get<Language>();
@@ -68,14 +57,14 @@ public sealed class Mediator : ObservableObject
         }
     }
 
-    public int OvenCount
+    public int CoaterCount
     {
         get => Get<int>();
         private set
         {
             Set(value);
 
-            TotalVM.OvenCount = value;
+            TotalVM.CoaterCount = value;
         }
     }
 
@@ -124,46 +113,7 @@ public sealed class Mediator : ObservableObject
             }
         }
     }
-    //管控MES功能
-    public bool IsHeartbeat
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    public bool AutoOrHalfAuto
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    public bool IsNotHeartbeat
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    //MES連線心跳燈號
-    public bool Heartbeatlight
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    public Visibility EditTopVisibility
-    {
-        get => Get<Visibility>();
-        set
-        {
-            Set(value);
-            NotifyPropertyChanged();
-        }
-    }
-    public Visibility DetailTopVisibility
-    {
-        get => Get<Visibility>();
-        set
-        {
-            Set(value);
-            NotifyPropertyChanged();
-        }
-    }
+
     public Authenticator_ViewModel AuthenticatorVM { get; }
     public GlobalDialog_ViewModel DialogVM { get; }
     public LogView_ViewModel LogVM { get; }
@@ -185,9 +135,9 @@ public sealed class Mediator : ObservableObject
         LogVM = new LogView_ViewModel(new MongoBase<LogEvent>(db.GetCollection<LogEvent>("EventLogs")), DialogVM);
         PlcGate = new JsonRPCPLCGate();
         AuthenticatorVM = new Authenticator_ViewModel();
-        TotalVM = new TotalView_ViewModel(AuthenticatorVM.Settings.OvenCount, PlcGate, IPAddress.Parse(AuthenticatorVM.IPString), DialogVM);
+        TotalVM = new TotalView_ViewModel(AuthenticatorVM.Settings.CoaterCount, PlcGate, IPAddress.Parse(AuthenticatorVM.IPString), DialogVM);
         Language = AuthenticatorVM.Settings.Lng;
-        OvenCount = AuthenticatorVM.Settings.OvenCount;
+        CoaterCount = AuthenticatorVM.Settings.CoaterCount;
 
         #region AuthenticatorVM
         AuthenticatorVM.NowUser = new User
@@ -213,8 +163,8 @@ public sealed class Mediator : ObservableObject
                 case nameof(GlobalSettings.Lng):
                     Language = ((GlobalSettings)s).Lng;
                     break;
-                case nameof(GlobalSettings.OvenCount):
-                    OvenCount = ((GlobalSettings)s).OvenCount;
+                case nameof(GlobalSettings.CoaterCount):
+                    CoaterCount = ((GlobalSettings)s).CoaterCount;
                     break;
                 case nameof(GlobalSettings.RecordDelay):
                     RecordDelay = ((GlobalSettings)s).RecordDelay;
@@ -350,8 +300,61 @@ public sealed class Mediator : ObservableObject
                         Log.Error(ex, "ProcessJob資料夾無法創建");
                     }
                 }
+                else
+                {
+                    var files = new DirectoryInfo(path).GetFiles("*.pjb");
+                    foreach (var file in files)
+                    {
+                        try
+                        {
+                            file.Delete();
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.Error(ex, "ProcessJob資料夾內檔案無法刪除");
+                        }
+                    }
+                }
+
+                if (TotalVM.SecsGemEquipment.CCodeDocument?.CCodeItems.TryGetValue("1", out var ccode) == true)
+                {
+                    foreach (var recipe in list)
+                    {
+                        var _recipe = recipe.ToDictionary();
+                        var fpath   = $"{path}\\{recipe.RecipeName}.pjb";
+                        var ini     = new IniParser(fpath);
+
+                        foreach (var param in ccode.ParameterItems)
+                        {
+                            if (_recipe.TryGetValue(param.PParameterName, out var val))
+                            {
+                                if (val is double d)
+                                {
+                                    ini[ccode.CCodeName][param.PParameterName] = d.ToString("0.0").ToUpper();
+                                }
+                                else if (val is float f)
+                                {
+                                    ini[ccode.CCodeName][param.PParameterName] = f.ToString("0.0").ToUpper();
+                                }
+                                else
+                                {
+                                    ini[ccode.CCodeName][param.PParameterName] = val.ToString().ToUpper();
+                                }
+                            }
+                        }
+
+                        try
+                        {
+                            await ini.SaveAsync();
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.Error(ex, "pjb寫入失敗");
+                        }
+                    }
+                }
                 //! 輸出欣興Recipe CSV
-                await CsvCreator.ExportRecipe(list, AuthenticatorVM.Settings.DataOutputPath);
+                //await CsvCreator.ExportRecipe(list, AuthenticatorVM.Settings.DataOutputPath);
             }
 
             var sb = new StringBuilder();
@@ -468,7 +471,7 @@ public sealed class Mediator : ObservableObject
             _ = LogVM.AddToDBAsync(logevent);
 
             //! 輸出欣興CSV紀錄
-            _ = CsvCreator.AddEvent(logevent, AuthenticatorVM.Settings.DataOutputPath);
+            //_ = CsvCreator.AddEvent(logevent, AuthenticatorVM.Settings.DataOutputPath);
         };
 
 

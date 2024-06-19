@@ -110,6 +110,27 @@ public class GRC_DataModel : PLCDataProvider
         get => Get<double>();
         set => Set(value);
     }
+    /// <summary>第5段烘烤溫度</summary>
+    [PLCData(DataType.D, 2704, 20, LogType.RecipeSet)]
+    public double TemperaturePV6
+    {
+        get => Get<double>();
+        set => Set(value);
+    }
+    /// <summary>第5段烘烤溫度</summary>
+    [PLCData(DataType.D, 2704, 20, LogType.RecipeSet)]
+    public double TemperaturePV7
+    {
+        get => Get<double>();
+        set => Set(value);
+    }
+    /// <summary>第5段烘烤溫度</summary>
+    [PLCData(DataType.D, 2704, 20, LogType.RecipeSet)]
+    public double TemperaturePV8
+    {
+        get => Get<double>();
+        set => Set(value);
+    }
     #endregion
 
     #region 配方設定值
@@ -243,7 +264,6 @@ public class GRC_DataModel : PLCDataProvider
     //#endregion
     #endregion
     #region 無主控
-    #region Coater
     /// <summary>塗佈次數</summary>
     [PLCData(DataType.D, 700, LogType.RecipeSet)] public double Coatingoftimes { get => Get<double>(); set => Set(value); }
     /// <summary>塗佈速度設定</summary>
@@ -280,15 +300,20 @@ public class GRC_DataModel : PLCDataProvider
     [PLCData(DataType.D, 716, LogType.RecipeSet)] public double TemperatureSV4 { get => Get<double>(); set => Set(value); }
     /// <summary>第5段溫度設定值</summary>
     [PLCData(DataType.D, 717, LogType.RecipeSet)] public double TemperatureSV5 { get => Get<double>(); set => Set(value); }
+    /// <summary>第6段溫度設定值</summary>
+    [PLCData(DataType.D, 718, LogType.RecipeSet)] public double TemperatureSV6 { get => Get<double>(); set => Set(value); }
+    /// <summary>第7段溫度設定值</summary>
+    [PLCData(DataType.D, 719, LogType.RecipeSet)] public double TemperatureSV7 { get => Get<double>(); set => Set(value); }
+    /// <summary>第8段溫度設定值</summary>
+    [PLCData(DataType.D, 720, LogType.RecipeSet)] public double TemperatureSV8 { get => Get<double>(); set => Set(value); }
     /// <summary>塗佈使用</summary>
-    [PLCData(DataType.D, 718, LogType.RecipeSet)] public double UseCoating { get => Get<double>(); set => Set(value); }
+    [PLCBitData(DataType.D, 721, 0, LogType.RecipeSet)] public bool UseCoating { get => Get<bool>(); set => Set(value); }
     /// <summary>塞孔使用</summary>
-    [PLCData(DataType.D, 719, LogType.RecipeSet)] public double UsePlug { get => Get<double>(); set => Set(value); }
+    [PLCBitData(DataType.D, 722, 0, LogType.RecipeSet)] public bool UsePlug { get => Get<bool>(); set => Set(value); }
     /// <summary>標準墨重</summary>
-    [PLCData(DataType.D, 720, LogType.RecipeSet)] public double StandardInk { get => Get<double>(); set => Set(value); }
+    [PLCData(DataType.D, 723, LogType.RecipeSet)] public double StandardInk { get => Get<double>(); set => Set(value); }
     /// <summary>墨重誤差值</summary>
-    [PLCData(DataType.D, 721, LogType.RecipeSet)] public double DifferenceOfInk { get => Get<double>(); set => Set(value); }
-    #endregion
+    [PLCData(DataType.D, 724, LogType.RecipeSet)] public double DifferenceOfInk { get => Get<double>(); set => Set(value); }
     #endregion
     #endregion
 

@@ -55,10 +55,10 @@
 
 	<ItemGroup>
 		<PackageReference Include="EPPlus" Version="6.2.4" />
-		<PackageReference Include="GPMVVM" Version="24.6.7.16" />
-		<PackageReference Include="GPMVVM.Core" Version="24.6.7.16" />
-		<PackageReference Include="GPMVVM.MongoDB" Version="24.6.7.16" />
-		<PackageReference Include="GPMVVM.SECSGEM" Version="24.6.7.16" />
+		<PackageReference Include="GPMVVM" Version="24.6.18.10" />
+		<PackageReference Include="GPMVVM.Core" Version="24.6.18.10" />
+		<PackageReference Include="GPMVVM.MongoDB" Version="24.6.18.10" />
+		<PackageReference Include="GPMVVM.SECSGEM" Version="24.6.18.10" />
 		<PackageReference Include="OxyPlot.SkiaSharp.Wpf" Version="2.1.2" />
 		<PackageReference Include="RawInput.Sharp" Version="0.1.1" />
 	</ItemGroup>
@@ -69,5 +69,9 @@
 
 	<ItemGroup>
 		<WCFMetadata Include="Connected Services\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Interfaces\" />
 	</ItemGroup>
 </Project>
