@@ -33,7 +33,7 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
     public event Func<string, PLC_Recipe?>?                                                                        GetRecipe;
     public event Func<List<string>>?                                                                               GetRecipeList;
     public event Action<string>?                                                                                   CheckRecipeCommand_KeyIn;
-     
+
     /// <summary>財產編號儲存位置</summary>
     private const string AssetNumbersPath = "AssetNumbers";
 
@@ -377,38 +377,6 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                                                                   { Language.TW, "START: 仍在烘烤中" },
                                                                   { Language.CHS, "START: 仍在烘烤中" },
                                                                   { Language.EN, "START: Oven is executing." }
-                                                              },
-                            DialogMsgType.Alert);
-
-                return HCACKValule.CantPerform;
-            }
-
-            if (plc.EmergencyStop || plc.PowerPhaseError || plc.OTPTemperatureError || plc.CirculatingFanCurrentError || plc.ELBtrip)
-            {
-                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.START_Command), "烤箱狀態異常", index);
-                EventHappened?.Invoke(eventval);
-
-                dialog.Show(new Dictionary<Language, string>
-                                                              {
-                                                                  { Language.TW, "START: 烤箱狀態異常" },
-                                                                  { Language.CHS, "START: 烤箱状态异常" },
-                                                                  { Language.EN, "START: Oven status abnormal." }
-                                                              },
-                            DialogMsgType.Alert);
-
-                return HCACKValule.CantPerform;
-            }
-
-            if (plc.DoorNotOpen)
-            {
-                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.START_Command), "停止後未開門", index);
-                EventHappened?.Invoke(eventval);
-
-                dialog.Show(new Dictionary<Language, string>
-                                                              {
-                                                                  { Language.TW, "START: 停止後未開門" },
-                                                                  { Language.CHS, "START: 停止后未开门" },
-                                                                  { Language.EN, "START: The door did not open after stopped." }
                                                               },
                             DialogMsgType.Alert);
 
@@ -887,19 +855,19 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
             plc.CheckIn += e =>
             {
                 var (opid, rackid) = e;
-                SecsGemEquipment.UpdateSV($"Coater{index + 1}_OperatorID", opid);
-                SecsGemEquipment.UpdateSV($"Coater{index + 1}_RackID", rackid);
-                SecsGemEquipment.InvokeEvent($"Coater{index + 1}_RackInput");
+                SecsGemEquipment.UpdateSV($"RC{index + 1}_OperatorID", opid);
+                SecsGemEquipment.UpdateSV($"RC{index + 1}_RackID", rackid);
+                SecsGemEquipment.InvokeEvent($"RC{index + 1}_RackInput");
             };
 
             //! 取消投產
             plc.CancelCheckIn += _ =>
             {
-                SecsGemEquipment.UpdateSV($"Coater{index + 1}_RackID", string.Empty);
-                SecsGemEquipment.InvokeEvent($"Coater{index + 1}_CancelCheckIn");
+                SecsGemEquipment.UpdateSV($"RC{index + 1}_RackID", string.Empty);
+                SecsGemEquipment.InvokeEvent($"RC{index + 1}_CancelCheckIn");
             };
 
-            plc.CheckOut += _ => SecsGemEquipment.InvokeEvent($"Coater{index + 1}_RackOutput");
+            plc.CheckOut += _ => SecsGemEquipment.InvokeEvent($"RC{index + 1}_RackOutput");
 
 
             plc.LotAdded += lotid =>
@@ -927,7 +895,7 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
 
                                          try
                                          {
-                                             SecsGemEquipment.UpdateDV($"Coater{index + 1}_ProcessData", baseInfo.ToJson());
+                                             SecsGemEquipment.UpdateDV($"RC{index + 1}_ProcessData", baseInfo.ToJson());
                                          }
                                          catch
                                          {
@@ -963,9 +931,14 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
             //! PLC事件紀錄
             plc.EventHappened += e => EventHappened?.Invoke((index, e.type, e.time, e.note, e.tag, e.value));
 
-            plc.InvokeSECSEvent += EventName => SecsGemEquipment.InvokeEvent($"Coater{index + 1}_{EventName}");
+            plc.InvokeSECSEvent += EventName => SecsGemEquipment.InvokeEvent($"RC{index + 1}_{EventName}");
 
-            plc.InvokeSECSAlarm += (AlarmName, val) => SecsGemEquipment.InvokeAlarm($"Coater{index + 1}_{AlarmName}", val);
+            plc.InvokeSECSAlarm += (AlarmName, val) =>
+            {
+                if (AlarmName.Contains("RC3"))
+                    AlarmName = AlarmName.Substring(4); //移除前面"RCx_"
+                var a = SecsGemEquipment.InvokeAlarm($"RC{index + 1}_{AlarmName}", val);
+            };
 
             plc.SV_Changed += (name, value) =>
             {
@@ -981,8 +954,8 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                 {
                     SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PP_EXEC_NAME, value);
                 }
-                var result = SecsGemEquipment.UpdateSV($"Coater{index + 1}_{name}", value);
-                Log.Logger.Debug($"SECS UpdateSV Result. Name={$"Coater{index + 1}_{name}"}. Value={result}. ");
+                var result = SecsGemEquipment.UpdateSV($"RC{index + 1}_{name}", value);
+                Log.Logger.Debug($"SECS UpdateSV Result. Name={$"RC{index + 1}_{name}"}. Value={result}. ");
             };
 
             plc.PanelMoveHappened += e =>
@@ -1223,7 +1196,7 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
 
                     for (var i = vals.Length; i < PLC_All.Count; i++)
                     {
-                        PLC_All[i].OvenInfo.MachineCode = $"Coater{i + 1}";
+                        PLC_All[i].OvenInfo.MachineCode = $"RC{i + 1}";
                     }
                 }
             }
@@ -1235,7 +1208,7 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
 
         for (var i = 0; i < PLC_All.Count; i++)
         {
-            PLC_All[i].OvenInfo.MachineCode = $"Coater{i + 1}";
+            PLC_All[i].OvenInfo.MachineCode = $"RC{i + 1}";
         }
     }
     /// <summary>儲存財產編號</summary>

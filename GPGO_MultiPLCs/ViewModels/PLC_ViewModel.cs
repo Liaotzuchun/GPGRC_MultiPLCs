@@ -324,9 +324,9 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
                             if (result == SetRecipeResult.成功)
                                 dialog.Show(new Dictionary<Language, string>
                                                                     {
-                                                                        { Language.TW,  $"Coater{plcindex + 1 } 配方切換成功" },
-                                                                        { Language.CHS, $"Coater{plcindex + 1 } 配方切换成功" },
-                                                                        { Language.EN,  $"Coater{plcindex + 1 } Recipe switching successful." }
+                                                                        { Language.TW,  $"RC{plcindex + 1 } 配方切換成功" },
+                                                                        { Language.CHS, $"RC{plcindex + 1 } 配方切换成功" },
+                                                                        { Language.EN,  $"RC{plcindex + 1 } Recipe switching successful." }
                                                                     },
                                    DialogMsgType.Normal);
                             return;
@@ -420,18 +420,6 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
                                                                         { Language.TW, "OP權限不符" },
                                                                         { Language.CHS, "OP权限不符" },
                                                                         { Language.EN, "OP permissions error." }
-                                                                    },
-                                    DialogMsgType.Alert);
-
-                        args.Handled = true;
-                    }
-                    else if (DoorNotOpen)
-                    {
-                        dialog.Show(new Dictionary<Language, string>
-                                                                    {
-                                                                        { Language.TW, "停止後未開門" },
-                                                                        { Language.CHS, "停止后未开门" },
-                                                                        { Language.EN, "The door did not open after stopped." }
                                                                     },
                                     DialogMsgType.Alert);
 
@@ -568,16 +556,39 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
                             }
                             else if (LogType == LogType.Alarm)
                             {
-                                var eventval = (EventType.Alarm, nowtime, name, $"{(BitType)type!}{Subscriptions!.First()}{(SubPosition > -1 ? $"-{SubPosition:X}" : string.Empty)}", value);
-                                EventHappened?.Invoke(eventval!);
-                                if (IsExecuting)
+                                //Coater3點位不太一樣，點位設定前面加入RC3
+                                if (plcindex == 2)
                                 {
-                                    AddProcessEvent(eventval!);
-                                }
+                                    if (name.Contains("RC3"))
+                                    {
+                                        var eventval = (EventType.Alarm, nowtime, name, $"{(BitType)type!}{Subscriptions!.First()}{(SubPosition > -1 ? $"-{SubPosition:X}" : string.Empty)}", value);
+                                        EventHappened?.Invoke(eventval!);
+                                        if (IsExecuting)
+                                        {
+                                            AddProcessEvent(eventval!);
+                                        }
 
-                                if (value is bool boolval)
+                                        if (value is bool boolval)
+                                        {
+                                            InvokeSECSAlarm?.Invoke(name, boolval);
+                                        }
+                                    }
+                                }
+                                else
                                 {
-                                    InvokeSECSAlarm?.Invoke(name, boolval);
+                                    if (name.Contains("RC3"))
+                                        return;
+                                    var eventval = (EventType.Alarm, nowtime, name, $"{(BitType)type!}{Subscriptions!.First()}{(SubPosition > -1 ? $"-{SubPosition:X}" : string.Empty)}", value);
+                                    EventHappened?.Invoke(eventval!);
+                                    if (IsExecuting)
+                                    {
+                                        AddProcessEvent(eventval!);
+                                    }
+
+                                    if (value is bool boolval)
+                                    {
+                                        InvokeSECSAlarm?.Invoke(name, boolval);
+                                    }
                                 }
                             }
                             else if (LogType == LogType.RecipeSet) //PLC配方"設定值"改變時
@@ -683,15 +694,15 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
         {
             Dialog.Show(new Dictionary<Language, string>
                         {
-                            { Language.TW, $"Coater{PLCIndex+1} 配方切換失敗" },
-                            { Language.CHS, $"Coater{PLCIndex+1} 配方切换失敗" }
+                            { Language.TW, $"RC{PLCIndex+1} 配方切換失敗" },
+                            { Language.CHS, $"RC{PLCIndex+1} 配方切换失敗" }
                         });
             return SetRecipeResult.比對不相符;
         }
         Dialog.Show(new Dictionary<Language, string>
                         {
-                            { Language.TW, $"Coater{PLCIndex+1} 配方切換完成" },
-                            { Language.CHS, $"Coater{PLCIndex+1} 配方切換完成"}
+                            { Language.TW, $"RC{PLCIndex+1} 配方切換完成" },
+                            { Language.CHS, $"RC{PLCIndex+1} 配方切換完成"}
                         });
         return SetRecipeResult.成功;
     }
@@ -737,39 +748,31 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
         //三台PLC配方點位都是一樣，但客戶某幾段沒有要全看
         var recipeData = new Dictionary<string, string>
         {
-            { "塗佈使用", UseCoating ? "使用" : "不使用"  },
-            { "塞孔使用", UsePlug ? "使用" : "不使用"  },
             { "塗佈次數", Coatingoftimes.ToString() },
             { "塞孔次數設定", Plugoftimes.ToString() },
             { "塗佈速度設定", CoatingSpeedSetting.ToString() },
-            { "塞孔刮刀壓力設定", Blade_Pressure.ToString() },
             { "塗佈壓力設定", CoatingPressureSetting.ToString() },
             { "基板厚度設定", PanelThicknessSetting.ToString() },
+            { "基板寬度設定", PanelWidthSetting.ToString() },
+            { "拉料速度比", CoatingPullSpeed.ToString() },
             { "入料下降位置設定", LocationOfDrop.ToString() },
+            { "入料下降速度設定", SpeedOfDrop.ToString() },
+            //{ "入料滾輪延遲時間設定", Feedingrollerdelaytimesetting.ToString() },
             { "板面夾持距離設定", BoardClampingDistance.ToString() },
-            { "左前D.BAR壓力設定", D_BarPressureSetting1.ToString() },
-            { "右前D.BAR壓力設定", D_BarPressureSetting2.ToString() },
-            { "左後D.BAR壓力設定", D_BarPressureSetting3.ToString() },
-            { "右後D.BAR壓力設定", D_BarPressureSetting4.ToString() },
-            { "標準墨重", StandardInk.ToString() },
-            { "墨重誤差值", DifferenceOfInk.ToString() },
+            { "刮刀壓力設定1", Blade_Pressure1.ToString() },
+            { "刮刀壓力設定2", Blade_Pressure2.ToString() },
+            { "刮刀壓力設定3", Blade_Pressure3.ToString() },
+            { "刮刀壓力設定4", Blade_Pressure4.ToString() },
             { "烘烤時間設定", BakingTimeSetting.ToString() },
-            { "第1段溫度設定值", TemperatureSV1.ToString() },
-            { "第2段溫度設定值", TemperatureSV2.ToString() },
         };
-        if (plcindex == 0)
+        if (plcindex == 0 || plcindex == 1)
         {
             foreach (var kvp in recipeData)
             {
                 items.Add(new Item { RecipeDESC = kvp.Key, RecipeValue = kvp.Value.ToString() });
             }
-        }
-        else if (plcindex == 1)
-        {
-            foreach (var kvp in recipeData)
-            {
-                items.Add(new Item { RecipeDESC = kvp.Key, RecipeValue = kvp.Value.ToString() });
-            }
+            items.Add(new Item { RecipeDESC = "第1段溫度設定值", RecipeValue = TemperatureSV1.ToString() });
+            items.Add(new Item { RecipeDESC = "第2段溫度設定值", RecipeValue = TemperatureSV2.ToString() });
         }
         else if (plcindex == 2)
         {
@@ -777,12 +780,14 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
             {
                 items.Add(new Item { RecipeDESC = kvp.Key, RecipeValue = kvp.Value.ToString() });
             }
-            items.Add(new Item { RecipeDESC = "第3段溫度設定值", RecipeValue = TemperatureSV3.ToString() });
-            items.Add(new Item { RecipeDESC = "第4段溫度設定值", RecipeValue = TemperatureSV4.ToString() });
-            items.Add(new Item { RecipeDESC = "第5段溫度設定值", RecipeValue = TemperatureSV5.ToString() });
-            items.Add(new Item { RecipeDESC = "第6段溫度設定值", RecipeValue = TemperatureSV6.ToString() });
-            items.Add(new Item { RecipeDESC = "第7段溫度設定值", RecipeValue = TemperatureSV7.ToString() });
-            items.Add(new Item { RecipeDESC = "第8段溫度設定值", RecipeValue = TemperatureSV8.ToString() });
+            items.Add(new Item { RecipeDESC = "第1段溫度設定值", RecipeValue = RC3_TemperatureSV1.ToString() });
+            items.Add(new Item { RecipeDESC = "第2段溫度設定值", RecipeValue = RC3_TemperatureSV2.ToString() });
+            items.Add(new Item { RecipeDESC = "第3段溫度設定值", RecipeValue = RC3_TemperatureSV3.ToString() });
+            items.Add(new Item { RecipeDESC = "第4段溫度設定值", RecipeValue = RC3_TemperatureSV4.ToString() });
+            items.Add(new Item { RecipeDESC = "第5段溫度設定值", RecipeValue = RC3_TemperatureSV5.ToString() });
+            items.Add(new Item { RecipeDESC = "第6段溫度設定值", RecipeValue = RC3_TemperatureSV6.ToString() });
+            items.Add(new Item { RecipeDESC = "第7段溫度設定值", RecipeValue = RC3_TemperatureSV7.ToString() });
+            items.Add(new Item { RecipeDESC = "第8段溫度設定值", RecipeValue = RC3_TemperatureSV8.ToString() });
 
         }
         NotifyPropertyChanged(nameof(RecipeItem));
@@ -791,37 +796,22 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
     private ObservableCollection<TemperatureItem> InitalTemperatureItem(int plcindex)
     {
         var items = new ObservableCollection<TemperatureItem>();
-        var TemperatureData = new Dictionary<string, double>
+
+        if (plcindex is 0 or 1)
         {
-            { "第1段溫度實際值", TemperaturePV1 },
-            { "第2段溫度實際值", TemperaturePV2 },
-        };
-        if (plcindex == 0)
-        {
-            foreach (var kvp in TemperatureData)
-            {
-                items.Add(new TemperatureItem { TemperatureDESC = kvp.Key, TemperatureValue = kvp.Value.ToString() });
-            }
-        }
-        else if (plcindex == 1)
-        {
-            foreach (var kvp in TemperatureData)
-            {
-                items.Add(new TemperatureItem { TemperatureDESC = kvp.Key, TemperatureValue = kvp.Value.ToString() });
-            }
+            items.Add(new TemperatureItem { TemperatureDESC = "第1段溫度實際值", TemperatureValue = TemperaturePV1.ToString() });
+            items.Add(new TemperatureItem { TemperatureDESC = "第2段溫度實際值", TemperatureValue = TemperaturePV2.ToString() });
         }
         else if (plcindex == 2)
         {
-            foreach (var kvp in TemperatureData)
-            {
-                items.Add(new TemperatureItem { TemperatureDESC = kvp.Key, TemperatureValue = kvp.Value.ToString() });
-            }
-            items.Add(new TemperatureItem { TemperatureDESC = "第3段溫度實際值", TemperatureValue = TemperaturePV3.ToString() });
-            items.Add(new TemperatureItem { TemperatureDESC = "第4段溫度實際值", TemperatureValue = TemperaturePV4.ToString() });
-            items.Add(new TemperatureItem { TemperatureDESC = "第5段溫度實際值", TemperatureValue = TemperaturePV5.ToString() });
-            items.Add(new TemperatureItem { TemperatureDESC = "第6段溫度實際值", TemperatureValue = TemperaturePV6.ToString() });
-            items.Add(new TemperatureItem { TemperatureDESC = "第7段溫度實際值", TemperatureValue = TemperaturePV7.ToString() });
-            items.Add(new TemperatureItem { TemperatureDESC = "第8段溫度實際值", TemperatureValue = TemperaturePV8.ToString() });
+            items.Add(new TemperatureItem { TemperatureDESC = "第1段溫度實際值", TemperatureValue = RC3_TemperaturePV1.ToString() });
+            items.Add(new TemperatureItem { TemperatureDESC = "第2段溫度實際值", TemperatureValue = RC3_TemperaturePV2.ToString() });
+            items.Add(new TemperatureItem { TemperatureDESC = "第3段溫度實際值", TemperatureValue = RC3_TemperaturePV3.ToString() });
+            items.Add(new TemperatureItem { TemperatureDESC = "第4段溫度實際值", TemperatureValue = RC3_TemperaturePV4.ToString() });
+            items.Add(new TemperatureItem { TemperatureDESC = "第5段溫度實際值", TemperatureValue = RC3_TemperaturePV5.ToString() });
+            items.Add(new TemperatureItem { TemperatureDESC = "第6段溫度實際值", TemperatureValue = RC3_TemperaturePV6.ToString() });
+            items.Add(new TemperatureItem { TemperatureDESC = "第7段溫度實際值", TemperatureValue = RC3_TemperaturePV7.ToString() });
+            items.Add(new TemperatureItem { TemperatureDESC = "第8段溫度實際值", TemperatureValue = RC3_TemperaturePV8.ToString() });
         }
         NotifyPropertyChanged(nameof(TemperatureItems));
         return items;
@@ -904,9 +894,9 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
         {
             Dialog.Show(new Dictionary<Language, string>
                         {
-                            { Language.TW,  $"Coater{plcindex}未在Remote模式" },
-                            { Language.CHS, $"Coater{plcindex}未在Remote模式" },
-                            { Language.EN,  $"Coater{plcindex} is not in Remote Mode" }
+                            { Language.TW,  $"RC{plcindex+1}未在Remote模式" },
+                            { Language.CHS, $"RC{plcindex+1}未在Remote模式" },
+                            { Language.EN,  $"RC{plcindex+1} is not in Remote Mode" }
                         });
 
             return SetRecipeResult.條件不允許;

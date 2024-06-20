@@ -42,3 +42,9 @@ public enum SetRecipeResult
     比對不相符,
     無需變更
 }
+public enum RCIndex
+{
+    RC1,
+    RC2,
+    RC3
+}

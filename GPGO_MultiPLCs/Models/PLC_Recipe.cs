@@ -13,730 +13,44 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
 {
     private const int Digits0 = 0;
     private const int Digits1 = 1;
+    public double Coatingoftimes_Max => 100;
+    public double Coatingoftimes_Min => 1;
+    public double CoatingSpeedSetting_Max => 999.9;
+    public double CoatingSpeedSetting_Min => 0.0;
+    public double BoardClampingDistance_Max => 999.9;
+    public double BoardClampingDistance_Min => 0.0;
+    public double Plugoftimes_Max => 999.9;
+    public double Plugoftimes_Min => 0.0;
+    public double CoatingPressureSetting_Max => 999.9;
+    public double CoatingPressureSetting_Min => 0.0;
+    public double PanelThicknessSetting_Max => 999.9;
+    public double PanelThicknessSetting_Min => 0.0;
+    public double PanelWidthSetting_Max => 999.9;
+    public double PanelWidthSetting_Min => 0.0;
+    public double LocationOfDrop_Max => 999.9;
+    public double LocationOfDrop_Min => 0.0;
+    public double SpeedOfDrop_Max => 999.9;
+    public double SpeedOfDrop_Min => 0.0;
+    public double Blade_Pressure_Max => 999.9;
+    public double Blade_Pressure_Min => 0.0;
+    public double BakingTimeSetting_Max => 999.9;
+    public double BakingTimeSetting_Min => 0.0;
+    public double TemperatureSV_Max => 999.9;
+    public double TemperatureSV_Min => 0.0;
+    public double CoatingPullSpeed_Max => 999.9;
+    public double CoatingPullSpeed_Min => 0.0;
+    public double Feedingrollerdelaytimesetting_Max => 999.9;
+    public double Feedingrollerdelaytimesetting_Min => 0.0;
 
-    [JsonIgnore]
-    public double RC1_Coatingoftimes_Max => 100;
-
-    [JsonIgnore]
-    public double RC1_Coatingoftimes_Min => 1;
-
-    [JsonIgnore]
-    public double RC1_CoatingSpeedSetting_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC1_CoatingSpeedSetting_Min => 0.0;
-    [JsonIgnore]
-    public double RC1_BoardClampingDistance_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC1_BoardClampingDistance_Min => 0.0;
-    [JsonIgnore]
-    public double RC1_Plugoftimes_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC1_Plugoftimes_Min => 0.0;
-
-    [JsonIgnore]
-    public double RC1_CoatingPressureSetting_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC1_CoatingPressureSetting_Min => 0.0;
-    [JsonIgnore]
-    public double RC1_PanelThicknessSetting_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC1_PanelThicknessSetting_Min => 0.0;
-    [JsonIgnore]
-    public double RC1_LocationOfDrop_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC1_LocationOfDrop_Min => 0.0;
-    [JsonIgnore]
-    public double RC1_Blade_Pressure_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC1_Blade_Pressure_Min => 0.0;
-    [JsonIgnore]
-    public double RC1_D_BarPressureSetting1_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC1_D_BarPressureSetting1_Min => 0.0;
-    [JsonIgnore]
-    public double RC1_D_BarPressureSetting2_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC1_D_BarPressureSetting2_Min => 0.0;
-    [JsonIgnore]
-    public double RC1_D_BarPressureSetting3_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC1_D_BarPressureSetting3_Min => 0.0;
-    [JsonIgnore]
-    public double RC1_D_BarPressureSetting4_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC1_D_BarPressureSetting4_Min => 0.0;
-    [JsonIgnore]
-    public double RC1_BakingTimeSetting_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC1_BakingTimeSetting_Min => 0.0;
-    [JsonIgnore]
-    public double RC1_TemperatureSV1_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC1_TemperatureSV1_Min => 0.0;
-    [JsonIgnore]
-    public double RC1_TemperatureSV2_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC1_TemperatureSV2_Min => 0.0;
-
-    [JsonIgnore]
-    public double RC1_StandardInk_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC1_StandardInk_Min => 0.0;
-
-    [JsonIgnore]
-    public double RC1_DifferenceOfInk_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC1_DifferenceOfInk_Min => 0.0;
-    private double Coatingoftimes_Max => 100;
-    private double Coatingoftimes_Min => 1;
-    private double CoatingSpeedSetting_Max => 999.9;
-    private double CoatingSpeedSetting_Min => 0.0;
-    private double BoardClampingDistance_Max => 999.9;
-    private double BoardClampingDistance_Min => 0.0;
-    private double Plugoftimes_Max => 999.9;
-    private double Plugoftimes_Min => 0.0;
-    private double CoatingPressureSetting_Max => 999.9;
-    private double CoatingPressureSetting_Min => 0.0;
-    private double PanelThicknessSetting_Max => 999.9;
-    private double PanelThicknessSetting_Min => 0.0;
-    private double LocationOfDrop_Max => 999.9;
-    private double LocationOfDrop_Min => 0.0;
-    private double Blade_Pressure_Max => 999.9;
-    private double Blade_Pressure_Min => 0.0;
-    private double D_BarPressureSetting1_Max => 999.9;
-    private double D_BarPressureSetting1_Min => 0.0;
-    private double D_BarPressureSetting2_Max => 999.9;
-    private double D_BarPressureSetting2_Min => 0.0;
-    private double D_BarPressureSetting3_Max => 999.9;
-    private double D_BarPressureSetting3_Min => 0.0;
-    private double D_BarPressureSetting4_Max => 999.9;
-    private double D_BarPressureSetting4_Min => 0.0;
-    private double BakingTimeSetting_Max => 999.9;
-    private double BakingTimeSetting_Min => 0.0;
-    private double TemperatureSV1_Max => 999.9;
-    private double TemperatureSV1_Min => 0.0;
-    private double TemperatureSV2_Max => 999.9;
-    private double TemperatureSV2_Min => 0.0;
-    private double UsePlug_Max => 999.9;
-    private double UsePlug_Min => 0.0;
-    private double StandardInk_Max => 999.9;
-    private double StandardInk_Min => 0.0;
-    private double DifferenceOfInk_Max => 999.9;
-    private double DifferenceOfInk_Min => 0.0;
-    [JsonIgnore]
-    public double RC2_Coatingoftimes_Max => 100;
-
-    [JsonIgnore]
-    public double RC2_Coatingoftimes_Min => 1;
-
-    [JsonIgnore]
-    public double RC2_CoatingSpeedSetting_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC2_CoatingSpeedSetting_Min => 0.0;
-    [JsonIgnore]
-    public double RC2_BoardClampingDistance_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC2_BoardClampingDistance_Min => 0.0;
-    [JsonIgnore]
-    public double RC2_Plugoftimes_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC2_Plugoftimes_Min => 0.0;
-
-    [JsonIgnore]
-    public double RC2_CoatingPressureSetting_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC2_CoatingPressureSetting_Min => 0.0;
-    [JsonIgnore]
-    public double RC2_PanelThicknessSetting_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC2_PanelThicknessSetting_Min => 0.0;
-    [JsonIgnore]
-    public double RC2_LocationOfDrop_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC2_LocationOfDrop_Min => 0.0;
-    [JsonIgnore]
-    public double RC2_Blade_Pressure_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC2_Blade_Pressure_Min => 0.0;
-    [JsonIgnore]
-    public double RC2_D_BarPressureSetting1_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC2_D_BarPressureSetting1_Min => 0.0;
-    [JsonIgnore]
-    public double RC2_D_BarPressureSetting2_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC2_D_BarPressureSetting2_Min => 0.0;
-    [JsonIgnore]
-    public double RC2_D_BarPressureSetting3_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC2_D_BarPressureSetting3_Min => 0.0;
-    [JsonIgnore]
-    public double RC2_D_BarPressureSetting4_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC2_D_BarPressureSetting4_Min => 0.0;
-    [JsonIgnore]
-    public double RC2_BakingTimeSetting_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC2_BakingTimeSetting_Min => 0.0;
-    [JsonIgnore]
-    public double RC2_TemperatureSV1_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC2_TemperatureSV1_Min => 0.0;
-    [JsonIgnore]
-    public double RC2_TemperatureSV2_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC2_TemperatureSV2_Min => 0.0;
-    [JsonIgnore]
-    public double RC2_StandardInk_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC2_StandardInk_Min => 0.0;
-
-    [JsonIgnore]
-    public double RC2_DifferenceOfInk_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC2_DifferenceOfInk_Min => 0.0;
-    [JsonIgnore]
-    public double RC3_Coatingoftimes_Max => 100;
-
-    [JsonIgnore]
-    public double RC3_Coatingoftimes_Min => 1;
-
-    [JsonIgnore]
-    public double RC3_CoatingSpeedSetting_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC3_CoatingSpeedSetting_Min => 0.0;
-    [JsonIgnore]
-    public double RC3_BoardClampingDistance_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC3_BoardClampingDistance_Min => 0.0;
-    [JsonIgnore]
-    public double RC3_Plugoftimes_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC3_Plugoftimes_Min => 0.0;
-
-    [JsonIgnore]
-    public double RC3_CoatingPressureSetting_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC3_CoatingPressureSetting_Min => 0.0;
-    [JsonIgnore]
-    public double RC3_PanelThicknessSetting_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC3_PanelThicknessSetting_Min => 0.0;
-    [JsonIgnore]
-    public double RC3_LocationOfDrop_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC3_LocationOfDrop_Min => 0.0;
-    [JsonIgnore]
-    public double RC3_Blade_Pressure_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC3_Blade_Pressure_Min => 0.0;
-    [JsonIgnore]
-    public double RC3_D_BarPressureSetting1_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC3_D_BarPressureSetting1_Min => 0.0;
-    [JsonIgnore]
-    public double RC3_D_BarPressureSetting2_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC3_D_BarPressureSetting2_Min => 0.0;
-    [JsonIgnore]
-    public double RC3_D_BarPressureSetting3_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC3_D_BarPressureSetting3_Min => 0.0;
-    [JsonIgnore]
-    public double RC3_D_BarPressureSetting4_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC3_D_BarPressureSetting4_Min => 0.0;
-    [JsonIgnore]
-    public double RC3_BakingTimeSetting_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC3_BakingTimeSetting_Min => 0.0;
-    [JsonIgnore]
-    public double RC3_TemperatureSV1_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC3_TemperatureSV1_Min => 0.0;
-    [JsonIgnore]
-    public double RC3_TemperatureSV2_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC3_TemperatureSV2_Min => 0.0;
-    [JsonIgnore]
-    public double RC3_TemperatureSV3_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC3_TemperatureSV3_Min => 0.0;
-    [JsonIgnore]
-    public double RC3_TemperatureSV4_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC3_TemperatureSV4_Min => 0.0;
-    [JsonIgnore]
-    public double RC3_TemperatureSV5_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC3_TemperatureSV5_Min => 0.0;
-
-    [JsonIgnore]
-    public double RC3_TemperatureSV6_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC3_TemperatureSV6_Min => 0.0;
-
-    [JsonIgnore]
-    public double RC3_TemperatureSV7_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC3_TemperatureSV7_Min => 0.0;
-
-    [JsonIgnore]
-    public double RC3_TemperatureSV8_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC3_TemperatureSV8_Min => 0.0;
-
-    [JsonIgnore]
-    public double RC3_StandardInk_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC3_StandardInk_Min => 0.0;
-
-    [JsonIgnore]
-    public double RC3_DifferenceOfInk_Max => 999.9;
-
-    [JsonIgnore]
-    public double RC3_DifferenceOfInk_Min => 0.0;
 
     [JsonIgnore] //匯出時檔名已是名稱，此處用JsonIgnore是用來做配方比較需忽略此項
     [OrderIndex(-1)]
     [LanguageTranslator("Recipe Name", "配方名稱", "配方名称")]
     public override string RecipeName { get; set; } = string.Empty;
-
+    #region RC1
     [OrderIndex(3)]
     [LanguageTranslator("Coatingoftimes", "塗佈次數", "塗佈次數")]
     public double RC1_Coatingoftimes
-    {
-        get => Get<double>();
-        set
-        {
-            if (value > RC1_Coatingoftimes_Max)
-            {
-                value = RC1_Coatingoftimes_Max;
-            }
-            else if (value < RC1_Coatingoftimes_Min)
-            {
-                value = RC1_Coatingoftimes_Min;
-            }
-
-            Set(value);
-        }
-    }
-
-    [OrderIndex(5)]
-    [LanguageTranslator("CoatingSpeedSetting", "塗佈速度設定", "塗佈速度設定")]
-    public double RC1_CoatingSpeedSetting
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, MidpointRounding.AwayFromZero);
-
-            if (value > RC1_CoatingSpeedSetting_Max)
-            {
-                value = RC1_CoatingSpeedSetting_Max;
-            }
-            else if (value < RC1_CoatingSpeedSetting_Min)
-            {
-                value = RC1_CoatingSpeedSetting_Min;
-            }
-
-            Set(value);
-        }
-    }
-
-    [OrderIndex(5)]
-    [LanguageTranslator("BoardClampingDistance", "板面夾持距離", "塗佈速度設定")]
-    public double RC1_BoardClampingDistance
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, MidpointRounding.AwayFromZero);
-
-            if (value > RC1_BoardClampingDistance_Max)
-            {
-                value = RC1_BoardClampingDistance_Max;
-            }
-            else if (value < RC1_BoardClampingDistance_Min)
-            {
-                value = RC1_BoardClampingDistance_Min;
-            }
-
-            Set(value);
-        }
-    }
-
-    [OrderIndex(5)]
-    [LanguageTranslator("Plugoftimes", "塞孔次數", "塞孔次數")]
-    public double RC1_Plugoftimes
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, MidpointRounding.AwayFromZero);
-
-            if (value > RC1_Plugoftimes_Max)
-            {
-                value = RC1_Plugoftimes_Max;
-            }
-            else if (value < RC1_Plugoftimes_Min)
-            {
-                value = RC1_Plugoftimes_Min;
-            }
-
-            Set(value);
-        }
-    }
-
-    [OrderIndex(5)]
-    [LanguageTranslator("CoatingPressureSetting", "塗佈壓力設定", "塗佈壓力設定")]
-    public double RC1_CoatingPressureSetting
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, MidpointRounding.AwayFromZero);
-
-            if (value > RC1_CoatingPressureSetting_Max)
-            {
-                value = RC1_CoatingPressureSetting_Max;
-            }
-            else if (value < RC1_CoatingPressureSetting_Min)
-            {
-                value = RC1_CoatingPressureSetting_Min;
-            }
-
-            Set(value);
-        }
-    }
-
-    [OrderIndex(5)]
-    [LanguageTranslator("PanelThicknessSetting", "基板厚度設定", "基板厚度設定")]
-    public double RC1_PanelThicknessSetting
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, MidpointRounding.AwayFromZero);
-
-            if (value > RC1_PanelThicknessSetting_Max)
-            {
-                value = RC1_PanelThicknessSetting_Max;
-            }
-            else if (value < RC1_PanelThicknessSetting_Min)
-            {
-                value = RC1_PanelThicknessSetting_Min;
-            }
-
-            Set(value);
-        }
-    }
-
-    [OrderIndex(5)]
-    [LanguageTranslator("LocationOfDrop", "入料下降位置設定", "入料下降位置設定")]
-    public double RC1_LocationOfDrop
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, MidpointRounding.AwayFromZero);
-
-            if (value > RC1_LocationOfDrop_Max)
-            {
-                value = RC1_LocationOfDrop_Max;
-            }
-            else if (value < RC1_LocationOfDrop_Min)
-            {
-                value = RC1_LocationOfDrop_Min;
-            }
-
-            Set(value);
-        }
-    }
-    [OrderIndex(5)]
-    [LanguageTranslator("Blade_Pressure", "入料下降位置設定", "入料下降位置設定")]
-    public double RC1_Blade_Pressure
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, MidpointRounding.AwayFromZero);
-
-            if (value > RC1_Blade_Pressure_Max)
-            {
-                value = RC1_Blade_Pressure_Max;
-            }
-            else if (value < RC1_Blade_Pressure_Min)
-            {
-                value = RC1_Blade_Pressure_Min;
-            }
-
-            Set(value);
-        }
-    }
-
-    [OrderIndex(5)]
-    [LanguageTranslator("D_BarPressureSetting1", "左前D.BAR壓力設定", "左前D.BAR壓力設定")]
-    public double RC1_D_BarPressureSetting1
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, MidpointRounding.AwayFromZero);
-
-            if (value > RC1_D_BarPressureSetting1_Max)
-            {
-                value = RC1_D_BarPressureSetting1_Max;
-            }
-            else if (value < RC1_D_BarPressureSetting1_Min)
-            {
-                value = RC1_D_BarPressureSetting1_Min;
-            }
-
-            Set(value);
-        }
-    }
-    [OrderIndex(5)]
-    [LanguageTranslator("D_BarPressureSetting2", "右前D.BAR壓力設定", "右前D.BAR壓力設定")]
-    public double RC1_D_BarPressureSetting2
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, MidpointRounding.AwayFromZero);
-
-            if (value > RC1_D_BarPressureSetting2_Max)
-            {
-                value = RC1_D_BarPressureSetting2_Max;
-            }
-            else if (value < RC1_D_BarPressureSetting2_Min)
-            {
-                value = RC1_D_BarPressureSetting2_Min;
-            }
-
-            Set(value);
-        }
-    }
-
-
-    [OrderIndex(5)]
-    [LanguageTranslator("D_BarPressureSetting3", "左後D.BAR壓力設定", "左後D.BAR壓力設定")]
-    public double RC1_D_BarPressureSetting3
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, MidpointRounding.AwayFromZero);
-
-            if (value > RC1_D_BarPressureSetting3_Max)
-            {
-                value = RC1_D_BarPressureSetting3_Max;
-            }
-            else if (value < RC1_D_BarPressureSetting3_Min)
-            {
-                value = RC1_D_BarPressureSetting3_Min;
-            }
-
-            Set(value);
-        }
-    }
-
-    [OrderIndex(5)]
-    [LanguageTranslator("D_BarPressureSetting4", "右後D.BAR壓力設定", "右後D.BAR壓力設定")]
-    public double RC1_D_BarPressureSetting4
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, MidpointRounding.AwayFromZero);
-
-            if (value > RC1_D_BarPressureSetting4_Max)
-            {
-                value = RC1_D_BarPressureSetting4_Max;
-            }
-            else if (value < RC1_D_BarPressureSetting4_Min)
-            {
-                value = RC1_D_BarPressureSetting4_Min;
-            }
-
-            Set(value);
-        }
-    }
-    [OrderIndex(5)]
-    [LanguageTranslator("BakingTimeSetting", "烘烤時間設定", "烘烤時間設定")]
-    public double RC1_BakingTimeSetting
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, MidpointRounding.AwayFromZero);
-
-            if (value > RC1_BakingTimeSetting_Max)
-            {
-                value = RC1_BakingTimeSetting_Max;
-            }
-            else if (value < RC1_BakingTimeSetting_Min)
-            {
-                value = RC1_BakingTimeSetting_Min;
-            }
-
-            Set(value);
-        }
-    }
-    [OrderIndex(5)]
-    [LanguageTranslator("TemperatureSV1", "第1段溫度設定值", "第1段溫度設定值")]
-    public double RC1_TemperatureSV1
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, MidpointRounding.AwayFromZero);
-
-            if (value > RC1_TemperatureSV1_Max)
-            {
-                value = RC1_TemperatureSV1_Max;
-            }
-            else if (value < RC1_TemperatureSV1_Min)
-            {
-                value = RC1_TemperatureSV1_Min;
-            }
-
-            Set(value);
-        }
-    }
-    [OrderIndex(5)]
-    [LanguageTranslator("TemperatureSV2", "第2段溫度設定值", "第2段溫度設定值")]
-    public double RC1_TemperatureSV2
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, MidpointRounding.AwayFromZero);
-
-            if (value > RC1_TemperatureSV2_Max)
-            {
-                value = RC1_TemperatureSV2_Max;
-            }
-            else if (value < RC1_TemperatureSV2_Min)
-            {
-                value = RC1_TemperatureSV2_Min;
-            }
-
-            Set(value);
-        }
-    }
-    [OrderIndex(5)]
-    [LanguageTranslator("UseCoating", "塗佈使用", "塗佈使用")]
-    public bool RC1_UseCoating
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    [OrderIndex(5)]
-    [LanguageTranslator("UsePlug", "塞孔使用", "塞孔使用")]
-    public bool RC1_UsePlug
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    [OrderIndex(5)]
-    [LanguageTranslator("StandardInk", "標準墨重", "標準墨重")]
-    public double RC1_StandardInk
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, MidpointRounding.AwayFromZero);
-
-            if (value > RC1_StandardInk_Max)
-            {
-                value = RC1_StandardInk_Max;
-            }
-            else if (value < RC1_StandardInk_Min)
-            {
-                value = RC1_StandardInk_Min;
-            }
-
-            Set(value);
-        }
-    }
-    [OrderIndex(5)]
-    [LanguageTranslator("DifferenceOfInk", "墨重誤差值", "墨重誤差值")]
-    public double RC1_DifferenceOfInk
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, MidpointRounding.AwayFromZero);
-
-            if (value > RC1_DifferenceOfInk_Max)
-            {
-                value = RC1_DifferenceOfInk_Max;
-            }
-            else if (value < RC1_DifferenceOfInk_Min)
-            {
-                value = RC1_DifferenceOfInk_Min;
-            }
-
-            Set(value);
-        }
-    }
-    [OrderIndex(3)]
-    [LanguageTranslator("Coatingoftimes", "塗佈次數", "塗佈次數")]
-    public double Coatingoftimes
     {
         get => Get<double>();
         set
@@ -749,14 +63,13 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             {
                 value = Coatingoftimes_Min;
             }
-
             Set(value);
         }
     }
 
     [OrderIndex(5)]
     [LanguageTranslator("CoatingSpeedSetting", "塗佈速度設定", "塗佈速度設定")]
-    public double CoatingSpeedSetting
+    public double RC1_CoatingSpeedSetting
     {
         get => Get<double>();
         set
@@ -771,14 +84,13 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             {
                 value = CoatingSpeedSetting_Min;
             }
-
             Set(value);
         }
     }
 
     [OrderIndex(5)]
     [LanguageTranslator("BoardClampingDistance", "板面夾持距離", "塗佈速度設定")]
-    public double BoardClampingDistance
+    public double RC1_BoardClampingDistance
     {
         get => Get<double>();
         set
@@ -793,14 +105,13 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             {
                 value = BoardClampingDistance_Min;
             }
-
             Set(value);
         }
     }
 
     [OrderIndex(5)]
     [LanguageTranslator("Plugoftimes", "塞孔次數", "塞孔次數")]
-    public double Plugoftimes
+    public double RC1_Plugoftimes
     {
         get => Get<double>();
         set
@@ -815,14 +126,13 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             {
                 value = Plugoftimes_Min;
             }
-
             Set(value);
         }
     }
 
     [OrderIndex(5)]
     [LanguageTranslator("CoatingPressureSetting", "塗佈壓力設定", "塗佈壓力設定")]
-    public double CoatingPressureSetting
+    public double RC1_CoatingPressureSetting
     {
         get => Get<double>();
         set
@@ -837,14 +147,13 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             {
                 value = CoatingPressureSetting_Min;
             }
-
             Set(value);
         }
     }
 
     [OrderIndex(5)]
     [LanguageTranslator("PanelThicknessSetting", "基板厚度設定", "基板厚度設定")]
-    public double PanelThicknessSetting
+    public double RC1_PanelThicknessSetting
     {
         get => Get<double>();
         set
@@ -859,14 +168,34 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             {
                 value = PanelThicknessSetting_Min;
             }
+            Set(value);
+        }
+    }
 
+    [OrderIndex(5)]
+    [LanguageTranslator("PanelWidthSetting", "基板寬度設定", "基板寬度設定")]
+    public double RC1_PanelWidthSetting
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
+
+            if (value > PanelWidthSetting_Max)
+            {
+                value = PanelWidthSetting_Max;
+            }
+            else if (value < PanelWidthSetting_Min)
+            {
+                value = PanelWidthSetting_Min;
+            }
             Set(value);
         }
     }
 
     [OrderIndex(5)]
     [LanguageTranslator("LocationOfDrop", "入料下降位置設定", "入料下降位置設定")]
-    public double LocationOfDrop
+    public double RC1_LocationOfDrop
     {
         get => Get<double>();
         set
@@ -881,13 +210,32 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             {
                 value = LocationOfDrop_Min;
             }
-
             Set(value);
         }
     }
     [OrderIndex(5)]
-    [LanguageTranslator("Blade_Pressure", "入料下降位置設定", "入料下降位置設定")]
-    public double Blade_Pressure
+    [LanguageTranslator("SpeedOfDrop", "入料下降位置設定", "入料下降位置設定")]
+    public double RC1_SpeedOfDrop
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
+
+            if (value > SpeedOfDrop_Max)
+            {
+                value = SpeedOfDrop_Max;
+            }
+            else if (value < SpeedOfDrop_Min)
+            {
+                value = SpeedOfDrop_Min;
+            }
+            Set(value);
+        }
+    }
+    [OrderIndex(5)]
+    [LanguageTranslator("Blade_Pressure1", "刮刀壓力設定1", "刮刀壓力設定1")]
+    public double RC1_Blade_Pressure1
     {
         get => Get<double>();
         set
@@ -902,101 +250,94 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             {
                 value = Blade_Pressure_Min;
             }
-
             Set(value);
         }
     }
-
     [OrderIndex(5)]
-    [LanguageTranslator("D_BarPressureSetting1", "左前D.BAR壓力設定", "左前D.BAR壓力設定")]
-    public double D_BarPressureSetting1
+    [LanguageTranslator("Blade_Pressure2", "刮刀壓力設定2", "刮刀壓力設定2")]
+    public double RC1_Blade_Pressure2
     {
         get => Get<double>();
         set
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > D_BarPressureSetting1_Max)
+            if (value > Blade_Pressure_Max)
             {
-                value = D_BarPressureSetting1_Max;
+                value = Blade_Pressure_Max;
             }
-            else if (value < D_BarPressureSetting1_Min)
+            else if (value < Blade_Pressure_Min)
             {
-                value = D_BarPressureSetting1_Min;
+                value = Blade_Pressure_Min;
             }
-
             Set(value);
         }
     }
     [OrderIndex(5)]
-    [LanguageTranslator("D_BarPressureSetting2", "右前D.BAR壓力設定", "右前D.BAR壓力設定")]
-    public double D_BarPressureSetting2
+    [LanguageTranslator("Blade_Pressure3", "刮刀壓力設定3", "刮刀壓力設定3")]
+    public double RC1_Blade_Pressure3
     {
         get => Get<double>();
         set
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > D_BarPressureSetting2_Max)
+            if (value > Blade_Pressure_Max)
             {
-                value = D_BarPressureSetting2_Max;
+                value = Blade_Pressure_Max;
             }
-            else if (value < D_BarPressureSetting2_Min)
+            else if (value < Blade_Pressure_Min)
             {
-                value = D_BarPressureSetting2_Min;
+                value = Blade_Pressure_Min;
             }
-
             Set(value);
         }
     }
-
-
     [OrderIndex(5)]
-    [LanguageTranslator("D_BarPressureSetting3", "左後D.BAR壓力設定", "左後D.BAR壓力設定")]
-    public double D_BarPressureSetting3
+    [LanguageTranslator("Blade_Pressure4", "刮刀壓力設定4", "刮刀壓力設定4")]
+    public double RC1_Blade_Pressure4
     {
         get => Get<double>();
         set
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > D_BarPressureSetting3_Max)
+            if (value > Blade_Pressure_Max)
             {
-                value = D_BarPressureSetting3_Max;
+                value = Blade_Pressure_Max;
             }
-            else if (value < D_BarPressureSetting3_Min)
+            else if (value < Blade_Pressure_Min)
             {
-                value = D_BarPressureSetting3_Min;
+                value = Blade_Pressure_Min;
             }
-
             Set(value);
         }
     }
 
     [OrderIndex(5)]
-    [LanguageTranslator("D_BarPressureSetting4", "右後D.BAR壓力設定", "右後D.BAR壓力設定")]
-    public double D_BarPressureSetting4
+    [LanguageTranslator("CoatingPullSpeed", "拉料速度", "拉料速度")]
+    public double RC1_CoatingPullSpeed
     {
         get => Get<double>();
         set
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > D_BarPressureSetting4_Max)
+            if (value > CoatingPullSpeed_Max)
             {
-                value = D_BarPressureSetting4_Max;
+                value = CoatingPullSpeed_Max;
             }
-            else if (value < D_BarPressureSetting4_Min)
+            else if (value < CoatingPullSpeed_Min)
             {
-                value = D_BarPressureSetting4_Min;
+                value = CoatingPullSpeed_Min;
             }
-
             Set(value);
         }
     }
+
     [OrderIndex(5)]
     [LanguageTranslator("BakingTimeSetting", "烘烤時間設定", "烘烤時間設定")]
-    public double BakingTimeSetting
+    public double RC1_BakingTimeSetting
     {
         get => Get<double>();
         set
@@ -1017,130 +358,48 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
     }
     [OrderIndex(5)]
     [LanguageTranslator("TemperatureSV1", "第1段溫度設定值", "第1段溫度設定值")]
-    public double TemperatureSV1
+    public double RC1_TemperatureSV1
     {
         get => Get<double>();
-        set => Set(value);
+        set
+        {
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
+
+            if (value > TemperatureSV_Max)
+            {
+                value = TemperatureSV_Max;
+            }
+            else if (value < TemperatureSV_Min)
+            {
+                value = TemperatureSV_Min;
+            }
+
+            Set(value);
+        }
     }
     [OrderIndex(5)]
     [LanguageTranslator("TemperatureSV2", "第2段溫度設定值", "第2段溫度設定值")]
-    public double TemperatureSV2
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-    [OrderIndex(5)]
-    [LanguageTranslator("TemperatureSV3", "第3段溫度設定值", "第3段溫度設定值")]
-    public double TemperatureSV3
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-    [OrderIndex(5)]
-    [LanguageTranslator("TemperatureSV4", "第4段溫度設定值", "第4段溫度設定值")]
-    public double TemperatureSV4
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-    [OrderIndex(5)]
-    [LanguageTranslator("TemperatureSV5", "第5段溫度設定值", "第5段溫度設定值")]
-    public double TemperatureSV5
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-    [OrderIndex(5)]
-    [LanguageTranslator("TemperatureSV6", "第6段溫度設定值", "第6段溫度設定值")]
-    public double TemperatureSV6
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-    [OrderIndex(5)]
-    [LanguageTranslator("TemperatureSV7", "第7段溫度設定值", "第7段溫度設定值")]
-    public double TemperatureSV7
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-    [OrderIndex(5)]
-    [LanguageTranslator("TemperatureSV8", "第8段溫度設定值", "第8段溫度設定值")]
-    public double TemperatureSV8
-    {
-        get => Get<double>();
-        set => Set(value);
-    }
-    [OrderIndex(5)]
-    [LanguageTranslator("UseCoating", "塗佈使用", "塗佈使用")]
-    public bool UseCoating
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    [OrderIndex(5)]
-    [LanguageTranslator("UsePlug", "塞孔使用", "塞孔使用")]
-    public double UsePlug
+    public double RC1_TemperatureSV2
     {
         get => Get<double>();
         set
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > UsePlug_Max)
+            if (value > TemperatureSV_Max)
             {
-                value = UsePlug_Max;
+                value = TemperatureSV_Max;
             }
-            else if (value < UsePlug_Min)
+            else if (value < TemperatureSV_Min)
             {
-                value = UsePlug_Min;
-            }
-
-            Set(value);
-        }
-    }
-    [OrderIndex(5)]
-    [LanguageTranslator("StandardInk", "標準墨重", "標準墨重")]
-    public double StandardInk
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, MidpointRounding.AwayFromZero);
-
-            if (value > StandardInk_Max)
-            {
-                value = StandardInk_Max;
-            }
-            else if (value < StandardInk_Min)
-            {
-                value = StandardInk_Min;
+                value = TemperatureSV_Min;
             }
 
             Set(value);
         }
     }
-    [OrderIndex(5)]
-    [LanguageTranslator("DifferenceOfInk", "墨重誤差值", "墨重誤差值")]
-    public double DifferenceOfInk
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, MidpointRounding.AwayFromZero);
-
-            if (value > DifferenceOfInk_Max)
-            {
-                value = DifferenceOfInk_Max;
-            }
-            else if (value < DifferenceOfInk_Min)
-            {
-                value = DifferenceOfInk_Min;
-            }
-
-            Set(value);
-        }
-    }
+    #endregion
+    #region RC2
     [OrderIndex(3)]
     [LanguageTranslator("Coatingoftimes", "塗佈次數", "塗佈次數")]
     public double RC2_Coatingoftimes
@@ -1148,15 +407,14 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            if (value > RC2_Coatingoftimes_Max)
+            if (value > Coatingoftimes_Max)
             {
-                value = RC2_Coatingoftimes_Max;
+                value = Coatingoftimes_Max;
             }
-            else if (value < RC2_Coatingoftimes_Min)
+            else if (value < Coatingoftimes_Min)
             {
-                value = RC2_Coatingoftimes_Min;
+                value = Coatingoftimes_Min;
             }
-
             Set(value);
         }
     }
@@ -1170,15 +428,14 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC2_CoatingSpeedSetting_Max)
+            if (value > CoatingSpeedSetting_Max)
             {
-                value = RC2_CoatingSpeedSetting_Max;
+                value = CoatingSpeedSetting_Max;
             }
-            else if (value < RC2_CoatingSpeedSetting_Min)
+            else if (value < CoatingSpeedSetting_Min)
             {
-                value = RC2_CoatingSpeedSetting_Min;
+                value = CoatingSpeedSetting_Min;
             }
-
             Set(value);
         }
     }
@@ -1192,15 +449,14 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC2_BoardClampingDistance_Max)
+            if (value > BoardClampingDistance_Max)
             {
-                value = RC2_BoardClampingDistance_Max;
+                value = BoardClampingDistance_Max;
             }
-            else if (value < RC2_BoardClampingDistance_Min)
+            else if (value < BoardClampingDistance_Min)
             {
-                value = RC2_BoardClampingDistance_Min;
+                value = BoardClampingDistance_Min;
             }
-
             Set(value);
         }
     }
@@ -1214,15 +470,14 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC2_Plugoftimes_Max)
+            if (value > Plugoftimes_Max)
             {
-                value = RC2_Plugoftimes_Max;
+                value = Plugoftimes_Max;
             }
-            else if (value < RC2_Plugoftimes_Min)
+            else if (value < Plugoftimes_Min)
             {
-                value = RC2_Plugoftimes_Min;
+                value = Plugoftimes_Min;
             }
-
             Set(value);
         }
     }
@@ -1236,15 +491,14 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC2_CoatingPressureSetting_Max)
+            if (value > CoatingPressureSetting_Max)
             {
-                value = RC2_CoatingPressureSetting_Max;
+                value = CoatingPressureSetting_Max;
             }
-            else if (value < RC2_CoatingPressureSetting_Min)
+            else if (value < CoatingPressureSetting_Min)
             {
-                value = RC2_CoatingPressureSetting_Min;
+                value = CoatingPressureSetting_Min;
             }
-
             Set(value);
         }
     }
@@ -1258,15 +512,35 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC2_PanelThicknessSetting_Max)
+            if (value > PanelThicknessSetting_Max)
             {
-                value = RC2_PanelThicknessSetting_Max;
+                value = PanelThicknessSetting_Max;
             }
-            else if (value < RC2_PanelThicknessSetting_Min)
+            else if (value < PanelThicknessSetting_Min)
             {
-                value = RC2_PanelThicknessSetting_Min;
+                value = PanelThicknessSetting_Min;
             }
+            Set(value);
+        }
+    }
 
+    [OrderIndex(5)]
+    [LanguageTranslator("PanelWidthSetting", "基板寬度設定", "基板寬度設定")]
+    public double RC2_PanelWidthSetting
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
+
+            if (value > PanelWidthSetting_Max)
+            {
+                value = PanelWidthSetting_Max;
+            }
+            else if (value < PanelWidthSetting_Min)
+            {
+                value = PanelWidthSetting_Min;
+            }
             Set(value);
         }
     }
@@ -1280,124 +554,134 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC2_LocationOfDrop_Max)
+            if (value > LocationOfDrop_Max)
             {
-                value = RC2_LocationOfDrop_Max;
+                value = LocationOfDrop_Max;
             }
-            else if (value < RC2_LocationOfDrop_Min)
+            else if (value < LocationOfDrop_Min)
             {
-                value = RC2_LocationOfDrop_Min;
+                value = LocationOfDrop_Min;
             }
-
             Set(value);
         }
     }
     [OrderIndex(5)]
-    [LanguageTranslator("Blade_Pressure", "入料下降位置設定", "入料下降位置設定")]
-    public double RC2_Blade_Pressure
+    [LanguageTranslator("SpeedOfDrop", "入料下降位置設定", "入料下降位置設定")]
+    public double RC2_SpeedOfDrop
     {
         get => Get<double>();
         set
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC2_Blade_Pressure_Max)
+            if (value > SpeedOfDrop_Max)
             {
-                value = RC2_Blade_Pressure_Max;
+                value = SpeedOfDrop_Max;
             }
-            else if (value < RC2_Blade_Pressure_Min)
+            else if (value < SpeedOfDrop_Min)
             {
-                value = RC2_Blade_Pressure_Min;
+                value = SpeedOfDrop_Min;
             }
-
             Set(value);
         }
     }
-
     [OrderIndex(5)]
-    [LanguageTranslator("D_BarPressureSetting1", "左前D.BAR壓力設定", "左前D.BAR壓力設定")]
-    public double RC2_D_BarPressureSetting1
+    [LanguageTranslator("Blade_Pressure1", "刮刀壓力設定1", "刮刀壓力設定1")]
+    public double RC2_Blade_Pressure1
     {
         get => Get<double>();
         set
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC2_D_BarPressureSetting1_Max)
+            if (value > Blade_Pressure_Max)
             {
-                value = RC2_D_BarPressureSetting1_Max;
+                value = Blade_Pressure_Max;
             }
-            else if (value < RC2_D_BarPressureSetting1_Min)
+            else if (value < Blade_Pressure_Min)
             {
-                value = RC2_D_BarPressureSetting1_Min;
+                value = Blade_Pressure_Min;
             }
-
             Set(value);
         }
     }
     [OrderIndex(5)]
-    [LanguageTranslator("D_BarPressureSetting2", "右前D.BAR壓力設定", "右前D.BAR壓力設定")]
-    public double RC2_D_BarPressureSetting2
+    [LanguageTranslator("Blade_Pressure2", "刮刀壓力設定2", "刮刀壓力設定2")]
+    public double RC2_Blade_Pressure2
     {
         get => Get<double>();
         set
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC2_D_BarPressureSetting2_Max)
+            if (value > Blade_Pressure_Max)
             {
-                value = RC2_D_BarPressureSetting2_Max;
+                value = Blade_Pressure_Max;
             }
-            else if (value < RC2_D_BarPressureSetting2_Min)
+            else if (value < Blade_Pressure_Min)
             {
-                value = RC2_D_BarPressureSetting2_Min;
+                value = Blade_Pressure_Min;
             }
-
             Set(value);
         }
     }
-
-
     [OrderIndex(5)]
-    [LanguageTranslator("D_BarPressureSetting3", "左後D.BAR壓力設定", "左後D.BAR壓力設定")]
-    public double RC2_D_BarPressureSetting3
+    [LanguageTranslator("Blade_Pressure3", "刮刀壓力設定3", "刮刀壓力設定3")]
+    public double RC2_Blade_Pressure3
     {
         get => Get<double>();
         set
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC2_D_BarPressureSetting3_Max)
+            if (value > Blade_Pressure_Max)
             {
-                value = RC2_D_BarPressureSetting3_Max;
+                value = Blade_Pressure_Max;
             }
-            else if (value < RC2_D_BarPressureSetting3_Min)
+            else if (value < Blade_Pressure_Min)
             {
-                value = RC2_D_BarPressureSetting3_Min;
+                value = Blade_Pressure_Min;
             }
-
             Set(value);
         }
     }
-
     [OrderIndex(5)]
-    [LanguageTranslator("D_BarPressureSetting4", "右後D.BAR壓力設定", "右後D.BAR壓力設定")]
-    public double RC2_D_BarPressureSetting4
+    [LanguageTranslator("Blade_Pressure4", "刮刀壓力設定4", "刮刀壓力設定4")]
+    public double RC2_Blade_Pressure4
     {
         get => Get<double>();
         set
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC2_D_BarPressureSetting4_Max)
+            if (value > Blade_Pressure_Max)
             {
-                value = RC2_D_BarPressureSetting4_Max;
+                value = Blade_Pressure_Max;
             }
-            else if (value < RC2_D_BarPressureSetting4_Min)
+            else if (value < Blade_Pressure_Min)
             {
-                value = RC2_D_BarPressureSetting4_Min;
+                value = Blade_Pressure_Min;
             }
+            Set(value);
+        }
+    }
+    [OrderIndex(5)]
+    [LanguageTranslator("CoatingPullSpeed", "拉料速度", "拉料速度")]
+    public double RC2_CoatingPullSpeed
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
 
+            if (value > CoatingPullSpeed_Max)
+            {
+                value = CoatingPullSpeed_Max;
+            }
+            else if (value < CoatingPullSpeed_Min)
+            {
+                value = CoatingPullSpeed_Min;
+            }
             Set(value);
         }
     }
@@ -1410,13 +694,13 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC2_BakingTimeSetting_Max)
+            if (value > BakingTimeSetting_Max)
             {
-                value = RC2_BakingTimeSetting_Max;
+                value = BakingTimeSetting_Max;
             }
-            else if (value < RC2_BakingTimeSetting_Min)
+            else if (value < BakingTimeSetting_Min)
             {
-                value = RC2_BakingTimeSetting_Min;
+                value = BakingTimeSetting_Min;
             }
 
             Set(value);
@@ -1431,13 +715,13 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC2_TemperatureSV1_Max)
+            if (value > TemperatureSV_Max)
             {
-                value = RC2_TemperatureSV1_Max;
+                value = TemperatureSV_Max;
             }
-            else if (value < RC2_TemperatureSV1_Min)
+            else if (value < TemperatureSV_Min)
             {
-                value = RC2_TemperatureSV1_Min;
+                value = TemperatureSV_Min;
             }
 
             Set(value);
@@ -1452,75 +736,20 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC2_TemperatureSV2_Max)
+            if (value > TemperatureSV_Max)
             {
-                value = RC2_TemperatureSV2_Max;
+                value = TemperatureSV_Max;
             }
-            else if (value < RC2_TemperatureSV2_Min)
+            else if (value < TemperatureSV_Min)
             {
-                value = RC2_TemperatureSV2_Min;
-            }
-
-            Set(value);
-        }
-    }
-    [OrderIndex(5)]
-    [LanguageTranslator("UseCoating", "塗佈使用", "塗佈使用")]
-    public bool RC2_UseCoating
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    [OrderIndex(5)]
-    [LanguageTranslator("UsePlug", "塞孔使用", "塞孔使用")]
-    public bool RC2_UsePlug
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    [OrderIndex(5)]
-    [LanguageTranslator("StandardInk", "標準墨重", "標準墨重")]
-    public double RC2_StandardInk
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, MidpointRounding.AwayFromZero);
-
-            if (value > RC2_StandardInk_Max)
-            {
-                value = RC2_StandardInk_Max;
-            }
-            else if (value < RC2_StandardInk_Min)
-            {
-                value = RC2_StandardInk_Min;
+                value = TemperatureSV_Min;
             }
 
             Set(value);
         }
     }
-    [OrderIndex(5)]
-    [LanguageTranslator("DifferenceOfInk", "墨重誤差值", "墨重誤差值")]
-    public double RC2_DifferenceOfInk
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, MidpointRounding.AwayFromZero);
-
-            if (value > RC2_DifferenceOfInk_Max)
-            {
-                value = RC2_DifferenceOfInk_Max;
-            }
-            else if (value < RC2_DifferenceOfInk_Min)
-            {
-                value = RC2_DifferenceOfInk_Min;
-            }
-
-            Set(value);
-        }
-    }
-
+    #endregion
+    #region RC3
     [OrderIndex(3)]
     [LanguageTranslator("Coatingoftimes", "塗佈次數", "塗佈次數")]
     public double RC3_Coatingoftimes
@@ -1528,15 +757,14 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         get => Get<double>();
         set
         {
-            if (value > RC3_Coatingoftimes_Max)
+            if (value > Coatingoftimes_Max)
             {
-                value = RC3_Coatingoftimes_Max;
+                value = Coatingoftimes_Max;
             }
-            else if (value < RC3_Coatingoftimes_Min)
+            else if (value < Coatingoftimes_Min)
             {
-                value = RC3_Coatingoftimes_Min;
+                value = Coatingoftimes_Min;
             }
-
             Set(value);
         }
     }
@@ -1550,15 +778,14 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC3_CoatingSpeedSetting_Max)
+            if (value > CoatingSpeedSetting_Max)
             {
-                value = RC3_CoatingSpeedSetting_Max;
+                value = CoatingSpeedSetting_Max;
             }
-            else if (value < RC3_CoatingSpeedSetting_Min)
+            else if (value < CoatingSpeedSetting_Min)
             {
-                value = RC3_CoatingSpeedSetting_Min;
+                value = CoatingSpeedSetting_Min;
             }
-
             Set(value);
         }
     }
@@ -1572,15 +799,14 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC3_BoardClampingDistance_Max)
+            if (value > BoardClampingDistance_Max)
             {
-                value = RC3_BoardClampingDistance_Max;
+                value = BoardClampingDistance_Max;
             }
-            else if (value < RC3_BoardClampingDistance_Min)
+            else if (value < BoardClampingDistance_Min)
             {
-                value = RC3_BoardClampingDistance_Min;
+                value = BoardClampingDistance_Min;
             }
-
             Set(value);
         }
     }
@@ -1594,15 +820,14 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC3_Plugoftimes_Max)
+            if (value > Plugoftimes_Max)
             {
-                value = RC3_Plugoftimes_Max;
+                value = Plugoftimes_Max;
             }
-            else if (value < RC3_Plugoftimes_Min)
+            else if (value < Plugoftimes_Min)
             {
-                value = RC3_Plugoftimes_Min;
+                value = Plugoftimes_Min;
             }
-
             Set(value);
         }
     }
@@ -1616,15 +841,14 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC3_CoatingPressureSetting_Max)
+            if (value > CoatingPressureSetting_Max)
             {
-                value = RC3_CoatingPressureSetting_Max;
+                value = CoatingPressureSetting_Max;
             }
-            else if (value < RC3_CoatingPressureSetting_Min)
+            else if (value < CoatingPressureSetting_Min)
             {
-                value = RC3_CoatingPressureSetting_Min;
+                value = CoatingPressureSetting_Min;
             }
-
             Set(value);
         }
     }
@@ -1638,15 +862,35 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC3_PanelThicknessSetting_Max)
+            if (value > PanelThicknessSetting_Max)
             {
-                value = RC3_PanelThicknessSetting_Max;
+                value = PanelThicknessSetting_Max;
             }
-            else if (value < RC3_PanelThicknessSetting_Min)
+            else if (value < PanelThicknessSetting_Min)
             {
-                value = RC3_PanelThicknessSetting_Min;
+                value = PanelThicknessSetting_Min;
             }
+            Set(value);
+        }
+    }
 
+    [OrderIndex(5)]
+    [LanguageTranslator("PanelWidthSetting", "基板寬度設定", "基板寬度設定")]
+    public double RC3_PanelWidthSetting
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
+
+            if (value > PanelWidthSetting_Max)
+            {
+                value = PanelWidthSetting_Max;
+            }
+            else if (value < PanelWidthSetting_Min)
+            {
+                value = PanelWidthSetting_Min;
+            }
             Set(value);
         }
     }
@@ -1660,127 +904,139 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC3_LocationOfDrop_Max)
+            if (value > LocationOfDrop_Max)
             {
-                value = RC3_LocationOfDrop_Max;
+                value = LocationOfDrop_Max;
             }
-            else if (value < RC3_LocationOfDrop_Min)
+            else if (value < LocationOfDrop_Min)
             {
-                value = RC3_LocationOfDrop_Min;
+                value = LocationOfDrop_Min;
             }
-
             Set(value);
         }
     }
     [OrderIndex(5)]
-    [LanguageTranslator("Blade_Pressure", "入料下降位置設定", "入料下降位置設定")]
-    public double RC3_Blade_Pressure
+    [LanguageTranslator("SpeedOfDrop", "入料下降位置設定", "入料下降位置設定")]
+    public double RC3_SpeedOfDrop
     {
         get => Get<double>();
         set
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC3_Blade_Pressure_Max)
+            if (value > SpeedOfDrop_Max)
             {
-                value = RC3_Blade_Pressure_Max;
+                value = SpeedOfDrop_Max;
             }
-            else if (value < RC3_Blade_Pressure_Min)
+            else if (value < SpeedOfDrop_Min)
             {
-                value = RC3_Blade_Pressure_Min;
+                value = SpeedOfDrop_Min;
             }
-
             Set(value);
         }
     }
-
     [OrderIndex(5)]
-    [LanguageTranslator("D_BarPressureSetting1", "左前D.BAR壓力設定", "左前D.BAR壓力設定")]
-    public double RC3_D_BarPressureSetting1
+    [LanguageTranslator("Blade_Pressure1", "刮刀壓力設定1", "刮刀壓力設定1")]
+    public double RC3_Blade_Pressure1
     {
         get => Get<double>();
         set
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC3_D_BarPressureSetting1_Max)
+            if (value > Blade_Pressure_Max)
             {
-                value = RC3_D_BarPressureSetting1_Max;
+                value = Blade_Pressure_Max;
             }
-            else if (value < RC3_D_BarPressureSetting1_Min)
+            else if (value < Blade_Pressure_Min)
             {
-                value = RC3_D_BarPressureSetting1_Min;
+                value = Blade_Pressure_Min;
             }
-
             Set(value);
         }
     }
     [OrderIndex(5)]
-    [LanguageTranslator("D_BarPressureSetting2", "右前D.BAR壓力設定", "右前D.BAR壓力設定")]
-    public double RC3_D_BarPressureSetting2
+    [LanguageTranslator("Blade_Pressure2", "刮刀壓力設定2", "刮刀壓力設定2")]
+    public double RC3_Blade_Pressure2
     {
         get => Get<double>();
         set
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC3_D_BarPressureSetting2_Max)
+            if (value > Blade_Pressure_Max)
             {
-                value = RC3_D_BarPressureSetting2_Max;
+                value = Blade_Pressure_Max;
             }
-            else if (value < RC3_D_BarPressureSetting2_Min)
+            else if (value < Blade_Pressure_Min)
             {
-                value = RC3_D_BarPressureSetting2_Min;
+                value = Blade_Pressure_Min;
             }
-
             Set(value);
         }
     }
-
-
     [OrderIndex(5)]
-    [LanguageTranslator("D_BarPressureSetting3", "左後D.BAR壓力設定", "左後D.BAR壓力設定")]
-    public double RC3_D_BarPressureSetting3
+    [LanguageTranslator("Blade_Pressure3", "刮刀壓力設定3", "刮刀壓力設定3")]
+    public double RC3_Blade_Pressure3
     {
         get => Get<double>();
         set
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC3_D_BarPressureSetting3_Max)
+            if (value > Blade_Pressure_Max)
             {
-                value = RC3_D_BarPressureSetting3_Max;
+                value = Blade_Pressure_Max;
             }
-            else if (value < RC3_D_BarPressureSetting3_Min)
+            else if (value < Blade_Pressure_Min)
             {
-                value = RC3_D_BarPressureSetting3_Min;
+                value = Blade_Pressure_Min;
             }
-
             Set(value);
         }
     }
-
     [OrderIndex(5)]
-    [LanguageTranslator("D_BarPressureSetting4", "右後D.BAR壓力設定", "右後D.BAR壓力設定")]
-    public double RC3_D_BarPressureSetting4
+    [LanguageTranslator("Blade_Pressure4", "刮刀壓力設定4", "刮刀壓力設定4")]
+    public double RC3_Blade_Pressure4
     {
         get => Get<double>();
         set
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC3_D_BarPressureSetting4_Max)
+            if (value > Blade_Pressure_Max)
             {
-                value = RC3_D_BarPressureSetting4_Max;
+                value = Blade_Pressure_Max;
             }
-            else if (value < RC3_D_BarPressureSetting4_Min)
+            else if (value < Blade_Pressure_Min)
             {
-                value = RC3_D_BarPressureSetting4_Min;
+                value = Blade_Pressure_Min;
             }
-
             Set(value);
         }
     }
+
+    [OrderIndex(5)]
+    [LanguageTranslator("CoatingPullSpeed", "拉料速度", "拉料速度")]
+    public double RC3_CoatingPullSpeed
+    {
+        get => Get<double>();
+        set
+        {
+            value = Math.Round(value, MidpointRounding.AwayFromZero);
+
+            if (value > CoatingPullSpeed_Max)
+            {
+                value = CoatingPullSpeed_Max;
+            }
+            else if (value < CoatingPullSpeed_Min)
+            {
+                value = CoatingPullSpeed_Min;
+            }
+            Set(value);
+        }
+    }
+
     [OrderIndex(5)]
     [LanguageTranslator("BakingTimeSetting", "烘烤時間設定", "烘烤時間設定")]
     public double RC3_BakingTimeSetting
@@ -1790,13 +1046,13 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC3_BakingTimeSetting_Max)
+            if (value > BakingTimeSetting_Max)
             {
-                value = RC3_BakingTimeSetting_Max;
+                value = BakingTimeSetting_Max;
             }
-            else if (value < RC3_BakingTimeSetting_Min)
+            else if (value < BakingTimeSetting_Min)
             {
-                value = RC3_BakingTimeSetting_Min;
+                value = BakingTimeSetting_Min;
             }
 
             Set(value);
@@ -1811,13 +1067,13 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC3_TemperatureSV1_Max)
+            if (value > TemperatureSV_Max)
             {
-                value = RC3_TemperatureSV1_Max;
+                value = TemperatureSV_Max;
             }
-            else if (value < RC3_TemperatureSV1_Min)
+            else if (value < TemperatureSV_Min)
             {
-                value = RC3_TemperatureSV1_Min;
+                value = TemperatureSV_Min;
             }
 
             Set(value);
@@ -1832,13 +1088,13 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC3_TemperatureSV2_Max)
+            if (value > TemperatureSV_Max)
             {
-                value = RC3_TemperatureSV2_Max;
+                value = TemperatureSV_Max;
             }
-            else if (value < RC3_TemperatureSV2_Min)
+            else if (value < TemperatureSV_Min)
             {
-                value = RC3_TemperatureSV2_Min;
+                value = TemperatureSV_Min;
             }
 
             Set(value);
@@ -1853,13 +1109,13 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC3_TemperatureSV3_Max)
+            if (value > TemperatureSV_Max)
             {
-                value = RC3_TemperatureSV3_Max;
+                value = TemperatureSV_Max;
             }
-            else if (value < RC3_TemperatureSV3_Min)
+            else if (value < TemperatureSV_Min)
             {
-                value = RC3_TemperatureSV3_Min;
+                value = TemperatureSV_Min;
             }
 
             Set(value);
@@ -1874,13 +1130,13 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC3_TemperatureSV4_Max)
+            if (value > TemperatureSV_Max)
             {
-                value = RC3_TemperatureSV4_Max;
+                value = TemperatureSV_Max;
             }
-            else if (value < RC3_TemperatureSV4_Min)
+            else if (value < TemperatureSV_Min)
             {
-                value = RC3_TemperatureSV4_Min;
+                value = TemperatureSV_Min;
             }
 
             Set(value);
@@ -1895,13 +1151,13 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC3_TemperatureSV5_Max)
+            if (value > TemperatureSV_Max)
             {
-                value = RC3_TemperatureSV5_Max;
+                value = TemperatureSV_Max;
             }
-            else if (value < RC3_TemperatureSV5_Min)
+            else if (value < TemperatureSV_Min)
             {
-                value = RC3_TemperatureSV5_Min;
+                value = TemperatureSV_Min;
             }
 
             Set(value);
@@ -1916,13 +1172,13 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC3_TemperatureSV6_Max)
+            if (value > TemperatureSV_Max)
             {
-                value = RC3_TemperatureSV6_Max;
+                value = TemperatureSV_Max;
             }
-            else if (value < RC3_TemperatureSV6_Min)
+            else if (value < TemperatureSV_Min)
             {
-                value = RC3_TemperatureSV6_Min;
+                value = TemperatureSV_Min;
             }
 
             Set(value);
@@ -1937,13 +1193,13 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC3_TemperatureSV7_Max)
+            if (value > TemperatureSV_Max)
             {
-                value = RC3_TemperatureSV7_Max;
+                value = TemperatureSV_Max;
             }
-            else if (value < RC3_TemperatureSV7_Min)
+            else if (value < TemperatureSV_Min)
             {
-                value = RC3_TemperatureSV7_Min;
+                value = TemperatureSV_Min;
             }
 
             Set(value);
@@ -1958,141 +1214,79 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         {
             value = Math.Round(value, MidpointRounding.AwayFromZero);
 
-            if (value > RC3_TemperatureSV8_Max)
+            if (value > TemperatureSV_Max)
             {
-                value = RC3_TemperatureSV8_Max;
+                value = TemperatureSV_Max;
             }
-            else if (value < RC3_TemperatureSV8_Min)
+            else if (value < TemperatureSV_Min)
             {
-                value = RC3_TemperatureSV8_Min;
-            }
-
-            Set(value);
-        }
-    }
-    [OrderIndex(5)]
-    [LanguageTranslator("UseCoating", "塗佈使用", "塗佈使用")]
-    public bool RC3_UseCoating
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    [OrderIndex(5)]
-    [LanguageTranslator("UsePlug", "塞孔使用", "塞孔使用")]
-    public bool RC3_UsePlug
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-    [OrderIndex(5)]
-    [LanguageTranslator("StandardInk", "標準墨重", "標準墨重")]
-    public double RC3_StandardInk
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, MidpointRounding.AwayFromZero);
-
-            if (value > RC3_StandardInk_Max)
-            {
-                value = RC3_StandardInk_Max;
-            }
-            else if (value < RC3_StandardInk_Min)
-            {
-                value = RC3_StandardInk_Min;
+                value = TemperatureSV_Min;
             }
 
             Set(value);
         }
     }
-    [OrderIndex(5)]
-    [LanguageTranslator("DifferenceOfInk", "墨重誤差值", "墨重誤差值")]
-    public double RC3_DifferenceOfInk
-    {
-        get => Get<double>();
-        set
-        {
-            value = Math.Round(value, MidpointRounding.AwayFromZero);
-
-            if (value > RC3_DifferenceOfInk_Max)
-            {
-                value = RC3_DifferenceOfInk_Max;
-            }
-            else if (value < RC3_DifferenceOfInk_Min)
-            {
-                value = RC3_DifferenceOfInk_Min;
-            }
-
-            Set(value);
-        }
-    }
+    #endregion
 
     public PLC_Recipe(string name, string user, UserLevel level) : base(name, user, level)
     {
-        RecipeName = RecipeName;
-        RC1_Coatingoftimes = RC1_Coatingoftimes;
-        RC1_CoatingSpeedSetting = RC1_CoatingSpeedSetting;
-        RC1_BoardClampingDistance = RC1_BoardClampingDistance;
-        RC1_Plugoftimes = RC1_Plugoftimes;
-        RC1_PanelThicknessSetting = RC1_PanelThicknessSetting;
-        RC1_CoatingPressureSetting = RC1_CoatingPressureSetting;
-        RC1_LocationOfDrop = RC1_LocationOfDrop;
-        RC1_Blade_Pressure = 0;
-        RC1_D_BarPressureSetting1 = 0;
-        RC1_D_BarPressureSetting2 = 0;
-        RC1_D_BarPressureSetting3 = 0;
-        RC1_D_BarPressureSetting4 = 0;
-        RC1_BakingTimeSetting = 0;
-        RC1_TemperatureSV1 = 0;
-        RC1_TemperatureSV2 = 0;
-        RC1_UseCoating = false;
-        RC1_UsePlug = false;
-        RC1_StandardInk = 0;
-        RC1_DifferenceOfInk = 0;
-        RC2_Coatingoftimes = 0;
-        RC2_CoatingSpeedSetting = 0;
-        RC2_BoardClampingDistance = 0;
-        RC2_Plugoftimes = 0;
-        RC2_PanelThicknessSetting = 0;
-        RC2_CoatingPressureSetting = 0;
-        RC2_LocationOfDrop = 0;
-        RC2_Blade_Pressure = 0;
-        RC2_D_BarPressureSetting1 = 0;
-        RC2_D_BarPressureSetting2 = 0;
-        RC2_D_BarPressureSetting3 = 0;
-        RC2_D_BarPressureSetting4 = 0;
-        RC2_BakingTimeSetting = 0;
-        RC2_TemperatureSV1 = 0;
-        RC2_TemperatureSV2 = 0;
-        RC2_UseCoating = false;
-        RC2_UsePlug = false;
-        RC2_StandardInk = 0;
-        RC2_DifferenceOfInk = 0;
-        RC3_Coatingoftimes = 0;
-        RC3_CoatingSpeedSetting = 0;
-        RC3_BoardClampingDistance = 0;
-        RC3_Plugoftimes = 0;
-        RC3_PanelThicknessSetting = 0;
-        RC3_CoatingPressureSetting = 0;
-        RC3_LocationOfDrop = 0;
-        RC3_Blade_Pressure = 0;
-        RC3_D_BarPressureSetting1 = 0;
-        RC3_D_BarPressureSetting2 = 0;
-        RC3_D_BarPressureSetting3 = 0;
-        RC3_D_BarPressureSetting4 = 0;
-        RC3_BakingTimeSetting = 0;
-        RC3_TemperatureSV1 = 0;
-        RC3_TemperatureSV2 = 0;
-        RC3_TemperatureSV3 = 0;
-        RC3_TemperatureSV4 = 0;
-        RC3_TemperatureSV5 = 0;
-        RC3_TemperatureSV6 = 0;
-        RC3_TemperatureSV7 = 0;
-        RC3_TemperatureSV8 = 0;
-        RC3_UseCoating = false;
-        RC3_UsePlug = false;
-        RC3_StandardInk = 0;
-        RC3_DifferenceOfInk = 0;
+        RC1_Coatingoftimes = 1;
+        RC1_CoatingSpeedSetting = 10;
+        RC1_BoardClampingDistance = 10;
+        RC1_Plugoftimes = 1;
+        RC1_PanelThicknessSetting = 200;
+        RC1_PanelWidthSetting = 200;
+        RC1_CoatingPressureSetting = 100;
+        RC1_LocationOfDrop = 10;
+        RC1_SpeedOfDrop = 10;
+        RC1_Blade_Pressure1 = 200;
+        RC1_Blade_Pressure2 = 200;
+        RC1_Blade_Pressure3 = 200;
+        RC1_Blade_Pressure4 = 200;
+        RC1_BakingTimeSetting = 20;
+        RC1_TemperatureSV1 = 30;
+        RC1_TemperatureSV2 = 30;
+        RC1_CoatingPullSpeed = 10;
+        RC2_Coatingoftimes = 1;
+        RC2_CoatingSpeedSetting = 10;
+        RC2_BoardClampingDistance = 10;
+        RC2_Plugoftimes = 1;
+        RC2_PanelThicknessSetting = 200;
+        RC2_PanelWidthSetting = 200;
+        RC2_CoatingPressureSetting = 100;
+        RC2_LocationOfDrop = 10;
+        RC2_SpeedOfDrop = 10;
+        RC2_Blade_Pressure1 = 200;
+        RC2_Blade_Pressure2 = 200;
+        RC2_Blade_Pressure3 = 200;
+        RC2_Blade_Pressure4 = 200;
+        RC2_BakingTimeSetting = 20;
+        RC2_TemperatureSV1 = 30;
+        RC2_TemperatureSV2 = 30;
+        RC2_CoatingPullSpeed = 10;
+        RC3_Coatingoftimes = 1;
+        RC3_CoatingSpeedSetting = 10;
+        RC3_BoardClampingDistance = 10;
+        RC3_Plugoftimes = 1;
+        RC3_PanelThicknessSetting = 200;
+        RC3_PanelWidthSetting = 200;
+        RC3_CoatingPressureSetting = 100;
+        RC3_LocationOfDrop = 10;
+        RC3_SpeedOfDrop = 10;
+        RC3_Blade_Pressure1 = 200;
+        RC3_Blade_Pressure2 = 200;
+        RC3_Blade_Pressure3 = 200;
+        RC3_Blade_Pressure4 = 200;
+        RC3_BakingTimeSetting = 20;
+        RC3_TemperatureSV1 = 30;
+        RC3_TemperatureSV2 = 30;
+        RC3_TemperatureSV3 = 30;
+        RC3_TemperatureSV4 = 30;
+        RC3_TemperatureSV5 = 30;
+        RC3_TemperatureSV6 = 30;
+        RC3_TemperatureSV7 = 30;
+        RC3_TemperatureSV8 = 30;
+        RC3_CoatingPullSpeed = 10;
     }
 
     public PLC_Recipe() { }
@@ -2105,50 +1299,47 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
                                                       RC1_Plugoftimes.ToString("0.0") == other.RC1_Plugoftimes.ToString("0.0") &&
                                                       RC1_CoatingPressureSetting.ToString("0.0") == other.RC1_CoatingPressureSetting.ToString("0.0") &&
                                                       RC1_PanelThicknessSetting.ToString("0.0") == other.RC1_PanelThicknessSetting.ToString("0.0") &&
+                                                      RC1_PanelWidthSetting.ToString("0.0") == other.RC1_PanelWidthSetting.ToString("0.0") &&
                                                       RC1_LocationOfDrop.ToString("0.0") == other.RC1_LocationOfDrop.ToString("0.0") &&
-                                                      RC1_Blade_Pressure.ToString("0.0") == other.RC1_Blade_Pressure.ToString("0.0") &&
-                                                      RC1_D_BarPressureSetting1.ToString("0.0") == other.RC1_D_BarPressureSetting1.ToString("0.0") &&
-                                                      RC1_D_BarPressureSetting2.ToString("0.0") == other.RC1_D_BarPressureSetting2.ToString("0.0") &&
-                                                      RC1_D_BarPressureSetting3.ToString("0.0") == other.RC1_D_BarPressureSetting3.ToString("0.0") &&
-                                                      RC1_D_BarPressureSetting4.ToString("0.0") == other.RC1_D_BarPressureSetting4.ToString("0.0") &&
+                                                      RC1_SpeedOfDrop.ToString("0.0") == other.RC1_SpeedOfDrop.ToString("0.0") &&
+                                                      RC1_Blade_Pressure1.ToString("0.0") == other.RC1_Blade_Pressure1.ToString("0.0") &&
+                                                      RC1_Blade_Pressure2.ToString("0.0") == other.RC1_Blade_Pressure2.ToString("0.0") &&
+                                                      RC1_Blade_Pressure3.ToString("0.0") == other.RC1_Blade_Pressure3.ToString("0.0") &&
+                                                      RC1_Blade_Pressure4.ToString("0.0") == other.RC1_Blade_Pressure4.ToString("0.0") &&
                                                       RC1_BakingTimeSetting.ToString("0.0") == other.RC1_BakingTimeSetting.ToString("0.0") &&
                                                       RC1_TemperatureSV1.ToString("0.0") == other.RC1_TemperatureSV1.ToString("0.0") &&
                                                       RC1_TemperatureSV2.ToString("0.0") == other.RC1_TemperatureSV2.ToString("0.0") &&
-                                                      RC1_UseCoating == other.RC1_UseCoating &&
-                                                      RC1_UsePlug == other.RC1_UsePlug &&
-                                                      RC1_StandardInk.ToString("0.0") == other.RC1_StandardInk.ToString("0.0") &&
-                                                      RC1_DifferenceOfInk.ToString("0.0") == other.RC1_DifferenceOfInk.ToString("0.0") &&
+                                                      RC1_CoatingPullSpeed.ToString("0.0") == other.RC1_CoatingPullSpeed.ToString("0.0") &&
                                                       RC2_Coatingoftimes == other.RC2_Coatingoftimes &&
                                                       RC2_CoatingSpeedSetting.ToString("0.0") == other.RC2_CoatingSpeedSetting.ToString("0.0") &&
                                                       RC2_BoardClampingDistance.ToString("0.0") == other.RC2_BoardClampingDistance.ToString("0.0") &&
                                                       RC2_Plugoftimes.ToString("0.0") == other.RC2_Plugoftimes.ToString("0.0") &&
                                                       RC2_CoatingPressureSetting.ToString("0.0") == other.RC2_CoatingPressureSetting.ToString("0.0") &&
                                                       RC2_PanelThicknessSetting.ToString("0.0") == other.RC2_PanelThicknessSetting.ToString("0.0") &&
+                                                      RC2_PanelWidthSetting.ToString("0.0") == other.RC2_PanelWidthSetting.ToString("0.0") &&
                                                       RC2_LocationOfDrop.ToString("0.0") == other.RC2_LocationOfDrop.ToString("0.0") &&
-                                                      RC2_Blade_Pressure.ToString("0.0") == other.RC2_Blade_Pressure.ToString("0.0") &&
-                                                      RC2_D_BarPressureSetting1.ToString("0.0") == other.RC2_D_BarPressureSetting1.ToString("0.0") &&
-                                                      RC2_D_BarPressureSetting2.ToString("0.0") == other.RC2_D_BarPressureSetting2.ToString("0.0") &&
-                                                      RC2_D_BarPressureSetting3.ToString("0.0") == other.RC2_D_BarPressureSetting3.ToString("0.0") &&
-                                                      RC2_D_BarPressureSetting4.ToString("0.0") == other.RC2_D_BarPressureSetting4.ToString("0.0") &&
+                                                      RC2_SpeedOfDrop.ToString("0.0") == other.RC2_SpeedOfDrop.ToString("0.0") &&
+                                                      RC2_Blade_Pressure1.ToString("0.0") == other.RC2_Blade_Pressure1.ToString("0.0") &&
+                                                      RC2_Blade_Pressure2.ToString("0.0") == other.RC2_Blade_Pressure2.ToString("0.0") &&
+                                                      RC2_Blade_Pressure3.ToString("0.0") == other.RC2_Blade_Pressure3.ToString("0.0") &&
+                                                      RC2_Blade_Pressure4.ToString("0.0") == other.RC2_Blade_Pressure4.ToString("0.0") &&
                                                       RC2_BakingTimeSetting.ToString("0.0") == other.RC2_BakingTimeSetting.ToString("0.0") &&
                                                       RC2_TemperatureSV1.ToString("0.0") == other.RC2_TemperatureSV1.ToString("0.0") &&
                                                       RC2_TemperatureSV2.ToString("0.0") == other.RC2_TemperatureSV2.ToString("0.0") &&
-                                                      RC2_UseCoating == other.RC2_UseCoating &&
-                                                      RC2_UsePlug == other.RC2_UsePlug &&
-                                                      RC2_StandardInk.ToString("0.0") == other.RC2_StandardInk.ToString("0.0") &&
-                                                      RC2_DifferenceOfInk.ToString("0.0") == other.RC2_DifferenceOfInk.ToString("0.0") &&
+                                                      RC2_CoatingPullSpeed.ToString("0.0") == other.RC2_CoatingPullSpeed.ToString("0.0") &&
                                                       RC3_Coatingoftimes == other.RC3_Coatingoftimes &&
                                                       RC3_CoatingSpeedSetting.ToString("0.0") == other.RC3_CoatingSpeedSetting.ToString("0.0") &&
                                                       RC3_BoardClampingDistance.ToString("0.0") == other.RC3_BoardClampingDistance.ToString("0.0") &&
                                                       RC3_Plugoftimes.ToString("0.0") == other.RC3_Plugoftimes.ToString("0.0") &&
                                                       RC3_CoatingPressureSetting.ToString("0.0") == other.RC3_CoatingPressureSetting.ToString("0.0") &&
                                                       RC3_PanelThicknessSetting.ToString("0.0") == other.RC3_PanelThicknessSetting.ToString("0.0") &&
+                                                      RC3_PanelWidthSetting.ToString("0.0") == other.RC3_PanelWidthSetting.ToString("0.0") &&
                                                       RC3_LocationOfDrop.ToString("0.0") == other.RC3_LocationOfDrop.ToString("0.0") &&
-                                                      RC3_Blade_Pressure.ToString("0.0") == other.RC3_Blade_Pressure.ToString("0.0") &&
-                                                      RC3_D_BarPressureSetting1.ToString("0.0") == other.RC3_D_BarPressureSetting1.ToString("0.0") &&
-                                                      RC3_D_BarPressureSetting2.ToString("0.0") == other.RC3_D_BarPressureSetting2.ToString("0.0") &&
-                                                      RC3_D_BarPressureSetting3.ToString("0.0") == other.RC3_D_BarPressureSetting3.ToString("0.0") &&
-                                                      RC3_D_BarPressureSetting4.ToString("0.0") == other.RC3_D_BarPressureSetting4.ToString("0.0") &&
+                                                      RC3_SpeedOfDrop.ToString("0.0") == other.RC3_SpeedOfDrop.ToString("0.0") &&
+                                                      RC3_Blade_Pressure1.ToString("0.0") == other.RC3_Blade_Pressure1.ToString("0.0") &&
+                                                      RC3_Blade_Pressure2.ToString("0.0") == other.RC3_Blade_Pressure2.ToString("0.0") &&
+                                                      RC3_Blade_Pressure3.ToString("0.0") == other.RC3_Blade_Pressure3.ToString("0.0") &&
+                                                      RC3_Blade_Pressure4.ToString("0.0") == other.RC3_Blade_Pressure4.ToString("0.0") &&
                                                       RC3_BakingTimeSetting.ToString("0.0") == other.RC3_BakingTimeSetting.ToString("0.0") &&
                                                       RC3_TemperatureSV1.ToString("0.0") == other.RC3_TemperatureSV1.ToString("0.0") &&
                                                       RC3_TemperatureSV2.ToString("0.0") == other.RC3_TemperatureSV2.ToString("0.0") &&
@@ -2158,10 +1349,7 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
                                                       RC3_TemperatureSV6.ToString("0.0") == other.RC3_TemperatureSV6.ToString("0.0") &&
                                                       RC3_TemperatureSV7.ToString("0.0") == other.RC3_TemperatureSV7.ToString("0.0") &&
                                                       RC3_TemperatureSV8.ToString("0.0") == other.RC3_TemperatureSV8.ToString("0.0") &&
-                                                      RC3_UseCoating == other.RC3_UseCoating &&
-                                                      RC3_UsePlug == other.RC3_UsePlug &&
-                                                      RC3_StandardInk.ToString("0.0") == other.RC3_StandardInk.ToString("0.0") &&
-                                                      RC3_DifferenceOfInk.ToString("0.0") == other.RC3_DifferenceOfInk.ToString("0.0");
+                                                      RC3_CoatingPullSpeed.ToString("0.0") == other.RC3_CoatingPullSpeed.ToString("0.0");
 
     public override PLC_Recipe Copy(string user, UserLevel level) => new()
     {
@@ -2174,49 +1362,47 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         RC1_PanelThicknessSetting = RC1_PanelThicknessSetting,
         RC1_CoatingPressureSetting = RC1_CoatingPressureSetting,
         RC1_LocationOfDrop = RC1_LocationOfDrop,
-        RC1_Blade_Pressure = RC1_Blade_Pressure,
-        RC1_D_BarPressureSetting1 = RC1_D_BarPressureSetting1,
-        RC1_D_BarPressureSetting2 = RC1_D_BarPressureSetting2,
-        RC1_D_BarPressureSetting3 = RC1_D_BarPressureSetting3,
-        RC1_D_BarPressureSetting4 = RC1_D_BarPressureSetting4,
+        RC1_SpeedOfDrop = RC1_SpeedOfDrop,
+        RC1_PanelWidthSetting = RC1_PanelWidthSetting,
+        RC1_CoatingPullSpeed = RC1_CoatingPullSpeed,
+        RC1_Blade_Pressure1 = RC1_Blade_Pressure1,
+        RC1_Blade_Pressure2 = RC1_Blade_Pressure2,
+        RC1_Blade_Pressure3 = RC1_Blade_Pressure3,
+        RC1_Blade_Pressure4 = RC1_Blade_Pressure4,
         RC1_BakingTimeSetting = RC1_BakingTimeSetting,
         RC1_TemperatureSV1 = RC1_TemperatureSV1,
         RC1_TemperatureSV2 = RC1_TemperatureSV2,
-        RC1_UseCoating = RC1_UseCoating,
-        RC1_UsePlug = RC1_UsePlug,
-        RC1_StandardInk = RC1_StandardInk,
-        RC1_DifferenceOfInk = RC1_DifferenceOfInk,
         RC2_Coatingoftimes = RC2_Coatingoftimes,
+        RC2_CoatingPullSpeed = RC2_CoatingPullSpeed,
         RC2_CoatingSpeedSetting = RC2_CoatingSpeedSetting,
         RC2_BoardClampingDistance = RC2_BoardClampingDistance,
         RC2_Plugoftimes = RC2_Plugoftimes,
         RC2_PanelThicknessSetting = RC2_PanelThicknessSetting,
+        RC2_PanelWidthSetting = RC2_PanelWidthSetting,
         RC2_CoatingPressureSetting = RC2_CoatingPressureSetting,
+        RC2_SpeedOfDrop = RC2_SpeedOfDrop,
         RC2_LocationOfDrop = RC2_LocationOfDrop,
-        RC2_Blade_Pressure = RC2_Blade_Pressure,
-        RC2_D_BarPressureSetting1 = RC2_D_BarPressureSetting1,
-        RC2_D_BarPressureSetting2 = RC2_D_BarPressureSetting2,
-        RC2_D_BarPressureSetting3 = RC2_D_BarPressureSetting3,
-        RC2_D_BarPressureSetting4 = RC2_D_BarPressureSetting4,
+        RC2_Blade_Pressure1 = RC2_Blade_Pressure1,
+        RC2_Blade_Pressure2 = RC2_Blade_Pressure2,
+        RC2_Blade_Pressure3 = RC2_Blade_Pressure3,
+        RC2_Blade_Pressure4 = RC2_Blade_Pressure4,
         RC2_BakingTimeSetting = RC2_BakingTimeSetting,
         RC2_TemperatureSV1 = RC2_TemperatureSV1,
         RC2_TemperatureSV2 = RC2_TemperatureSV2,
-        RC2_UseCoating = RC2_UseCoating,
-        RC2_UsePlug = RC2_UsePlug,
-        RC2_StandardInk = RC2_StandardInk,
-        RC2_DifferenceOfInk = RC2_DifferenceOfInk,
         RC3_Coatingoftimes = RC3_Coatingoftimes,
+        RC3_CoatingPullSpeed = RC3_CoatingPullSpeed,
         RC3_CoatingSpeedSetting = RC3_CoatingSpeedSetting,
         RC3_BoardClampingDistance = RC3_BoardClampingDistance,
         RC3_Plugoftimes = RC3_Plugoftimes,
         RC3_PanelThicknessSetting = RC3_PanelThicknessSetting,
+        RC3_PanelWidthSetting = RC3_PanelWidthSetting,
         RC3_CoatingPressureSetting = RC3_CoatingPressureSetting,
+        RC3_SpeedOfDrop = RC3_SpeedOfDrop,
         RC3_LocationOfDrop = RC3_LocationOfDrop,
-        RC3_Blade_Pressure = RC3_Blade_Pressure,
-        RC3_D_BarPressureSetting1 = RC3_D_BarPressureSetting1,
-        RC3_D_BarPressureSetting2 = RC3_D_BarPressureSetting2,
-        RC3_D_BarPressureSetting3 = RC3_D_BarPressureSetting3,
-        RC3_D_BarPressureSetting4 = RC3_D_BarPressureSetting4,
+        RC3_Blade_Pressure1 = RC3_Blade_Pressure1,
+        RC3_Blade_Pressure2 = RC3_Blade_Pressure2,
+        RC3_Blade_Pressure3 = RC3_Blade_Pressure3,
+        RC3_Blade_Pressure4 = RC3_Blade_Pressure4,
         RC3_BakingTimeSetting = RC3_BakingTimeSetting,
         RC3_TemperatureSV1 = RC3_TemperatureSV1,
         RC3_TemperatureSV2 = RC3_TemperatureSV2,
@@ -2226,10 +1412,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         RC3_TemperatureSV6 = RC3_TemperatureSV6,
         RC3_TemperatureSV7 = RC3_TemperatureSV7,
         RC3_TemperatureSV8 = RC3_TemperatureSV8,
-        RC3_UseCoating = RC3_UseCoating,
-        RC3_UsePlug = RC3_UsePlug,
-        RC3_StandardInk = RC3_StandardInk,
-        RC3_DifferenceOfInk = RC3_DifferenceOfInk,
         Editor = user,
         EditorLevel = level
     };
@@ -2242,48 +1424,46 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         RC1_Plugoftimes = recipe.RC1_Plugoftimes;
         RC1_CoatingPressureSetting = recipe.RC1_CoatingPressureSetting;
         RC1_PanelThicknessSetting = recipe.RC1_PanelThicknessSetting;
+        RC1_PanelWidthSetting = recipe.RC1_PanelWidthSetting;
         RC1_LocationOfDrop = recipe.RC1_LocationOfDrop;
-        RC1_Blade_Pressure = recipe.RC1_Blade_Pressure;
-        RC1_D_BarPressureSetting1 = recipe.RC1_D_BarPressureSetting1;
-        RC1_D_BarPressureSetting2 = recipe.RC1_D_BarPressureSetting2;
-        RC1_D_BarPressureSetting3 = recipe.RC1_D_BarPressureSetting3;
-        RC1_D_BarPressureSetting4 = recipe.RC1_D_BarPressureSetting4;
+        RC1_SpeedOfDrop = recipe.RC1_SpeedOfDrop;
+        RC1_Blade_Pressure1 = recipe.RC1_Blade_Pressure1;
+        RC1_Blade_Pressure2 = recipe.RC1_Blade_Pressure2;
+        RC1_Blade_Pressure3 = recipe.RC1_Blade_Pressure3;
+        RC1_Blade_Pressure4 = recipe.RC1_Blade_Pressure4;
+        RC1_CoatingPullSpeed = recipe.RC1_CoatingPullSpeed;
         RC1_BakingTimeSetting = recipe.RC1_BakingTimeSetting;
         RC1_TemperatureSV1 = recipe.RC1_TemperatureSV1;
         RC1_TemperatureSV2 = recipe.RC1_TemperatureSV2;
-        RC1_UseCoating = recipe.RC1_UseCoating;
-        RC1_UsePlug = recipe.RC1_UsePlug;
-        RC1_StandardInk = recipe.RC1_StandardInk;
-        RC1_DifferenceOfInk = recipe.RC1_DifferenceOfInk;
         RC2_Coatingoftimes = recipe.RC2_Coatingoftimes;
         RC2_CoatingSpeedSetting = recipe.RC2_CoatingSpeedSetting;
         RC2_Plugoftimes = recipe.RC2_Plugoftimes;
         RC2_CoatingPressureSetting = recipe.RC2_CoatingPressureSetting;
         RC2_PanelThicknessSetting = recipe.RC2_PanelThicknessSetting;
+        RC2_PanelWidthSetting = recipe.RC2_PanelWidthSetting;
         RC2_LocationOfDrop = recipe.RC2_LocationOfDrop;
-        RC2_Blade_Pressure = recipe.RC2_Blade_Pressure;
-        RC2_D_BarPressureSetting1 = recipe.RC2_D_BarPressureSetting1;
-        RC2_D_BarPressureSetting2 = recipe.RC2_D_BarPressureSetting2;
-        RC2_D_BarPressureSetting3 = recipe.RC2_D_BarPressureSetting3;
-        RC2_D_BarPressureSetting4 = recipe.RC2_D_BarPressureSetting4;
+        RC2_SpeedOfDrop = recipe.RC2_SpeedOfDrop;
+        RC2_Blade_Pressure1 = recipe.RC2_Blade_Pressure1;
+        RC2_Blade_Pressure2 = recipe.RC2_Blade_Pressure2;
+        RC2_Blade_Pressure3 = recipe.RC2_Blade_Pressure3;
+        RC2_Blade_Pressure4 = recipe.RC2_Blade_Pressure4;
+        RC2_CoatingPullSpeed = recipe.RC2_CoatingPullSpeed;
         RC2_BakingTimeSetting = recipe.RC2_BakingTimeSetting;
         RC2_TemperatureSV1 = recipe.RC2_TemperatureSV1;
         RC2_TemperatureSV2 = recipe.RC2_TemperatureSV2;
-        RC2_UseCoating = recipe.RC2_UseCoating;
-        RC2_UsePlug = recipe.RC2_UsePlug;
-        RC2_StandardInk = recipe.RC2_StandardInk;
-        RC2_DifferenceOfInk = recipe.RC2_DifferenceOfInk;
         RC3_Coatingoftimes = recipe.RC3_Coatingoftimes;
         RC3_CoatingSpeedSetting = recipe.RC3_CoatingSpeedSetting;
         RC3_Plugoftimes = recipe.RC3_Plugoftimes;
         RC3_CoatingPressureSetting = recipe.RC3_CoatingPressureSetting;
         RC3_PanelThicknessSetting = recipe.RC3_PanelThicknessSetting;
+        RC3_PanelWidthSetting = recipe.RC3_PanelWidthSetting;
         RC3_LocationOfDrop = recipe.RC3_LocationOfDrop;
-        RC3_Blade_Pressure = recipe.RC3_Blade_Pressure;
-        RC3_D_BarPressureSetting1 = recipe.RC3_D_BarPressureSetting1;
-        RC3_D_BarPressureSetting2 = recipe.RC3_D_BarPressureSetting2;
-        RC3_D_BarPressureSetting3 = recipe.RC3_D_BarPressureSetting3;
-        RC3_D_BarPressureSetting4 = recipe.RC3_D_BarPressureSetting4;
+        RC3_SpeedOfDrop = recipe.RC3_SpeedOfDrop;
+        RC3_Blade_Pressure1 = recipe.RC3_Blade_Pressure1;
+        RC3_Blade_Pressure2 = recipe.RC3_Blade_Pressure2;
+        RC3_Blade_Pressure3 = recipe.RC3_Blade_Pressure3;
+        RC3_Blade_Pressure4 = recipe.RC3_Blade_Pressure4;
+        RC3_CoatingPullSpeed = recipe.RC3_CoatingPullSpeed;
         RC3_BakingTimeSetting = recipe.RC3_BakingTimeSetting;
         RC3_TemperatureSV1 = recipe.RC3_TemperatureSV1;
         RC3_TemperatureSV2 = recipe.RC3_TemperatureSV2;
@@ -2293,10 +1473,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
         RC3_TemperatureSV6 = recipe.RC3_TemperatureSV6;
         RC3_TemperatureSV7 = recipe.RC3_TemperatureSV7;
         RC3_TemperatureSV8 = recipe.RC3_TemperatureSV8;
-        RC3_UseCoating = recipe.RC3_UseCoating;
-        RC3_UsePlug = recipe.RC3_UsePlug;
-        RC3_StandardInk = recipe.RC3_StandardInk;
-        RC3_DifferenceOfInk = recipe.RC3_DifferenceOfInk;
         Editor = user;
         EditorLevel = level;
     }
@@ -2313,50 +1489,48 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             { nameof(RC1_Plugoftimes), RC1_Plugoftimes },
             { nameof(RC1_CoatingPressureSetting), RC1_CoatingPressureSetting },
             { nameof(RC1_PanelThicknessSetting), RC1_PanelThicknessSetting },
+            { nameof(RC1_PanelWidthSetting), RC1_PanelWidthSetting },
             { nameof(RC1_LocationOfDrop), RC1_LocationOfDrop },
-            { nameof(RC1_Blade_Pressure), RC1_Blade_Pressure },
-            { nameof(RC1_D_BarPressureSetting1), RC1_D_BarPressureSetting1 },
-            { nameof(RC1_D_BarPressureSetting2), RC1_D_BarPressureSetting2 },
-            { nameof(RC1_D_BarPressureSetting3), RC1_D_BarPressureSetting3 },
-            { nameof(RC1_D_BarPressureSetting4), RC1_D_BarPressureSetting4 },
+            { nameof(RC1_SpeedOfDrop), RC1_SpeedOfDrop },
+            { nameof(RC1_CoatingPullSpeed), RC1_CoatingPullSpeed },
+            { nameof(RC1_Blade_Pressure1), RC1_Blade_Pressure1 },
+            { nameof(RC1_Blade_Pressure2), RC1_Blade_Pressure2 },
+            { nameof(RC1_Blade_Pressure3), RC1_Blade_Pressure3 },
+            { nameof(RC1_Blade_Pressure4), RC1_Blade_Pressure4 },
             { nameof(RC1_BakingTimeSetting), RC1_BakingTimeSetting },
             { nameof(RC1_TemperatureSV1), RC1_TemperatureSV1 },
             { nameof(RC1_TemperatureSV2), RC1_TemperatureSV2 },
-            { nameof(RC1_UseCoating), RC1_UseCoating },
-            { nameof(RC1_UsePlug), RC1_UsePlug },
-            { nameof(RC1_StandardInk), RC1_StandardInk },
-            { nameof(RC1_DifferenceOfInk), RC1_DifferenceOfInk },
             { nameof(RC2_Coatingoftimes), RC2_Coatingoftimes },
             { nameof(RC2_CoatingSpeedSetting), RC2_CoatingSpeedSetting },
             { nameof(RC2_BoardClampingDistance), RC2_BoardClampingDistance },
             { nameof(RC2_Plugoftimes), RC2_Plugoftimes },
             { nameof(RC2_CoatingPressureSetting), RC2_CoatingPressureSetting },
             { nameof(RC2_PanelThicknessSetting), RC2_PanelThicknessSetting },
+            { nameof(RC2_PanelWidthSetting), RC2_PanelWidthSetting },
             { nameof(RC2_LocationOfDrop), RC2_LocationOfDrop },
-            { nameof(RC2_Blade_Pressure), RC2_Blade_Pressure },
-            { nameof(RC2_D_BarPressureSetting1), RC2_D_BarPressureSetting1 },
-            { nameof(RC2_D_BarPressureSetting2), RC2_D_BarPressureSetting2 },
-            { nameof(RC2_D_BarPressureSetting3), RC2_D_BarPressureSetting3 },
-            { nameof(RC2_D_BarPressureSetting4), RC2_D_BarPressureSetting4 },
+            { nameof(RC2_SpeedOfDrop), RC2_SpeedOfDrop },
+            { nameof(RC2_CoatingPullSpeed), RC2_CoatingPullSpeed },
+            { nameof(RC2_Blade_Pressure1), RC2_Blade_Pressure1 },
+            { nameof(RC2_Blade_Pressure2), RC2_Blade_Pressure2 },
+            { nameof(RC2_Blade_Pressure3), RC2_Blade_Pressure3 },
+            { nameof(RC2_Blade_Pressure4), RC2_Blade_Pressure4 },
             { nameof(RC2_BakingTimeSetting), RC2_BakingTimeSetting },
             { nameof(RC2_TemperatureSV1), RC2_TemperatureSV1 },
             { nameof(RC2_TemperatureSV2), RC2_TemperatureSV2 },
-            { nameof(RC2_UseCoating), RC2_UseCoating },
-            { nameof(RC2_UsePlug), RC2_UsePlug },
-            { nameof(RC2_StandardInk), RC2_StandardInk },
-            { nameof(RC2_DifferenceOfInk), RC2_DifferenceOfInk },
             { nameof(RC3_Coatingoftimes), RC3_Coatingoftimes },
             { nameof(RC3_CoatingSpeedSetting), RC3_CoatingSpeedSetting },
             { nameof(RC3_BoardClampingDistance), RC3_BoardClampingDistance },
             { nameof(RC3_Plugoftimes), RC3_Plugoftimes },
             { nameof(RC3_CoatingPressureSetting), RC3_CoatingPressureSetting },
             { nameof(RC3_PanelThicknessSetting), RC3_PanelThicknessSetting },
+            { nameof(RC3_PanelWidthSetting), RC3_PanelWidthSetting },
             { nameof(RC3_LocationOfDrop), RC3_LocationOfDrop },
-            { nameof(RC3_Blade_Pressure), RC3_Blade_Pressure },
-            { nameof(RC3_D_BarPressureSetting1), RC3_D_BarPressureSetting1 },
-            { nameof(RC3_D_BarPressureSetting2), RC3_D_BarPressureSetting2 },
-            { nameof(RC3_D_BarPressureSetting3), RC3_D_BarPressureSetting3 },
-            { nameof(RC3_D_BarPressureSetting4), RC3_D_BarPressureSetting4 },
+            { nameof(RC3_SpeedOfDrop), RC3_SpeedOfDrop },
+            { nameof(RC3_CoatingPullSpeed), RC3_CoatingPullSpeed },
+            { nameof(RC3_Blade_Pressure1), RC3_Blade_Pressure1 },
+            { nameof(RC3_Blade_Pressure2), RC3_Blade_Pressure2 },
+            { nameof(RC3_Blade_Pressure3), RC3_Blade_Pressure3 },
+            { nameof(RC3_Blade_Pressure4), RC3_Blade_Pressure4 },
             { nameof(RC3_BakingTimeSetting), RC3_BakingTimeSetting },
             { nameof(RC3_TemperatureSV1), RC3_TemperatureSV1 },
             { nameof(RC3_TemperatureSV2), RC3_TemperatureSV2 },
@@ -2366,86 +1540,79 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
             { nameof(RC3_TemperatureSV6), RC3_TemperatureSV6 },
             { nameof(RC3_TemperatureSV7), RC3_TemperatureSV7 },
             { nameof(RC3_TemperatureSV8), RC3_TemperatureSV8 },
-            { nameof(RC3_UseCoating), RC3_UseCoating },
-            { nameof(RC3_UsePlug), RC3_UsePlug },
-            { nameof(RC3_StandardInk), RC3_StandardInk },
-            { nameof(RC3_DifferenceOfInk), RC3_DifferenceOfInk },
         };
     }
     public Dictionary<string, object> ToDictionary(int i) => i switch
     {
         0 => new Dictionary<string, object>
         {
-            { nameof(RecipeName), RecipeName },
-            { nameof(Coatingoftimes), RC1_Coatingoftimes },
-            { nameof(CoatingSpeedSetting), RC1_CoatingSpeedSetting },
-            { nameof(BoardClampingDistance), RC1_BoardClampingDistance },
-            { nameof(Plugoftimes), RC1_Plugoftimes },
-            { nameof(CoatingPressureSetting), RC1_CoatingPressureSetting },
-            { nameof(PanelThicknessSetting), RC1_PanelThicknessSetting },
-            { nameof(LocationOfDrop), RC1_LocationOfDrop },
-            { nameof(Blade_Pressure), RC1_Blade_Pressure },
-            { nameof(D_BarPressureSetting1), RC1_D_BarPressureSetting1 },
-            { nameof(D_BarPressureSetting2), RC1_D_BarPressureSetting2 },
-            { nameof(D_BarPressureSetting3), RC1_D_BarPressureSetting3 },
-            { nameof(D_BarPressureSetting4), RC1_D_BarPressureSetting4 },
-            { nameof(BakingTimeSetting), RC1_BakingTimeSetting },
-            { nameof(TemperatureSV1), RC1_TemperatureSV1 },
-            { nameof(TemperatureSV2), RC1_TemperatureSV2 },
-            { nameof(UseCoating), RC1_UseCoating },
-            { nameof(UsePlug), RC1_UsePlug },
-            { nameof(StandardInk), RC1_StandardInk },
-            { nameof(DifferenceOfInk), RC1_DifferenceOfInk },
+            { "RecipeName", RecipeName },
+            { "Coatingoftimes", RC1_Coatingoftimes },
+            { "CoatingSpeedSetting", RC1_CoatingSpeedSetting },
+            { "BoardClampingDistance", RC1_BoardClampingDistance },
+            { "Plugoftimes", RC1_Plugoftimes },
+            { "CoatingPressureSetting", RC1_CoatingPressureSetting },
+            { "PanelThicknessSetting", RC1_PanelThicknessSetting },
+            { "PanelWidthSetting", RC1_PanelWidthSetting },
+            { "LocationOfDrop", RC1_LocationOfDrop },
+            { "SpeedOfDrop", RC1_SpeedOfDrop },
+            { "CoatingPullSpeed", RC1_CoatingPullSpeed },
+            { "Blade_Pressure1", RC1_Blade_Pressure1 },
+            { "Blade_Pressure2", RC1_Blade_Pressure2 },
+            { "Blade_Pressure3", RC1_Blade_Pressure3 },
+            { "Blade_Pressure4", RC1_Blade_Pressure4 },
+            { "BakingTimeSetting", RC1_BakingTimeSetting },
+            { "TemperatureSV1", RC1_TemperatureSV1 },
+            { "TemperatureSV2", RC1_TemperatureSV2 },
         },
         1 => new Dictionary<string, object>
         {
-            { nameof(Coatingoftimes), RC2_Coatingoftimes },
-            { nameof(CoatingSpeedSetting), RC2_CoatingSpeedSetting },
-            { nameof(BoardClampingDistance), RC2_BoardClampingDistance },
-            { nameof(Plugoftimes), RC2_Plugoftimes },
-            { nameof(CoatingPressureSetting), RC2_CoatingPressureSetting },
-            { nameof(PanelThicknessSetting), RC2_PanelThicknessSetting },
-            { nameof(LocationOfDrop), RC2_LocationOfDrop },
-            { nameof(Blade_Pressure), RC2_Blade_Pressure },
-            { nameof(D_BarPressureSetting1), RC2_D_BarPressureSetting1 },
-            { nameof(D_BarPressureSetting2), RC2_D_BarPressureSetting2 },
-            { nameof(D_BarPressureSetting3), RC2_D_BarPressureSetting3 },
-            { nameof(D_BarPressureSetting4), RC2_D_BarPressureSetting4 },
-            { nameof(BakingTimeSetting), RC2_BakingTimeSetting },
-            { nameof(TemperatureSV1), RC2_TemperatureSV1 },
-            { nameof(TemperatureSV2), RC2_TemperatureSV2 },
-            { nameof(UseCoating), RC2_UseCoating },
-            { nameof(UsePlug), RC2_UsePlug },
-            { nameof(StandardInk), RC2_StandardInk },
-            { nameof(DifferenceOfInk), RC2_DifferenceOfInk },
+              { "RecipeName", RecipeName },
+              { "Coatingoftimes", RC2_Coatingoftimes },
+              { "CoatingSpeedSetting", RC2_CoatingSpeedSetting },
+              { "BoardClampingDistance", RC2_BoardClampingDistance },
+              { "Plugoftimes", RC2_Plugoftimes },
+              { "CoatingPressureSetting", RC2_CoatingPressureSetting },
+              { "PanelThicknessSetting", RC2_PanelThicknessSetting },
+              { "PanelWidthSetting", RC2_PanelWidthSetting },
+              { "LocationOfDrop", RC2_LocationOfDrop },
+              { "SpeedOfDrop", RC2_SpeedOfDrop },
+              { "CoatingPullSpeed", RC2_CoatingPullSpeed },
+              { "Blade_Pressure1", RC2_Blade_Pressure1 },
+              { "Blade_Pressure2", RC2_Blade_Pressure2 },
+              { "Blade_Pressure3", RC2_Blade_Pressure3 },
+              { "Blade_Pressure4", RC2_Blade_Pressure4 },
+              { "BakingTimeSetting", RC2_BakingTimeSetting },
+              { "TemperatureSV1", RC2_TemperatureSV1 },
+              { "TemperatureSV2", RC2_TemperatureSV2 },
         },
         2 => new Dictionary<string, object>
         {
-             { nameof(Coatingoftimes), RC3_Coatingoftimes },
-             { nameof(CoatingSpeedSetting), RC3_CoatingSpeedSetting },
-             { nameof(BoardClampingDistance), RC3_BoardClampingDistance },
-             { nameof(Plugoftimes), RC3_Plugoftimes },
-             { nameof(CoatingPressureSetting), RC3_CoatingPressureSetting },
-             { nameof(PanelThicknessSetting), RC3_PanelThicknessSetting },
-             { nameof(LocationOfDrop), RC3_LocationOfDrop },
-             { nameof(Blade_Pressure), RC3_Blade_Pressure },
-             { nameof(D_BarPressureSetting1), RC3_D_BarPressureSetting1 },
-             { nameof(D_BarPressureSetting2), RC3_D_BarPressureSetting2 },
-             { nameof(D_BarPressureSetting3), RC3_D_BarPressureSetting3 },
-             { nameof(D_BarPressureSetting4), RC3_D_BarPressureSetting4 },
-             { nameof(BakingTimeSetting), RC3_BakingTimeSetting },
-             { nameof(TemperatureSV1), RC3_TemperatureSV1 },
-             { nameof(TemperatureSV2), RC3_TemperatureSV2 },
-             { nameof(TemperatureSV3), RC3_TemperatureSV3 },
-             { nameof(TemperatureSV4), RC3_TemperatureSV4 },
-             { nameof(TemperatureSV5), RC3_TemperatureSV5 },
-             { nameof(TemperatureSV6), RC3_TemperatureSV6 },
-             { nameof(TemperatureSV7), RC3_TemperatureSV7 },
-             { nameof(TemperatureSV8), RC3_TemperatureSV8 },
-             { nameof(UseCoating), RC3_UseCoating },
-             { nameof(UsePlug), RC3_UsePlug },
-             { nameof(StandardInk), RC3_StandardInk },
-             { nameof(DifferenceOfInk), RC3_DifferenceOfInk },
+              { "RecipeName", RecipeName },
+              { "Coatingoftimes", RC3_Coatingoftimes },
+              { "CoatingSpeedSetting", RC3_CoatingSpeedSetting },
+              { "BoardClampingDistance", RC3_BoardClampingDistance },
+              { "Plugoftimes", RC3_Plugoftimes },
+              { "CoatingPressureSetting", RC3_CoatingPressureSetting },
+              { "PanelThicknessSetting", RC3_PanelThicknessSetting },
+              { "PanelWidthSetting", RC3_PanelWidthSetting },
+              { "LocationOfDrop", RC3_LocationOfDrop },
+              { "SpeedOfDrop", RC3_SpeedOfDrop },
+              { "CoatingPullSpeed", RC3_CoatingPullSpeed },
+              { "Blade_Pressure1", RC3_Blade_Pressure1 },
+              { "Blade_Pressure2", RC3_Blade_Pressure2 },
+              { "Blade_Pressure3", RC3_Blade_Pressure3 },
+              { "Blade_Pressure4", RC3_Blade_Pressure4 },
+              { "BakingTimeSetting", RC3_BakingTimeSetting },
+              { "RC3_TemperatureSV1", RC3_TemperatureSV1 },
+              { "RC3_TemperatureSV2", RC3_TemperatureSV2 },
+              { "RC3_TemperatureSV3", RC3_TemperatureSV3 },
+              { "RC3_TemperatureSV4", RC3_TemperatureSV4 },
+              { "RC3_TemperatureSV5", RC3_TemperatureSV5 },
+              { "RC3_TemperatureSV6", RC3_TemperatureSV6 },
+              { "RC3_TemperatureSV7", RC3_TemperatureSV7 },
+              { "RC3_TemperatureSV8", RC3_TemperatureSV8 },
+
         },
         _ => throw new ArgumentException("不支援的 plcindex 值"),
     };
@@ -2459,50 +1626,50 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
                                                             { "RC1_塞孔次數", RC1_Plugoftimes },
                                                             { "RC1_塗佈壓力設定", RC1_CoatingPressureSetting },
                                                             { "RC1_基板厚度設定", RC1_PanelThicknessSetting },
-                                                            { "RC1_塞孔刮刀壓力設定", RC1_Blade_Pressure },
+                                                            { "RC1_基板寬度設定", RC1_PanelWidthSetting },
                                                             { "RC1_入料下降位置設定", RC1_LocationOfDrop },
-                                                            { "RC1_左前D.BAR壓力設定", RC1_D_BarPressureSetting1 },
-                                                            { "RC1_右前D.BAR壓力設定", RC1_D_BarPressureSetting2 },
-                                                            { "RC1_左後D.BAR壓力設定", RC1_D_BarPressureSetting3 },
-                                                            { "RC1_右後D.BAR壓力設定", RC1_D_BarPressureSetting4 },
+                                                            { "RC1_入料下降速度設定", RC1_SpeedOfDrop },
+                                                            { "RC1_拉料速度比", RC1_CoatingPullSpeed },
+                                                            { "RC1_刮刀壓力設定1", RC1_Blade_Pressure1 },
+                                                            { "RC1_刮刀壓力設定2", RC1_Blade_Pressure2 },
+                                                            { "RC1_刮刀壓力設定3", RC1_Blade_Pressure3 },
+                                                            { "RC1_刮刀壓力設定4", RC1_Blade_Pressure4 },
                                                             { "RC1_烘烤時間設定", RC1_BakingTimeSetting },
                                                             { "RC1_第1段溫度設定值", RC1_TemperatureSV1 },
                                                             { "RC1_第2段溫度設定值", RC1_TemperatureSV2 },
-                                                            { "RC1_塗佈使用", RC1_UseCoating },
-                                                            { "RC1_塞孔使用", RC1_UsePlug },
-                                                            { "RC1_標準墨重", RC1_StandardInk },
-                                                            { "RC1_墨重誤差值", RC1_DifferenceOfInk },
+
                                                             { "RC2_塗佈次數", RC2_Coatingoftimes },
                                                             { "RC2_塗佈速度設定", RC2_CoatingSpeedSetting },
                                                             { "RC2_板面夾持距離", RC2_BoardClampingDistance },
                                                             { "RC2_塞孔次數", RC2_Plugoftimes },
                                                             { "RC2_塗佈壓力設定", RC2_CoatingPressureSetting },
                                                             { "RC2_基板厚度設定", RC2_PanelThicknessSetting },
-                                                            { "RC2_塞孔刮刀壓力設定", RC2_Blade_Pressure },
+                                                            { "RC2_基板寬度設定", RC2_PanelWidthSetting },
                                                             { "RC2_入料下降位置設定", RC2_LocationOfDrop },
-                                                            { "RC2_左前D.BAR壓力設定", RC2_D_BarPressureSetting1 },
-                                                            { "RC2_右前D.BAR壓力設定", RC2_D_BarPressureSetting2 },
-                                                            { "RC2_左後D.BAR壓力設定", RC2_D_BarPressureSetting3 },
-                                                            { "RC2_右後D.BAR壓力設定", RC2_D_BarPressureSetting4 },
+                                                            { "RC2_入料下降速度設定", RC2_SpeedOfDrop },
+                                                            { "RC2_拉料速度比", RC2_CoatingPullSpeed },
+                                                            { "RC2_刮刀壓力設定1", RC2_Blade_Pressure1 },
+                                                            { "RC2_刮刀壓力設定2", RC2_Blade_Pressure2 },
+                                                            { "RC2_刮刀壓力設定3", RC2_Blade_Pressure3 },
+                                                            { "RC2_刮刀壓力設定4", RC2_Blade_Pressure4 },
                                                             { "RC2_烘烤時間設定", RC2_BakingTimeSetting },
                                                             { "RC2_第1段溫度設定值", RC2_TemperatureSV1 },
                                                             { "RC2_第2段溫度設定值", RC2_TemperatureSV2 },
-                                                            { "RC2_塗佈使用", RC2_UseCoating },
-                                                            { "RC2_塞孔使用", RC2_UsePlug },
-                                                            { "RC2_標準墨重", RC2_StandardInk },
-                                                            { "RC2_墨重誤差值", RC2_DifferenceOfInk },
+
                                                             { "RC3_塗佈次數", RC3_Coatingoftimes },
                                                             { "RC3_塗佈速度設定", RC3_CoatingSpeedSetting },
                                                             { "RC3_板面夾持距離", RC3_BoardClampingDistance },
                                                             { "RC3_塞孔次數", RC3_Plugoftimes },
                                                             { "RC3_塗佈壓力設定", RC3_CoatingPressureSetting },
                                                             { "RC3_基板厚度設定", RC3_PanelThicknessSetting },
-                                                            { "RC3_塞孔刮刀壓力設定", RC3_Blade_Pressure },
+                                                            { "RC3_基板寬度設定", RC3_PanelWidthSetting },
                                                             { "RC3_入料下降位置設定", RC3_LocationOfDrop },
-                                                            { "RC3_左前D.BAR壓力設定", RC3_D_BarPressureSetting1 },
-                                                            { "RC3_右前D.BAR壓力設定", RC3_D_BarPressureSetting2 },
-                                                            { "RC3_左後D.BAR壓力設定", RC3_D_BarPressureSetting3 },
-                                                            { "RC3_右後D.BAR壓力設定", RC3_D_BarPressureSetting4 },
+                                                            { "RC3_入料下降速度設定", RC3_SpeedOfDrop },
+                                                            { "RC3_拉料速度比", RC3_CoatingPullSpeed },
+                                                            { "RC3_刮刀壓力設定1", RC3_Blade_Pressure1 },
+                                                            { "RC3_刮刀壓力設定2", RC3_Blade_Pressure2 },
+                                                            { "RC3_刮刀壓力設定3", RC3_Blade_Pressure3 },
+                                                            { "RC3_刮刀壓力設定4", RC3_Blade_Pressure4 },
                                                             { "RC3_烘烤時間設定", RC3_BakingTimeSetting },
                                                             { "RC3_第1段溫度設定值", RC3_TemperatureSV1 },
                                                             { "RC3_第2段溫度設定值", RC3_TemperatureSV2 },
@@ -2512,10 +1679,6 @@ public class PLC_Recipe : RecipeBase<PLC_Recipe>
                                                             { "RC3_第6段溫度設定值", RC3_TemperatureSV6 },
                                                             { "RC3_第7段溫度設定值", RC3_TemperatureSV7 },
                                                             { "RC3_第8段溫度設定值", RC3_TemperatureSV8 },
-                                                            { "RC3_塗佈使用", RC3_UseCoating },
-                                                            { "RC3_塞孔使用", RC3_UsePlug },
-                                                            { "RC3_標準墨重", RC3_StandardInk },
-                                                            { "RC3_墨重誤差值", RC3_DifferenceOfInk },
                                                             };
     public bool SetByDictionary(Dictionary<string, string> dic)
     {

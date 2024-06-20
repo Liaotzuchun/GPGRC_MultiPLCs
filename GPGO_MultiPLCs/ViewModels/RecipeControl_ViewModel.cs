@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using GPGRC_MultiPLCs.Models;
@@ -16,7 +15,6 @@ public class RecipeControl_ViewModel : RecipeModel<PLC_Recipe>
     private Dictionary<string, int> RecipeTitles;
 
     public override RelayCommand ExprotCommand { get; }
-    public override RelayCommand ImportCommand { get; }
 
     /// <summary>辨識是否可刪除配方(列表中有和輸入名相同的配方，且該配方無烤箱正在使用)</summary>
     public override bool DeleteEnable => SelectedRecipe != null;
@@ -40,81 +38,6 @@ public class RecipeControl_ViewModel : RecipeModel<PLC_Recipe>
                                                               },
                                                               TimeSpan.FromSeconds(6));
                                              }
-                                         });
-
-        ImportCommand = new RelayCommand(async path =>
-                                         {
-                                             Standby = false;
-
-                                             if (path is not string filepath || !File.Exists(filepath))
-                                             {
-                                                 Standby = true;
-                                                 return;
-                                             }
-
-                                             var recipies = FastCSV.ReadFile<PLC_Recipe>(filepath,
-                                                                                         ',',
-                                                                                         (recipe, col) =>
-                                                                                         {
-                                                                                             try
-                                                                                             {
-                                                                                                 var dic    = RecipeTitles.ToDictionary(x => x.Key, x => col[x.Value]);
-                                                                                                 var result = recipe.SetByDictionary(dic);
-                                                                                                 return result;
-                                                                                             }
-                                                                                             catch (Exception ex)
-                                                                                             {
-                                                                                                 Log.Error(ex, "ImportRecipe失敗");
-                                                                                                 return false;
-                                                                                             }
-                                                                                         });
-
-                                             var updates = 0;
-                                             var adds    = 0;
-
-                                             foreach (var recipe in recipies)
-                                             {
-                                                 try
-                                                 {
-                                                     if (recipe != null)
-                                                     {
-                                                         var old_recipe = Recipes?.FirstOrDefault(x => x.RecipeName == recipe.RecipeName);
-                                                         var new_recipe = recipe.Copy(UserName, UserLevel);
-
-                                                         if (old_recipe != null)
-                                                         {
-                                                             if (old_recipe.Equals(new_recipe))
-                                                             {
-                                                                 continue;
-                                                             }
-
-                                                             await RecipeCollection_History.AddAsync(old_recipe);
-                                                             updates += 1;
-                                                         }
-                                                         else
-                                                         {
-                                                             adds += 1;
-                                                         }
-
-                                                         await RecipeCollection.UpsertAsync(x => x.RecipeName.Equals(new_recipe.RecipeName), new_recipe);
-                                                     }
-                                                 }
-                                                 catch (Exception ex)
-                                                 {
-                                                     Log.Error(ex, "");
-                                                 }
-                                             }
-
-                                             await RefreshList(false);
-                                             Standby = true;
-
-                                             dialog.Show(new Dictionary<Language, string>
-                                                          {
-                                                              { Language.TW, $"{adds}個配方已新增\n{updates}個配方已更新" },
-                                                              { Language.CHS, $"{adds}个配方已新增\n{updates}个配方已更新" },
-                                                              { Language.EN, $"{adds}recipe{(adds > 1 ? "s" : "")} have been added\n{updates}recipe{(updates > 1 ? "s" : "")} have been updated" }
-                                                          },
-                                                          TimeSpan.FromSeconds(6));
                                          });
     }
 
