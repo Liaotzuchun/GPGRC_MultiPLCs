@@ -118,10 +118,6 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
         }
     }
 
-    public LogEvent SelectedLogEvent
-    {
-        set => ChartModel.SetAnnotation(value);
-    }
 
     /// <summary>切換分類統計</summary>
     public ChartMode Mode
@@ -179,16 +175,6 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
     {
         ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
         ChartModel = new ProcessChartModel();
-
-        LoadedCommand = new RelayCommand(e =>
-                                         {
-                                             if (e is FrameworkElement el)
-                                             {
-                                                 elementView = el;
-                                                 ChartModel.SetFrameworkElement(el);
-                                             }
-                                         });
-
         FindCommand = new RelayCommand(async _ =>
                                        {
                                            var (result1, input1) = await dialog.ShowWithInput(new Dictionary<Language, string>
@@ -261,7 +247,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                                   { Language.CHS, $"档案已输出至\n{path}" },
                                                                   { Language.EN, $"The file has been output to\n{path}" }
                                                               },
-                                                               TimeSpan.FromSeconds(6));     
+                                                               TimeSpan.FromSeconds(6));
                                               }
                                           });
 

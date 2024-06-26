@@ -1,105 +1,73 @@
 Name,ID,Type,Length,Unit,Definition
-RC_EquipmentName,900 ,ASCII,65535,,RC_EquipmentName
-RC_OnlineStatus,901 ,BOOLEAN,1,,RC_OnlineStatus
-RC_OperatorID,902 ,ASCII,65535,,RC_OperatorID
-RC_RackID,903 ,ASCII,65535,,RC_RackID
-RC_LotIDs,904 ,ASCII,65535,,RC_LotIDs
-RC_PartIDs,905 ,ASCII,65535,,RC_PartIDs
-RC_PanelIDs,906 ,ASCII,65535,,RC_PanelIDs
-RC_RecipeName,907,ASCII,65535,,RC_RecipeName
-RC1_EquipmentState,1000 ,UINT_1,1,,RC1_EquipmentState
-RC1_AutoMode,1001 ,BOOLEAN,1,,RC1_AutoMode
-RC1_ManualMode,1002 ,BOOLEAN,1,,RC1_ManualMode
-RC1_AutoMode_Start,1003 ,BOOLEAN,1,,RC1_AutoMode_Start
-RC1_ProcessComplete,1004 ,BOOLEAN,1,,RC1_ProcessComplete
-RC1_AutoMode_Stop,1005 ,BOOLEAN,1,,RC1_AutoMode_Stop
-RC1_PC_InUse,1006 ,BOOLEAN,1,,RC1_PC_InUse
-RC1_RemoteMode,1007 ,BOOLEAN,1,,RC1_RemoteMode
-RC1_LocalMode,1008 ,BOOLEAN,1,,RC1_LocalMode
-RC1_Coatingoftimes,1009 ,FT_4,1,degreeC,RC1_Coatingoftimes
-RC1_CoatingSpeedSetting,1010 ,FT_4,1,degreeC,RC1_CoatingSpeedSetting
-RC1_BoardClampingDistance,1011 ,FT_4,1,degreeC,RC1_BoardClampingDistance
-RC1_Plugoftimes,1012 ,FT_4,1,degreeC,RC1_Plugoftimes
-RC1_CoatingPressureSetting,1013 ,FT_4,1,degreeC,RC1_CoatingPressureSetting
-RC1_PanelThicknessSetting,1014 ,FT_4,1,degreeC,RC1_PanelThicknessSetting
-RC1_LocationOfDrop,1015 ,FT_4,1,,RC1_LocationOfDrop
-RC1_D_BarPressureSetting1,1016 ,FT_4,1,,RC1_D_BarPressureSetting1
-RC1_D_BarPressureSetting2,1017 ,FT_4,1,degreeC,RC1_D_BarPressureSetting2
-RC1_D_BarPressureSetting3,1018 ,FT_4,1,degreeC,RC1_D_BarPressureSetting3
-RC1_D_BarPressureSetting4,1019 ,FT_4,1,degreeC,RC1_D_BarPressureSetting4
-RC1_Blade_Pressure,1020 ,FT_4,1,degreeC,RC1_Blade_Pressure
-RC1_BakingTimeSetting,1021 ,FT_4,1,degreeC,RC1_BakingTimeSetting
-RC1_TemperatureSV1,1022 ,FT_4,1,degreeC,RC1_TemperatureSV1
-RC1_TemperatureSV2,1023 ,FT_4,1,min,RC1_TemperatureSV2
-RC1_UseCoating,1024 ,BOOLEAN,1,,RC1_UseCoating
-RC1_UsePlug,1025 ,BOOLEAN,1,,RC1_UsePlug
-RC1_StandardInk,1026 ,FT_4,1,min,RC1_StandardInk
-RC1_DifferenceOfInk,1027 ,FT_4,1,min,RC1_DifferenceOfInk
-RC1_TemperaturePV1,1028 ,FT_4,1,min,RC1_TemperaturePV1
-RC1_TemperaturePV2,1029 ,FT_4,1,min,RC1_TemperaturePV2
-RC2_EquipmentState,2000 ,UINT_1,1,,RC2_EquipmentState
-RC2_AutoMode,2001 ,BOOLEAN,1,,RC2_AutoMode
-RC2_ManualMode,2002 ,BOOLEAN,1,,RC2_ManualMode
-RC2_AutoMode_Start,2003 ,BOOLEAN,1,,RC2_AutoMode_Start
-RC2_ProcessComplete,2004 ,BOOLEAN,1,,RC2_ProcessComplete
-RC2_AutoMode_Stop,2005 ,BOOLEAN,1,,RC2_AutoMode_Stop
-RC2_PC_InUse,2006 ,BOOLEAN,1,,RC2_PC_InUse
-RC2_RemoteMode,2007 ,BOOLEAN,1,,RC2_RemoteMode
-RC2_LocalMode,2008 ,BOOLEAN,1,,RC2_LocalMode
-RC2_Coatingoftimes,2009 ,FT_4,1,degreeC,RC2_Coatingoftimes
-RC2_CoatingSpeedSetting,2010 ,FT_4,1,degreeC,RC2_CoatingSpeedSetting
-RC2_BoardClampingDistance,2011 ,FT_4,1,degreeC,RC2_BoardClampingDistance
-RC2_Plugoftimes,2012 ,FT_4,1,degreeC,RC2_Plugoftimes
-RC2_CoatingPressureSetting,2013 ,FT_4,1,degreeC,RC2_CoatingPressureSetting
-RC2_PanelThicknessSetting,2014 ,FT_4,1,degreeC,RC2_PanelThicknessSetting
-RC2_LocationOfDrop,2015 ,FT_4,1,,RC2_LocationOfDrop
-RC2_D_BarPressureSetting1,2016 ,FT_4,1,,RC2_D_BarPressureSetting1
-RC2_D_BarPressureSetting2,2017 ,FT_4,1,degreeC,RC2_D_BarPressureSetting2
-RC2_D_BarPressureSetting3,2018 ,FT_4,1,degreeC,RC2_D_BarPressureSetting3
-RC2_D_BarPressureSetting4,2019 ,FT_4,1,degreeC,RC2_D_BarPressureSetting4
-RC2_Blade_Pressure,2020 ,FT_4,1,degreeC,RC2_Blade_Pressure
-RC2_BakingTimeSetting,2021 ,FT_4,1,degreeC,RC2_BakingTimeSetting
-RC2_TemperatureSV1,2022 ,FT_4,1,degreeC,RC2_TemperatureSV1
-RC2_TemperatureSV2,2023 ,FT_4,1,min,RC2_TemperatureSV2
-RC2_UseCoating,2024 ,BOOLEAN,1,,RC2_UseCoating
-RC2_UsePlug,2025 ,BOOLEAN,1,,RC2_UsePlug
-RC2_StandardInk,2026 ,FT_4,1,min,RC2_StandardInk
-RC2_DifferenceOfInk,2027 ,FT_4,1,min,RC2_DifferenceOfInk
-RC2_TemperaturePV1,2028 ,FT_4,1,min,RC2_TemperaturePV1
-RC2_TemperaturePV2,2029 ,FT_4,1,min,RC2_TemperaturePV2
-RC3_EquipmentState,3000 ,UINT_1,1,,RC3_EquipmentState
-RC3_AutoMode,3001 ,BOOLEAN,1,,RC3_AutoMode
-RC3_ManualMode,3002 ,BOOLEAN,1,,RC3_ManualMode
-RC3_AutoMode_Start,3003 ,BOOLEAN,1,,RC3_AutoMode_Start
-RC3_ProcessComplete,3004 ,BOOLEAN,1,,RC3_ProcessComplete
-RC3_AutoMode_Stop,3005 ,BOOLEAN,1,,RC3_AutoMode_Stop
-RC3_PC_InUse,3006 ,BOOLEAN,1,,RC3_PC_InUse
-RC3_RemoteMode,3007 ,BOOLEAN,1,,RC3_RemoteMode
-RC3_LocalMode,3008 ,BOOLEAN,1,,RC3_LocalMode
-RC3_Coatingoftimes,3009 ,FT_4,1,degreeC,RC3_Coatingoftimes
-RC3_CoatingSpeedSetting,3010 ,FT_4,1,degreeC,RC3_CoatingSpeedSetting
-RC3_BoardClampingDistance,3011 ,FT_4,1,degreeC,RC3_BoardClampingDistance
-RC3_Plugoftimes,3012 ,FT_4,1,degreeC,RC3_Plugoftimes
-RC3_CoatingPressureSetting,3013 ,FT_4,1,degreeC,RC3_CoatingPressureSetting
-RC3_PanelThicknessSetting,3014 ,FT_4,1,degreeC,RC3_PanelThicknessSetting
-RC3_LocationOfDrop,3015 ,FT_4,1,,RC3_LocationOfDrop
-RC3_D_BarPressureSetting1,3016 ,FT_4,1,,RC3_D_BarPressureSetting1
-RC3_D_BarPressureSetting2,3017 ,FT_4,1,degreeC,RC3_D_BarPressureSetting2
-RC3_D_BarPressureSetting3,3018 ,FT_4,1,degreeC,RC3_D_BarPressureSetting3
-RC3_D_BarPressureSetting4,3019 ,FT_4,1,degreeC,RC3_D_BarPressureSetting4
-RC3_Blade_Pressure,3020 ,FT_4,1,degreeC,RC3_Blade_Pressure
-RC3_BakingTimeSetting,3021 ,FT_4,1,degreeC,RC3_BakingTimeSetting
-RC3_TemperatureSV1,3022 ,FT_4,1,degreeC,RC3_TemperatureSV1
-RC3_TemperatureSV2,3023 ,FT_4,1,min,RC3_TemperatureSV2
-RC3_TemperatureSV3,3024 ,FT_4,1,min,RC3_TemperatureSV3
-RC3_TemperatureSV4,3025 ,FT_4,1,min,RC3_TemperatureSV4
-RC3_TemperatureSV5,3026 ,FT_4,1,min,RC3_TemperatureSV5
-RC3_UseCoating,3027 ,BOOLEAN,1,,RC3_UseCoating
-RC3_UsePlug,3028 ,BOOLEAN,1,,RC3_UsePlug
-RC3_StandardInk,3029 ,FT_4,1,min,RC3_StandardInk
-RC3_DifferenceOfInk,3030 ,FT_4,1,min,RC_DifferenceOfInk
-RC3_TemperaturePV1,3031 ,FT_4,1,min,RC3_TemperaturePV1
-RC3_TemperaturePV2,3032 ,FT_4,1,min,RC3_TemperaturePV2
-RC3_TemperaturePV3,3033 ,FT_4,1,min,RC3_TemperaturePV3
-RC3_TemperaturePV4,3034 ,FT_4,1,min,RC3_TemperaturePV4
-RC3_TemperaturePV5,3035 ,FT_4,1,min,RC3_TemperaturePV5
+RC1_Coatingoftimes,1000,FT_4,1,,RC1_Coatingoftimes,
+RC1_CoatingSpeedSetting,1001,FT_4,1,,RC1_CoatingSpeedSetting,
+RC1_Plugoftimes,1002,FT_4,1,,RC1_Plugoftimes,
+RC1_CoatingPressureSetting,1003,FT_4,1,,RC1_CoatingPressureSetting,
+RC1_PanelThicknessSetting,1004,FT_4,1,,RC1_PanelThicknessSetting,
+RC1_PanelWidthSetting,1005,FT_4,1,,RC1_PanelWidthSetting,
+RC1_LocationOfDrop,1006,FT_4,1,,RC1_LocationOfDrop,
+RC1_SpeedOfDrop,1007,FT_4,1,,RC1_SpeedOfDrop,
+RC1_Blade_Pressure1,1008,FT_4,1,,RC1_Blade_Pressure1,
+RC1_Blade_Pressure2,1009,FT_4,1,,RC1_Blade_Pressure2,
+RC1_Blade_Pressure3,1010,FT_4,1,,RC1_Blade_Pressure3,
+RC1_Blade_Pressure4,1011,FT_4,1,,RC1_Blade_Pressure4,
+RC1_CoatingPullSpeed,1012,FT_4,1,,RC1_CoatingPullSpeed,
+RC1_BakingTimeSetting,1013,FT_4,1,,RC1_BakingTimeSetting,
+RC1_TemperatureSV1,1014,FT_4,1,,RC1_TemperatureSV1,
+RC1_TemperatureSV2,1015,FT_4,1,,RC1_TemperatureSV2,
+RC1_TemperaturePV1,1016,FT_4,1,,RC1_TemperaturePV1,
+RC1_TemperaturePV2,1017,FT_4,1,,RC1_TemperaturePV2,
+RC2_Coatingoftimes,1018,FT_4,1,,RC2_Coatingoftimes,
+RC2_CoatingSpeedSetting,1019,FT_4,1,,RC2_CoatingSpeedSetting,
+RC2_Plugoftimes,1020,FT_4,1,,RC2_Plugoftimes,
+RC2_CoatingPressureSetting,1021,FT_4,1,,RC2_CoatingPressureSetting,
+RC2_PanelThicknessSetting,1022,FT_4,1,,RC2_PanelThicknessSetting,
+RC2_PanelWidthSetting,1023,FT_4,1,,RC2_PanelWidthSetting,
+RC2_LocationOfDrop,1024,FT_4,1,,RC2_LocationOfDrop,
+RC2_SpeedOfDrop,1025,FT_4,1,,RC2_SpeedOfDrop,
+RC2_Blade_Pressure1,1026,FT_4,1,,RC2_Blade_Pressure1,
+RC2_Blade_Pressure2,1027,FT_4,1,,RC2_Blade_Pressure2,
+RC2_Blade_Pressure3,1028,FT_4,1,,RC2_Blade_Pressure3,
+RC2_Blade_Pressure4,1029,FT_4,1,,RC2_Blade_Pressure4,
+RC2_CoatingPullSpeed,1030,FT_4,1,,RC2_CoatingPullSpeed,
+RC2_BakingTimeSetting,1031,FT_4,1,,RC2_BakingTimeSetting,
+RC2_TemperatureSV1,1032,FT_4,1,,RC2_TemperatureSV1,
+RC2_TemperatureSV2,1033,FT_4,1,,RC2_TemperatureSV2,
+RC2_TemperaturePV1,1034,FT_4,1,,RC2_TemperaturePV1,
+RC2_TemperaturePV2,1035,FT_4,1,,RC2_TemperaturePV2,
+RC3_Coatingoftimes,1036,FT_4,1,,RC3_Coatingoftimes,
+RC3_CoatingSpeedSetting,1037,FT_4,1,,RC3_CoatingSpeedSetting,
+RC3_Plugoftimes,1038,FT_4,1,,RC3_Plugoftimes,
+RC3_CoatingPressureSetting,1039,FT_4,1,,RC3_CoatingPressureSetting,
+RC3_PanelThicknessSetting,1040,FT_4,1,,RC3_PanelThicknessSetting,
+RC3_PanelWidthSetting,1041,FT_4,1,,RC3_PanelWidthSetting,
+RC3_LocationOfDrop,1042,FT_4,1,,RC3_LocationOfDrop,
+RC3_SpeedOfDrop,1043,FT_4,1,,RC3_SpeedOfDrop,
+RC3_Blade_Pressure1,1044,FT_4,1,,RC3_Blade_Pressure1,
+RC3_Blade_Pressure2,1045,FT_4,1,,RC3_Blade_Pressure2,
+RC3_Blade_Pressure3,1046,FT_4,1,,RC3_Blade_Pressure3,
+RC3_Blade_Pressure4,1047,FT_4,1,,RC3_Blade_Pressure4,
+RC3_CoatingPullSpeed,1048,FT_4,1,,RC3_CoatingPullSpeed,
+RC3_BakingTimeSetting,1049,FT_4,1,,RC3_BakingTimeSetting,
+RC3_TemperatureSV1,1050,FT_4,1,,RC3_TemperatureSV1,
+RC3_TemperatureSV2,1051,FT_4,1,,RC3_TemperatureSV2,
+RC3_TemperatureSV3,1052,FT_4,1,,RC3_TemperatureSV3,
+RC3_TemperatureSV4,1053,FT_4,1,,RC3_TemperatureSV4,
+RC3_TemperatureSV5,1054,FT_4,1,,RC3_TemperatureSV5,
+RC3_TemperatureSV6,1055,FT_4,1,,RC3_TemperatureSV6,
+RC3_TemperatureSV7,1056,FT_4,1,,RC3_TemperatureSV7,
+RC3_TemperatureSV8,1057,FT_4,1,,RC3_TemperatureSV8,
+RC3_TemperaturePV1,1058,FT_4,1,,RC3_TemperaturePV1,
+RC3_TemperaturePV2,1059,FT_4,1,,RC3_TemperaturePV2,
+RC3_TemperaturePV3,1060,FT_4,1,,RC3_TemperaturePV3,
+RC3_TemperaturePV4,1061,FT_4,1,,RC3_TemperaturePV4,
+RC3_TemperaturePV5,1062,FT_4,1,,RC3_TemperaturePV5,
+RC3_TemperaturePV6,1063,FT_4,1,,RC3_TemperaturePV6,
+RC3_TemperaturePV7,1064,FT_4,1,,RC3_TemperaturePV7,
+RC3_TemperaturePV8,1065,FT_4,1,,RC3_TemperaturePV8,
+PPName,2000,ASCII,20,,PPName,
+GlobalCoaterEqStatus,2001,UINT_2,1,,GlobalCoaterEqStatus,
+GlobalCoaterEqMode,2002,UINT_2,1,,GlobalCoaterEqMode,
+Coater1_InsideCount,2003,UINT_2,1,,Coater1_InsideCount,
+Coater2_InsideCount,2004,UINT_2,1,,Coater2_InsideCount,
+Coater3_InsideCount,2005,UINT_2,1,,Coater3_InsideCount,

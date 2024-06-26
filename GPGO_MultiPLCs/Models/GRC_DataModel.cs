@@ -31,22 +31,6 @@ public class GRC_DataModel : PLCDataProvider
         set => Set(value);
     }
 
-    ///M60 ON 才可以下
-    [PLCBit(BitType.M, 60, LogType.StatusVariables)]
-    public bool RemoteStatus
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-
-    //M50 自動
-    [PLCBit(BitType.M, 50, LogType.StatusVariables)]
-    public bool AutoStatus
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-
     /// <summary>警報器靜音</summary>
     [PLCBit(BitType.M, 351, LogType.None)]
     public bool BeepSilince
@@ -62,19 +46,6 @@ public class GRC_DataModel : PLCDataProvider
         set => Set(value);
     }
 
-    [PLCData(DataType.D, 208, 10, LogType.None)]
-    public string? TopLotID
-    {
-        get => Get<string>();
-        set => Set(value);
-    }
-
-    [PLCData(DataType.D, 140, LogType.None)]
-    public int TopQuantity
-    {
-        get => Get<int>();
-        set => Set(value);
-    }
     #endregion
 
     #region 配方實際值   
@@ -351,6 +322,8 @@ public class GRC_DataModel : PLCDataProvider
     #endregion
 
     #region 警報
+
+    #region Coater1跟2一樣
     [PLCBit(BitType.F, 0, LogType.Alarm)] public bool F0 { get => Get<bool>(); set => Set(value); }
     [PLCBit(BitType.F, 1, LogType.Alarm)] public bool F1 { get => Get<bool>(); set => Set(value); }
     [PLCBit(BitType.F, 2, LogType.Alarm)] public bool F2 { get => Get<bool>(); set => Set(value); }
@@ -578,9 +551,9 @@ public class GRC_DataModel : PLCDataProvider
     [PLCBit(BitType.M, 2591, LogType.Alarm)] public bool M2591 { get => Get<bool>(); set => Set(value); }
     [PLCBit(BitType.M, 2592, LogType.Alarm)] public bool M2592 { get => Get<bool>(); set => Set(value); }
     [PLCBit(BitType.M, 2593, LogType.Alarm)] public bool M2593 { get => Get<bool>(); set => Set(value); }
+    #endregion
 
     #region Coater3
-
     [PLCBit(BitType.F, 0, LogType.Alarm)] public bool RC3_F0 { get => Get<bool>(); set => Set(value); }
     [PLCBit(BitType.F, 1, LogType.Alarm)] public bool RC3_F1 { get => Get<bool>(); set => Set(value); }
     [PLCBit(BitType.F, 2, LogType.Alarm)] public bool RC3_F2 { get => Get<bool>(); set => Set(value); }
@@ -833,15 +806,30 @@ public class GRC_DataModel : PLCDataProvider
 
     #region 機台狀態
     /// <summary>自動模式</summary>
-    [PLCBit(BitType.M, 50, LogType.StatusVariables)]
+    [PLCBit(BitType.M, 201, LogType.StatusVariables)]
     public bool AutoMode
     {
         get => Get<bool>();
         set => Set(value);
     }
+    
+    /// <summary>自動模式</summary>
+    [PLCBit(BitType.M, 203, LogType.StatusVariables)]
+    public bool Manual
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
 
-    [PLCBit(BitType.M, 51, LogType.StatusVariables)]
+    [PLCBit(BitType.M, 221, LogType.StatusVariables)]
     public bool AutoMode_Start
+    {
+        get => Get<bool>();
+        set => Set(value);
+    }
+    
+    [PLCBit(BitType.M, 265, LogType.StatusVariables)]
+    public bool AlarmMode
     {
         get => Get<bool>();
         set => Set(value);
@@ -853,92 +841,45 @@ public class GRC_DataModel : PLCDataProvider
         get => Get<bool>();
         set => Set(value);
     }
-    /// <summary>程式結束(程式結束會早於AutoMode_Stop)</summary>
-    [PLCBit(BitType.M, 209, LogType.StatusVariables)]
-    public bool ProcessComplete
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
 
-    /// <summary>自動模式停止(需要手動按)</summary>
-    [PLCBit(BitType.M, 52, LogType.StatusVariables)]
-    public bool AutoMode_Stop
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
+    ///// <summary>設備狀態，0:停機(STOP)、1:自動(IDLE)、2:自動啟動(RUN)、3:異常(DOWN)、4:保養(PM))</summary>
+    //[PLCData(DataType.D, 28, LogType.StatusVariables)]
+    //public short EquipmentState
+    //{
+    //    get => Get<short>();
+    //    set => Set(value);
+    //}
 
-    /// <summary>設備狀態，0:停機(STOP)、1:自動(IDLE)、2:自動啟動(RUN)、3:異常(DOWN)、4:保養(PM))</summary>
-    [PLCData(DataType.D, 28, LogType.StatusVariables)]
-    public short EquipmentState
-    {
-        get => Get<short>();
-        set => Set(value);
-    }
+    ///// <summary>生產狀態0:手動、1:昇溫中、2:恆溫中、7:冷卻降溫中、8:程式結束、9:自動、10:氮氣充氣中 </summary>
+    //[PLCData(DataType.D, 29, LogType.StatusVariables)]
+    //public short ProcessState
+    //{
+    //    get => Get<short>();
+    //    set => Set(value);
+    //}
 
-    /// <summary>生產狀態0:手動、1:昇溫中、2:恆溫中、7:冷卻降溫中、8:程式結束、9:自動、10:氮氣充氣中 </summary>
-    [PLCData(DataType.D, 29, LogType.StatusVariables)]
-    public short ProcessState
-    {
-        get => Get<short>();
-        set => Set(value);
-    }
-
-    /// <summary>RackID</summary>
-    public string RackID
-    {
-        get => Get<string>();
-        set => Set(value);
-    }
-
-    /// <summary>允許停止</summary>
-    [PLCBit(BitType.M, 209, LogType.StatusVariables)]
-    public bool AllowStop
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-
-    /// <summary>程式結束</summary>
-    public bool ProgramStop
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
     #endregion
 
     #region Coater追板
-    [PLCData(DataType.D, 10000, 16, LogType.CustomData)]
-    public string PanelID
-    {
-        get => Get<string>();
-        set => Set(value);
-    }
+    //[PLCData(DataType.D, 10000, 16, LogType.CustomData)] public string PanelID { get => Get<string>(); set => Set(value); }
+    [PLCData(DataType.D, 20000, 16, LogType.CustomData)] public string LotID { get => Get<string>(); set => Set(value); }
 
-    [PLCData(DataType.D, 20000, 16, LogType.CustomData)]
-    public string LotID
-    {
-        get => Get<string>();
-        set => Set(value);
-    }
+    ///// <summary> 入料 </summary>
+    //[PLCBit(BitType.M, 100, LogType.CustomData)] public bool FeedInlet { get => Get<bool>(); set => Set(value); }
 
-    /// <summary> 入料 </summary>
-    [PLCBit(BitType.M, 100, LogType.CustomData)] public bool FeedInlet { get => Get<bool>(); set => Set(value); }
+    ///// <summary> 入料到等待塗佈 </summary>
+    //[PLCBit(BitType.M, 112, LogType.CustomData)] public bool FeedToWait { get => Get<bool>(); set => Set(value); }
 
-    /// <summary> 入料到等待塗佈 </summary>
-    [PLCBit(BitType.M, 112, LogType.CustomData)] public bool FeedToWait { get => Get<bool>(); set => Set(value); }
+    ///// <summary> 等待塗佈到前秤 </summary>
+    //[PLCBit(BitType.M, 113, LogType.CustomData)] public bool WaitToFrontWeight { get => Get<bool>(); set => Set(value); }
 
-    /// <summary> 等待塗佈到前秤 </summary>
-    [PLCBit(BitType.M, 113, LogType.CustomData)] public bool WaitToFrontWeight { get => Get<bool>(); set => Set(value); }
+    ///// <summary> 前秤到塗佈中 </summary>
+    //[PLCBit(BitType.M, 114, LogType.CustomData)] public bool FrontWeightToCoater { get => Get<bool>(); set => Set(value); }
 
-    /// <summary> 前秤到塗佈中 </summary>
-    [PLCBit(BitType.M, 114, LogType.CustomData)] public bool FrontWeightToCoater { get => Get<bool>(); set => Set(value); }
+    ///// <summary> 塗佈中到後秤 </summary>
+    //[PLCBit(BitType.M, 115, LogType.CustomData)] public bool CoaterToBackWeight { get => Get<bool>(); set => Set(value); }
 
-    /// <summary> 塗佈中到後秤 </summary>
-    [PLCBit(BitType.M, 115, LogType.CustomData)] public bool CoaterToBackWeight { get => Get<bool>(); set => Set(value); }
-
-    /// <summary> 後秤到夾式爐 </summary>
-    [PLCBit(BitType.M, 116, LogType.CustomData)] public bool BackWeightToOven { get => Get<bool>(); set => Set(value); }
+    ///// <summary> 後秤到夾式爐 </summary>
+    //[PLCBit(BitType.M, 116, LogType.CustomData)] public bool BackWeightToOven { get => Get<bool>(); set => Set(value); }
     #endregion
 }

@@ -30,20 +30,6 @@ public sealed class Mediator : ObservableObject
 
     public  NetworkStream _streamFromServer = default;
 
-    public bool ToConnect
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-
-    private bool _closed = true;
-
-    public bool closed
-    {
-        get { return _closed; }
-        set { _closed = value; }
-    }
-
     public Language Language
     {
         get => Get<Language>();

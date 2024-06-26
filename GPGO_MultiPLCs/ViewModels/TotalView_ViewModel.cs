@@ -317,114 +317,116 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
             return DeleteRecipe != null && DeleteRecipe.Invoke(recipeName);
         };
 
-        SecsGemEquipment.START_Command += index =>
-        {
-            if (!SECS_REMOTE)
-            {
-                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.START_Command), "不在SECS_REMOTE", index);
-                EventHappened?.Invoke(eventval);
-                return HCACKValule.CantPerform;
-            }
+        #region Startcommand
+        //SecsGemEquipment.START_Command += index =>
+        //{
+        //    if (!SECS_REMOTE)
+        //    {
+        //        var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.START_Command), "不在SECS_REMOTE", index);
+        //        EventHappened?.Invoke(eventval);
+        //        return HCACKValule.CantPerform;
+        //    }
 
-            if (index >= PLC_All.Count)
-            {
-                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.START_Command), "Index超過PLC總數", index);
-                EventHappened?.Invoke(eventval);
-                return HCACKValule.ParameterInvalid;
-            }
+        //    if (index >= PLC_All.Count)
+        //    {
+        //        var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.START_Command), "Index超過PLC總數", index);
+        //        EventHappened?.Invoke(eventval);
+        //        return HCACKValule.ParameterInvalid;
+        //    }
 
-            if (PLCIsBusy[index])
-            {
-                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.START_Command), "正在執行其他Command", index);
-                EventHappened?.Invoke(eventval);
+        //    if (PLCIsBusy[index])
+        //    {
+        //        var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.START_Command), "正在執行其他Command", index);
+        //        EventHappened?.Invoke(eventval);
 
-                dialog.Show(new Dictionary<Language, string>
-                                                              {
-                                                                  { Language.TW, "START: 正在執行其他Command" },
-                                                                  { Language.CHS, "START: 正在执行其他Command" },
-                                                                  { Language.EN, "START: Other command is being executed" }
-                                                              },
-                            DialogMsgType.Alert);
+        //        dialog.Show(new Dictionary<Language, string>
+        //                                                      {
+        //                                                          { Language.TW, "START: 正在執行其他Command" },
+        //                                                          { Language.CHS, "START: 正在执行其他Command" },
+        //                                                          { Language.EN, "START: Other command is being executed" }
+        //                                                      },
+        //                    DialogMsgType.Alert);
 
-                return HCACKValule.CantPerform;
-            }
+        //        return HCACKValule.CantPerform;
+        //    }
 
-            var plc = PLC_All[index];
+        //    var plc = PLC_All[index];
 
-            if (!Gate.GateStatus.CurrentValue || !plc.ConnectionStatus.CurrentValue)
-            {
-                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.START_Command), "PLC離線", index);
-                EventHappened?.Invoke(eventval);
+        //    if (!Gate.GateStatus.CurrentValue || !plc.ConnectionStatus.CurrentValue)
+        //    {
+        //        var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.START_Command), "PLC離線", index);
+        //        EventHappened?.Invoke(eventval);
 
-                dialog.Show(new Dictionary<Language, string>
-                                                              {
-                                                                  { Language.TW, "START: PLC離線" },
-                                                                  { Language.CHS, "START: PLC脱机" },
-                                                                  { Language.EN, "START: PLC is offline." }
-                                                              },
-                            DialogMsgType.Alert);
+        //        dialog.Show(new Dictionary<Language, string>
+        //                                                      {
+        //                                                          { Language.TW, "START: PLC離線" },
+        //                                                          { Language.CHS, "START: PLC脱机" },
+        //                                                          { Language.EN, "START: PLC is offline." }
+        //                                                      },
+        //                    DialogMsgType.Alert);
 
-                return HCACKValule.CantPerform;
-            }
+        //        return HCACKValule.CantPerform;
+        //    }
 
-            if (plc.IsExecuting)
-            {
-                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.START_Command), "仍在烘烤中", index);
-                EventHappened?.Invoke(eventval);
+        //    if (plc.IsExecuting)
+        //    {
+        //        var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.START_Command), "仍在烘烤中", index);
+        //        EventHappened?.Invoke(eventval);
 
-                dialog.Show(new Dictionary<Language, string>
-                                                              {
-                                                                  { Language.TW, "START: 仍在烘烤中" },
-                                                                  { Language.CHS, "START: 仍在烘烤中" },
-                                                                  { Language.EN, "START: Oven is executing." }
-                                                              },
-                            DialogMsgType.Alert);
+        //        dialog.Show(new Dictionary<Language, string>
+        //                                                      {
+        //                                                          { Language.TW, "START: 仍在烘烤中" },
+        //                                                          { Language.CHS, "START: 仍在烘烤中" },
+        //                                                          { Language.EN, "START: Oven is executing." }
+        //                                                      },
+        //                    DialogMsgType.Alert);
 
-                return HCACKValule.CantPerform;
-            }
+        //        return HCACKValule.CantPerform;
+        //    }
 
-            PLCIsBusy[index] = true;
+        //    PLCIsBusy[index] = true;
 
-            if (!plc.AutoMode && plc.ManualSetByPropertiesWithCheck(new Dictionary<string, object> { { nameof(PLC_ViewModel.AutoMode), true } }).Result.Count > 0)
-            {
-                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.START_Command), "無法切換自動模式", index);
-                EventHappened?.Invoke(eventval);
+        //    if (!plc.AutoMode && plc.ManualSetByPropertiesWithCheck(new Dictionary<string, object> { { nameof(PLC_ViewModel.AutoMode), true } }).Result.Count > 0)
+        //    {
+        //        var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.START_Command), "無法切換自動模式", index);
+        //        EventHappened?.Invoke(eventval);
 
-                dialog.Show(new Dictionary<Language, string>
-                                                              {
-                                                                  { Language.TW, "START: 無法切換自動模式" },
-                                                                  { Language.CHS, "START: 无法切换自动模式" },
-                                                                  { Language.EN, "START: Unable switch to AutoMode." }
-                                                              },
-                            DialogMsgType.Alert);
+        //        dialog.Show(new Dictionary<Language, string>
+        //                                                      {
+        //                                                          { Language.TW, "START: 無法切換自動模式" },
+        //                                                          { Language.CHS, "START: 无法切换自动模式" },
+        //                                                          { Language.EN, "START: Unable switch to AutoMode." }
+        //                                                      },
+        //                    DialogMsgType.Alert);
 
-                PLCIsBusy[index] = false;
-                return HCACKValule.CantPerform;
-            }
+        //        PLCIsBusy[index] = false;
+        //        return HCACKValule.CantPerform;
+        //    }
 
-            if (plc.ManualSetByPropertiesWithCheck(new Dictionary<string, object> { { nameof(PLC_ViewModel.AutoMode_Start), true } }).Result.Count > 0)
-            {
-                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.START_Command), "AutoMode_Start設定失敗", index);
-                EventHappened?.Invoke(eventval);
+        //    if (plc.ManualSetByPropertiesWithCheck(new Dictionary<string, object> { { nameof(PLC_ViewModel.AutoMode_Start), true } }).Result.Count > 0)
+        //    {
+        //        var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.START_Command), "AutoMode_Start設定失敗", index);
+        //        EventHappened?.Invoke(eventval);
 
-                dialog.Show(new Dictionary<Language, string>
-                                                              {
-                                                                  { Language.TW, "START: AutoMode_Start設定失敗" },
-                                                                  { Language.CHS, "START: AutoMode_Start设定失败" },
-                                                                  { Language.EN, "START: Set \"AutoMode_Start\" failed." }
-                                                              },
-                            DialogMsgType.Alert);
+        //        dialog.Show(new Dictionary<Language, string>
+        //                                                      {
+        //                                                          { Language.TW, "START: AutoMode_Start設定失敗" },
+        //                                                          { Language.CHS, "START: AutoMode_Start设定失败" },
+        //                                                          { Language.EN, "START: Set \"AutoMode_Start\" failed." }
+        //                                                      },
+        //                    DialogMsgType.Alert);
 
-                PLCIsBusy[index] = false;
-                return HCACKValule.CantPerform;
-            }
+        //        PLCIsBusy[index] = false;
+        //        return HCACKValule.CantPerform;
+        //    }
 
-            var eventval1 = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.START_Command), "啟動成功", index);
-            EventHappened?.Invoke(eventval1);
+        //    var eventval1 = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.START_Command), "啟動成功", index);
+        //    EventHappened?.Invoke(eventval1);
 
-            PLCIsBusy[index] = false;
-            return HCACKValule.Acknowledge;
-        };
+        //    PLCIsBusy[index] = false;
+        //    return HCACKValule.Acknowledge;
+        //};
+        #endregion
 
         SecsGemEquipment.STOP_Command += index =>
         {
@@ -434,24 +436,21 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                 EventHappened?.Invoke(eventval);
                 return HCACKValule.CantPerform;
             }
-
-            if (index >= PLC_All.Count)
+            if (!Gate.GateStatus.CurrentValue || !PLC_All[0].ConnectionStatus.CurrentValue)
             {
-                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.STOP_Command), "Index超過PLC總數", index);
-                EventHappened?.Invoke(eventval);
-                return HCACKValule.ParameterInvalid;
-            }
-
-            if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue)
-            {
-                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.STOP_Command), "PLC離線", index);
+                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.STOP_Command), "PLC離線", 0);
                 EventHappened?.Invoke(eventval);
                 return HCACKValule.CantPerform;
             }
-
-            if (!PLC_All[index].ProcessComplete)
+            if (!Gate.GateStatus.CurrentValue || !PLC_All[1].ConnectionStatus.CurrentValue)
             {
-                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.STOP_Command), "烘烤程序未完成", index);
+                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.STOP_Command), "PLC離線", 1);
+                EventHappened?.Invoke(eventval);
+                return HCACKValule.CantPerform;
+            }
+            if (!Gate.GateStatus.CurrentValue || !PLC_All[2].ConnectionStatus.CurrentValue)
+            {
+                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.STOP_Command), "PLC離線", 2);
                 EventHappened?.Invoke(eventval);
                 return HCACKValule.CantPerform;
             }
@@ -459,50 +458,28 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
             var eventval1 = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.STOP_Command), "", index);
             EventHappened?.Invoke(eventval1);
             PLC_All[index].AutoMode_Start = false;
+            SecsGemEquipment.InvokeEvent($"STOP");
 
             return HCACKValule.Acknowledge;
         };
 
-        SecsGemEquipment.PPSELECT_Command += (index, name) =>
+        SecsGemEquipment.PPSELECT_Command += (name) =>
         {
-            var msg = $"{index}:{name}";
+            var (ppid, LotId, quantity) = name;
+
+            var msg = $"PP_SELECT : {name}";
 
             if (!SECS_REMOTE)
             {
-                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.PPSELECT_Command), "不在SECS_REMOTE", msg);
+                var eventval = (0, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.PPSELECT_Command), "不在SECS_REMOTE", msg);
                 EventHappened?.Invoke(eventval);
                 return HCACKValule.CantPerform;
             }
 
-            if (index >= PLC_All.Count)
+            if (!Gate.GateStatus.CurrentValue || !PLC_All[0].ConnectionStatus.CurrentValue || !PLC_All[1].ConnectionStatus.CurrentValue || !PLC_All[2].ConnectionStatus.CurrentValue)
             {
-                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.PPSELECT_Command), "Index超過PLC總數", msg);
-                EventHappened?.Invoke(eventval);
-                return HCACKValule.ParameterInvalid;
-            }
-
-            if (PLCIsBusy[index])
-            {
-                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.PPSELECT_Command), "正在執行其他Command", msg);
-                EventHappened?.Invoke(eventval);
-
-                dialog.Show(new Dictionary<Language, string>
-                                                                 {
-                                                                     { Language.TW, "PPSELECT: 正在執行其他Command" },
-                                                                     { Language.CHS, "PPSELECT: 正在执行其他Command" },
-                                                                     { Language.EN, "PPSELECT: Other command is being executed" }
-                                                                 },
-                            DialogMsgType.Alert);
-
-                return HCACKValule.CantPerform;
-            }
-
-            var plc = PLC_All[index];
-
-            if (!Gate.GateStatus.CurrentValue || !plc.ConnectionStatus.CurrentValue)
-            {
-                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.PPSELECT_Command), "PLC離線", msg);
-                EventHappened?.Invoke(eventval);
+                var eventval1 = (0, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.PPSELECT_Command), "PLC離線", msg);
+                EventHappened?.Invoke(eventval1);
 
                 dialog.Show(new Dictionary<Language, string>
                                                                  {
@@ -515,28 +492,10 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                 return HCACKValule.CantPerform;
             }
 
-            if (plc.IsExecuting)
+            if (GetRecipe?.Invoke(ppid) is not { } recipe)
             {
-                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.PPSELECT_Command), "仍在烘烤中", msg);
-                EventHappened?.Invoke(eventval);
-
-                dialog.Show(new Dictionary<Language, string>
-                                                                 {
-                                                                     { Language.TW, "PPSELECT: 仍在烘烤中" },
-                                                                     { Language.CHS, "PPSELECT: 仍在烘烤中" },
-                                                                     { Language.EN, "PPSELECT: Oven is executing." }
-                                                                 },
-                            DialogMsgType.Alert);
-
-                return HCACKValule.CantPerform;
-            }
-
-            PLCIsBusy[index] = true;
-
-            if (GetRecipe?.Invoke(name) is not { } recipe)
-            {
-                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.PPSELECT_Command), "配方不存在", msg);
-                EventHappened?.Invoke(eventval);
+                var eventval2 = (0, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.PPSELECT_Command), "配方不存在", msg);
+                EventHappened?.Invoke(eventval2);
 
                 dialog.Show(new Dictionary<Language, string>
                                                                  {
@@ -546,42 +505,45 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                                                                  },
                             DialogMsgType.Alert);
 
-                PLCIsBusy[Index] = false;
                 return HCACKValule.NoObjectExists;
             }
 
-            var eventval1 = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.PPSELECT_Command), "", msg);
-            EventHappened?.Invoke(eventval1);
+            var eventval3 = (0, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.PPSELECT_Command), "", msg);
+            EventHappened?.Invoke(eventval3);
 
-            var result = plc.WriteRecipeToPlcAsync(recipe).Result;
+            PLC_All[0].AddLOT(LotId, quantity);
 
-            PLCIsBusy[Index] = false;
+            var result = PLC_All[0].WriteRecipeToPlcAsync(recipe,0).Result;
+            result = PLC_All[1].WriteRecipeToPlcAsync(recipe, 1).Result;
+            result = PLC_All[2].WriteRecipeToPlcAsync(recipe, 2).Result;
+            CheckOvenTemp();
+
             return result == SetRecipeResult.成功 ? HCACKValule.Acknowledge : HCACKValule.CantPerform;
         };
 
-        SecsGemEquipment.ADDLOT_Command += (index, lot) =>
+        SecsGemEquipment.ADDLOT_Command += (lot) =>
         {
-            var (lotID, partID, layer, quantity) = lot;
+            var (lotID, partID, quantity) = lot;
             var unit = quantity > 1 ? "pcs" : "pc";
-            var msg  = $"{index}:{lotID}-{partID}-{layer}-{quantity}{unit}";
+            var msg  = $"{lotID}-{partID}-{quantity}{unit}";
 
             if (!SECS_REMOTE)
             {
-                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.ADDLOT_Command), "不在SECS_REMOTE", msg);
+                var eventval = (0, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.ADDLOT_Command), "不在SECS_REMOTE", msg);
                 EventHappened?.Invoke(eventval);
                 return HCACKValule.CantPerform;
             }
 
-            if (index >= PLC_All.Count || lot is { layer: <= 0 or > 8 } or { quantity: <= 0 })
+            if (lot is { quantity: <= 0 })
             {
-                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.ADDLOT_Command), "參數不正確", msg);
+                var eventval = (0, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.ADDLOT_Command), "參數不正確", msg);
                 EventHappened?.Invoke(eventval);
                 return HCACKValule.ParameterInvalid;
             }
 
-            if (!Gate.GateStatus.CurrentValue || !PLC_All[index].ConnectionStatus.CurrentValue)
+            if (!Gate.GateStatus.CurrentValue || !PLC_All[0].ConnectionStatus.CurrentValue || !PLC_All[1].ConnectionStatus.CurrentValue || !PLC_All[2].ConnectionStatus.CurrentValue)
             {
-                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.ADDLOT_Command), "PLC離線", msg);
+                var eventval = (0, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.ADDLOT_Command), "PLC離線", msg);
                 EventHappened?.Invoke(eventval);
 
                 dialog.Show(new Dictionary<Language, string>
@@ -595,27 +557,11 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                 return HCACKValule.CantPerform;
             }
 
-            if (PLC_All[index].IsExecuting)
-            {
-                var eventval = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.ADDLOT_Command), "仍在烘烤中", msg);
-                EventHappened?.Invoke(eventval);
-
-                dialog.Show(new Dictionary<Language, string>
-                                                               {
-                                                                   { Language.TW, "ADDLOT: 仍在烘烤中" },
-                                                                   { Language.CHS, "ADDLOT: 仍在烘烤中" },
-                                                                   { Language.EN, "ADDLOT: Oven is executing." }
-                                                               },
-                            DialogMsgType.Alert);
-
-                return HCACKValule.CantPerform;
-            }
-
-            PLC_All[index].AddLOT(lotID, partID, layer, quantity);
-            var eventval1 = (index, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.ADDLOT_Command), "", msg);
+            //PLC_All[0].AddLOT(lotID, partID, quantity);
+            var eventval1 = (0, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.ADDLOT_Command), "", msg);
             EventHappened?.Invoke(eventval1);
 
-            SecsGemEquipment.InvokeEvent($"Oven{index + 1}_LotAdded");
+            SecsGemEquipment.InvokeEvent($"Oven{0 + 1}_LotAdded");
             return HCACKValule.Acknowledge;
         };
 
@@ -721,7 +667,7 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
 
         Mode = 0;
         EqpState = 1;
-        InitialStringItem();
+        //InitialStringItem();
         Status = -1;
         threadid = Thread.CurrentThread.ManagedThreadId;
         BackCommand = new RelayCommand(index => Index = index != null && int.TryParse(index.ToString(), out var i) ? i : 0);
@@ -734,7 +680,7 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                                              {
                                                  foreach (var plc in PLC_All)
                                                  {
-                                                     plc.OvenInfo.ChartModel.SetFrameworkElement(el);
+                                                     plc.CoaterInfo.ChartModel.SetFrameworkElement(el, plc.PLCIndex);
                                                  }
                                              }
                                          });
@@ -769,6 +715,15 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                                    TimeSpan.FromMilliseconds(int.MaxValue),
                                    DialogMsgType.Alert))
             {
+                return;
+            }
+            if (PLC_All[0].RemoteMode == false || PLC_All[1].RemoteMode == false || PLC_All[2].RemoteMode == false)
+            {
+                Dialog.Show(new Dictionary<Language, string>
+                               {
+                                   { Language.TW,  $"請確認機台是否切換至Remote模式 {Environment.NewLine} RC1 : {PLC_All[0].RemoteMode} {Environment.NewLine} RC2 : {PLC_All[1].RemoteMode} {Environment.NewLine} RC3 : {PLC_All[2].RemoteMode}"},
+                                   { Language.CHS, $"請確認機台是否切換至Remote模式 {Environment.NewLine} RC1 : {PLC_All[0].RemoteMode} {Environment.NewLine} RC2 : {PLC_All[1].RemoteMode} {Environment.NewLine} RC3 : {PLC_All[2].RemoteMode}" }
+                               }, DialogMsgType.Alert);
                 return;
             }
             CheckRecipeCommand_KeyIn?.Invoke(LocalRecipe);
@@ -839,7 +794,7 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                                                           { DataType.D, 0 },
                                                           { DataType.W, 0 }
                                                       })); //! 可指定PLC點位位移
-            plc.OvenInfo.OvenCode = $"Coater" + (i + 1);
+            plc.CoaterInfo.OvenCode = $"Coater" + (i + 1);
 
             PLC_All[i] = plc;
             var index = i;
@@ -931,7 +886,10 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
             //! PLC事件紀錄
             plc.EventHappened += e => EventHappened?.Invoke((index, e.type, e.time, e.note, e.tag, e.value));
 
-            plc.InvokeSECSEvent += EventName => SecsGemEquipment.InvokeEvent($"RC{index + 1}_{EventName}");
+            plc.InvokeSECSEvent += EventName =>
+            {
+                var result = SecsGemEquipment.InvokeEvent($"{EventName}");
+            };
 
             plc.InvokeSECSAlarm += (AlarmName, val) =>
             {
@@ -942,9 +900,14 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
 
             plc.SV_Changed += (name, value) =>
             {
-                if (name == nameof(PLC_ViewModel.EquipmentState))
+                if (name.Contains("GlobalCoaterEqStatus"))
                 {
                     SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PROCESS_STATE, value);
+                    SecsGemEquipment.UpdateSV("GlobalCoaterEqStatus", value);
+                }
+                else if (name.Contains("GlobalCoaterEqMode"))
+                {
+                    SecsGemEquipment.UpdateSV("GlobalCoaterEqMode", value);
                 }
                 //else if (name == $"Previous{nameof(PLC_ViewModel.EquipmentState)}")
                 //{
@@ -953,133 +916,138 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                 else if (name == nameof(PLC_ViewModel.RecipeName))
                 {
                     SecsGemEquipment.UpdateITRISV(ITRI_SV.GEM_PP_EXEC_NAME, value);
+                    SecsGemEquipment.UpdateSV("PPName", value);
                 }
-                var result = SecsGemEquipment.UpdateSV($"RC{index + 1}_{name}", value);
+                string result;
+                if (name.Contains("RC3_"))
+                    result = SecsGemEquipment.UpdateSV($"{name}", value);
+                else
+                    result = SecsGemEquipment.UpdateSV($"RC{index + 1}_{name}", value);
                 Log.Logger.Debug($"SECS UpdateSV Result. Name={$"RC{index + 1}_{name}"}. Value={result}. ");
             };
 
-            plc.PanelMoveHappened += e =>
-                {
-                    var panelIndexMap = new Dictionary<string, int>
-                                                   {
-                                                       { nameof(plc.FeedInlet), 0 },
-                                                       { nameof(plc.FeedToWait), 1 },
-                                                       { nameof(plc.WaitToFrontWeight), 2 },
-                                                       { nameof(plc.FrontWeightToCoater), 3 },
-                                                       { nameof(plc.CoaterToBackWeight), 4 },
-                                                   };
-                    try
-                    {
-                        if (e.Item1 == 0)
-                        {
-                            if (panelIndexMap.ContainsKey(e.Item2))
-                            {
-                                var Coaterindex = panelIndexMap[e.Item2];
+            //plc.PanelMoveHappened += e =>
+            //    {
+            //        var panelIndexMap = new Dictionary<string, int>
+            //                                       {
+            //                                           { nameof(plc.FeedInlet), 0 },
+            //                                           { nameof(plc.FeedToWait), 1 },
+            //                                           { nameof(plc.WaitToFrontWeight), 2 },
+            //                                           { nameof(plc.FrontWeightToCoater), 3 },
+            //                                           { nameof(plc.CoaterToBackWeight), 4 },
+            //                                       };
+            //        try
+            //        {
+            //            if (e.Item1 == 0)
+            //            {
+            //                if (panelIndexMap.ContainsKey(e.Item2))
+            //                {
+            //                    var Coaterindex = panelIndexMap[e.Item2];
 
-                                if (Coaterindex == 0)
-                                {
-                                    Coater1Panel[0] = new CoaterItem { Num = 0, PanelName = plc.PanelID };
-                                }
-                                else
-                                {
-                                    Coater1Panel[Coaterindex] = Coater1Panel[Coaterindex - 1];
-                                    Coater1Panel[Coaterindex - 1] = null;
-                                }
-                            }
-                            else if (e.Item2 == nameof(plc.BackWeightToOven) && Coater1Panel[4] is not null)
-                            {
-                                _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
-                                {
-                                    Coater1Items.Add(new CoaterItem { Num = Coater1Items.Count + 1, PanelName = Coater1Panel[4].PanelName });
-                                    Coater1Panel[4] = null;
-                                });
-                            }
-                        }
-                        else if (e.Item1 == 1)
-                        {
-                            if (panelIndexMap.ContainsKey(e.Item2))
-                            {
-                                var Coaterindex = panelIndexMap[e.Item2];
-                                if (Coaterindex == 0)
-                                {
+            //                    if (Coaterindex == 0)
+            //                    {
+            //                        Coater1Panel[0] = new CoaterItem { Num = 0, PanelName = plc.PanelID };
+            //                    }
+            //                    else
+            //                    {
+            //                        Coater1Panel[Coaterindex] = Coater1Panel[Coaterindex - 1];
+            //                        Coater1Panel[Coaterindex - 1] = null;
+            //                    }
+            //                }
+            //                else if (e.Item2 == nameof(plc.BackWeightToOven) && Coater1Panel[4] is not null)
+            //                {
+            //                    _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
+            //                    {
+            //                        Coater1Items.Add(new CoaterItem { Num = Coater1Items.Count + 1, PanelName = Coater1Panel[4].PanelName });
+            //                        Coater1Panel[4] = null;
+            //                    });
+            //                }
+            //            }
+            //            else if (e.Item1 == 1)
+            //            {
+            //                if (panelIndexMap.ContainsKey(e.Item2))
+            //                {
+            //                    var Coaterindex = panelIndexMap[e.Item2];
+            //                    if (Coaterindex == 0)
+            //                    {
 
-                                }
-                                else if (Coaterindex == 1)
-                                {
-                                    _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
-                                        {
-                                            Coater2Panel[0] = new CoaterItem { Num = 0, PanelName = Coater1Items[0].PanelName };
+            //                    }
+            //                    else if (Coaterindex == 1)
+            //                    {
+            //                        _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
+            //                            {
+            //                                Coater2Panel[0] = new CoaterItem { Num = 0, PanelName = Coater1Items[0].PanelName };
 
-                                            for (var i = 0; i < Coater1Items.Count - 1; i++)
-                                            {
-                                                Coater1Items[i] = Coater1Items[i + 1];
-                                                Coater1Items[i].Num = i + 1;
-                                            }
-                                            Coater1Items.RemoveAt(Coater1Items.Count - 1);
-                                        });
-                                }
-                                else
-                                {
-                                    Coater2Panel[Coaterindex - 1] = Coater2Panel[Coaterindex - 2];
-                                    Coater2Panel[Coaterindex - 2] = null;
-                                }
-                            }
-                            else if (e.Item2 == nameof(plc.BackWeightToOven) && Coater2Panel[3] is not null)
-                            {
-                                _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
-                                {
-                                    Coater2Items.Add(new CoaterItem { Num = Coater2Items.Count + 1, PanelName = Coater2Panel[3].PanelName });
-                                    Coater2Panel[3] = null;
-                                });
-                            }
-                        }
-                        else if (e.Item1 == 2)
-                        {
-                            if (panelIndexMap.ContainsKey(e.Item2))
-                            {
-                                var Coaterindex = panelIndexMap[e.Item2];
-                                if (Coaterindex == 0)
-                                {
+            //                                for (var i = 0; i < Coater1Items.Count - 1; i++)
+            //                                {
+            //                                    Coater1Items[i] = Coater1Items[i + 1];
+            //                                    Coater1Items[i].Num = i + 1;
+            //                                }
+            //                                Coater1Items.RemoveAt(Coater1Items.Count - 1);
+            //                            });
+            //                    }
+            //                    else
+            //                    {
+            //                        Coater2Panel[Coaterindex - 1] = Coater2Panel[Coaterindex - 2];
+            //                        Coater2Panel[Coaterindex - 2] = null;
+            //                    }
+            //                }
+            //                else if (e.Item2 == nameof(plc.BackWeightToOven) && Coater2Panel[3] is not null)
+            //                {
+            //                    _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
+            //                    {
+            //                        Coater2Items.Add(new CoaterItem { Num = Coater2Items.Count + 1, PanelName = Coater2Panel[3].PanelName });
+            //                        Coater2Panel[3] = null;
+            //                    });
+            //                }
+            //            }
+            //            else if (e.Item1 == 2)
+            //            {
+            //                if (panelIndexMap.ContainsKey(e.Item2))
+            //                {
+            //                    var Coaterindex = panelIndexMap[e.Item2];
+            //                    if (Coaterindex == 0)
+            //                    {
 
-                                }
-                                else if (Coaterindex == 1 && !string.IsNullOrEmpty(Coater2Items[0].PanelName))
-                                {
-                                    _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
-                                        {
-                                            Coater3Panel[0] = new CoaterItem { Num = 0, PanelName = Coater2Items[0].PanelName };
+            //                    }
+            //                    else if (Coaterindex == 1 && !string.IsNullOrEmpty(Coater2Items[0].PanelName))
+            //                    {
+            //                        _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
+            //                            {
+            //                                Coater3Panel[0] = new CoaterItem { Num = 0, PanelName = Coater2Items[0].PanelName };
 
-                                            for (var i = 0; i < Coater2Items.Count - 1; i++)
-                                            {
-                                                Coater2Items[i] = Coater2Items[i + 1];
-                                                Coater2Items[i].Num = i + 1;
-                                            }
-                                            Coater2Items.RemoveAt(Coater2Items.Count - 1);
-                                        });
-                                }
-                                else
-                                {
-                                    Coater3Panel[Coaterindex - 1] = Coater3Panel[Coaterindex - 2];
-                                    Coater3Panel[Coaterindex - 2] = null;
-                                }
-                            }
-                            else if (e.Item2 == nameof(plc.BackWeightToOven) && Coater3Panel[3] is not null)
-                            {
-                                _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
-                                {
-                                    Coater3Items.Add(new CoaterItem { Num = Coater3Items.Count + 1, PanelName = Coater3Panel[3].PanelName });
-                                    Coater3Panel[3] = null;
-                                });
-                            }
-                        }
-                        NotifyPropertyChanged(nameof(Coater1Panel));
-                        NotifyPropertyChanged(nameof(Coater2Panel));
-                        NotifyPropertyChanged(nameof(Coater3Panel));
-                    }
-                    catch
-                    {
+            //                                for (var i = 0; i < Coater2Items.Count - 1; i++)
+            //                                {
+            //                                    Coater2Items[i] = Coater2Items[i + 1];
+            //                                    Coater2Items[i].Num = i + 1;
+            //                                }
+            //                                Coater2Items.RemoveAt(Coater2Items.Count - 1);
+            //                            });
+            //                    }
+            //                    else
+            //                    {
+            //                        Coater3Panel[Coaterindex - 1] = Coater3Panel[Coaterindex - 2];
+            //                        Coater3Panel[Coaterindex - 2] = null;
+            //                    }
+            //                }
+            //                else if (e.Item2 == nameof(plc.BackWeightToOven) && Coater3Panel[3] is not null)
+            //                {
+            //                    _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
+            //                    {
+            //                        Coater3Items.Add(new CoaterItem { Num = Coater3Items.Count + 1, PanelName = Coater3Panel[3].PanelName });
+            //                        Coater3Panel[3] = null;
+            //                    });
+            //                }
+            //            }
+            //            NotifyPropertyChanged(nameof(Coater1Panel));
+            //            NotifyPropertyChanged(nameof(Coater2Panel));
+            //            NotifyPropertyChanged(nameof(Coater3Panel));
+            //        }
+            //        catch
+            //        {
 
-                    }
-                };
+            //        }
+            //    };
         }
 
         SecsGemEquipment.Enable(true);
@@ -1126,28 +1094,40 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                             Timeout.Infinite);
     }
 
-    private void InitialStringItem()
+    private async void CheckOvenTemp()
     {
-        Coater1Items = [];
-        Coater2Items = [];
-        Coater3Items = [];
-        Coater1Panel = [];
-        Coater2Panel = [];
-        Coater3Panel = [];
-        Coater1Panel.Add(null);
-        Coater1Panel.Add(null);
-        Coater1Panel.Add(null);
-        Coater1Panel.Add(null);
-        Coater1Panel.Add(null);
-        Coater2Panel.Add(null);
-        Coater2Panel.Add(null);
-        Coater2Panel.Add(null);
-        Coater2Panel.Add(null);
-        Coater3Panel.Add(null);
-        Coater3Panel.Add(null);
-        Coater3Panel.Add(null);
-        Coater3Panel.Add(null);
+        Task.Run(() =>
+        {
+            while (PLC_All[0].TemperaturePV1 != PLC_All[0].TemperatureSV1 && PLC_All[0].TemperaturePV2 != PLC_All[0].TemperatureSV2)
+            {
+                Task.Delay(1000);
+            }
+            SecsGemEquipment.InvokeEvent($"PPCOMPLETE");
+        });
     }
+
+    //private void InitialStringItem()
+    //{
+    //    Coater1Items = [];
+    //    Coater2Items = [];
+    //    Coater3Items = [];
+    //    Coater1Panel = [];
+    //    Coater2Panel = [];
+    //    Coater3Panel = [];
+    //    Coater1Panel.Add(null);
+    //    Coater1Panel.Add(null);
+    //    Coater1Panel.Add(null);
+    //    Coater1Panel.Add(null);
+    //    Coater1Panel.Add(null);
+    //    Coater2Panel.Add(null);
+    //    Coater2Panel.Add(null);
+    //    Coater2Panel.Add(null);
+    //    Coater2Panel.Add(null);
+    //    Coater3Panel.Add(null);
+    //    Coater3Panel.Add(null);
+    //    Coater3Panel.Add(null);
+    //    Coater3Panel.Add(null);
+    //}
 
     /// <summary>讀取財產編號</summary>
     public void LoadAssetNumbers()
@@ -1162,7 +1142,7 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                 {
                     for (var i = 0; i < Math.Min(vals.Length, PLC_All.Count); i++)
                     {
-                        PLC_All[i].OvenInfo.AssetNumber = vals[i];
+                        PLC_All[i].CoaterInfo.AssetNumber = vals[i];
                     }
                 }
             }
@@ -1174,7 +1154,7 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
 
         foreach (var plc in PLC_All)
         {
-            plc.OvenInfo.AssetNumber = "";
+            plc.CoaterInfo.AssetNumber = "";
         }
     }
 
@@ -1191,12 +1171,12 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                 {
                     for (var i = 0; i < vals.Length; i++)
                     {
-                        PLC_All[i].OvenInfo.MachineCode = vals[i];
+                        PLC_All[i].CoaterInfo.MachineCode = vals[i];
                     }
 
                     for (var i = vals.Length; i < PLC_All.Count; i++)
                     {
-                        PLC_All[i].OvenInfo.MachineCode = $"RC{i + 1}";
+                        PLC_All[i].CoaterInfo.MachineCode = $"RC{i + 1}";
                     }
                 }
             }
@@ -1208,7 +1188,7 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
 
         for (var i = 0; i < PLC_All.Count; i++)
         {
-            PLC_All[i].OvenInfo.MachineCode = $"RC{i + 1}";
+            PLC_All[i].CoaterInfo.MachineCode = $"RC{i + 1}";
         }
     }
     /// <summary>儲存財產編號</summary>
@@ -1216,7 +1196,7 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
     {
         try
         {
-            using var AssetNumbers = PLC_All.Select(x => x.OvenInfo.AssetNumber).ToPooledList();
+            using var AssetNumbers = PLC_All.Select(x => x.CoaterInfo.AssetNumber).ToPooledList();
             AssetNumbers.WriteToJsonFile(path);
         }
         catch
@@ -1230,7 +1210,7 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
     {
         try
         {
-            using var MachineCodes = PLC_All.Select(x => x.OvenInfo.MachineCode).ToPooledList();
+            using var MachineCodes = PLC_All.Select(x => x.CoaterInfo.MachineCode).ToPooledList();
             MachineCodes.WriteToJsonFile(path);
         }
         catch

@@ -8,6 +8,7 @@ using System.Threading.Tasks.Schedulers;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Threading;
 using GPGRC_MultiPLCs.Models;
 using GPMVVM.Helpers;
 using GPMVVM.Models;
@@ -71,7 +72,7 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
     public RelayCommand GetRecipeCommand { get; }
     public RelayCommand CheckRecipeCommand_KeyIn { get; }
     public RelayCommand CheckRecipeCommand_KeyLeave { get; }
-    public RelayCommand AddLotCommand { get; }
+    //public RelayCommand AddLotCommand { get; }
     public RelayCommand DeleteLotCommand { get; }
     public RelayCommand GoDetailCommand { get; }
     public RelayCommand ClearOPTextCommand { get; }
@@ -83,22 +84,47 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
     public RelayCommand CheckCommand { get; }
 
     /// <summary>機台資訊</summary>
-    public BaseInfoWithChart OvenInfo { get; }
+    private DispatcherTimer _timer;
+    private TemperatureRecorder _temperatureRecorder;
+    public BaseInfoWithChart CoaterInfo { get; }
 
     /// <summary>取得是否正在紀錄溫度</summary>
     public bool IsExecuting => ExecutingTask?.Status is TaskStatus.Running or TaskStatus.WaitingForActivation or TaskStatus.WaitingToRun;
 
     /// <summary>進度狀態</summary>
-    public Status EquipmentStatus => !ConnectionStatus.CurrentValue ?
-                                         Status.離線 :
-                                         EquipmentState switch
-                                         {
-                                             0 => Status.待命,
-                                             1 => Status.運轉中,
-                                             2 => Status.停止,
-                                             3 => Status.錯誤,
-                                             _ => Status.未知
-                                         };
+    public int EquipmentStatus => !ConnectionStatus.CurrentValue ?
+                                         7 :
+                                         GetEqpStatus();
+    public int EqMode => !ConnectionStatus.CurrentValue ?
+                                         7 :
+                                         GetEqMode();
+
+    //Stop = 0;  Idle = 1;  Running = 2;  Error = 3;  PM = 4;  Manual = 5;  Auto = 6;  Unknown = 7;
+    private int GetEqpStatus()
+    {
+        var eqpstatus = 7;
+        if (Manual)
+            eqpstatus = 5;
+        if (AutoMode)
+            eqpstatus = 6;
+        if (AutoMode_Start)
+            eqpstatus = 2;
+        if (AlarmMode)
+            eqpstatus = 3;
+        return eqpstatus;
+    }
+
+    //Manual = 5; Auto = 6;  Unknown = 7;
+    private int GetEqMode()
+    {
+        var eqmode =7;
+        if (AutoMode)
+            eqmode = 6;
+        if (Manual)
+            eqmode = 5;
+        return eqmode;
+    }
+
     /// <summary>OP輸入的配方名稱</summary>
     public string InputRecipeName
     {
@@ -256,10 +282,6 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
         set => Set(value);
     }
 
-    public LogEvent SelectedLogEvent
-    {
-        set => OvenInfo.ChartModel.SetAnnotation(value);
-    }
     public Func<object, object> START_Command { get; internal set; }
 
     public PLC_ViewModel(IDialogService dialog,
@@ -285,9 +307,9 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
                                              OfflineTime = status ? DateTime.MaxValue : DateTime.Now;
                                          };
 
-        OvenInfo = new BaseInfoWithChart();
+        CoaterInfo = new BaseInfoWithChart();
 
-        OvenInfo.PropertyChanged += (s, e) =>
+        CoaterInfo.PropertyChanged += (s, e) =>
                                     {
                                         //! 在機台編號或財產編號變更時需通知儲存
                                         if (s is BaseInfo bi)
@@ -366,10 +388,10 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
                 else
                 {
                     IsCheckin = true;
-                    OvenInfo.OperatorID = InputOperatorID;
-                    RackID = OvenInfo.TempProducts.FirstOrDefault()?.LotID ?? string.Empty;
+                    CoaterInfo.OperatorID = InputOperatorID;
+                    //RackID = CoaterInfo.TempProducts.FirstOrDefault()?.LotID ?? string.Empty;
                     DoorLock = true;
-                    CheckIn?.Invoke((opid: OvenInfo.OperatorID, rackid: RackID));
+                    //CheckIn?.Invoke((opid: CoaterInfo.OperatorID, rackid: RackID));
 
                     var eventval = (EventType.Operator, DateTime.Now, nameof(CheckInCommand), "", "");
                     EventHappened?.Invoke(eventval);
@@ -377,7 +399,7 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
             }
             else
             {
-                CancelCheckIn?.Invoke(OvenInfo.RackID);
+                CancelCheckIn?.Invoke(CoaterInfo.RackID);
                 ClearInput();
                 InvokeSECSEvent?.Invoke("LotRemoved");
 
@@ -388,10 +410,9 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
 
         CancelCheckInCommand = new RelayCommand(_ =>
         {
-            CheckOut?.Invoke(OvenInfo.RackID);
+            CheckOut?.Invoke(CoaterInfo.RackID);
             ClearInput();
             BeepSilince = true;
-            AutoMode = false;
 
             var eventval = (EventType.Operator, DateTime.Now, nameof(CheckOut), "", "");
             EventHappened?.Invoke(eventval);
@@ -459,28 +480,28 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
 
         GoDetailCommand = new RelayCommand(_ => WantDetail?.Invoke());
 
-        AddLotCommand = new RelayCommand(_ =>
-        {
-            if (InputQuantity <= 0 || string.IsNullOrEmpty(InputPartID) || string.IsNullOrEmpty(InputLotID))
-            {
-                return;
-            }
+        //AddLotCommand = new RelayCommand(_ =>
+        //{
+        //    if (InputQuantity <= 0 || string.IsNullOrEmpty(InputPartID) || string.IsNullOrEmpty(InputLotID))
+        //    {
+        //        return;
+        //    }
 
-            OvenInfo.OperatorID = InputOperatorID;
-            AddLOT(InputLotID, InputPartID, InputLayer, InputQuantity);
+        //    OvenInfo.OperatorID = InputOperatorID;
+        //    AddLOT(InputLotID, InputPartID, InputQuantity);
 
-            var unit     = InputQuantity > 1 ? "pcs" : "pc";
-            var eventval = (EventType.Operator, DateTime.Now, nameof(AddLotCommand), "", $"{InputLotID}-{InputPartID}-{InputLayer}-{InputQuantity}{unit}");
-            EventHappened?.Invoke(eventval);
+        //    var unit     = InputQuantity > 1 ? "pcs" : "pc";
+        //    var eventval = (EventType.Operator, DateTime.Now, nameof(AddLotCommand), "", $"{InputLotID}-{InputPartID}-{InputLayer}-{InputQuantity}{unit}");
+        //    EventHappened?.Invoke(eventval);
 
-            ClearInput2();
-        });
+        //    ClearInput2();
+        //});
 
         DeleteLotCommand = new RelayCommand(lot =>
         {
             if (lot is ProductInfo info)
             {
-                using var list = OvenInfo.TempProducts.ToPooledList();
+                using var list = CoaterInfo.TempProducts.ToPooledList();
                 list.Remove(info);
 
                 InvokeSECSEvent?.Invoke("LotRemoved");
@@ -490,7 +511,7 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
                 EventHappened?.Invoke(eventval);
 
                 ClearInput();
-                list.ForEach(x => OvenInfo.TempProducts.Add(x));
+                list.ForEach(x => CoaterInfo.TempProducts.Add(x));
             }
         });
 
@@ -521,23 +542,15 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
                                     {
                                         AddProcessEvent(eventval!);
                                     }
-                                }
 
-                                else if (value is short sv)
-                                {
-                                    if (name == nameof(EquipmentState))
-                                    {
-                                        InvokeSECSEvent?.Invoke("EqpStatusChanged");
-                                        SV_Changed?.Invoke($"Previous{name}", oldvalue!);
+                                    SV_Changed?.Invoke($"GlobalCoaterEqStatus", EquipmentStatus!);
+                                    SV_Changed?.Invoke($"GlobalCoaterEqMode", EqMode!);
 
-                                        EventHappened?.Invoke(eventval!);
-                                        if (IsExecuting)
-                                        {
-                                            AddProcessEvent(eventval!);
-                                        }
+                                    InvokeSECSEvent?.Invoke("EQCurrentStatus");
+                                    if (name is (nameof(AutoMode_Start)) or (nameof(Manual)))
+                                        InvokeSECSEvent?.Invoke("EQCurrentMode");
 
-                                        NotifyPropertyChanged(nameof(EquipmentStatus));
-                                    }
+                                    NotifyPropertyChanged(nameof(EquipmentStatus));
                                 }
                             }
                             else if (LogType == LogType.Alert)
@@ -600,31 +613,31 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
                             else if (LogType == LogType.Trigger)
                             {
                             }
-                            else if (LogType == LogType.CustomData)
-                            {
-                                if (value is bool val)
-                                {
-                                    if (val)
-                                    {
-                                        PanelMoveHappened?.Invoke((plcindex, name));
-                                        if (name == nameof(BackWeightToOven))
-                                        {
-                                            OvenInfo.CoaterAfterCoaterWeight = 0;
-                                            OvenInfo.CoaterEmptyPanelWeight = 0;
-                                            OvenInfo.CoaterOilWeight = 0;
-                                            OvenInfo.Station = plcindex + 1;
-                                            _ = ExecutingFinished?.Invoke(OvenInfo.Copy()!);
-                                        }
-                                    }
-                                }
-                            }
+                            //else if (LogType == LogType.CustomData)
+                            //{
+                            //    if (value is bool val)
+                            //    {
+                            //        if (val)
+                            //        {
+                            //            PanelMoveHappened?.Invoke((plcindex, name));
+                            //            if (name == nameof(BackWeightToOven))
+                            //            {
+                            //                OvenInfo.CoaterAfterCoaterWeight = 0;
+                            //                OvenInfo.CoaterEmptyPanelWeight = 0;
+                            //                OvenInfo.CoaterOilWeight = 0;
+                            //                OvenInfo.Station = plcindex + 1;
+                            //                _ = ExecutingFinished?.Invoke(OvenInfo.Copy()!);
+                            //            }
+                            //        }
+                            //    }
+                            //}
                         };
 
-        OvenInfo.Products.CollectionChanged += (_, _) =>
+        CoaterInfo.Products.CollectionChanged += (_, _) =>
                                                {
-                                                   using var lots   = OvenInfo.Products.Select(x => x.LotID).Distinct().ToPooledList();
-                                                   using var parts  = OvenInfo.Products.Select(x => x.PartID).Distinct().ToPooledList();
-                                                   var       panels = OvenInfo.Products.Sum(x => x.Quantity);
+                                                   using var lots   = CoaterInfo.Products.Select(x => x.LotID).Distinct().ToPooledList();
+                                                   using var parts  = CoaterInfo.Products.Select(x => x.PartID).Distinct().ToPooledList();
+                                                   var       panels = CoaterInfo.Products.Sum(x => x.Quantity);
 
                                                    SV_Changed?.Invoke("LotIDs", lots.Count > 0 ? string.Join(",", lots) : string.Empty);
                                                    SV_Changed?.Invoke("PartIDs", parts.Count > 0 ? string.Join(",", parts) : string.Empty);
@@ -634,6 +647,7 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
         #endregion 註冊PLC事件
         RecipeItem = InitalItems(plcindex);
         TemperatureItems = InitalTemperatureItem(plcindex);
+        StartRecoder();
     }
 
     private async void InputReFocus()
@@ -659,17 +673,17 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
         }
     }
 
-    public async Task<SetRecipeResult> WriteRecipeToPlcAsync(PLC_Recipe recipe)
-    {
-        var errs = await ManualSetByPropertiesWithCheck(recipe.ToDictionary()).ConfigureAwait(false);
+    //public async Task<SetRecipeResult> WriteRecipeToPlcAsync(PLC_Recipe recipe, int plcindex)
+    //{
+    //    var errs = await ManualSetByPropertiesWithCheck(recipe.ToDictionary(plcindex)).ConfigureAwait(false);
 
-        var result = errs.Count == 0 ? SetRecipeResult.成功 : SetRecipeResult.比對不相符;
-        if (result == SetRecipeResult.成功)
-        {
-            AutoMode = true;
-        }
-        return result;
-    }
+    //    var result = errs.Count == 0 ? SetRecipeResult.成功 : SetRecipeResult.比對不相符;
+    //    if (result == SetRecipeResult.成功)
+    //    {
+    //        AutoMode = true;
+    //    }
+    //    return result;
+    //}
 
     //多顆PLC配方寫入
     public async Task<SetRecipeResult> WriteRecipeToPlcAsync(PLC_Recipe recipe, int plcindex)
@@ -677,35 +691,31 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
         var errs = await ManualSetByPropertiesWithCheck(recipe.ToDictionary(plcindex)).ConfigureAwait(false);
 
         var result = errs.Count == 0 ? SetRecipeResult.成功 : SetRecipeResult.比對不相符;
-        if (result == SetRecipeResult.成功)
-        {
-            AutoMode = true;
-        }
         return result;
     }
-    public PLC_Recipe GetRecipeCoater() => new PLC_Recipe
-    {
-        RecipeName = RecipeName,
-    };
+    //public PLC_Recipe GetRecipeCoater() => new PLC_Recipe
+    //{
+    //    RecipeName = RecipeName,
+    //};
 
-    public async Task<SetRecipeResult> SetRecipeAsync(PLC_Recipe? recipe)
-    {
-        if (await WriteRecipeToPlcAsync(recipe).ConfigureAwait(false) == SetRecipeResult.比對不相符)
-        {
-            Dialog.Show(new Dictionary<Language, string>
-                        {
-                            { Language.TW, $"RC{PLCIndex+1} 配方切換失敗" },
-                            { Language.CHS, $"RC{PLCIndex+1} 配方切换失敗" }
-                        });
-            return SetRecipeResult.比對不相符;
-        }
-        Dialog.Show(new Dictionary<Language, string>
-                        {
-                            { Language.TW, $"RC{PLCIndex+1} 配方切換完成" },
-                            { Language.CHS, $"RC{PLCIndex+1} 配方切換完成"}
-                        });
-        return SetRecipeResult.成功;
-    }
+    //public async Task<SetRecipeResult> SetRecipeAsync(PLC_Recipe? recipe)
+    //{
+    //    if (await WriteRecipeToPlcAsync(recipe).ConfigureAwait(false) == SetRecipeResult.比對不相符)
+    //    {
+    //        Dialog.Show(new Dictionary<Language, string>
+    //                    {
+    //                        { Language.TW, $"RC{PLCIndex+1} 配方切換失敗" },
+    //                        { Language.CHS, $"RC{PLCIndex+1} 配方切换失敗" }
+    //                    });
+    //        return SetRecipeResult.比對不相符;
+    //    }
+    //    Dialog.Show(new Dictionary<Language, string>
+    //                    {
+    //                        { Language.TW, $"RC{PLCIndex+1} 配方切換完成" },
+    //                        { Language.CHS, $"RC{PLCIndex+1} 配方切換完成"}
+    //                    });
+    //    return SetRecipeResult.成功;
+    //}
 
     public class Item : ObservableObject
     {
@@ -818,7 +828,7 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
     }
     public void ClearInput()
     {
-        OvenInfo.TempProducts.Clear();
+        CoaterInfo.TempProducts.Clear();
         Set(string.Empty, nameof(InputOperatorID));
         ClearInput2();
     }
@@ -831,9 +841,9 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
         Set(InputQuantityMin, nameof(InputQuantity));
         Set(InputLayerMin, nameof(InputLayer));
     }
-    public void AddLOT(string lotid, string partid, int layer, int quantity)
+    public void AddLOT(string lotid, int quantity)
     {
-        if (OvenInfo.TempProducts.FirstOrDefault(x => x.PartID == partid.Trim() && x.LotID == lotid.Trim() && x.Layer == layer) is { } product)
+        if (CoaterInfo.TempProducts.FirstOrDefault(x => x.LotID == lotid.Trim()) is { } product)
         {
             product.Quantity = quantity;
             Quantity = (short)product.Quantity;
@@ -842,17 +852,14 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
         {
             var info = new ProductInfo
             {
-                PartID   = partid.Trim(),
                 LotID    = lotid.Trim(),
-                Layer    = layer,
                 Quantity = quantity
             };
 
-            PartID = info.PartID;
             LotID = info.LotID;
             Quantity = (short)info.Quantity;
 
-            OvenInfo.TempProducts.Add(info);
+            CoaterInfo.TempProducts.Add(info);
         }
 
         InvokeSECSEvent?.Invoke("LotAdded");
@@ -866,7 +873,7 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
 
         ManualRecord = true;
         var (type, addtime, note, tag, value) = eventdata;
-        OvenInfo.EventList.Add(new LogEvent
+        CoaterInfo.EventList.Add(new LogEvent
         {
             Type = type,
             AddedTime = addtime,
@@ -874,6 +881,43 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
             TagCode = tag,
             Value = value
         });
+    }
+    public void StartRecoder()
+    {
+        _temperatureRecorder = new TemperatureRecorder(CoaterInfo);
+        _timer = new DispatcherTimer();
+        _timer.Interval = TimeSpan.FromSeconds(RecordDelay);
+        _timer.Tick += Timer_Tick;
+        _timer.Start();
+        UpdateTemperatures(PLCIndex);
+    }
+
+    private void Timer_Tick(object sender, EventArgs e)
+    {
+        UpdateTemperatures(PLCIndex);
+    }
+    private int _currentHour = -1;
+    private void UpdateTemperatures(int i)
+    {
+        DateTime now = DateTime.Now;
+        if (now.Hour != _currentHour)
+        {
+            _currentHour = now.Hour;
+            CoaterInfo.ChartModel.Clear();
+        }
+        if (i == 2)
+            _temperatureRecorder.AddTemperatures(true, DateTime.Now,
+                    RC3_TemperaturePV1,
+                    RC3_TemperaturePV2,
+                    RC3_TemperaturePV3,
+                    RC3_TemperaturePV4,
+                    RC3_TemperaturePV5,
+                    RC3_TemperaturePV6,
+                    RC3_TemperaturePV7,
+                    RC3_TemperaturePV8);
+        else
+            _temperatureRecorder.AddTemperatures(true, DateTime.Now, TemperaturePV1, TemperaturePV2);
+
     }
 
     private async Task<SetRecipeResult> SetRecipeDialogAsync(string recipeName, int plcindex)

@@ -78,7 +78,7 @@
                                                                    Margin="8"
                                                                    FontWeight="Bold"
                                                                    Foreground="{StaticResource DisabledForegroundBrush}"
-                                                                   Text="{Binding OvenInfo.OvenCode, Mode=OneWay}" />
+                                                                   Text="{Binding CoaterInfo.OvenCode, Mode=OneWay}" />
                                                     </Viewbox>
                                                     <Border x:Name="Border4"
                                                             Height="0"
@@ -150,10 +150,10 @@
                                     Grid.RowSpan="2"
                                     Margin="4,4,4,0"
                                     DataContext="{Binding PLC_In_Focused, Mode=OneWay}" />
-                <Grid Grid.Row="1"
+                <!--<Grid Grid.Row="1"
                       Grid.Column="1"
                       Margin="6,6,6,6">
-                    <GroupBox FontSize="15"
+                    <GroupBox FontSize="14"
                               Header="設備狀態">
                         <Grid Grid.Column="0">
                             <Grid>
@@ -509,7 +509,8 @@
                                             <TextBlock Text="Delete"></TextBlock>
                                         </Button>
                                     </Grid>
-                                </GroupBox><GroupBox Header="Coater2"
+                                </GroupBox>
+                                <GroupBox Header="Coater2"
                                           Margin="4"
                                           Grid.Column="1">
                                     <Grid  Grid.Row="1"
@@ -801,82 +802,94 @@
                             </Grid>
                         </Grid>
                     </GroupBox>
-                </Grid>
+                </Grid>-->
                 <Border Grid.Row="0"
                         Grid.RowSpan="2"
                         Grid.Column="2"
-                        Margin="3,3,3,3">
+                        Margin="0,3,0,3">
                     <Grid Grid.Column="2">
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="0.2*" />
+                            <RowDefinition Height="0" />
+                            <RowDefinition Height="0.5*" />
+                            <RowDefinition Height="*" />
                             <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="4" />
-                            <RowDefinition />
-                            <RowDefinition Height="40" />
                         </Grid.RowDefinitions>
-                        <Grid Grid.Column="0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"></RowDefinition>
-                                <RowDefinition Height="*"></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="2*" />
-                            </Grid.ColumnDefinitions>
-                            <Border Grid.Column="0"
-                                    Background="{StaticResource WindowBackgroundBrush2}"
-                                    BorderThickness="1,0,1,1"
-                                    Style="{StaticResource ValueBorder}">
-                                <TextBlock Grid.Column="0"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Background="{StaticResource WindowBackgroundBrush2}"
-                                           Text="Recipe" />
-                            </Border>
-                            <ComboBox x:Name="ComboBox"
-                                      Grid.Column="1"
-                                      ItemsSource="{Binding PPNameList}"
-                                      SelectedItem="{Binding LocalRecipe}">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding }" />
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
+                        <GroupBox Grid.Row="0"
+                                  Grid.Column="2"
+                                  Margin="0,3,0,3"
+                                  Header="AddLot"
+                                  FontSize="20">
+                            <Grid Grid.Column="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="2*" />
+                                </Grid.ColumnDefinitions>
                                 <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="DropDownOpened">
-                                        <i:InvokeCommandAction Command="{Binding GetRecipeCommand, Mode=OneTime}" />
+                                    <i:EventTrigger EventName="Loaded">
+                                        <i:InvokeCommandAction Command="{Binding LoadedCommand, Mode=OneTime}"
+                                                               CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}, Mode=OneWay}" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
-                            </ComboBox>
-                            <Button x:Name="CheckButton"
-                                    Grid.Row="1"
-                                    Grid.ColumnSpan="2"
-                                    Content="{DynamicResource 投產}"
-                                    FontSize="20">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction Command="{Binding CheckRecipeCommand, Mode=OneTime}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </Button>
-                        </Grid>
-                        <GroupBox Grid.Row="1"
+                                <Border Grid.Column="0"
+                                        Grid.Row="0"
+                                        Background="{StaticResource WindowBackgroundBrush2}"
+                                        BorderThickness="1,0,1,1"
+                                        Style="{StaticResource ValueBorder}">
+                                    <TextBlock Grid.Column="0"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Background="{StaticResource WindowBackgroundBrush2}"
+                                               Text="Recipe" />
+                                </Border>
+                                <ComboBox x:Name="ComboBox"
+                                          Grid.Row="0"
+                                          Grid.Column="1"
+                                          ItemsSource="{Binding PPNameList}"
+                                          SelectedItem="{Binding LocalRecipe}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding }" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="DropDownOpened">
+                                            <i:InvokeCommandAction Command="{Binding GetRecipeCommand, Mode=OneTime}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </ComboBox>
+                                <Button x:Name="CheckButton"
+                                        Grid.Row="4"
+                                        Grid.ColumnSpan="2"
+                                        Content="配方切換"
+                                        FontSize="20">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding CheckRecipeCommand, Mode=OneTime}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+                            </Grid>
+                        </GroupBox>
+                     
+                        <GroupBox Grid.Row="2"
                                   FontSize="16"
                                   FontWeight="Bold"
+                                  Margin="0,3,0,3"
                                   Header="SECS">
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="50" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="0.2*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="50" />
-                                        <RowDefinition Height="8" />
-                                        <RowDefinition Height="50" />
-                                        <RowDefinition Height="50" />
-                                    </Grid.RowDefinitions>
-                                    <ToggleButton x:Name="SECS_ENABLE"
+                                <ToggleButton x:Name="SECS_ENABLE"
                                                   Grid.Row="0"
                                                   Grid.Column="0"
                                                   FontSize="16"
@@ -893,7 +906,7 @@
                                             </Grid>
                                         </ToggleButton.Content>
                                     </ToggleButton>
-                                    <Border Grid.Row="1"
+                                <Border Grid.Row="1"
                                             Grid.Column="0"
                                             Background="{StaticResource ErrorBrush}">
                                         <i:Interaction.Triggers>
@@ -909,7 +922,7 @@
                                             </i:DataTrigger>
                                         </i:Interaction.Triggers>
                                     </Border>
-                                    <ToggleButton x:Name="SECS_ONLINE"
+                                <ToggleButton x:Name="SECS_ONLINE"
                                                   Grid.Row="2"
                                                   Grid.Column="0"
                                                   FontSize="16"
@@ -927,7 +940,7 @@
                                             </Grid>
                                         </ToggleButton.Content>
                                     </ToggleButton>
-                                    <ToggleButton x:Name="SECS_REMOTE"
+                                <ToggleButton x:Name="SECS_REMOTE"
                                                   Grid.Row="3"
                                                   Grid.Column="0"
                                                   FontSize="16"
@@ -979,17 +992,16 @@
                                             </MultiBinding>
                                         </ToggleButton.IsEnabled>
                                     </ToggleButton>
-                                </Grid>
-                                <Button Grid.Row="1"
+                                <Button Grid.Row="4"
                                         IsEnabled="{Binding SECS_Communicating, Mode=OneWay}">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding SendTerminalMessageCommand, Mode=OneTime}" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                    <TextBlock>
-                        <Run Text="{DynamicResource 發送}" /><Run Text="{DynamicResource 訊息}" />
-                                    </TextBlock>
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding SendTerminalMessageCommand, Mode=OneTime}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                        <TextBlock>
+                                              <Run Text="{DynamicResource 發送}" /><Run Text="{DynamicResource 訊息}" />
+                                        </TextBlock>
                                 </Button>
                             </Grid>
                         </GroupBox>
@@ -1002,7 +1014,7 @@
                                                FontSize="16"
                                                FontWeight="Bold"
                                                Foreground="{StaticResource GlyphBrush}">
-                        <Run Text="{DynamicResource 本日}" /><Run Text="{DynamicResource 訊息}" />
+                                               <Run Text="{DynamicResource 本日}" /><Run Text="{DynamicResource 訊息}" />
                                     </TextBlock>
                                 </Border>
                             </GroupBox.Header>
@@ -1270,6 +1282,7 @@
                                     </DataGridTemplateColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
+                            
                         </GroupBox>
                         <Border Grid.Row="4"
                                 Background="{StaticResource WindowBackgroundBrush6}"
@@ -1281,6 +1294,7 @@
                                                 FontWeight="Bold"
                                                 IsHitTestVisible="False" />
                         </Border>
+                       
                     </Grid>
                 </Border>
             </Grid>
