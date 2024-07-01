@@ -23,29 +23,6 @@ public class GRC_DataModel : PLCDataProvider
         set => Set(value);
     }
 
-    /// <summary>門鎖開關</summary>
-    [PLCBit(BitType.M, 350, LogType.None)]
-    public bool DoorLock
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-
-    /// <summary>警報器靜音</summary>
-    [PLCBit(BitType.M, 351, LogType.None)]
-    public bool BeepSilince
-    {
-        get => Get<bool>();
-        set => Set(value);
-    }
-
-    [PLCData(DataType.D, 4100, 16, LogType.None)]
-    public string? PartID
-    {
-        get => Get<string>();
-        set => Set(value);
-    }
-
     #endregion
 
     #region 配方實際值   
@@ -812,7 +789,7 @@ public class GRC_DataModel : PLCDataProvider
         get => Get<bool>();
         set => Set(value);
     }
-    
+
     /// <summary>自動模式</summary>
     [PLCBit(BitType.M, 203, LogType.StatusVariables)]
     public bool Manual
@@ -827,7 +804,7 @@ public class GRC_DataModel : PLCDataProvider
         get => Get<bool>();
         set => Set(value);
     }
-    
+
     [PLCBit(BitType.M, 265, LogType.StatusVariables)]
     public bool AlarmMode
     {
@@ -864,8 +841,10 @@ public class GRC_DataModel : PLCDataProvider
     //[PLCData(DataType.D, 10000, 16, LogType.CustomData)] public string PanelID { get => Get<string>(); set => Set(value); }
     [PLCData(DataType.D, 20000, 16, LogType.CustomData)] public string LotID { get => Get<string>(); set => Set(value); }
 
-    ///// <summary> 入料 </summary>
-    //[PLCBit(BitType.M, 100, LogType.CustomData)] public bool FeedInlet { get => Get<bool>(); set => Set(value); }
+    /// <summary> 入料 </summary>
+    [PLCBit(BitType.M, 100, LogType.CustomData)] public bool PanelIn { get => Get<bool>(); set => Set(value); }
+    /// <summary> 出料 </summary>
+    [PLCBit(BitType.M, 103, LogType.CustomData)] public bool PanelOut { get => Get<bool>(); set => Set(value); }
 
     ///// <summary> 入料到等待塗佈 </summary>
     //[PLCBit(BitType.M, 112, LogType.CustomData)] public bool FeedToWait { get => Get<bool>(); set => Set(value); }

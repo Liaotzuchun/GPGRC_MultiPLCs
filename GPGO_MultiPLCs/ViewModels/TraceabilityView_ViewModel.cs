@@ -14,7 +14,6 @@ using OfficeOpenXml;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Legends;
-using OxyPlot.Series;
 using Serilog;
 
 namespace GPGRC_MultiPLCs.ViewModels;
@@ -230,7 +229,7 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                            }
                                            else
                                            {
-                                               SearchProduct = SearchResult.Products.Where(x => x.PartID.Contains(input1.ToString()) && x.LotID.Contains(input2.ToString())).OrderBy(x => x.Layer).FirstOrDefault();
+                                               SearchProduct = SearchResult.Products.Where(x => x.PartID.Contains(input1.ToString()) && x.LotID.Contains(input2.ToString())).FirstOrDefault();
 
                                                Date1 = SearchResult.AddedTime.Date;
                                            }
@@ -363,7 +362,6 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                               RecipeFilter.Filter = e?.Select(x => x.Recipe.RecipeName).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList() ?? new List<EqualFilter>();
                               OpFilter.Filter = e?.Select(x => x.OperatorID).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList() ?? new List<EqualFilter>();
                               PartIDFilter.Filter = e?.SelectMany(x => x.Products.Select(y => y.PartID)).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList() ?? new List<EqualFilter>();
-                              LayerFilter.Filter = e?.SelectMany(x => x.Products.Select(y => y.Layer)).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList() ?? new List<EqualFilter>();
                               FinishedFilter.Filter = e?.Select(x => x.TopIsFinished).Distinct().OrderBy(x => x).Select(x => new EqualFilter(x)).ToList() ?? new List<EqualFilter>();
 
                               await Task.Delay(150);
@@ -422,10 +420,8 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                   ProductIndex = ViewResults[SelectedIndex]
                                                 .Products
                                                 .Select((x, i) => (index: i, value: x))
-                                                .OrderBy(x => x.value.Layer)
                                                 .FirstOrDefault(x => x.value.PartID == SearchProduct.PartID &&
-                                                                     x.value.LotID == SearchProduct.LotID &&
-                                                                     x.value.Layer == SearchProduct.Layer)
+                                                                     x.value.LotID == SearchProduct.LotID)
                                                 .index;
 
                                   SearchProduct = null;
@@ -595,15 +591,6 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
             using var finishedResults = ViewResults.SelectMany(x => x.GetFlatInfos()).ToPooledList();
 
             var ByDate = date2 - date1 > TimeSpan.FromDays(1);
-            using var result2 = finishedResults
-                               .GroupBy(x => Mode == ChartMode.ByPart ?
-                                                 x.Product.Layer.ToString() :
-                                                 x.Product.PartID)
-                               .OrderBy(x => x.Key)
-                               .Select(x => (x.Key, x))
-                               .ToPooledList();
-
-            var NoLayer2   = result2.Count > 20 && Mode >= ChartMode.ByPart;
             var categories = new List<string>();
 
             using var result1 = finishedResults.GroupBy(x =>
@@ -613,90 +600,16 @@ public class TraceabilityView_ViewModel : DataCollectionByDate<ProcessInfo>
                                                                 ChartMode.ByPLC   => x.StationNumber.ToString(),
                                                                 ChartMode.ByPart  => x.Product.PartID,
                                                                 ChartMode.ByLot   => x.Product.LotID,
-                                                                ChartMode.ByLayer => x.Product.Layer.ToString(),
                                                                 _                 => ByDate ? x.AddedTime.Date.ToString("MM/dd") : $"{x.AddedTime.Hour:00}:00"
                                                             };
                                                         })
                                                .OrderBy(x => x.Key)
-                                               .Select(x => (x.Key, x.Sum(y => y.Product.Quantity)))
+                                               .Select(x => (x.Key, x.Sum(y => y.Product.TotalQuantity)))
                                                .ToPooledList();
 
             categoryAxis1.FontSize = result1.Count > 20 ? 9 : 12;
 
             var color_step_1 = 0.9 / result1.Count;
-
-            for (var i = 0; i < result1.Count; i++)
-            {
-                var (result, count) = result1[i];
-                categories.Add(result);
-                categoryAxis1.Labels.Add(result);
-                categoryAxis2.Labels.Add(result);
-
-                var cs = new BarSeries
-                {
-                    FontSize          = result1.Count > 20 ? 8 : 10,
-                    LabelFormatString = "{0}",
-                    TextColor         = fontcolor,
-                    IsStacked         = true,
-                    StrokeThickness   = 0,
-                    StrokeColor       = NoLayer2 ? bordercolor : OxyColors.Transparent,
-                    FillColor         = NoLayer2 ? OxyColor.FromHsv(i * color_step_1, 0.9, 0.9) : OxyColors.Transparent,
-                    YAxisKey          = "2",
-                    XAxisKey          = "0"
-                };
-
-                cs.Items.Add(new BarItem(count, i));
-                ResultView.Series.Add(cs);
-            }
-
-            if (!NoLayer2)
-            {
-                ResultView.IsLegendVisible = true;
-                ResultView.Legends[0].LegendTitle = Mode == ChartMode.ByPart ?
-                                                        ProductInfoProperties[nameof(ProductInfo.Layer)].GetName(Language) :
-                                                        ProductInfoProperties[nameof(ProductInfo.PartID)].GetName(Language);
-
-                var color_step_2 = 0.9 / result2.Count;
-
-                for (var i = 0; i < result2.Count; i++)
-                {
-                    var (cat, info) = result2[i];
-
-                    var ccs = new BarSeries
-                    {
-                        FontSize          = 10,
-                        LabelFormatString = result2.Count > 10 || categories.Count > 20 ? "" : "{0}",
-                        LabelPlacement    = LabelPlacement.Middle,
-                        TextColor         = OxyColors.White,
-                        Title             = cat,
-                        IsStacked         = true,
-                        StrokeThickness   = 0,
-                        StrokeColor       = bordercolor,
-                        FillColor         = OxyColor.FromHsv(i * color_step_2, 0.9, 0.9),
-                        YAxisKey          = "1",
-                        XAxisKey          = "0"
-                    };
-
-                    for (var j = 0; j < categories.Count; j++)
-                    {
-                        var val = info.Where(x => Mode switch
-                                                  {
-                                                      ChartMode.ByPLC   => x.StationNumber.ToString() == categories[j],
-                                                      ChartMode.ByPart  => x.Product.PartID           == categories[j],
-                                                      ChartMode.ByLot   => x.Product.LotID            == categories[j],
-                                                      ChartMode.ByLayer => x.Product.Layer.ToString() == categories[j],
-                                                      _                 => ByDate ? x.AddedTime.Date.ToString("MM/dd") == categories[j] : $"{x.AddedTime.Hour:00}:00" == categories[j]
-                                                  })
-                                      .Sum(x => x.Product.Quantity);
-                        if (val > 0)
-                        {
-                            ccs.Items.Add(new BarItem(val, j));
-                        }
-                    }
-
-                    ResultView.Series.Add(ccs);
-                }
-            }
         }
 
         lock (ResultView.SyncRoot)

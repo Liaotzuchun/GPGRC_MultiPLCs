@@ -788,5 +788,6 @@
     <sys:String x:Key="塗佈後重">塗佈後重</sys:String>
     <sys:String x:Key="塗佈">塗佈</sys:String>
     <sys:String x:Key="油墨重">油墨重</sys:String>
-
+    <sys:String x:Key="進板數量">進板數量</sys:String>
+    <sys:String x:Key="生產數量">生產數量</sys:String>
 </ResourceDictionary>

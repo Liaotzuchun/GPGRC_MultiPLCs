@@ -507,11 +507,34 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
 
                 return HCACKValule.NoObjectExists;
             }
+            if (PLC_All[0].CoaterInfo.TempProducts.Count > 0)
+            {
+                if (PLC_All[0].CoaterInfo.TempProducts.FirstOrDefault(x => x.LotID == LotId.Trim()) is not { })
+                {
+                    if (PLC_All[0].CoaterInfo.TempProducts.FirstOrDefault(x => x.Recipe == ppid.Trim()) is not { })
+                    {
+                        var eventval2 = (0, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.PPSELECT_Command), "配方不相同", msg);
+                        EventHappened?.Invoke(eventval2);
+
+                        dialog.Show(new Dictionary<Language, string>
+                                                                 {
+                                                                     { Language.TW, "PPSELECT: 配方不相同" },
+                                                                     { Language.CHS, "PPSELECT: 配方不相同" },
+                                                                     { Language.EN, "PPSELECT: The PP is not same." }
+                                                                 },
+                                    DialogMsgType.Alert);
+
+                        return HCACKValule.CantPerform;
+                    }
+                }
+            }
 
             var eventval3 = (0, EventType.SECSCommand, DateTime.Now, nameof(GRC_SecsGem.PPSELECT_Command), "", msg);
             EventHappened?.Invoke(eventval3);
 
-            PLC_All[0].AddLOT(LotId, quantity);
+            PLC_All[0].AddLOT(LotId, quantity, ppid);
+            PLC_All[1].AddLOT(LotId, quantity, ppid);
+            PLC_All[2].AddLOT(LotId, quantity, ppid);
 
             var result = PLC_All[0].WriteRecipeToPlcAsync(recipe,0).Result;
             result = PLC_All[1].WriteRecipeToPlcAsync(recipe, 1).Result;
@@ -926,128 +949,41 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                 Log.Logger.Debug($"SECS UpdateSV Result. Name={$"RC{index + 1}_{name}"}. Value={result}. ");
             };
 
-            //plc.PanelMoveHappened += e =>
-            //    {
-            //        var panelIndexMap = new Dictionary<string, int>
-            //                                       {
-            //                                           { nameof(plc.FeedInlet), 0 },
-            //                                           { nameof(plc.FeedToWait), 1 },
-            //                                           { nameof(plc.WaitToFrontWeight), 2 },
-            //                                           { nameof(plc.FrontWeightToCoater), 3 },
-            //                                           { nameof(plc.CoaterToBackWeight), 4 },
-            //                                       };
-            //        try
-            //        {
-            //            if (e.Item1 == 0)
-            //            {
-            //                if (panelIndexMap.ContainsKey(e.Item2))
-            //                {
-            //                    var Coaterindex = panelIndexMap[e.Item2];
-
-            //                    if (Coaterindex == 0)
-            //                    {
-            //                        Coater1Panel[0] = new CoaterItem { Num = 0, PanelName = plc.PanelID };
-            //                    }
-            //                    else
-            //                    {
-            //                        Coater1Panel[Coaterindex] = Coater1Panel[Coaterindex - 1];
-            //                        Coater1Panel[Coaterindex - 1] = null;
-            //                    }
-            //                }
-            //                else if (e.Item2 == nameof(plc.BackWeightToOven) && Coater1Panel[4] is not null)
-            //                {
-            //                    _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
-            //                    {
-            //                        Coater1Items.Add(new CoaterItem { Num = Coater1Items.Count + 1, PanelName = Coater1Panel[4].PanelName });
-            //                        Coater1Panel[4] = null;
-            //                    });
-            //                }
-            //            }
-            //            else if (e.Item1 == 1)
-            //            {
-            //                if (panelIndexMap.ContainsKey(e.Item2))
-            //                {
-            //                    var Coaterindex = panelIndexMap[e.Item2];
-            //                    if (Coaterindex == 0)
-            //                    {
-
-            //                    }
-            //                    else if (Coaterindex == 1)
-            //                    {
-            //                        _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
-            //                            {
-            //                                Coater2Panel[0] = new CoaterItem { Num = 0, PanelName = Coater1Items[0].PanelName };
-
-            //                                for (var i = 0; i < Coater1Items.Count - 1; i++)
-            //                                {
-            //                                    Coater1Items[i] = Coater1Items[i + 1];
-            //                                    Coater1Items[i].Num = i + 1;
-            //                                }
-            //                                Coater1Items.RemoveAt(Coater1Items.Count - 1);
-            //                            });
-            //                    }
-            //                    else
-            //                    {
-            //                        Coater2Panel[Coaterindex - 1] = Coater2Panel[Coaterindex - 2];
-            //                        Coater2Panel[Coaterindex - 2] = null;
-            //                    }
-            //                }
-            //                else if (e.Item2 == nameof(plc.BackWeightToOven) && Coater2Panel[3] is not null)
-            //                {
-            //                    _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
-            //                    {
-            //                        Coater2Items.Add(new CoaterItem { Num = Coater2Items.Count + 1, PanelName = Coater2Panel[3].PanelName });
-            //                        Coater2Panel[3] = null;
-            //                    });
-            //                }
-            //            }
-            //            else if (e.Item1 == 2)
-            //            {
-            //                if (panelIndexMap.ContainsKey(e.Item2))
-            //                {
-            //                    var Coaterindex = panelIndexMap[e.Item2];
-            //                    if (Coaterindex == 0)
-            //                    {
-
-            //                    }
-            //                    else if (Coaterindex == 1 && !string.IsNullOrEmpty(Coater2Items[0].PanelName))
-            //                    {
-            //                        _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
-            //                            {
-            //                                Coater3Panel[0] = new CoaterItem { Num = 0, PanelName = Coater2Items[0].PanelName };
-
-            //                                for (var i = 0; i < Coater2Items.Count - 1; i++)
-            //                                {
-            //                                    Coater2Items[i] = Coater2Items[i + 1];
-            //                                    Coater2Items[i].Num = i + 1;
-            //                                }
-            //                                Coater2Items.RemoveAt(Coater2Items.Count - 1);
-            //                            });
-            //                    }
-            //                    else
-            //                    {
-            //                        Coater3Panel[Coaterindex - 1] = Coater3Panel[Coaterindex - 2];
-            //                        Coater3Panel[Coaterindex - 2] = null;
-            //                    }
-            //                }
-            //                else if (e.Item2 == nameof(plc.BackWeightToOven) && Coater3Panel[3] is not null)
-            //                {
-            //                    _ = Application.Current.Dispatcher.BeginInvoke((Action)delegate ()
-            //                    {
-            //                        Coater3Items.Add(new CoaterItem { Num = Coater3Items.Count + 1, PanelName = Coater3Panel[3].PanelName });
-            //                        Coater3Panel[3] = null;
-            //                    });
-            //                }
-            //            }
-            //            NotifyPropertyChanged(nameof(Coater1Panel));
-            //            NotifyPropertyChanged(nameof(Coater2Panel));
-            //            NotifyPropertyChanged(nameof(Coater3Panel));
-            //        }
-            //        catch
-            //        {
-
-            //        }
-            //    };
+            plc.PanelMoveHappened += e =>
+            {
+                //try
+                //{
+                //    if (e.Item2 == "PanelIn")
+                //    {
+                //        PLC_All[e.Item1].CoaterInfo.Products.Panel
+                //        switch (e.Item1)
+                //        {
+                //            case 0:
+                //                break;
+                //            case 1:
+                //                break;
+                //            case 2:
+                //                break;
+                //        }
+                //    }
+                //    else if (e.Item2 == "PanelOut")
+                //    {
+                //        switch (e.Item1)
+                //        {
+                //            case 0:
+                //                break;
+                //            case 1:
+                //                break;
+                //            case 2:
+                //                break;
+                //        }
+                //    }
+                //}
+                //catch (Exception ex)
+                //{
+                //    Log.Logger.Debug($"{DateTime.Now} : PanelInOut Exception : {ex.Message} ,{e.Item1} , {e.Item2}");
+                //}
+            };
         }
 
         SecsGemEquipment.Enable(true);

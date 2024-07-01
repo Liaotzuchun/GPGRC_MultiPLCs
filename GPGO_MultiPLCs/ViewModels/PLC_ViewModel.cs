@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Schedulers;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Threading;
 using GPGRC_MultiPLCs.Models;
@@ -63,7 +62,6 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
     public RelayCommand InputFocusCommand { get; }
     public AsyncCommand StartCommand { get; }
     public AsyncCommand StopCommand { get; }
-    public RelayCommand SilinceCommand { get; }
     /// <summary>取消投產</summary>
     public RelayCommand CancelCheckInCommand { get; }
     /// <summary>投產</summary>
@@ -377,106 +375,105 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
 
         CheckInDialogCommand = new CommandWithResult<bool>(_ => false);
 
-        CheckInCommand = new RelayCommand(_ =>
-        {
-            if (SecsIsRemoteOnline)
-            {
-                if (IsCheckin)
-                {
-                    CancelCheckInCommand?.Execute(null);
-                }
-                else
-                {
-                    IsCheckin = true;
-                    CoaterInfo.OperatorID = InputOperatorID;
-                    //RackID = CoaterInfo.TempProducts.FirstOrDefault()?.LotID ?? string.Empty;
-                    DoorLock = true;
-                    //CheckIn?.Invoke((opid: CoaterInfo.OperatorID, rackid: RackID));
+        //CheckInCommand = new RelayCommand(_ =>
+        //{
+        //    if (SecsIsRemoteOnline)
+        //    {
+        //        if (IsCheckin)
+        //        {
+        //            CancelCheckInCommand?.Execute(null);
+        //        }
+        //        else
+        //        {
+        //            IsCheckin = true;
+        //            CoaterInfo.OperatorID = InputOperatorID;
+        //            //RackID = CoaterInfo.TempProducts.FirstOrDefault()?.LotID ?? string.Empty;
+        //            //CheckIn?.Invoke((opid: CoaterInfo.OperatorID, rackid: RackID));
 
-                    var eventval = (EventType.Operator, DateTime.Now, nameof(CheckInCommand), "", "");
-                    EventHappened?.Invoke(eventval);
-                }
-            }
-            else
-            {
-                CancelCheckIn?.Invoke(CoaterInfo.RackID);
-                ClearInput();
-                InvokeSECSEvent?.Invoke("LotRemoved");
+        //            var eventval = (EventType.Operator, DateTime.Now, nameof(CheckInCommand), "", "");
+        //            EventHappened?.Invoke(eventval);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        CancelCheckIn?.Invoke(CoaterInfo.RackID);
+        //        ClearInput();
+        //        InvokeSECSEvent?.Invoke("LotRemoved");
 
-                var eventval = (EventType.Operator, DateTime.Now, nameof(CancelCheckIn), "", "");
-                EventHappened?.Invoke(eventval);
-            }
-        });
+        //        var eventval = (EventType.Operator, DateTime.Now, nameof(CancelCheckIn), "", "");
+        //        EventHappened?.Invoke(eventval);
+        //    }
+        //});
 
-        CancelCheckInCommand = new RelayCommand(_ =>
-        {
-            CheckOut?.Invoke(CoaterInfo.RackID);
-            ClearInput();
-            BeepSilince = true;
+        //CancelCheckInCommand = new RelayCommand(_ =>
+        //{
+        //    CheckOut?.Invoke(CoaterInfo.RackID);
+        //    ClearInput();
+        //    BeepSilince = true;
 
-            var eventval = (EventType.Operator, DateTime.Now, nameof(CheckOut), "", "");
-            EventHappened?.Invoke(eventval);
+        //    var eventval = (EventType.Operator, DateTime.Now, nameof(CheckOut), "", "");
+        //    EventHappened?.Invoke(eventval);
 
-            IsCheckOut = false;
-            IsCheckin = false;
-            DoorLock = false;
-        });
+        //    IsCheckOut = false;
+        //    IsCheckin = false;
+        //    DoorLock = false;
+        //});
 
-        CheckCommand = new RelayCommand(e =>
-        {
-            if (e is MouseButtonEventArgs args)
-            {
-                //! 避免烘烤中意外中止
-                if (IsExecuting && IsCheckin)
-                {
-                    args.Handled = true;
-                }
-                //! 避免CheckIn的OP權限不符
-                else if (!IsCheckin)
-                {
-                    if (CheckUser != null && !CheckUser.Invoke(InputOperatorID))
-                    {
-                        dialog.Show(new Dictionary<Language, string>
-                                                                    {
-                                                                        { Language.TW, "OP權限不符" },
-                                                                        { Language.CHS, "OP权限不符" },
-                                                                        { Language.EN, "OP permissions error." }
-                                                                    },
-                                    DialogMsgType.Alert);
+        //CheckCommand = new RelayCommand(e =>
+        //{
+        //    if (e is MouseButtonEventArgs args)
+        //    {
+        //        //! 避免烘烤中意外中止
+        //        if (IsExecuting && IsCheckin)
+        //        {
+        //            args.Handled = true;
+        //        }
+        //        //! 避免CheckIn的OP權限不符
+        //        else if (!IsCheckin)
+        //        {
+        //            if (CheckUser != null && !CheckUser.Invoke(InputOperatorID))
+        //            {
+        //                dialog.Show(new Dictionary<Language, string>
+        //                                                            {
+        //                                                                { Language.TW, "OP權限不符" },
+        //                                                                { Language.CHS, "OP权限不符" },
+        //                                                                { Language.EN, "OP permissions error." }
+        //                                                            },
+        //                            DialogMsgType.Alert);
 
-                        args.Handled = true;
-                    }
-                }
-            }
-        });
+        //                args.Handled = true;
+        //            }
+        //        }
+        //    }
+        //});
 
-        SilinceCommand = new RelayCommand(_ => BeepSilince = true);
+        //SilinceCommand = new RelayCommand(_ => BeepSilince = true);
 
-        CheckIsExecutingCommand = new RelayCommand(e =>
-                                                   {
-                                                       if (e is MouseButtonEventArgs { Source: ToggleButton tb } args)
-                                                       {
-                                                           //! 避免烘烤中意外中止
-                                                           if (IsExecuting && tb.IsChecked == true)
-                                                           {
-                                                               args.Handled = true;
-                                                           }
+        //CheckIsExecutingCommand = new RelayCommand(e =>
+        //                                           {
+        //                                               if (e is MouseButtonEventArgs { Source: ToggleButton tb } args)
+        //                                               {
+        //                                                   //! 避免烘烤中意外中止
+        //                                                   if (IsExecuting && tb.IsChecked == true)
+        //                                                   {
+        //                                                       args.Handled = true;
+        //                                                   }
 
-                                                           //! 避免CheckIn的OP權限不符
-                                                           if (tb.IsChecked == false && CheckUser != null && !CheckUser.Invoke(InputOperatorID))
-                                                           {
-                                                               dialog.Show(new Dictionary<Language, string>
-                                                                           {
-                                                                               { Language.TW, "OP權限不符" },
-                                                                               { Language.CHS, "OP权限不符" },
-                                                                               { Language.EN, "OP permissions error." }
-                                                                           },
-                                                                           DialogMsgType.Alert);
+        //                                                   //! 避免CheckIn的OP權限不符
+        //                                                   if (tb.IsChecked == false && CheckUser != null && !CheckUser.Invoke(InputOperatorID))
+        //                                                   {
+        //                                                       dialog.Show(new Dictionary<Language, string>
+        //                                                                   {
+        //                                                                       { Language.TW, "OP權限不符" },
+        //                                                                       { Language.CHS, "OP权限不符" },
+        //                                                                       { Language.EN, "OP permissions error." }
+        //                                                                   },
+        //                                                                   DialogMsgType.Alert);
 
-                                                               args.Handled = true;
-                                                           }
-                                                       }
-                                                   });
+        //                                                       args.Handled = true;
+        //                                                   }
+        //                                               }
+        //                                           });
 
         GoDetailCommand = new RelayCommand(_ => WantDetail?.Invoke());
 
@@ -506,8 +503,8 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
 
                 InvokeSECSEvent?.Invoke("LotRemoved");
 
-                var unit     = info.Quantity > 1 ? "pcs" : "pc";
-                var eventval = (EventType.Operator, DateTime.Now, nameof(DeleteLotCommand), "", $"{info.LotID}-{info.PartID}-{info.Layer}-{info.Quantity}{unit}");
+                var unit     = info.TotalQuantity > 1 ? "pcs" : "pc";
+                var eventval = (EventType.Operator, DateTime.Now, nameof(DeleteLotCommand), "", $"{info.LotID}-{info.PartID}-{info.TotalQuantity}{unit}");
                 EventHappened?.Invoke(eventval);
 
                 ClearInput();
@@ -613,31 +610,43 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
                             else if (LogType == LogType.Trigger)
                             {
                             }
-                            //else if (LogType == LogType.CustomData)
-                            //{
-                            //    if (value is bool val)
-                            //    {
-                            //        if (val)
-                            //        {
-                            //            PanelMoveHappened?.Invoke((plcindex, name));
-                            //            if (name == nameof(BackWeightToOven))
-                            //            {
-                            //                OvenInfo.CoaterAfterCoaterWeight = 0;
-                            //                OvenInfo.CoaterEmptyPanelWeight = 0;
-                            //                OvenInfo.CoaterOilWeight = 0;
-                            //                OvenInfo.Station = plcindex + 1;
-                            //                _ = ExecutingFinished?.Invoke(OvenInfo.Copy()!);
-                            //            }
-                            //        }
-                            //    }
-                            //}
+                            else if (LogType == LogType.CustomData)
+                            {
+                                if (value is bool val)
+                                {
+                                    if (val)
+                                    {
+                                        if (name == nameof(PanelIn))
+                                        {
+                                            if (CoaterInfo.TempProducts.FirstOrDefault() is { } product1)
+                                            {
+                                                product1.PanelInQty = product1.PanelInQty + 1;
+                                                SV_Changed?.Invoke($"InsideCount", product1.PanelInQty - product1.ProductionQuantity);
+                                                var eventval = (EventType.Trigger, DateTime.Now, name, "", $"Coater{plcindex+1} 進板");
+                                                EventHappened?.Invoke(eventval);
+                                            }
+
+                                        }
+                                        else if (name == nameof(PanelOut))
+                                        {
+                                            if (CoaterInfo.TempProducts.FirstOrDefault() is { } product1)
+                                            {
+                                                product1.ProductionQuantity = product1.ProductionQuantity + 1;
+                                                SV_Changed?.Invoke($"InsideCount", product1.PanelInQty - product1.ProductionQuantity);
+                                                var eventval = (EventType.Trigger, DateTime.Now, name, "", $"Coater{plcindex+1} 出板");
+                                                EventHappened?.Invoke(eventval);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         };
 
         CoaterInfo.Products.CollectionChanged += (_, _) =>
                                                {
                                                    using var lots   = CoaterInfo.Products.Select(x => x.LotID).Distinct().ToPooledList();
                                                    using var parts  = CoaterInfo.Products.Select(x => x.PartID).Distinct().ToPooledList();
-                                                   var       panels = CoaterInfo.Products.Sum(x => x.Quantity);
+                                                   var       panels = CoaterInfo.Products.Sum(x => x.TotalQuantity);
 
                                                    SV_Changed?.Invoke("LotIDs", lots.Count > 0 ? string.Join(",", lots) : string.Empty);
                                                    SV_Changed?.Invoke("PartIDs", parts.Count > 0 ? string.Join(",", parts) : string.Empty);
@@ -841,28 +850,31 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
         Set(InputQuantityMin, nameof(InputQuantity));
         Set(InputLayerMin, nameof(InputLayer));
     }
-    public void AddLOT(string lotid, int quantity)
+    public void AddLOT(string lotid, int quantity, string ppid)
     {
         if (CoaterInfo.TempProducts.FirstOrDefault(x => x.LotID == lotid.Trim()) is { } product)
         {
-            product.Quantity = quantity;
-            Quantity = (short)product.Quantity;
+            product.TotalQuantity = quantity;
+            Quantity = (short)product.TotalQuantity;
         }
         else
         {
             var info = new ProductInfo
             {
+                Recipe   = ppid.Trim(),
                 LotID    = lotid.Trim(),
-                Quantity = quantity
+                TotalQuantity = quantity,
+                PanelInQty = 0,
+                ProductionQuantity = 0,
             };
-
+            RecipeName = info.Recipe;
             LotID = info.LotID;
-            Quantity = (short)info.Quantity;
+            Quantity = (short)info.TotalQuantity;
 
             CoaterInfo.TempProducts.Add(info);
         }
 
-        InvokeSECSEvent?.Invoke("LotAdded");
+        //InvokeSECSEvent?.Invoke("LotAdded");
     }
     private void AddProcessEvent((EventType type, DateTime addtime, string note, string tag, object value) eventdata)
     {

@@ -159,7 +159,7 @@
                           Margin="6,0,6,0">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="3*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Border Grid.Column="0"
@@ -171,7 +171,7 @@
                         <GroupBox Grid.Column="1"
                                   Margin="3"
                                   FontSize="20"
-                                  Header="LotInfo">
+                                  Header="{Binding CoaterInfo.OvenCode, Mode=OneWay}">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition />
@@ -216,11 +216,33 @@
                                                                TextWrapping="Wrap" />
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn> 
+                                        <DataGridTemplateColumn Width="*">
+                                            <DataGridTemplateColumn.Header>
+                                                <TextBlock Text="{DynamicResource 配方}" />
+                                            </DataGridTemplateColumn.Header>
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate DataType="models:ProductInfo">
+                                                    <TextBlock Margin="4"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               Text="{Binding Recipe, Mode=OneWay}"
+                                                               TextWrapping="Wrap" />
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>
                                         <DataGridTextColumn Width="Auto"
                                                             MinWidth="60"
-                                                            Binding="{Binding Quantity, Mode=OneWay}"
-                                                            Header="{DynamicResource 數量}" />
+                                                            Binding="{Binding TotalQuantity, Mode=OneWay}"
+                                                            Header="{DynamicResource 數量}" /> 
+                                        <DataGridTextColumn Width="Auto"
+                                                            MinWidth="60"
+                                                            Binding="{Binding PanelInQty, Mode=OneWay}"
+                                                            Header="{DynamicResource 進板數量}" />
+                                        <DataGridTextColumn Width="Auto"
+                                                            MinWidth="60"
+                                                            Binding="{Binding ProductionQuantity, Mode=OneWay}"
+                                                            Header="{DynamicResource 生產數量}" />
                                     </DataGrid.Columns>
                                 </DataGrid>
                             </Grid>

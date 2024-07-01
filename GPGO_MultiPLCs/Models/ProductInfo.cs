@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using GPMVVM.Helpers;
+﻿using GPMVVM.Helpers;
 using GPMVVM.Models;
 
 namespace GPGRC_MultiPLCs.Models;
@@ -8,31 +6,22 @@ namespace GPGRC_MultiPLCs.Models;
 /// <summary>材料生產資訊</summary>
 public class ProductInfo : ObservableObject //! 這是一個批號的資料
 {
-    [LanguageTranslator("Quantity", "數量", "数量")]
-    public int Quantity
+    [LanguageTranslator("TotalQuantity", "總數量", "總数量")]
+    public int TotalQuantity
     {
         get => Get<int>();
         set => Set(value);
     }
-
-    [LanguageTranslator("Code Type", "條碼類型", "条码类型")]
-    public CodeType CodeType
+    [LanguageTranslator("ProductionQuantity", "生產數量", "生產數量")]
+    public int ProductionQuantity
     {
-        get => Get<CodeType>();
+        get => Get<int>();
         set => Set(value);
     }
-
-    [LanguageTranslator("First Article", "首件", "首件")]
-    public bool FirstPanel
+    [LanguageTranslator("PanelInQty", "進板數量", "進板数量")]
+    public int PanelInQty
     {
-        get => Get<bool>();
-        set => Set(value);
-    }
-
-    [LanguageTranslator("Order", "工單", "工单")]
-    public string OrderCode
-    {
-        get => Get<string>()!;
+        get => Get<int>();
         set => Set(value);
     }
 
@@ -49,64 +38,18 @@ public class ProductInfo : ObservableObject //! 這是一個批號的資料
         get => Get<string>()!;
         set => Set(value);
     }
-
-    [LanguageTranslator("SN", "序號", "序号")]
-    public int ProcessNumber
-    {
-        get => Get<int>();
-        set => Set(value);
-    }
-
-    [LanguageTranslator("Side", "面", "面")]
-    public string Side
+    [LanguageTranslator("Recipe", "配方", "配方")]
+    public string Recipe
     {
         get => Get<string>()!;
         set => Set(value);
     }
 
-    /// <summary>放在第幾層</summary>
-    [LanguageTranslator("Layer", "階層", "阶层")]
-    public int Layer
-    {
-        get => Get<int>();
-        set => Set(value);
-    }
-
     public ProductInfo()
     {
-        CodeType  = CodeType.Panel;
-        OrderCode = string.Empty;
-        PartID    = string.Empty;
-        LotID     = string.Empty;
-        Side      = "A";
+        PartID = string.Empty;
+        LotID = string.Empty;
+        Recipe = string.Empty;
     }
 
-    /// <summary></summary>
-    /// <param name="code">工單條碼</param>
-    public ProductInfo(string code)
-    {
-        var strs = code.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-
-        OrderCode     = strs.Length > 0 ? strs[0] : "";
-        ProcessNumber = strs.Length > 1 ? int.TryParse(strs[1], out var num) ? num : 0 : 0;
-    }
-
-    public ProductInfo(string orderCode, int processNumber)
-    {
-        OrderCode     = orderCode;
-        ProcessNumber = processNumber;
-    }
-
-    public Dictionary<string, object> ToDic(Language lng)
-    {
-        var type = GetType();
-
-        return new Dictionary<string, object>
-               {
-                   { type.GetProperty(nameof(Layer))?.GetName(lng)    ?? nameof(Layer), Layer },
-                   { type.GetProperty(nameof(PartID))?.GetName(lng)   ?? nameof(PartID), PartID },
-                   { type.GetProperty(nameof(LotID))?.GetName(lng)    ?? nameof(LotID), LotID },
-                   { type.GetProperty(nameof(Quantity))?.GetName(lng) ?? nameof(Quantity), Quantity }
-               };
-    }
 }

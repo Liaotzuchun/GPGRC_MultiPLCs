@@ -535,6 +535,8 @@
     <sys:String x:Key="操作人員">操作人員</sys:String>
     <sys:String x:Key="DataTimes">资料上报频率</sys:String>
     <sys:String x:Key="塗佈">塗佈</sys:String>
+    <sys:String x:Key="進板數量">進板數量</sys:String>
+    <sys:String x:Key="生產數量">生產數量</sys:String>
     <sys:String x:Key="RC3_F0">B(涂)涂布压轮左伸出未达定点(000)X7B</sys:String>
     <sys:String x:Key="RC3_F1">B(涂)涂布压轮右伸出未达定点(001)X7C</sys:String>
     <sys:String x:Key="RC3_F2">B(涂)涂布压轮左缩回未达定点(002)X7D</sys:String>

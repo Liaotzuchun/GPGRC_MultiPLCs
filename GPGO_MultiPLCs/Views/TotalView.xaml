@@ -818,7 +818,7 @@
                         <GroupBox Grid.Row="0"
                                   Grid.Column="2"
                                   Margin="0,3,0,3"
-                                  Header="AddLot"
+                                  Header="配方切換"
                                   FontSize="20">
                             <Grid Grid.Column="0">
                                 <Grid.RowDefinitions>
@@ -844,7 +844,7 @@
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                Background="{StaticResource WindowBackgroundBrush2}"
-                                               Text="Recipe" />
+                                               Text="配方名稱" />
                                 </Border>
                                 <ComboBox x:Name="ComboBox"
                                           Grid.Row="0"

@@ -63,14 +63,6 @@ public class BaseInfo : ObservableObject
         set => Set(value);
     }
 
-    [GPIgnore]
-    [LanguageTranslator("RackID", "板架", "台车")]
-    public string RackID
-    {
-        get => Get<string>() ?? string.Empty;
-        set => Set(value);
-    }
-
     [LanguageTranslator("Starting Time", "開始時間", "开始时间")]
     public DateTime StartTime
     {
@@ -127,8 +119,8 @@ public class BaseInfo : ObservableObject
         set => Set(value);
     }
 
-    public int TempQuantity => TempProducts.Sum(x => x.Quantity);
-    public int Quantity => Products.Sum(x => x.Quantity);
+    public int TempQuantity => TempProducts.Sum(x => x.TotalQuantity);
+    public int Quantity => Products.Sum(x => x.TotalQuantity);
 
     [GPIgnore]
     [LanguageTranslator("CoaterEmptyPanelWeight", "乾板重", "乾板重")]
