@@ -156,7 +156,8 @@
                 </GroupBox>
                 <GroupBox Grid.Row="1"
                           Grid.ColumnSpan="2"
-                          Margin="6,0,6,0">
+                          Margin="6,0,6,0"
+                          Header="設備參數">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -168,14 +169,8 @@
                                               DefaultTrackerTemplate="{x:Null}"
                                               Model="{Binding CoaterInfo.ChartModel.ChartView, Mode=OneWay}" />
                         </Border>
-                        <GroupBox Grid.Column="1"
-                                  Margin="3"
-                                  FontSize="20"
-                                  Header="{Binding CoaterInfo.OvenCode, Mode=OneWay}">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
+                            <Grid Grid.Column="1"
+                                  Margin="3">
                                 <DataGrid x:Name="DataGrid"
                                           views:DataGridExtensions.DisplayRowNumber="True"
                                           AutoGenerateColumns="False"
@@ -246,7 +241,6 @@
                                     </DataGrid.Columns>
                                 </DataGrid>
                             </Grid>
-                        </GroupBox>
                     </Grid>
                 </GroupBox>
             </Grid>

@@ -539,13 +539,15 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
                                     {
                                         AddProcessEvent(eventval!);
                                     }
+                                    if (val)
+                                    {
+                                        SV_Changed?.Invoke($"GlobalCoaterEqStatus", EquipmentStatus!);
+                                        SV_Changed?.Invoke($"GlobalCoaterEqMode", EqMode!);
 
-                                    SV_Changed?.Invoke($"GlobalCoaterEqStatus", EquipmentStatus!);
-                                    SV_Changed?.Invoke($"GlobalCoaterEqMode", EqMode!);
-
-                                    InvokeSECSEvent?.Invoke("EQCurrentStatus");
-                                    if (name is (nameof(AutoMode_Start)) or (nameof(Manual)))
-                                        InvokeSECSEvent?.Invoke("EQCurrentMode");
+                                        InvokeSECSEvent?.Invoke("EQCurrentStatus");
+                                        if (name is (nameof(AutoMode_Start)) or (nameof(Manual)))
+                                            InvokeSECSEvent?.Invoke("EQCurrentMode");
+                                    }
 
                                     NotifyPropertyChanged(nameof(EquipmentStatus));
                                 }
@@ -929,7 +931,6 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
                     RC3_TemperaturePV8);
         else
             _temperatureRecorder.AddTemperatures(true, DateTime.Now, TemperaturePV1, TemperaturePV2);
-
     }
 
     private async Task<SetRecipeResult> SetRecipeDialogAsync(string recipeName, int plcindex)

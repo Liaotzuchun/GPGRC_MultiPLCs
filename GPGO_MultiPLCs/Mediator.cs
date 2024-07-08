@@ -406,8 +406,7 @@ public sealed class Mediator : ObservableObject
             TotalVM.PLC_All[0].CheckRecipeCommand_KeyIn.Execute(e);
             TotalVM.PLC_All[1].CheckRecipeCommand_KeyIn.Execute(e);
             TotalVM.PLC_All[2].CheckRecipeCommand_KeyIn.Execute(e);
-        }
-        ;
+        };
 
         TotalVM.GetRecipeList += () =>
         {
