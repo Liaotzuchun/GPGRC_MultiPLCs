@@ -586,12 +586,12 @@ public class GRC_DataModel : PLCDataProvider
 
     #region Coater追板
     //[PLCData(DataType.D, 10000, 16, LogType.CustomData)] public string PanelID { get => Get<string>(); set => Set(value); }
-    [PLCData(DataType.D, 20000, 16, LogType.CustomData)] public string LotID { get => Get<string>(); set => Set(value); }
+    //[PLCData(DataType.D, 20000, 16, LogType.CustomData)] public string LotID { get => Get<string>(); set => Set(value); }
 
     /// <summary> 入料 </summary>
-    [PLCBit(BitType.M, 100, LogType.CustomData)] public bool PanelIn { get => Get<bool>(); set => Set(value); }
+    //[PLCBit(BitType.M, 100, LogType.CustomData)] public bool PanelIn { get => Get<bool>(); set => Set(value); }
     /// <summary> 出料 </summary>
-    [PLCBit(BitType.M, 103, LogType.CustomData)] public bool PanelOut { get => Get<bool>(); set => Set(value); }
+    //[PLCBit(BitType.M, 103, LogType.CustomData)] public bool PanelOut { get => Get<bool>(); set => Set(value); }
 
     ///// <summary> 入料到等待塗佈 </summary>
     //[PLCBit(BitType.M, 112, LogType.CustomData)] public bool FeedToWait { get => Get<bool>(); set => Set(value); }
