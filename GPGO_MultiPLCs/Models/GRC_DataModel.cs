@@ -151,44 +151,25 @@ public class GRC_DataModel : PLCDataProvider
     //[PPAttribute("RecipeCompare_TemperatureSV5", "1", Min = "0", Max = "150", MachineType = "Oven1", IsInt = false, IsSetting = true, ParameterType = "Oven", Unit = "(℃)")]
     //D4939,
     #region Coater1
-    ///// <summary>塗佈次數</summary>
-    //[PLCData(DataType.D, 700, LogType.RecipeSet)] public double RC1_Coatingoftimes { get => Get<double>(); set => Set(value); }
-    ///// <summary>塗佈速度設定</summary>
-    //[PLCData(DataType.D, 701, LogType.RecipeSet)] public double RC1_CoatingSpeedSetting { get => Get<double>(); set => Set(value); }
-    ///// <summary>板面夾持距離設定</summary>
-    //[PLCData(DataType.D, 702, LogType.RecipeSet)] public double RC1_BoardClampingDistance { get => Get<double>(); set => Set(value); }
-    ///// <summary>塞孔次數設定</summary>
-    //[PLCData(DataType.D, 703, LogType.RecipeSet)] public double RC1_Plugoftimes { get => Get<double>(); set => Set(value); }
-    ///// <summary>塗佈壓力設定</summary>
-    //[PLCData(DataType.D, 704, LogType.RecipeSet)] public double RC1_CoatingPressureSetting { get => Get<double>(); set => Set(value); }
+    /// <summary>塗佈次數</summary>
+    [PLCData(DataType.D, 4931, LogType.RecipeSet)] public double RecipeCompare_CoatingSpeedSetting { get => Get<double>(); set => Set(value); }
+    /// <summary>塗佈壓力</summary>
+    [PLCData(DataType.D, 4932, LogType.RecipeSet)] public double RecipeCompare_COATING_PRESSURE_SETTING { get => Get<double>(); set => Set(value); }
     ///// <summary>基板厚度設定</summary>
-    //[PLCData(DataType.D, 705, LogType.RecipeSet)] public double RC1_PanelThicknessSetting { get => Get<double>(); set => Set(value); }
-    ///// <summary>入料下降位置設定</summary>
-    //[PLCData(DataType.D, 706, LogType.RecipeSet)] public double RC1_LocationOfDrop { get => Get<double>(); set => Set(value); }
-    ///// <summary>左前D.BAR壓力設定</summary>
-    //[PLCData(DataType.D, 707, LogType.RecipeSet)] public double RC1_D_BarPressureSetting1 { get => Get<double>(); set => Set(value); }
-    ///// <summary>右前D.BAR壓力設定</summary>
-    //[PLCData(DataType.D, 708, LogType.RecipeSet)] public double RC1_D_BarPressureSetting2 { get => Get<double>(); set => Set(value); }
-    ///// <summary>左後D.BAR壓力設定</summary>
-    //[PLCData(DataType.D, 709, LogType.RecipeSet)] public double RC1_D_BarPressureSetting3 { get => Get<double>(); set => Set(value); }
-    ///// <summary>右後D.BAR壓力設定</summary>
-    //[PLCData(DataType.D, 710, LogType.RecipeSet)] public double RC1_D_BarPressureSetting4 { get => Get<double>(); set => Set(value); }
-    ///// <summary>塞孔刮刀壓力設定</summary>
-    //[PLCData(DataType.D, 711, LogType.RecipeSet)] public double RC1_Blade_Pressure { get => Get<double>(); set => Set(value); }
+    [PLCData(DataType.D, 4933, LogType.RecipeSet)] public double RecipeCompare_PanelThicknessSetting { get => Get<double>(); set => Set(value); }
     ///// <summary>烘烤時間設定</summary>
-    //[PLCData(DataType.D, 712, LogType.RecipeSet)] public double RC1_BakingTimeSetting { get => Get<double>(); set => Set(value); }
+    [PLCData(DataType.D, 4934, LogType.RecipeSet)] public double RecipeCompare_BakingTimeSetting { get => Get<double>(); set => Set(value); }
     ///// <summary>第1段溫度設定值</summary>
-    //[PLCData(DataType.D, 713, LogType.RecipeSet)] public double RC1_TemperatureSV1 { get => Get<double>(); set => Set(value); }
+    [PLCData(DataType.D, 4935, LogType.RecipeSet)] public double RecipeCompare_TemperatureSV1 { get => Get<double>(); set => Set(value); }
     ///// <summary>第2段溫度設定值</summary>
-    //[PLCData(DataType.D, 714, LogType.RecipeSet)] public double RC1_TemperatureSV2 { get => Get<double>(); set => Set(value); }
-    ///// <summary>塗佈使用</summary>
-    //[PLCData(DataType.D, 715, LogType.RecipeSet)] public double RC1_UseCoating { get => Get<double>(); set => Set(value); }
-    ///// <summary>塞孔使用</summary>
-    //[PLCData(DataType.D, 716, LogType.RecipeSet)] public double RC1_UsePlug { get => Get<double>(); set => Set(value); }
-    ///// <summary>標準墨重</summary>
-    //[PLCData(DataType.D, 717, LogType.RecipeSet)] public double RC1_StandardInk { get => Get<double>(); set => Set(value); }
-    ///// <summary>墨重誤差值</summary>
-    //[PLCData(DataType.D, 718, LogType.RecipeSet)] public double RC1_DifferenceOfInk { get => Get<double>(); set => Set(value); }
+    [PLCData(DataType.D, 4936, LogType.RecipeSet)] public double RecipeCompare_TemperatureSV2 { get => Get<double>(); set => Set(value); }
+    ///// <summary>第3段溫度設定值</summary>
+    [PLCData(DataType.D, 4937, LogType.RecipeSet)] public double RecipeCompare_TemperatureSV3 { get => Get<double>(); set => Set(value); }
+    ///// <summary>第4段溫度設定值</summary>
+    [PLCData(DataType.D, 4938, LogType.RecipeSet)] public double RecipeCompare_TemperatureSV4 { get => Get<double>(); set => Set(value); }
+    ///// <summary>第5段溫度設定值</summary>
+    [PLCData(DataType.D, 4939, LogType.RecipeSet)] public double RecipeCompare_TemperatureSV5 { get => Get<double>(); set => Set(value); }
+
     #endregion
     //#region Coater2
     ///// <summary>塗佈次數</summary>
@@ -585,13 +566,13 @@ public class GRC_DataModel : PLCDataProvider
     #endregion
 
     #region Coater追板
-    //[PLCData(DataType.D, 10000, 16, LogType.CustomData)] public string PanelID { get => Get<string>(); set => Set(value); }
-    //[PLCData(DataType.D, 20000, 16, LogType.CustomData)] public string LotID { get => Get<string>(); set => Set(value); }
+    [PLCData(DataType.D, 10000, 16, LogType.CustomData)] public string PanelID { get => Get<string>(); set => Set(value); }
+    [PLCData(DataType.D, 20000, 16, LogType.CustomData)] public string LotID { get => Get<string>(); set => Set(value); }
 
-    /// <summary> 入料 </summary>
-    //[PLCBit(BitType.M, 100, LogType.CustomData)] public bool PanelIn { get => Get<bool>(); set => Set(value); }
-    /// <summary> 出料 </summary>
-    //[PLCBit(BitType.M, 103, LogType.CustomData)] public bool PanelOut { get => Get<bool>(); set => Set(value); }
+    /// <summary> 入料</summary>
+    [PLCBit(BitType.M, 100, LogType.CustomData)] public bool PanelIn { get => Get<bool>(); set => Set(value); }
+    /// <summary> 出料</summary>
+    [PLCBit(BitType.M, 103, LogType.CustomData)] public bool PanelOut { get => Get<bool>(); set => Set(value); }
 
     ///// <summary> 入料到等待塗佈 </summary>
     //[PLCBit(BitType.M, 112, LogType.CustomData)] public bool FeedToWait { get => Get<bool>(); set => Set(value); }

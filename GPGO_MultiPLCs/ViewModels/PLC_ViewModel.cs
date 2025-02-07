@@ -769,48 +769,21 @@ public sealed class PLC_ViewModel : GRC_DataModel, IDisposable
         //三台PLC配方點位都是一樣，但客戶某幾段沒有要全看
         var recipeData = new Dictionary<string, string>
         {
-            { "塗佈次數", Coatingoftimes.ToString() },
-            { "塞孔次數設定", Plugoftimes.ToString() },
-            { "塗佈速度設定", CoatingSpeedSetting.ToString() },
-            { "塗佈壓力設定", CoatingPressureSetting.ToString() },
-            { "基板厚度設定", PanelThicknessSetting.ToString() },
-            { "基板寬度設定", PanelWidthSetting.ToString() },
-            { "拉料速度比", CoatingPullSpeed.ToString() },
-            { "入料下降位置設定", LocationOfDrop.ToString() },
-            { "入料下降速度設定", SpeedOfDrop.ToString() },
-            //{ "入料滾輪延遲時間設定", Feedingrollerdelaytimesetting.ToString() },
-            { "板面夾持距離設定", BoardClampingDistance.ToString() },
-            { "刮刀壓力設定1", Blade_Pressure1.ToString() },
-            { "刮刀壓力設定2", Blade_Pressure2.ToString() },
-            { "刮刀壓力設定3", Blade_Pressure3.ToString() },
-            { "刮刀壓力設定4", Blade_Pressure4.ToString() },
-            { "烘烤時間設定", BakingTimeSetting.ToString() },
+            { "塗佈次數", RecipeCompare_CoatingSpeedSetting.ToString() },
+            { "塗佈壓力", RecipeCompare_COATING_PRESSURE_SETTING.ToString() },
+            { "基板厚度設定", RecipeCompare_PanelThicknessSetting.ToString() },
+            { "烘烤時間設定", RecipeCompare_BakingTimeSetting.ToString() },
         };
-        if (plcindex == 0 || plcindex == 1)
+        foreach (var kvp in recipeData)
         {
-            foreach (var kvp in recipeData)
-            {
-                items.Add(new Item { RecipeDESC = kvp.Key, RecipeValue = kvp.Value.ToString() });
-            }
-            items.Add(new Item { RecipeDESC = "第1段溫度設定值", RecipeValue = TemperatureSV1.ToString() });
-            items.Add(new Item { RecipeDESC = "第2段溫度設定值", RecipeValue = TemperatureSV2.ToString() });
+            items.Add(new Item { RecipeDESC = kvp.Key, RecipeValue = kvp.Value.ToString() });
         }
-        else if (plcindex == 2)
-        {
-            foreach (var kvp in recipeData)
-            {
-                items.Add(new Item { RecipeDESC = kvp.Key, RecipeValue = kvp.Value.ToString() });
-            }
-            items.Add(new Item { RecipeDESC = "第1段溫度設定值", RecipeValue = RC3_TemperatureSV1.ToString() });
-            items.Add(new Item { RecipeDESC = "第2段溫度設定值", RecipeValue = RC3_TemperatureSV2.ToString() });
-            items.Add(new Item { RecipeDESC = "第3段溫度設定值", RecipeValue = RC3_TemperatureSV3.ToString() });
-            items.Add(new Item { RecipeDESC = "第4段溫度設定值", RecipeValue = RC3_TemperatureSV4.ToString() });
-            items.Add(new Item { RecipeDESC = "第5段溫度設定值", RecipeValue = RC3_TemperatureSV5.ToString() });
-            items.Add(new Item { RecipeDESC = "第6段溫度設定值", RecipeValue = RC3_TemperatureSV6.ToString() });
-            items.Add(new Item { RecipeDESC = "第7段溫度設定值", RecipeValue = RC3_TemperatureSV7.ToString() });
-            items.Add(new Item { RecipeDESC = "第8段溫度設定值", RecipeValue = RC3_TemperatureSV8.ToString() });
+        items.Add(new Item { RecipeDESC = "第1段溫度設定值", RecipeValue = RecipeCompare_TemperatureSV1.ToString() });
+        items.Add(new Item { RecipeDESC = "第2段溫度設定值", RecipeValue = RecipeCompare_TemperatureSV2.ToString() });
+        items.Add(new Item { RecipeDESC = "第3段溫度設定值", RecipeValue = RecipeCompare_TemperatureSV3.ToString() });
+        items.Add(new Item { RecipeDESC = "第4段溫度設定值", RecipeValue = RecipeCompare_TemperatureSV4.ToString() });
+        items.Add(new Item { RecipeDESC = "第5段溫度設定值", RecipeValue = RecipeCompare_TemperatureSV5.ToString() });
 
-        }
         NotifyPropertyChanged(nameof(RecipeItem));
         return items;
     }

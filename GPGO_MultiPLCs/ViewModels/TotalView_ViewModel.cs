@@ -539,7 +539,7 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
             var result = PLC_All[0].WriteRecipeToPlcAsync(recipe,0).Result;
             result = PLC_All[1].WriteRecipeToPlcAsync(recipe, 1).Result;
             result = PLC_All[2].WriteRecipeToPlcAsync(recipe, 2).Result;
-            CheckOvenTemp();
+            //CheckOvenTemp();
 
             return result == SetRecipeResult.成功 ? HCACKValule.Acknowledge : HCACKValule.CantPerform;
         };
@@ -1030,17 +1030,17 @@ public sealed class TotalView_ViewModel : ObservableObject, INotifyPropertyChang
                             Timeout.Infinite);
     }
 
-    private async void CheckOvenTemp()
-    {
-        Task.Run(() =>
-        {
-            while (PLC_All[0].TemperaturePV1 != PLC_All[0].TemperatureSV1 && PLC_All[0].TemperaturePV2 != PLC_All[0].TemperatureSV2)
-            {
-                Task.Delay(1000);
-            }
-            SecsGemEquipment.InvokeEvent($"PPCOMPLETE");
-        });
-    }
+    //private async void CheckOvenTemp()
+    //{
+    //    Task.Run(() =>
+    //    {
+    //        while (PLC_All[0].TemperaturePV1 != PLC_All[0].TemperatureSV1 && PLC_All[0].TemperaturePV2 != PLC_All[0].TemperatureSV2)
+    //        {
+    //            Task.Delay(1000);
+    //        }
+    //        SecsGemEquipment.InvokeEvent($"PPCOMPLETE");
+    //    });
+    //}
 
     //private void InitialStringItem()
     //{
