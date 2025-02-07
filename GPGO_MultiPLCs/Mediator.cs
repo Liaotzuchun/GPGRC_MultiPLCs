@@ -323,7 +323,7 @@ public sealed class Mediator : ObservableObject
                                     ini[ccode.CCodeName][param.PParameterName] = f.ToString("0.0").ToUpper();
                                 }
                                 else
-                                {
+                                {   
                                     ini[ccode.CCodeName][param.PParameterName] = val.ToString().ToUpper();
                                 }
                             }

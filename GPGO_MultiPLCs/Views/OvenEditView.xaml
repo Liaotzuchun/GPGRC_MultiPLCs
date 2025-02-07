@@ -158,6 +158,36 @@
                           Grid.ColumnSpan="2"
                           Margin="6,0,6,0"
                           Header="設備參數">
+                    <!--<Grid>
+                        <Grid.Resources>
+                            <Storyboard x:Key="ButtonHoverAnimation">
+                                <DoubleAnimation Storyboard.TargetProperty="(Button.FontSize)"
+                                                 From="16"
+                                                 To="20"
+                                                 Duration="0:0:0.3" />
+                                <ColorAnimation Storyboard.TargetProperty="(Button.Foreground).(SolidColorBrush.Color)" 
+                                                From="Black"
+                                                To="Blue"
+                                                Duration="0:0:0.3" />
+                            </Storyboard>
+                        </Grid.Resources>
+
+                        <StackPanel VerticalAlignment="Center"
+                                    HorizontalAlignment="Center">
+                            <Button Content="Button 1"
+                                    Padding="10,5"
+                                    Style="{StaticResource {x:Type Button}}">
+                                <Button.Triggers>
+                                    <EventTrigger RoutedEvent="Button.MouseEnter">
+                                        <BeginStoryboard Storyboard="{StaticResource ButtonHoverAnimation}" />
+                                    </EventTrigger>
+                                    <EventTrigger RoutedEvent="Button.MouseLeave">
+                                        <StopStoryboard Storyboard="{StaticResource ButtonHoverAnimation}" />
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </StackPanel>
+                    </Grid>-->
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"></ColumnDefinition>

@@ -87,7 +87,7 @@ public class GlobalSettings : RecipeFileBase<GlobalSettings>
         DataOutputPath = "C:\\GPOutput";
         RecipeImportPath = "C:\\GPOutput\\Recipe.csv";
         Lng = Language.TW;
-        CoaterCount = 3;
+        CoaterCount = 1;
         RecordDelay = 1;
         ClearInputDelay = 60;
     }
